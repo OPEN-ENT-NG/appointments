@@ -1,22 +1,26 @@
 package fr.openent.appointments.model;
 
+import io.vertx.core.json.JsonObject;
+
 import fr.openent.appointments.enums.GridState;
+import fr.openent.appointments.helper.DateHelper;
+
 import java.time.Duration;
 
-public class OtherCompleteGrid extend OtherMinimalGrid {
+public class OtherCompleteGrid extends OtherMinimalGrid {
     private String visioLink;
     private String place;
     private String documentId;
     private String publicComment;
     private Duration duration;   
 
-    public OtherCompleteGrid(Integer gridId, String gridName, String visioLink, String place, String documentId, String publicComment, Duration duration) {
-        super(gridId, gridName);
-        this.visioLink = visioLink;
-        this.place = place;
-        this.documentId = documentId;
-        this.publicComment = publicComment;
-        this.duration = duration;
+    public OtherCompleteGrid(JsonObject completeGrid){
+        super(completeGrid);
+        this.visioLink = completeGrid.getString("visioLink");
+        this.place = completeGrid.getString("place");
+        this.documentId = completeGrid.getString("documentId");
+        this.publicComment = completeGrid.getString("publicComment");
+        this.duration = DateHelper.parseDuration(completeGrid.getString("duration"));
     }
 
     public String getVisioLink() {

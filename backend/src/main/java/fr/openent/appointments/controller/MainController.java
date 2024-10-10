@@ -14,9 +14,9 @@ import org.entcore.common.controller.ControllerHelper;
 import org.entcore.common.http.filter.ResourceFilter;
 import org.entcore.common.http.filter.SuperAdminFilter;
 
-public class AppointmentsController extends ControllerHelper {
+public class MainController extends ControllerHelper {
 
-    public AppointmentsController() {
+    public MainController() {
         super();
     }
 

@@ -1,3 +1,5 @@
+package fr.openent.appointments.enums;
+
 public enum GridState {
     OPEN("OPEN"),
     SUSPENDED("SUSPENDED"),

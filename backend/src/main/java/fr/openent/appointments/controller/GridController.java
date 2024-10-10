@@ -2,15 +2,26 @@ package fr.openent.appointments.controller;
 
 import fr.wseduc.rs.ApiDoc;
 import fr.wseduc.rs.Get;
+import fr.wseduc.rs.Post;
+import fr.wseduc.rs.Put;
+import fr.wseduc.rs.Delete;
+import fr.wseduc.webutils.request.RequestUtils;
 
 import io.vertx.core.http.HttpServerRequest;
+import io.vertx.core.json.JsonObject;
 
 import org.entcore.common.controller.ControllerHelper;
 
+import fr.openent.appointments.model.grid.PayloadGrid;
+import fr.openent.appointments.service.GridService;
+import fr.openent.appointments.service.impl.DefaultGridService;
+
 public class GridController extends ControllerHelper {
+    private final GridService gridService;
 
     public GridController() {
         super();
+        this.gridService = new DefaultGridService();
     }
 
     @Get("/grids")
@@ -37,8 +48,19 @@ public class GridController extends ControllerHelper {
     @Post("/grids")
     @ApiDoc("Create grid")
     public void createGrid(final HttpServerRequest request) {
-        
-        renderJson(request, new JsonObject());
+        JsonObject body = RequestUtils.getJsonBody(request);
+        if (body == null) {
+            request.response().setStatusCode(400).end("Invalid JSON body.");
+            return;
+        }
+        PayloadGrid payload = new PayloadGrid(body);
+        gridService.createGrid(payload.toJson()).setHandler(event -> {
+            if (event.succeeded()) {
+                renderJson(request, new JsonObject());
+            } else {
+                renderError(request, event.cause());
+            }
+        });
     }
 
     @Put("/grids/:id")

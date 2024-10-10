@@ -1,6 +1,6 @@
 package fr.openent.appointments;
 
-import fr.openent.appointments.controller.AppointmentsController;
+import fr.openent.appointments.controller.MainController;
 import io.vertx.core.eventbus.EventBus;
 import org.entcore.common.http.BaseServer;
 
@@ -14,6 +14,6 @@ public class Appointments extends BaseServer {
 
         EventBus eb = getEventBus(vertx);
 
-        addController(new AppointmentsController());
+        addController(new MainController());
     }
 }

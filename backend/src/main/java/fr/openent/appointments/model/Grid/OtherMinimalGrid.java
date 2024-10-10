@@ -1,12 +1,14 @@
 package fr.openent.appointments.model;
 
+import io.vertx.core.json.JsonObject;
+
 public class OtherMinimalGrid {
     private Integer gridId;
     private String gridName;
 
-    public OtherMinimalGrid(gridId, gridName) {
-        this.gridId = gridId;
-        this.gridName = gridName;
+    public OtherMinimalGrid(JsonObject minimalGrid) {
+        this.gridId = minimalGrid.getInteger("gridId");
+        this.gridName = minimalGrid.getString("gridName");
     }
 
     public Integer getGridId() {

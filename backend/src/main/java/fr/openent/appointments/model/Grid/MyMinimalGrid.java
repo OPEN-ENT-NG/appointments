@@ -1,7 +1,10 @@
 package fr.openent.appointments.model;
 
-import java.sql.Date;
+import io.vertx.core.json.JsonObject;
+
+import java.util.Date;
 import fr.openent.appointments.enums.GridState;
+import fr.openent.appointments.helper.DateHelper;
 
 public class MyMinimalGrid {
     private Integer gridId;
@@ -11,13 +14,16 @@ public class MyMinimalGrid {
     private GridState gridState;
     private String color;
 
-    public MyMinimalGrid(Integer gridId, String gridName, Date beginDate, Date endDate, GridState gridState, String color) {
-        this.gridId = gridId;
-        this.gridName = gridName;
-        this.beginDate = beginDate;
-        this.endDate = endDate;
-        this.gridState = gridState;
-        this.color = color;
+    public MyMinimalGrid(JsonObject grid) {
+        this.gridId = grid.getInteger("gridId");
+
+        this.gridName = grid.getString("gridName");
+
+        this.beginDate = DateHelper.parseDate(grid.getString("beginDate"));
+        this.endDate = DateHelper.parseDate(grid.getString("endDate"));
+
+        this.gridState = GridState.from(grid.getString("gridState"));
+        this.color = grid.getString("color");
     }
 
     public Integer getGridId() {

@@ -1,31 +1,39 @@
 package fr.openent.appointments.model;
 
-import java.sql.Date;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 
 import fr.openent.appointments.enums.GridState;
+import fr.openent.appointments.helper.DateHelper;
 
-public class MyCompleteGrid extend MyMinimalGrid{
+public class MyCompleteGrid extends MyMinimalGrid{
     private String structureId;
     private Duration duration;
     private Integer periodicity;
-    private ArrayList<String> targetPublicIds;
+    private List<String> targetPublicIds;
     private String visioLink;
     private String place;
     private String documentId;
     private String publicComment;  
 
-    public MyCompleteGrid(Integer gridId, String gridName, Date beginDate, Date endDate, GridState gridState, String color, String structureId, Duration duration, Integer periodicity, ArrayList<String> targetPublicIds, String visioLink, String place, String documentId, String publicComment) {
-        super(gridId, gridName, beginDate, endDate, gridState, color);
-        this.structureId = structureId;
-        this.duration = duration;
-        this.periodicity = periodicity;
-        this.targetPublicIds = targetPublicIds;
-        this.visioLink = visioLink;
-        this.place = place;
-        this.documentId = documentId;
-        this.publicComment = publicComment;
+    public MyCompleteGrid(JsonObject completeGrid){
+        super(completeGrid);
+        this.structureId = completeGrid.getString("structureId");
+        this.duration = DateHelper.parseDuration(completeGrid.getString("duration"));
+        this.periodicity = completeGrid.getInteger("periodicity");
+        JsonArray JsonArray = completeGrid.getJsonArray("targetPublicIds");
+        JsonArray.forEach(targetPublicId -> {
+            this.targetPublicIds.add(targetPublicId.toString());
+        });
+        this.visioLink = completeGrid.getString("visioLink");
+        this.place = completeGrid.getString("place");
+        this.documentId = completeGrid.getString("documentId");
+        this.publicComment = completeGrid.getString("publicComment");
     }
 
     public String getStructureId() {
@@ -52,11 +60,11 @@ public class MyCompleteGrid extend MyMinimalGrid{
         this.periodicity = periodicity;
     }
 
-    public ArrayList<String> getTargetPublicIds() {
+    public List<String> getTargetPublicIds() {
         return targetPublicIds;
     }
 
-    public void setTargetPublicIds(ArrayList<String> targetPublicIds) {
+    public void setTargetPublicIds(List<String> targetPublicIds) {
         this.targetPublicIds = targetPublicIds;
     }
 
