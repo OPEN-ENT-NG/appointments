@@ -1,26 +1,26 @@
 CREATE SCHEMA appointments;
 
-CREATE TYPE grid_state AS ENUM (
-    'open',
-    'suspended',
-    'canceled'
+CREATE TYPE GRID_STATE AS ENUM (
+    'OPEN',
+    'SUSPENDED',
+    'CANCELED'
 );
 
-CREATE TYPE appointment_state AS ENUM (
-    'created',
-    'accepted',
-    'refused',
-    'canceled'
+CREATE TYPE APPOINTMENT_STATE AS ENUM (
+    'CREATED',
+    'ACCEPTED',
+    'REFUSED',
+    'CANCELED'
 );
 
-CREATE TYPE day AS ENUM (
-    'monday',
-    'tuesday',
-    'wednesday',
-    'thursday',
-    'friday',
-    'saturday',
-    'sunday'
+CREATE TYPE DAY AS ENUM (
+    'MONDAY',
+    'TUESDAY',
+    'WEDNESDAY',
+    'THURSDAY',
+    'FRIDAY',
+    'SATURDAY',
+    'SUNDAY'
 );
 
 CREATE TABLE appointments.grid (
@@ -31,12 +31,12 @@ CREATE TABLE appointments.grid (
     begin date NOT NULL,
     end date NOT NULL,
     color varchar(255) NOT NULL,
-    duration time NOT NULL,
+    duration interval NOT NULL,
     periodicity integer NOT NULL,
     target_public_list_id varchar(255) NOT NULL,
     visio_link varchar(255) NOT NULL,
     place varchar(255) NOT NULL,
-    document_id integer NOT NULL,
+    document_id varchar(255) NOT NULL,
     public_comment varchar(255) NOT NULL,
     state grid_state NOT NULL
 );
