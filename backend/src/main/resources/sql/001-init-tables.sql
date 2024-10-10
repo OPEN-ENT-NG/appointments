@@ -41,6 +41,16 @@ CREATE TABLE appointments.grid (
     state grid_state NOT NULL
 );
 
+CREATE TABLE appointments.grid_state (
+    id bigserial PRIMARY KEY,
+    state grid_state NOT NULL,
+    grid_id bigint NOT NULL,
+    date timestamp NOT NULL,
+    CONSTRAINT fk_grid_state
+        FOREIGN KEY(grid_id) 
+        REFERENCES appointments.grid(id)
+);
+
 CREATE TABLE appointments.daily_slot (
     id bigserial PRIMARY KEY,
     day day NOT NULL,

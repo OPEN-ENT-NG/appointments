@@ -48,18 +48,12 @@ public class GridController extends ControllerHelper {
     @Post("/grids")
     @ApiDoc("Create grid")
     public void createGrid(final HttpServerRequest request) {
-        JsonObject body = RequestUtils.getJsonBody(request);
-        if (body == null) {
-            request.response().setStatusCode(400).end("Invalid JSON body.");
-            return;
-        }
-        PayloadGrid payload = new PayloadGrid(body);
-        gridService.createGrid(payload.toJson()).setHandler(event -> {
-            if (event.succeeded()) {
-                renderJson(request, new JsonObject());
-            } else {
-                renderError(request, event.cause());
+        RequestUtils.bodyToJson(request, grid -> {
+            if (grid == null) {
+                badRequest(request);
+                return;
             }
+
         });
     }
 

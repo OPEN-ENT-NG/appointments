@@ -10,6 +10,9 @@ public class DateHelper {
     private static final String DURATION_FORMAT = "HH:mm";
 
     public static Date parseDate(String date) {
+        if (date == null || date.isEmpty()) {
+            return null;
+        }
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
         try {
             return sdf.parse(date);
@@ -24,7 +27,7 @@ public class DateHelper {
     }
 
     public static Duration parseDuration(String duration) {
-        if (duration == null) {
+        if (duration == null || duration.isEmpty()) {
             return null;
         }
         String[] parts = duration.split(":");

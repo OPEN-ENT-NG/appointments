@@ -2,7 +2,7 @@ package fr.openent.appointments.service;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
-import fr.openent.appointments.model.PayloadGrid;
+import fr.openent.appointments.model.grid.PayloadGrid;
 
 /**
  * Interface for managing grid operations in the appointment service.

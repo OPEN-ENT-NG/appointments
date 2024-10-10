@@ -3,7 +3,7 @@ package fr.openent.appointments.service.impl;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import fr.openent.appointments.service.GridService;
-import fr.openent.appointments.model.PayloadGrid;
+import fr.openent.appointments.model.grid.PayloadGrid;
 
 /**
  * Default implementation of the GridService interface.
@@ -30,6 +30,7 @@ public class DefaultGridService implements GridService {
 
     @Override
     public Future<Void> createGrid(PayloadGrid grid) {
+        
         
         return Future.succeededFuture();
     }
