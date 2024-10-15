@@ -1,6 +1,8 @@
 import React from "react";
 
 import { ID } from "edifice-ts-client";
+import { Box, Typography } from "@mui/material";
+import { homeStyle } from "./style";
 
 export interface AppProps {
   _id: string;
@@ -16,8 +18,8 @@ export interface AppProps {
 
 export const Home: React.FC = () => {
   return (
-    <div>
-      <h1>Home</h1>
-    </div>
+    <Box sx={homeStyle}>
+      <Typography variant="h1">Home</Typography>
+    </Box>
   );
 };

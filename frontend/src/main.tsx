@@ -2,6 +2,7 @@ import React from "react";
 
 import "~/i18n";
 import { OdeClientProvider, ThemeProvider } from "@edifice-ui/react";
+import { ThemeProvider as ThemeProviderMUI } from "@mui/material";
 import {
   QueryCache,
   QueryClient,
@@ -14,6 +15,7 @@ import { RouterProvider } from "react-router-dom";
 
 import { router } from "./routes";
 import { setupStore } from "./store";
+import theme from "./styles/theme";
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement!);
@@ -50,7 +52,9 @@ root.render(
         }}
       >
         <ThemeProvider>
-          <RouterProvider router={router} />
+          <ThemeProviderMUI theme={theme}>
+            <RouterProvider router={router} />
+          </ThemeProviderMUI>
         </ThemeProvider>
       </OdeClientProvider>
     </Provider>
