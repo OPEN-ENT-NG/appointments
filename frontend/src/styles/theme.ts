@@ -79,6 +79,7 @@ const theme = createTheme({
             padding: "0.8rem 1.6rem",
             borderRadius: "0.5rem",
             boxShadow: "0 0 0 0",
+            gap: "0.8rem",
             "&:hover": {
               backgroundColor: "#b35d00",
               boxShadow: "0 0 0 0",

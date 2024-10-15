@@ -2,7 +2,9 @@ import React from "react";
 
 import { ID } from "edifice-ts-client";
 import { Box, Typography } from "@mui/material";
-import { homeStyle } from "./style";
+import { homeStyle, titleStyle } from "./style";
+import { useTranslation } from "react-i18next";
+import { MyAvailabilities } from "~/containers/MyAvailabilities";
 
 export interface AppProps {
   _id: string;
@@ -17,9 +19,17 @@ export interface AppProps {
 }
 
 export const Home: React.FC = () => {
+
+  const { t } = useTranslation("appointments");
+  
   return (
     <Box sx={homeStyle}>
-      <Typography variant="h1">Home</Typography>
+      <Box sx={titleStyle}>
+      <Typography variant="h1">
+        {t("appointments.title")}
+      </Typography>
+      </Box>
+      <MyAvailabilities />
     </Box>
   );
 };
