@@ -3,7 +3,7 @@ import { createTheme } from "@mui/material";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#3C2386",
+      main: "#4D32A3",
     },
     background: {
       default: "#F9F9F9",
@@ -14,8 +14,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: "Confortaa",
-    fontSize: 16,
+    fontFamily: "Roboto",
     h1: {
       fontSize: "2.4rem",
       color: "#4D32A3",
@@ -72,23 +71,17 @@ const theme = createTheme({
           props: { variant: "contained" },
           style: {
             fontSize: "1.4rem",
-            fontFamily: "Roboto",
-            backgroundColor: "#4D32A3",
-            color: "white",
-            textTransform: "none",
-            padding: "0.8rem 1.6rem",
-            borderRadius: "0.5rem",
-            boxShadow: "0 0 0 0",
-            gap: "0.8rem",
-            "&:hover": {
-              backgroundColor: "#b35d00",
-              boxShadow: "0 0 0 0",
-            },
-            "&.Mui-disabled": {
-              backgroundColor: "#FFCBA0",
-              color: "white",
-              border: "none",
-            },
+            // fontFamily: "Roboto",
+            // gap: "0.8rem",
+            // "&:hover": {
+            //   backgroundColor: "white",
+            //   boxShadow: "0 0 0 0",
+            // },
+            // "&.Mui-disabled": {
+            //   backgroundColor: "#FFCBA0",
+            //   color: "white",
+            //   border: "none",
+            // },
           },
         },
         {

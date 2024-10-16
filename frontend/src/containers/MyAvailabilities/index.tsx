@@ -13,8 +13,7 @@ export const MyAvailabilities: FC = () => {
                 <Typography variant="h2">
                     {t("appointments.my.availability")}
                 </Typography>
-                <Button variant="contained">
-                    <AddCircleIcon />
+                <Button variant="contained" startIcon={<AddCircleIcon />}>
                     {t("appointments.create.grid")}
                 </Button>
             </Box>
