@@ -8,15 +8,13 @@ export const MyAvailabilities: FC = () => {
     const { t } = useTranslation("appointments");
     
     return (
-        <>
-            <Box sx={spaceBetweenBoxStyle}>
-                <Typography variant="h2">
-                    {t("appointments.my.availability")}
-                </Typography>
-                <Button variant="contained" startIcon={<AddCircleIcon />}>
-                    {t("appointments.create.grid")}
-                </Button>
-            </Box>
-        </>
+        <Box sx={spaceBetweenBoxStyle}>
+            <Typography variant="h2">
+                {t("appointments.my.availability")}
+            </Typography>
+            <Button variant="contained" startIcon={<AddCircleIcon />}>
+                {t("appointments.create.grid")}
+            </Button>
+        </Box>
     )
 }

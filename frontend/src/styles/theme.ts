@@ -10,7 +10,7 @@ const theme = createTheme({
     },
     text: {
       primary: "#666666",
-      secondary: "#333333",
+      // secondary: "#333333",
     },
   },
   typography: {
@@ -62,6 +62,15 @@ const theme = createTheme({
           gap: "1rem",
           borderRadius: "1.2rem",
           border: "#B0B0B0",
+        },
+      },
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          fontSize: "1.4rem",
+          fontWeight: "bold",
+          border: "0 0 1px 0 solid #4D32A3",
         },
       },
     },
