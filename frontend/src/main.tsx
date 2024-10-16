@@ -16,6 +16,7 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./routes";
 import { setupStore } from "./store";
 import theme from "./styles/theme";
+import { GlobalProvider } from "./providers/GlobalProvider";
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement!);
@@ -53,7 +54,9 @@ root.render(
       >
         <ThemeProvider>
           <ThemeProviderMUI theme={theme}>
-            <RouterProvider router={router} />
+            <GlobalProvider>
+              <RouterProvider router={router} />
+            </GlobalProvider>
           </ThemeProviderMUI>
         </ThemeProvider>
       </OdeClientProvider>
