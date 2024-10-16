@@ -1,4 +1,4 @@
-import { flexStartBoxStyle } from "~/styles/boxStyles"
+import { columnBoxStyle, flexStartBoxStyle } from "~/styles/boxStyles"
 
 export const homeStyle = {
     width: "100%",
@@ -15,4 +15,16 @@ export const titleStyle = {
     ...flexStartBoxStyle,
     margin: "3rem 2rem",
 }
+
+export const contentStyle = {
+    ...columnBoxStyle,
+    padding: "1rem 6rem",
+}
+
+export const tabsStyle = {
+    borderBottom: 1,
+    borderColor: "divider",
+    width: "100%",
+}
+
 
