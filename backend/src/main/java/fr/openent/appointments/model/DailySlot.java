@@ -9,7 +9,7 @@ import java.time.LocalTime;
 import io.vertx.core.json.JsonObject;
 
 public class DailySlot implements IModel<DailySlot> {
-    
+
     private Day day;
     private LocalTime beginTime;
     private LocalTime endTime;
