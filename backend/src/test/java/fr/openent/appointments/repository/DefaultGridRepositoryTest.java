@@ -50,7 +50,7 @@ public class DefaultGridRepositoryTest {
     private static final LocalDate END_DATE = LocalDate.of(2024, 1, 31);
     private static final String COLOR = "blue";
     private static final Duration DURATION = Duration.ofMinutes(30);
-    private static final Periodicity PERIODICITY = Periodicity.from(1);
+    private static final Periodicity PERIODICITY = Periodicity.getPeriodicity(1);
     private static final List<String> TARGET_PUBLIC_IDS = Arrays.asList("1", "2", "3");
     private static final String VISIO_LINK = "http://example.com";
     private static final String PLACE = "Room A";
@@ -170,12 +170,12 @@ public class DefaultGridRepositoryTest {
         Long gridId = 1L;
 
         DailySlot dailySlot1 = mock(DailySlot.class);
-        when(dailySlot1.getDay()).thenReturn(Day.from("MONDAY"));
+        when(dailySlot1.getDay()).thenReturn(Day.getDay("MONDAY"));
         when(dailySlot1.getBeginTime()).thenReturn(LocalTime.of(8, 0));
         when(dailySlot1.getEndTime()).thenReturn(LocalTime.of(12, 0));
 
         DailySlot dailySlot2 = mock(DailySlot.class);
-        when(dailySlot2.getDay()).thenReturn(Day.from("TUESDAY"));
+        when(dailySlot2.getDay()).thenReturn(Day.getDay("TUESDAY"));
         when(dailySlot2.getBeginTime()).thenReturn(LocalTime.of(14, 0));
         when(dailySlot2.getEndTime()).thenReturn(LocalTime.of(18, 0));
 

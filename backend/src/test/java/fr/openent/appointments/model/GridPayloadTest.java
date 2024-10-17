@@ -22,20 +22,20 @@ public class GridPayloadTest {
     @Test
     public void testValidGridPayloadCreation(TestContext ctx) {
         JsonObject validJson = new JsonObject()
-            .put(Fields.CAMEL_NAME, "Test Grid")
+            .put(Fields.NAME, "Test Grid")
             .put(Fields.CAMEL_BEGIN_DATE, "2024-10-01")
             .put(Fields.CAMEL_END_DATE, "2024-10-31")
-            .put(Fields.CAMEL_COLOR, "blue")
+            .put(Fields.COLOR, "blue")
             .put(Fields.CAMEL_STRUCTURE_ID, "structure-1")
-            .put(Fields.CAMEL_DURATION, "01:00")
-            .put(Fields.CAMEL_PERIODICITY, Periodicity.WEEKLY.getValue())
+            .put(Fields.DURATION, "01:00")
+            .put(Fields.PERIODICITY, Periodicity.WEEKLY.getValue())
             .put(Fields.CAMEL_TARGET_PUBLIC_LIST_ID, new JsonArray(Arrays.asList("public-1", "public-2")))
             .put(Fields.CAMEL_DAILY_SLOTS, new JsonArray(Collections.singletonList(new JsonObject()
                 .put(Fields.DAY, "MONDAY")
                 .put(Fields.CAMEL_BEGIN_TIME, "09:00")
                 .put(Fields.CAMEL_END_TIME, "17:00"))))
             .put(Fields.CAMEL_VISIO_LINK, "http://example.com")
-            .put(Fields.CAMEL_PLACE, "Office")
+            .put(Fields.PLACE, "Office")
             .put(Fields.CAMEL_DOCUMENT_ID, "doc-123")
             .put(Fields.CAMEL_PUBLIC_COMMENT, "Test comment");
 
@@ -60,13 +60,13 @@ public class GridPayloadTest {
     @Test
     public void testInvalidGridPayloadCreationMissingFields(TestContext ctx) {
         JsonObject invalidJson = new JsonObject()
-            .put(Fields.CAMEL_NAME, "")
+            .put(Fields.NAME, "")
             .put(Fields.CAMEL_BEGIN_DATE, "2024-10-01")
             .put(Fields.CAMEL_END_DATE, "2024-10-31")
-            .put(Fields.CAMEL_COLOR, "blue")
+            .put(Fields.COLOR, "blue")
             .put(Fields.CAMEL_STRUCTURE_ID, "")
-            .put(Fields.CAMEL_DURATION, "")
-            .put(Fields.CAMEL_PERIODICITY, 0)
+            .put(Fields.DURATION, "")
+            .put(Fields.PERIODICITY, 0)
             .put(Fields.CAMEL_TARGET_PUBLIC_LIST_ID, new JsonArray(Arrays.asList("public-1")))
             .put(Fields.CAMEL_DAILY_SLOTS, new JsonArray(Arrays.asList(
                 new JsonObject()
@@ -75,7 +75,7 @@ public class GridPayloadTest {
                     .put(Fields.CAMEL_END_TIME, "17:00")
             )))
             .put(Fields.CAMEL_VISIO_LINK, "http://example.com")
-            .put(Fields.CAMEL_PLACE, "Office")
+            .put(Fields.PLACE, "Office")
             .put(Fields.CAMEL_DOCUMENT_ID, "doc-123")
             .put(Fields.CAMEL_PUBLIC_COMMENT, "Test comment");
 
@@ -91,13 +91,13 @@ public class GridPayloadTest {
             .put(Fields.CAMEL_END_TIME, "18:00");
 
         GridPayload gridPayload = new GridPayload(new JsonObject()
-            .put(Fields.CAMEL_NAME, "Test Grid")
+            .put(Fields.NAME, "Test Grid")
             .put(Fields.CAMEL_BEGIN_DATE, "2024-10-01")
             .put(Fields.CAMEL_END_DATE, "2024-10-31")
-            .put(Fields.CAMEL_COLOR, "blue")
+            .put(Fields.COLOR, "blue")
             .put(Fields.CAMEL_STRUCTURE_ID, "structure-1")
-            .put(Fields.CAMEL_DURATION, "01:00")
-            .put(Fields.CAMEL_PERIODICITY, Periodicity.WEEKLY.getValue())
+            .put(Fields.DURATION, "01:00")
+            .put(Fields.PERIODICITY, Periodicity.WEEKLY.getValue())
             .put(Fields.CAMEL_TARGET_PUBLIC_LIST_ID, new JsonArray(Arrays.asList("public-1")))
             .put(Fields.CAMEL_DAILY_SLOTS, new JsonArray(Collections.singletonList(dailySlotJson))));
 
@@ -107,13 +107,13 @@ public class GridPayloadTest {
     @Test
     public void testGridPayloadToString(TestContext ctx) {
         JsonObject validJson = new JsonObject()
-            .put(Fields.CAMEL_NAME, "Test Grid")
+            .put(Fields.NAME, "Test Grid")
             .put(Fields.CAMEL_BEGIN_DATE, "2024-10-01")
             .put(Fields.CAMEL_END_DATE, "2024-10-31")
-            .put(Fields.CAMEL_COLOR, "blue")
+            .put(Fields.COLOR, "blue")
             .put(Fields.CAMEL_STRUCTURE_ID, "structure-1")
-            .put(Fields.CAMEL_DURATION, "01:00")
-            .put(Fields.CAMEL_PERIODICITY, Periodicity.WEEKLY.getValue())
+            .put(Fields.DURATION, "01:00")
+            .put(Fields.PERIODICITY, Periodicity.WEEKLY.getValue())
             .put(Fields.CAMEL_TARGET_PUBLIC_LIST_ID, new JsonArray(Arrays.asList("public-1")))
             .put(Fields.CAMEL_DAILY_SLOTS, new JsonArray(Arrays.asList(
                 new JsonObject()
@@ -122,7 +122,7 @@ public class GridPayloadTest {
                     .put(Fields.CAMEL_END_TIME, "17:00")
             )))
             .put(Fields.CAMEL_VISIO_LINK, "http://example.com")
-            .put(Fields.CAMEL_PLACE, "Office")
+            .put(Fields.PLACE, "Office")
             .put(Fields.CAMEL_DOCUMENT_ID, "doc-123")
             .put(Fields.CAMEL_PUBLIC_COMMENT, "Test comment");
 
