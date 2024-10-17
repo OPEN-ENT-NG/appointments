@@ -1,5 +1,7 @@
 package fr.openent.appointments.enums;
 
+import java.util.Arrays;
+
 public enum GridState {
     OPEN("OPEN"),
     SUSPENDED("SUSPENDED"),
@@ -16,12 +18,10 @@ public enum GridState {
         return value;
     }
 
-    public static GridState from(String value) {
-        for (GridState type : values()) {
-            if (type.value.equals(value)) {
-                return type;
-            }
-        }
-        return null;
+    public static GridState getGridState(String value) {
+        return Arrays.stream(GridState.values())
+                .filter(gridState -> gridState.getValue().equals(value))
+                .findFirst()
+                .orElse(null);
     }
 }

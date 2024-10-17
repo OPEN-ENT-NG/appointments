@@ -1,6 +1,7 @@
 package fr.openent.appointments.model;
 
 import fr.openent.appointments.enums.Actions;
+import fr.openent.appointments.core.constants.Fields;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
@@ -75,8 +76,8 @@ public class TransactionElement implements IModel<TransactionElement> {
     @Override
     public JsonObject toJson() {
         return new JsonObject()
-                .put("action", this.action.getValue())
-                .put("statement", this.query)
-                .put("values", this.params);
+                .put(Fields.ACTION, this.action.getValue())
+                .put(Fields.STATEMENT, this.query)
+                .put(Fields.VALUES, this.params);
     }
 }

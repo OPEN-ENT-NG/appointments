@@ -1,5 +1,7 @@
 package fr.openent.appointments.enums;
 
+import java.util.Arrays;
+
 public enum Day {
     MONDAY("MONDAY"),
     TUESDAY("TUESDAY"),
@@ -19,12 +21,10 @@ public enum Day {
         return value;
     }
 
-    public static Day from(String value) {
-        for (Day type : values()) {
-            if (type.value.equals(value)) {
-                return type;
-            }
-        }
-        return null;
+    public static Day getDay(String value) {
+        return Arrays.stream(Day.values())
+                .filter(day -> day.getValue().equals(value))
+                .findFirst()
+                .orElse(null);
     }
 }

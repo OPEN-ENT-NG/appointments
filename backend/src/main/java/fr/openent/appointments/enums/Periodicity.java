@@ -1,5 +1,7 @@
 package fr.openent.appointments.enums;
 
+import java.util.Arrays;
+
 public enum Periodicity {
     WEEKLY(1),
     FORTNIGHTLY(2);
@@ -14,12 +16,10 @@ public enum Periodicity {
         return value;
     }
 
-    public static Periodicity from(Integer value) {
-        for (Periodicity type : values()) {
-            if (type.value.equals(value)) {
-                return type;
-            }
-        }
-        return null;
+    public static Periodicity getPeriodicity(Integer value) {
+        return Arrays.stream(Periodicity.values())
+                .filter(periodicity -> periodicity.getValue().equals(value))
+                .findFirst()
+                .orElse(null);
     }
 }

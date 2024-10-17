@@ -8,11 +8,12 @@ import java.time.Duration;
 import fr.openent.appointments.core.constants.Fields;
 import fr.openent.appointments.enums.Periodicity;
 import fr.openent.appointments.helper.DateHelper;
+import fr.openent.appointments.model.IModel;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
-public class Grid {
+public class Grid implements IModel<Grid> {
 
     private String gridName;
     private LocalDate beginDate;
@@ -27,7 +28,7 @@ public class Grid {
     private String documentId;
     private String publicComment;
 
-    public Grid(JsonObject grid){
+    public Grid(JsonObject grid) {
         this.gridName = grid.getString(Fields.NAME, "");
 
         this.beginDate = DateHelper.parseDate(grid.getString(Fields.BEGIN_DATE, ""));
@@ -38,7 +39,7 @@ public class Grid {
 
         this.duration = DateHelper.parseDuration(grid.getString(Fields.DURATION,""));
 
-        this.periodicity = Periodicity.from(grid.getInteger(Fields.PERIODICITY,0));
+        this.periodicity = Periodicity.getPeriodicity(grid.getInteger(Fields.PERIODICITY,0));
 
         this.targetPublicIds = grid
             .getJsonArray(Fields.TARGET_PUBLIC_LIST_ID, new JsonArray())
@@ -161,4 +162,20 @@ public class Grid {
         this.publicComment = publicComment;
         return this;
     } 
+
+    public JsonObject toJson() {
+        return new JsonObject()
+            .put(Fields.NAME, this.gridName)
+            .put(Fields.BEGIN_DATE, this.beginDate.toString())
+            .put(Fields.END_DATE, this.endDate.toString())
+            .put(Fields.COLOR, this.color)
+            .put(Fields.STRUCTURE_ID, this.structureId)
+            .put(Fields.DURATION, this.duration.toString())
+            .put(Fields.PERIODICITY, this.periodicity.getValue())
+            .put(Fields.TARGET_PUBLIC_LIST_ID, new JsonArray(this.targetPublicIds))
+            .put(Fields.VISIO_LINK, this.visioLink)
+            .put(Fields.PLACE, this.place)
+            .put(Fields.DOCUMENT_ID, this.documentId)
+            .put(Fields.PUBLIC_COMMENT, this.publicComment);
+    }
 }

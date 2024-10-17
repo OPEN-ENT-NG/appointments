@@ -22,7 +22,7 @@ public enum Actions {
 
   public static Actions getAction(String value) {
      return Arrays.stream(Actions.values())
-             .filter(choiceTypes -> choiceTypes.getValue().equals(value))
+             .filter(actions -> actions.getValue().equals(value))
              .findFirst()
              .orElse(null);
   }

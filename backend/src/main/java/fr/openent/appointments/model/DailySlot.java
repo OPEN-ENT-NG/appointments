@@ -7,14 +7,14 @@ import fr.openent.appointments.helper.DateHelper;
 import java.time.LocalTime;
 import io.vertx.core.json.JsonObject;
 
-public class DailySlot {
+public class DailySlot implements IModel<DailySlot> {
     
     private Day day;
     private LocalTime beginTime;
     private LocalTime endTime;
 
     public DailySlot(JsonObject dailySlot){
-        this.day = Day.from(dailySlot.getString(Fields.DAY, ""));
+        this.day = Day.getDay(dailySlot.getString(Fields.DAY, ""));
         this.beginTime = LocalTime.parse(dailySlot.getString(Fields.CAMEL_BEGIN_TIME, ""));
         this.endTime = LocalTime.parse(dailySlot.getString(Fields.CAMEL_END_TIME, ""));
     }
@@ -59,5 +59,12 @@ public class DailySlot {
                 ", beginTime=" + beginTime +
                 ", endTime=" + endTime +
                 '}';
+    }
+
+    public JsonObject toJson() {
+        return new JsonObject()
+                .put(Fields.DAY, this.day.toString())
+                .put(Fields.CAMEL_BEGIN_TIME, this.beginTime.toString())
+                .put(Fields.CAMEL_END_TIME, this.endTime.toString());
     }
 }
