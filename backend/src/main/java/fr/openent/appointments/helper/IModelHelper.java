@@ -1,6 +1,7 @@
 package fr.openent.appointments.helper;
 
 import fr.openent.appointments.model.IModel;
+import fr.openent.appointments.helper.DateHelper;
 import fr.wseduc.webutils.Either;
 import io.vertx.core.Handler;
 import io.vertx.core.Promise;
@@ -16,6 +17,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.Duration;
 
 /**
  * ⚠ If you use this helper you must have the tests that go with it.
@@ -75,6 +79,12 @@ public class IModelHelper {
                     statisticsData.put(fieldName, (Enum) object);
                 } else if (object instanceof List) {
                     statisticsData.put(fieldName, listToJsonArray(((List<?>)object)));
+                } else if (object instanceof LocalDate) {
+                    statisticsData.put(fieldName, DateHelper.formatDate((LocalDate) object));
+                } else if (object instanceof LocalTime) {
+                    statisticsData.put(fieldName, DateHelper.formatTime((LocalTime) object));
+                } else if (object instanceof Duration) {
+                    statisticsData.put(fieldName, DateHelper.formatDuration((Duration) object));
                 }
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);

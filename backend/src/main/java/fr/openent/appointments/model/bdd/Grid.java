@@ -8,6 +8,7 @@ import java.time.Duration;
 import fr.openent.appointments.core.constants.Fields;
 import fr.openent.appointments.enums.Periodicity;
 import fr.openent.appointments.helper.DateHelper;
+import fr.openent.appointments.helper.IModelHelper;
 import fr.openent.appointments.model.IModel;
 
 import io.vertx.core.json.JsonArray;
@@ -164,18 +165,6 @@ public class Grid implements IModel<Grid> {
     } 
 
     public JsonObject toJson() {
-        return new JsonObject()
-            .put(Fields.NAME, this.gridName)
-            .put(Fields.BEGIN_DATE, this.beginDate.toString())
-            .put(Fields.END_DATE, this.endDate.toString())
-            .put(Fields.COLOR, this.color)
-            .put(Fields.STRUCTURE_ID, this.structureId)
-            .put(Fields.DURATION, this.duration.toString())
-            .put(Fields.PERIODICITY, this.periodicity.getValue())
-            .put(Fields.TARGET_PUBLIC_LIST_ID, new JsonArray(this.targetPublicIds))
-            .put(Fields.VISIO_LINK, this.visioLink)
-            .put(Fields.PLACE, this.place)
-            .put(Fields.DOCUMENT_ID, this.documentId)
-            .put(Fields.PUBLIC_COMMENT, this.publicComment);
+        return IModelHelper.toJson(this, true, true);
     }
 }

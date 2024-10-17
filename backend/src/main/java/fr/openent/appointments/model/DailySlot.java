@@ -3,6 +3,7 @@ package fr.openent.appointments.model;
 import fr.openent.appointments.enums.Day;
 import fr.openent.appointments.core.constants.Fields;
 import fr.openent.appointments.helper.DateHelper;
+import fr.openent.appointments.helper.IModelHelper;
 
 import java.time.LocalTime;
 import io.vertx.core.json.JsonObject;
@@ -62,9 +63,6 @@ public class DailySlot implements IModel<DailySlot> {
     }
 
     public JsonObject toJson() {
-        return new JsonObject()
-                .put(Fields.DAY, this.day.toString())
-                .put(Fields.CAMEL_BEGIN_TIME, this.beginTime.toString())
-                .put(Fields.CAMEL_END_TIME, this.endTime.toString());
+        return IModelHelper.toJson(this, true, true);
     }
 }

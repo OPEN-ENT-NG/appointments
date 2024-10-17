@@ -211,19 +211,6 @@ public class GridPayload implements IModel<GridPayload> {
     }
 
     public JsonObject toJson() {
-        return new JsonObject()
-            .put(Fields.NAME, this.gridName)
-            .put(Fields.CAMEL_BEGIN_DATE, DateHelper.formatDate(this.beginDate))
-            .put(Fields.CAMEL_END_DATE, DateHelper.formatDate(this.endDate))
-            .put(Fields.COLOR, this.color)
-            .put(Fields.CAMEL_STRUCTURE_ID, this.structureId)
-            .put(Fields.DURATION, DateHelper.formatDuration(this.duration))
-            .put(Fields.PERIODICITY, this.periodicity.getValue())
-            .put(Fields.CAMEL_TARGET_PUBLIC_LIST_ID, new JsonArray(this.targetPublicIds))
-            .put(Fields.CAMEL_DAILY_SLOTS, new JsonArray(this.dailySlots.stream().map(DailySlot::toJson).collect(Collectors.toList())))
-            .put(Fields.CAMEL_VISIO_LINK, this.visioLink)
-            .put(Fields.PLACE, this.place)
-            .put(Fields.CAMEL_DOCUMENT_ID, this.documentId)
-            .put(Fields.CAMEL_PUBLIC_COMMENT, this.publicComment);
+        return IModelHelper.toJson(this, true, true);
     }
 }
