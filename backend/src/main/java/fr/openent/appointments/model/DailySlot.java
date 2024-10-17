@@ -38,6 +38,18 @@ public class DailySlot {
         return endTime;
     }
 
+    public void setDay(Day day) {
+        this.day = day;
+    }
+
+    public void setBeginTime(LocalTime beginTime) {
+        this.beginTime = beginTime;
+    }
+
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
+    }
+
     public String toString() {
         return "DailySlot{" +
                 "day=" + day +

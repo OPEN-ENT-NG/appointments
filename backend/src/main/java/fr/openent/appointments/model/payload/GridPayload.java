@@ -127,6 +127,60 @@ public class GridPayload {
         return publicComment;
     }
 
+    // setters
+
+    public void setGridName(String gridName) {
+        this.gridName = gridName;
+    }
+
+    public void setBeginDate(LocalDate beginDate) {
+        this.beginDate = beginDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public void setStructureId(String structureId) {
+        this.structureId = structureId;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public void setPeriodicity(Periodicity periodicity) {
+        this.periodicity = periodicity;
+    }
+
+    public void setTargetPublicIds(List<String> targetPublicIds) {
+        this.targetPublicIds = targetPublicIds;
+    }
+
+    public void setDailySlots(List<DailySlot> dailySlots) {
+        this.dailySlots = dailySlots;
+    }
+
+    public void setVisioLink(String visioLink) {
+        this.visioLink = visioLink;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
+    }
+
+    public void setPublicComment(String publicComment) {
+        this.publicComment = publicComment;
+    }
+
     public String toString() {
         return new JsonObject()
             .put(Fields.CAMEL_NAME, this.gridName)
