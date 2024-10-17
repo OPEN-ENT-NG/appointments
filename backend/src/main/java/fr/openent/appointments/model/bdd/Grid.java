@@ -102,51 +102,63 @@ public class Grid {
 
     // setters
 
-    public void setGridName(String gridName) {
+    public Grid setGridName(String gridName) {
         this.gridName = gridName;
+        return this;
     }
 
-    public void setBeginDate(LocalDate beginDate) {
+    public Grid setBeginDate(LocalDate beginDate) {
         this.beginDate = beginDate;
+        return this;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public Grid setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+        return this;
     }
 
-    public void setColor(String color) {
+    public Grid setColor(String color) {
         this.color = color;
-    }   
+        return this;
+    }
 
-    public void setStructureId(String structureId) {
+    public Grid setStructureId(String structureId) {
         this.structureId = structureId;
+        return this;
     }
 
-    public void setDuration(Duration duration) {
+    public Grid setDuration(Duration duration) {
         this.duration = duration;
+        return this;
     }
 
-    public void setPeriodicity(Periodicity periodicity) {
+    public Grid setPeriodicity(Periodicity periodicity) {
         this.periodicity = periodicity;
+        return this;
     }
 
-    public void setTargetPublicIds(List<String> targetPublicIds) {
+    public Grid setTargetPublicIds(List<String> targetPublicIds) {
         this.targetPublicIds = targetPublicIds;
+        return this;
     }
 
-    public void setVisioLink(String visioLink) {
+    public Grid setVisioLink(String visioLink) {
         this.visioLink = visioLink;
+        return this;
     }
 
-    public void setPlace(String place) {
+    public Grid setPlace(String place) {
         this.place = place;
+        return this;
     }
 
-    public void setDocumentId(String documentId) {
+    public Grid setDocumentId(String documentId) {
         this.documentId = documentId;
+        return this;
     }
 
-    public void setPublicComment(String publicComment) {
+    public Grid setPublicComment(String publicComment) {
         this.publicComment = publicComment;
-    }    
+        return this;
+    } 
 }

@@ -129,56 +129,69 @@ public class GridPayload {
 
     // setters
 
-    public void setGridName(String gridName) {
+    public GridPayload setGridName(String gridName) {
         this.gridName = gridName;
+        return this;
     }
 
-    public void setBeginDate(LocalDate beginDate) {
+    public GridPayload setBeginDate(LocalDate beginDate) {
         this.beginDate = beginDate;
+        return this;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public GridPayload setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+        return this;
     }
 
-    public void setColor(String color) {
+    public GridPayload setColor(String color) {
         this.color = color;
+        return this;
     }
 
-    public void setStructureId(String structureId) {
+    public GridPayload setStructureId(String structureId) {
         this.structureId = structureId;
+        return this;
     }
 
-    public void setDuration(Duration duration) {
+    public GridPayload setDuration(Duration duration) {
         this.duration = duration;
+        return this;
     }
 
-    public void setPeriodicity(Periodicity periodicity) {
+    public GridPayload setPeriodicity(Periodicity periodicity) {
         this.periodicity = periodicity;
+        return this;
     }
 
-    public void setTargetPublicIds(List<String> targetPublicIds) {
+    public GridPayload setTargetPublicIds(List<String> targetPublicIds) {
         this.targetPublicIds = targetPublicIds;
+        return this;
     }
 
-    public void setDailySlots(List<DailySlot> dailySlots) {
+    public GridPayload setDailySlots(List<DailySlot> dailySlots) {
         this.dailySlots = dailySlots;
+        return this;
     }
 
-    public void setVisioLink(String visioLink) {
+    public GridPayload setVisioLink(String visioLink) {
         this.visioLink = visioLink;
+        return this;
     }
 
-    public void setPlace(String place) {
+    public GridPayload setPlace(String place) {
         this.place = place;
+        return this;
     }
 
-    public void setDocumentId(String documentId) {
+    public GridPayload setDocumentId(String documentId) {
         this.documentId = documentId;
+        return this;
     }
 
-    public void setPublicComment(String publicComment) {
+    public GridPayload setPublicComment(String publicComment) {
         this.publicComment = publicComment;
+        return this;
     }
 
     public String toString() {
