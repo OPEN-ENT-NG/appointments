@@ -13,10 +13,10 @@ import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { RouterProvider } from "react-router-dom";
 
+import { GlobalProvider } from "./providers/GlobalProvider";
 import { router } from "./routes";
 import { setupStore } from "./store";
 import theme from "./styles/theme";
-import { GlobalProvider } from "./providers/GlobalProvider";
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement!);

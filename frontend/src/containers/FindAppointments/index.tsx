@@ -1,10 +1,5 @@
-import { FC } from "react"
+import { FC } from "react";
 
 export const FindAppointments: FC = () => {
-    
-    return (
-        <>
-         TODO
-        </>
-    )
-}
+  return <>TODO</>;
+};

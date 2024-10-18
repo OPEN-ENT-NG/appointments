@@ -10,7 +10,6 @@ const theme = createTheme({
     },
     text: {
       primary: "#666666",
-      // secondary: "#333333",
     },
   },
   typography: {
@@ -28,11 +27,11 @@ const theme = createTheme({
       fontFamily: "Roboto",
     },
     h3: {
-        fontSize: "2rem",
-        color: "#4D32A3",
-        fontWeight: "bold",
-        fontFamily: "Roboto",
-        },
+      fontSize: "2rem",
+      color: "#4D32A3",
+      fontWeight: "bold",
+      fontFamily: "Roboto",
+    },
     h4: {
       fontSize: "2rem",
       color: "#666666",
@@ -45,26 +44,16 @@ const theme = createTheme({
     },
     body1: {
       fontSize: "1.4rem",
-      color: "#4D32A3",
+      color: "#666666",
       fontFamily: "Roboto",
     },
     body2: {
       fontSize: "1.4rem",
-      color: "#666666",
+      color: "#4D32A3",
       fontFamily: "Roboto",
     },
   },
   components: {
-    MuiOutlinedInput: {
-      styleOverrides: {
-        root: {
-          padding: "12pxs",
-          gap: "1rem",
-          borderRadius: "1.2rem",
-          border: "#B0B0B0",
-        },
-      },
-    },
     MuiTab: {
       styleOverrides: {
         root: {
@@ -80,17 +69,6 @@ const theme = createTheme({
           props: { variant: "contained" },
           style: {
             fontSize: "1.4rem",
-            // fontFamily: "Roboto",
-            // gap: "0.8rem",
-            // "&:hover": {
-            //   backgroundColor: "white",
-            //   boxShadow: "0 0 0 0",
-            // },
-            // "&.Mui-disabled": {
-            //   backgroundColor: "#FFCBA0",
-            //   color: "white",
-            //   border: "none",
-            // },
           },
         },
         {
@@ -111,23 +89,34 @@ const theme = createTheme({
           },
         },
         {
-            props: { variant: "text" },
-            style: {
-              fontSize: "1.4rem",
-              color: "#666666",
-              fontFamily: "Roboto",
-              backgroundColor: "white",
-              textTransform: "none",
-              padding: "0.8rem 1.6rem",
-              borderRadius: "0.5rem",
-              border: "none",
-              "&:hover": {
-                backgroundColor: "#F2F2F2",
-                border: "none",
-              },
-            },
-        }
+          props: { variant: "text" },
+          style: {
+            fontSize: "1.4rem",
+          },
+        },
       ],
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          "& .MuiSvgIcon-root": {
+            fontSize: "3rem",
+          },
+        },
+      },
+    },
+    MuiMobileStepper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "transparent",
+        },
+        dot: {
+          backgroundColor: "#B0B0B0",
+        },
+        dotActive: {
+          backgroundColor: "#4D32A3",
+        },
+      },
     },
     MuiAlert: {
       styleOverrides: {
