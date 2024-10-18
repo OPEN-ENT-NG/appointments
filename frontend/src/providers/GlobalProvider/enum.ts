@@ -1,4 +1,4 @@
 export enum MODAL_TYPE {
-    GRID = "grid",
-    CONFIRMATION = "confirmation",
+  GRID = "grid",
+  CONFIRMATION = "confirmation",
 }
