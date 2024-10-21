@@ -9,6 +9,7 @@ CREATE TABLE appointments.scripts (
 CREATE TYPE appointments.G_STATE AS ENUM (
     'OPEN',
     'SUSPENDED',
+    'CLOSED',
     'DELETED'
 );
 
