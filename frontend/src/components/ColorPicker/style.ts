@@ -6,7 +6,7 @@ export const colorPickerIconStyle = {
 
 export const circlePickerStyle = {
   position: "absolute",
-  top: "1rem",
+  top: "2rem",
   right: "0rem",
   backgroundColor: "white",
   padding: "1rem",

@@ -96,15 +96,6 @@ const theme = createTheme({
         },
       ],
     },
-    MuiIconButton: {
-      styleOverrides: {
-        root: {
-          "& .MuiSvgIcon-root": {
-            fontSize: "3rem",
-          },
-        },
-      },
-    },
     MuiMobileStepper: {
       styleOverrides: {
         root: {
@@ -126,19 +117,6 @@ const theme = createTheme({
           padding: "1rem 1.6rem",
           whiteSpace: "nowrap",
           marginRight: "auto",
-        },
-      },
-    },
-    MuiTooltip: {
-      styleOverrides: {
-        tooltip: {
-          color: "white",
-          fontSize: "1.4rem",
-          padding: "0.8rem 1rem",
-          borderRadius: "0.8rem",
-        },
-        arrow: {
-          color: "#3C2386",
         },
       },
     },
