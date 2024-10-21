@@ -24,7 +24,7 @@
     "appointments.delete.grid.confirm.message2": "Vous avez déjà des rendez-vous pris sur la période concernée. Souhaitez-vous les conserver ?",
     
     "appointments.grid.required": "Les champs suivis d’un * sont obligatoires",
-    "appointments.grid.name": "Nom de la grille",
+    "appointments.grid.name": "Nom de la grille horaire",
     "appointments.grid.color": "Couleur d'affichage",
     "appointments.grid.structure": "Établissement concerné",
     "appointments.grid.location": "Lieu (bâtiment, numéro de salle)",

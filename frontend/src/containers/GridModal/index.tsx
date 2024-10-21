@@ -6,11 +6,13 @@ import { useTranslation } from "react-i18next";
 
 import { PAGE_TYPE } from "./enum";
 import { modalBoxStyle } from "./style";
-import { GridModalProps } from "./types";
+import { FirstPageInputs, GridModalProps, Structure } from "./types";
 import { FirstPageGridModal } from "../FirstPageGridModal";
 import { SecondPageGridModal } from "../SecondPageGridModal";
 import { CustomStepper } from "~/components/CustomStepper";
 import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
+import { initialFirstPageInputs, userStructures } from "./utils";
+import { useUser } from "@edifice-ui/react";
 
 export const GridModal: FC<GridModalProps> = ({
   isOpen,
@@ -19,6 +21,12 @@ export const GridModal: FC<GridModalProps> = ({
 }) => {
   const { t } = useTranslation("appointments");
   const [page, setPage] = useState<PAGE_TYPE>(PAGE_TYPE.FIRST);
+  const { user } = useUser();
+  const structures: Structure[] = user ? userStructures(user) : [];
+
+  const [firstPageInputs, setFirstPageInputs] = useState<FirstPageInputs>(
+    initialFirstPageInputs(structures),
+  );
 
   return (
     <Modal open={isOpen} onClose={handleClose}>
@@ -31,7 +39,12 @@ export const GridModal: FC<GridModalProps> = ({
             <CloseIcon />
           </IconButton>
         </Box>
-        {page === PAGE_TYPE.FIRST && <FirstPageGridModal />}
+        {page === PAGE_TYPE.FIRST && (
+          <FirstPageGridModal
+            firstPageInputs={firstPageInputs}
+            setFirstPageInputs={setFirstPageInputs}
+          />
+        )}
         {page === PAGE_TYPE.SECOND && <SecondPageGridModal />}
         <CustomStepper
           page={page}
