@@ -29,7 +29,6 @@ export const CustomMultiAutocomplete: FC<CustomMultiAutocompleteProps> = ({
             </li>
           );
         }}
-        style={{ width: 500 }}
         renderInput={(params) => (
           <TextField
             {...params}

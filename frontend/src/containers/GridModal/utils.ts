@@ -1,5 +1,6 @@
 import { IUserInfo } from "edifice-ts-client";
-import { FirstPageInputs, Public, Structure } from "./types";
+import { FirstPageInputs, Public, SecondPageInputs, Structure } from "./types";
+import { PERIODICITY, SLOT_DURATION } from "~/core/enums";
 
 
 export const userStructures = (userInfo: IUserInfo): Structure[] => {
@@ -27,4 +28,14 @@ export const initialFirstPageInputs = (structures: Structure[]): FirstPageInputs
     isVisio: false,
     visioLink: "",
     publicComment: "",
+  });
+
+export const initialSecondPageInputs = (): SecondPageInputs => ({
+    validityPeriod: {
+      start: new Date(),
+      end: new Date(),
+    },
+    slotDuration: SLOT_DURATION.FIVETEEN_MINUTES,
+    periodicity: PERIODICITY.WEEKLY,
+    dailySlots: [],
   });

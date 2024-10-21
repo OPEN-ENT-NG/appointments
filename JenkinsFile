@@ -36,5 +36,18 @@ pipeline {
         }
       }
     }
+
+    stage('Stop Containers') {
+      steps {
+        script {
+          dir('../frontend') {
+            sh 'docker-compose down'
+          }
+          dir('../backend') {
+            sh 'docker-compose down'
+          }
+        }
+      }
+    }
   }
 }
