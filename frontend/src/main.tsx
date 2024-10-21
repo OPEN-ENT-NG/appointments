@@ -17,6 +17,8 @@ import { GlobalProvider } from "./providers/GlobalProvider";
 import { router } from "./routes";
 import { setupStore } from "./store";
 import theme from "./styles/theme";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement!);
@@ -54,9 +56,11 @@ root.render(
       >
         <ThemeProvider>
           <ThemeProviderMUI theme={theme}>
-            <GlobalProvider>
-              <RouterProvider router={router} />
-            </GlobalProvider>
+            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="fr">
+              <GlobalProvider>
+                <RouterProvider router={router} />
+              </GlobalProvider>
+            </LocalizationProvider>
           </ThemeProviderMUI>
         </ThemeProvider>
       </OdeClientProvider>

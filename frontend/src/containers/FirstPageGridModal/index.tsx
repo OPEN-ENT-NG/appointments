@@ -12,6 +12,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Switch,
   TextField,
   Typography,
 } from "@mui/material";
@@ -19,10 +20,15 @@ import { useTranslation } from "react-i18next";
 
 import { firstPageGridModalStyle } from "./style";
 import { ColorPicker } from "~/components/ColorPicker";
-import { flexEndBoxStyle, spaceBetweenBoxStyle } from "~/styles/boxStyles";
+import {
+  flexEndBoxStyle,
+  flexStartBoxStyle,
+  spaceBetweenBoxStyle,
+} from "~/styles/boxStyles";
 import { FirstPageGridModalProps } from "./types";
 import { CustomMultiAutocomplete } from "~/components/CustomMultiAutocomplete";
 import { Public } from "../GridModal/types";
+import { pageGridModalStyle } from "../GridModal/style";
 
 export const FirstPageGridModal: FC<FirstPageGridModalProps> = ({
   firstPageInputs,
@@ -30,7 +36,7 @@ export const FirstPageGridModal: FC<FirstPageGridModalProps> = ({
 }) => {
   const { t } = useTranslation("appointments");
 
-  const mockPublicList : Public[] = [
+  const mockPublicList: Public[] = [
     { name: "Public 1", id: "1" },
     { name: "Public 2", id: "2" },
     { name: "Public 3", id: "3" },
@@ -39,10 +45,7 @@ export const FirstPageGridModal: FC<FirstPageGridModalProps> = ({
   ];
 
   return (
-    <Box sx={firstPageGridModalStyle}>
-      <Typography sx={{ fontStyle: "italic" }}>
-        {t("appointments.grid.required")}
-      </Typography>
+    <Box sx={pageGridModalStyle}>
       <Box sx={spaceBetweenBoxStyle}>
         <TextField
           id="grid-name"
@@ -82,6 +85,26 @@ export const FirstPageGridModal: FC<FirstPageGridModalProps> = ({
         publicList={mockPublicList}
         selectedPublic={[]}
         setSelectedPublic={() => {}}
+      />
+      <Box sx={flexStartBoxStyle}>
+        <Typography>{t("appointments.grid.videoconference")}</Typography>
+        <Switch />
+      </Box>
+      <TextField
+        id="grid-visio-link"
+        label={t("appointments.grid.videoconference.link") + " *"}
+        variant="outlined"
+      />
+      <TextField
+        id="grid-public-comment"
+        label={
+          t("appointments.grid.comment") +
+          " " +
+          t("appointments.grid.visible.all")
+        }
+        variant="outlined"
+        multiline
+        rows={4}
       />
     </Box>
   );

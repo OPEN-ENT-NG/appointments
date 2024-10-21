@@ -1,5 +1,8 @@
 import { HexaColor } from "~/components/ColorPicker/types";
 import { GRID_MODAL_TYPE } from "./enum";
+import { slotDuration } from "~/core/constants/enums";
+import { DailySlot } from "~/core/types";
+import { PERIODICITY } from "~/core/enums";
 
 export interface GridModalProps {
   isOpen: boolean;
@@ -26,5 +29,15 @@ export interface FirstPageInputs {
   isVisio: boolean;
   visioLink: string;
   publicComment: string;
+}
+
+export interface SecondPageInputs {
+  validityPeriod: {
+    start: Date;
+    end: Date;
+  };
+  slotDuration: slotDuration;
+  periodicity: PERIODICITY;
+  dailySlots: DailySlot[];
 }
 
