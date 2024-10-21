@@ -20,6 +20,7 @@ import fr.openent.appointments.service.GridService;
 import fr.openent.appointments.service.ServiceFactory;
 import fr.openent.appointments.service.impl.DefaultGridService;
 import fr.openent.appointments.security.ManageRight;
+import fr.openent.appointments.security.ViewRight;
 import fr.openent.appointments.repository.impl.DefaultGridRepository;
 import fr.openent.appointments.repository.RepositoryFactory;
 
@@ -32,12 +33,16 @@ public class GridController extends ControllerHelper {
 
     @Get("/grids")
     @ApiDoc("Get my grids")
+    @ResourceFilter(ManageRight.class)
+    @SecuredAction(value = "", type = ActionType.RESOURCE)
     public void getMyGrids(final HttpServerRequest request) {
         renderJson(request, new JsonObject());
     }
 
     @Get("/grids/:id")
     @ApiDoc("Get grid by id")
+    @ResourceFilter(ViewRight.class)
+    @SecuredAction(value = "", type = ActionType.RESOURCE)
     public void getGridById(final HttpServerRequest request) {
         
         renderJson(request, new JsonObject());
@@ -45,6 +50,8 @@ public class GridController extends ControllerHelper {
 
     @Get("/users/:id/grids")
     @ApiDoc("Get user grids")
+    @ResourceFilter(ViewRight.class)
+    @SecuredAction(value = "", type = ActionType.RESOURCE)
     public void getUserGrids(final HttpServerRequest request) {
         
         renderJson(request, new JsonObject());
@@ -56,14 +63,7 @@ public class GridController extends ControllerHelper {
     @SecuredAction(value = "", type = ActionType.RESOURCE)
     public void createGrid(final HttpServerRequest request) {
         RequestUtils.bodyToJson(request, body -> {
-            if (body == null) {
-                String message = "[Appointments@GridController:createGrid] Failed to parse request body to JSON";
-                log.error(message);
-                badRequest(request);
-                return;
-            }
             GridPayload grid = new GridPayload(body);
-                log.info(grid.toString());
             if (!grid.isValid()) {
                 String message = "[Appointments@GridController:createGrid] Invalid grid payload";
                 log.error(message);
@@ -71,9 +71,7 @@ public class GridController extends ControllerHelper {
                 return;
             }
             gridService.createGrid(request, grid)
-                .onSuccess(response -> {
-                    renderJson(request, response);
-                })
+                .onSuccess(response -> renderJson(request, response))
                 .onFailure(error -> {
                     log.error("[Appointments@GridController:createGrid] Failed to create grid", error);
                     badRequest(request);
@@ -83,6 +81,8 @@ public class GridController extends ControllerHelper {
 
     @Put("/grids/:id")
     @ApiDoc("Update grid")
+    @ResourceFilter(ManageRight.class)
+    @SecuredAction(value = "", type = ActionType.RESOURCE)
     public void updateGrid(final HttpServerRequest request) {
         
         renderJson(request, new JsonObject());
@@ -90,6 +90,8 @@ public class GridController extends ControllerHelper {
 
     @Delete("/grids/:id")
     @ApiDoc("Delete grid")
+    @ResourceFilter(ManageRight.class)
+    @SecuredAction(value = "", type = ActionType.RESOURCE)
     public void deleteGrid(final HttpServerRequest request) {
         
         renderJson(request, new JsonObject());

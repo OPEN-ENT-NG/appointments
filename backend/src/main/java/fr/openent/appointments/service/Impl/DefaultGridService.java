@@ -51,15 +51,9 @@ public class DefaultGridService implements GridService {
         Promise<JsonObject> promise = Promise.promise();
 
         UserUtils.getAuthenticatedUserInfos(eb, request)
-            .compose(user -> {
-                return gridRepository.create(grid, user.getUserId());
-            })
-            .onSuccess(gridId -> {
-                promise.complete(new JsonObject().put("gridId", gridId));
-            })
-            .onFailure(err -> {
-                promise.fail(err);
-            });
+            .compose(user -> gridRepository.create(grid, user.getUserId()))
+            .onSuccess(gridId -> promise.complete(new JsonObject().put("gridId", gridId)))
+            .onFailure(err -> promise.fail(err));
 
         return promise.future();
     }

@@ -143,7 +143,7 @@ public class DefaultGridRepository implements GridRepository {
     public Future<JsonObject> create(GridPayload grid, String userId) {
         return checkIfGridExists(grid.getGridName(), userId)
             .compose(result -> {
-                if (result.size() > 0) {
+                if (result.isEmpty()) {
                     String errorMessage = "[Appointments@DefaultGridRepository::create] Grid already exists";
                     return Future.failedFuture(errorMessage);
                 }

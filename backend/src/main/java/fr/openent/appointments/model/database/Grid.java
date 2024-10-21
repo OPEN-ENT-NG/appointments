@@ -1,4 +1,4 @@
-package fr.openent.appointments.model.bdd;
+package fr.openent.appointments.model.database;
 
 import java.util.stream.Collectors;
 import java.util.List;
