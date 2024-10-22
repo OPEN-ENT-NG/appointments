@@ -11,8 +11,9 @@ import { useTranslation } from "react-i18next";
 import { pageGridModalStyle } from "../GridModal/style";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { itemStyle, validityPeriodStyle } from "./style";
-import { slotDuration } from "~/core/constants/enums";
 import { SecondPageGridModalProps } from "./types";
+import { DAY, PERIODICITY, SLOT_DURATION } from "~/core/enums";
+import { DailySlot } from "~/components/DailySlot";
 
 export const SecondPageGridModal: FC<SecondPageGridModalProps> = ({
   secondPageInputs,
@@ -33,34 +34,42 @@ export const SecondPageGridModal: FC<SecondPageGridModalProps> = ({
       <Box sx={itemStyle}>
         <Typography>{t("appointments.grid.slot.duration") + " *"}</Typography>
         <Box sx={validityPeriodStyle}>
-          <ToggleButtonGroup exclusive>
-            <ToggleButton value={slotDuration.FIVETEEN_MINUTES}>
-              {slotDuration.FIVETEEN_MINUTES}
+          <ToggleButtonGroup exclusive value={SLOT_DURATION.FIVETEEN_MINUTES}>
+            <ToggleButton value={SLOT_DURATION.FIVETEEN_MINUTES}>
+              {SLOT_DURATION.FIVETEEN_MINUTES}
             </ToggleButton>
-            <ToggleButton value={slotDuration.THIRTY_MINUTES}>
-              {slotDuration.THIRTY_MINUTES}
+            <ToggleButton value={SLOT_DURATION.THIRTY_MINUTES}>
+              {SLOT_DURATION.THIRTY_MINUTES}
             </ToggleButton>
-            <ToggleButton value={slotDuration.FOURTYFIVE_MINUTES}>
-              {slotDuration.FOURTYFIVE_MINUTES}
+            <ToggleButton value={SLOT_DURATION.FOURTYFIVE_MINUTES}>
+              {SLOT_DURATION.FOURTYFIVE_MINUTES}
             </ToggleButton>
-            <ToggleButton value={slotDuration.ONE_HOUR}>
-              {slotDuration.ONE_HOUR}
+            <ToggleButton value={SLOT_DURATION.ONE_HOUR}>
+              {SLOT_DURATION.ONE_HOUR}
             </ToggleButton>
           </ToggleButtonGroup>
         </Box>
       </Box>
       <Box sx={itemStyle}>
-        <Typography>{t("appointments.grid.slot.duration") + " *"}</Typography>
+        <Typography>{t("appointments.grid.periodicity") + " *"}</Typography>
         <Box sx={validityPeriodStyle}>
           <ToggleButtonGroup exclusive>
-            <ToggleButton value={slotDuration.FIVETEEN_MINUTES}>
-              {slotDuration.FIVETEEN_MINUTES}
+            <ToggleButton value={PERIODICITY.WEEKLY}>
+              {t(PERIODICITY.WEEKLY)}
             </ToggleButton>
-            <ToggleButton value={slotDuration.THIRTY_MINUTES}>
-              {slotDuration.THIRTY_MINUTES}
+            <ToggleButton value={PERIODICITY.BIWEEKLY}>
+              {t(PERIODICITY.BIWEEKLY)}
             </ToggleButton>
           </ToggleButtonGroup>
         </Box>
+      </Box>
+      <Box sx={itemStyle}>
+        <Typography>{t("appointments.grid.available.slots") + " *"}</Typography>
+        <DailySlot dailySlot={{
+          day: DAY.MONDAY,
+          begin: { hour: 1, minute: 0 },
+          end: { hour: 2, minute: 0 },
+        }} handleDelete={() => {}} />
       </Box>
     </Box>
   );

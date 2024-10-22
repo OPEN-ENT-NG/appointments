@@ -16,6 +16,6 @@ export enum DAY {
 }
 
 export enum PERIODICITY {
-    WEEKLY = "WEEKLY",
-    MONTHLY = "MONTHLY",
+    WEEKLY = "appointments.grid.periodicity.weekly",
+    BIWEEKLY = "appointments.grid.periodicity.biweekly",
 }

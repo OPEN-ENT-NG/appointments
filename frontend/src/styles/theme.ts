@@ -1,55 +1,56 @@
 import { createTheme } from "@mui/material";
+import { BLACK, GREY, PURPLE } from "./constants";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#4D32A3",
+      main: PURPLE,
     },
     background: {
       default: "#F9F9F9",
     },
     text: {
-      primary: "#666666",
+      primary: GREY,
     },
   },
   typography: {
     fontFamily: "Roboto",
     h1: {
       fontSize: "2.4rem",
-      color: "#4D32A3",
+      color: PURPLE,
       fontWeight: "bold",
       fontFamily: "Comfortaa",
     },
     h2: {
       fontSize: "2.2rem",
-      color: "#4D32A3",
+      color: PURPLE,
       fontWeight: "bold",
       fontFamily: "Roboto",
     },
     h3: {
       fontSize: "2rem",
-      color: "#4D32A3",
+      color: PURPLE,
       fontWeight: "bold",
       fontFamily: "Roboto",
     },
     h4: {
       fontSize: "2rem",
-      color: "#666666",
+      color: GREY,
       fontFamily: "Roboto",
     },
     h5: {
       fontSize: "1.6rem",
-      color: "#333333",
+      color: BLACK,
       fontFamily: "Roboto",
     },
     body1: {
       fontSize: "1.4rem",
-      color: "#666666",
+      color: GREY,
       fontFamily: "Roboto",
     },
     body2: {
       fontSize: "1.4rem",
-      color: "#4D32A3",
+      color: PURPLE,
       fontFamily: "Roboto",
     },
   },
@@ -60,6 +61,21 @@ const theme = createTheme({
           fontSize: "1.4rem",
           fontWeight: "bold",
           border: "0 0 1px 0 solid #4D32A3",
+        },
+      },
+    },
+    MuiToggleButtonGroup: {
+      styleOverrides: {
+        root: {
+          borderRadius: "0.4rem",
+        },
+      },
+    },
+    MuiToggleButton: {
+      styleOverrides: {
+        root: {
+          fontSize: "1.4rem",
+          fontWeight: "bold",
         },
       },
     },
@@ -75,7 +91,7 @@ const theme = createTheme({
           props: { variant: "outlined" },
           style: {
             fontSize: "1.4rem",
-            color: "#4D32A3",
+            color: PURPLE,
             fontFamily: "Roboto",
             backgroundColor: "white",
             textTransform: "none",
@@ -105,7 +121,7 @@ const theme = createTheme({
           backgroundColor: "#B0B0B0",
         },
         dotActive: {
-          backgroundColor: "#4D32A3",
+          backgroundColor: PURPLE,
         },
       },
     },
