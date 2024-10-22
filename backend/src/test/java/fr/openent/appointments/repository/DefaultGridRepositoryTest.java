@@ -62,13 +62,14 @@ public class DefaultGridRepositoryTest {
     
     private Vertx vertx;
     private Sql sql = mock(Sql.class);
+    private Neo4j neo4j = mock(Neo4j.class);
     private DefaultGridRepository gridRepository;
 
     @Before
     public void setUp() {
         vertx = Vertx.vertx();
         Sql.getInstance().init(vertx.eventBus(), Fields.APPOINTMENTS_ADRESS);
-        this.gridRepository = new DefaultGridRepository(new RepositoryFactory(sql));
+        this.gridRepository = new DefaultGridRepository(new RepositoryFactory(sql, neo4j));
     }
 
     @Test
