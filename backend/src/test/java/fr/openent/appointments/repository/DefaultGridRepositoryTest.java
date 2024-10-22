@@ -58,6 +58,7 @@ public class DefaultGridRepositoryTest {
     private static final String PUBLIC_COMMENT = "Comment here";
     private static final String OPEN_STATE = GridState.OPEN.getValue();
     private static final String SUSPENDED_STATE = GridState.SUSPENDED.getValue();
+    private static final String CLOSED_STATE = GridState.CLOSED.getValue();
 
     
     private Vertx vertx;
@@ -73,17 +74,11 @@ public class DefaultGridRepositoryTest {
     }
 
     @Test
-    public void testCheckIfGridExists(TestContext ctx) throws Exception {
-        String expectedQuery = "SELECT id FROM " + SqlTables.DB_GRID_TABLE +
-                               " WHERE " + Fields.NAME + " = ? " +
-                               " AND " + Fields.OWNER_ID + " = ? " +
-                               " AND " + Fields.STATE + " IN (?, ?)";
-
-        JsonArray expectedParams = new JsonArray()
-                .add(GRID_NAME)
-                .add(USER_ID)
-                .add(OPEN_STATE)
-                .add(SUSPENDED_STATE);
+    public void testGetGridsWithUserIdOnly(TestContext ctx) throws Exception {
+        String expectedQuery = "SELECT * FROM " + SqlTables.DB_GRID_TABLE +
+                            " WHERE " + Fields.OWNER_ID + " = ?";
+        
+        JsonArray expectedParams = new JsonArray().add(USER_ID);
 
         doAnswer((Answer<Void>) invocation -> {
             String queryResult = invocation.getArgument(0);
@@ -94,9 +89,89 @@ public class DefaultGridRepositoryTest {
         }).when(sql).prepared(anyString(), any(JsonArray.class), any(Handler.class));
 
         try {
-            Whitebox.invokeMethod(gridRepository, "checkIfGridExists", GRID_NAME, USER_ID);
+            Whitebox.invokeMethod(gridRepository, "getGrids", USER_ID);
+        } catch (Exception e) {
+            ctx.assertNull(e);
         }
-        catch (Exception e) {
+    }
+
+    @Test
+    public void testGetGridsWithUserIdAndGridName(TestContext ctx) throws Exception {
+        String expectedQuery = "SELECT * FROM " + SqlTables.DB_GRID_TABLE +
+                            " WHERE " + Fields.OWNER_ID + " = ?" +
+                            " AND " + Fields.NAME + " = ?";
+        
+        JsonArray expectedParams = new JsonArray()
+                .add(USER_ID)
+                .add(GRID_NAME);
+
+        doAnswer((Answer<Void>) invocation -> {
+            String queryResult = invocation.getArgument(0);
+            JsonArray paramsResult = invocation.getArgument(1);
+            ctx.assertEquals(expectedQuery, queryResult);
+            ctx.assertEquals(expectedParams.toString(), paramsResult.toString());
+            return null;
+        }).when(sql).prepared(anyString(), any(JsonArray.class), any(Handler.class));
+
+        try {
+            Whitebox.invokeMethod(gridRepository, "getGrids", USER_ID, GRID_NAME, null);
+        } catch (Exception e) {
+            ctx.assertNull(e);
+        }
+    }
+
+    @Test
+    public void testGetGridsWithUserIdAndGridStates(TestContext ctx) throws Exception {
+        String expectedQuery = "SELECT * FROM " + SqlTables.DB_GRID_TABLE +
+                            " WHERE " + Fields.OWNER_ID + " = ?" +
+                            " AND " + Fields.STATE + " IN (?, ?)";
+        
+        JsonArray expectedParams = new JsonArray()
+                .add(USER_ID)
+                .add(OPEN_STATE)
+                .add(CLOSED_STATE);
+
+        doAnswer((Answer<Void>) invocation -> {
+            String queryResult = invocation.getArgument(0);
+            JsonArray paramsResult = invocation.getArgument(1);
+            ctx.assertEquals(expectedQuery, queryResult);
+            ctx.assertEquals(expectedParams.toString(), paramsResult.toString());
+            return null;
+        }).when(sql).prepared(anyString(), any(JsonArray.class), any(Handler.class));
+
+        try {
+            List<GridState> states = Arrays.asList(GridState.OPEN, GridState.CLOSED);
+            Whitebox.invokeMethod(gridRepository, "getGrids", USER_ID, null, states);
+        } catch (Exception e) {
+            ctx.assertNull(e);
+        }
+    }
+
+    @Test
+    public void testGetGridsWithUserIdGridNameAndStates(TestContext ctx) throws Exception {
+        String expectedQuery = "SELECT * FROM " + SqlTables.DB_GRID_TABLE +
+                            " WHERE " + Fields.OWNER_ID + " = ?" +
+                            " AND " + Fields.NAME + " = ?" +
+                            " AND " + Fields.STATE + " IN (?, ?)";
+        
+        JsonArray expectedParams = new JsonArray()
+                .add(USER_ID)
+                .add(GRID_NAME)
+                .add(OPEN_STATE)
+                .add(CLOSED_STATE);
+
+        doAnswer((Answer<Void>) invocation -> {
+            String queryResult = invocation.getArgument(0);
+            JsonArray paramsResult = invocation.getArgument(1);
+            ctx.assertEquals(expectedQuery, queryResult);
+            ctx.assertEquals(expectedParams.toString(), paramsResult.toString());
+            return null;
+        }).when(sql).prepared(anyString(), any(JsonArray.class), any(Handler.class));
+
+        try {
+            List<GridState> states = Arrays.asList(GridState.OPEN, GridState.CLOSED);
+            Whitebox.invokeMethod(gridRepository, "getGrids", USER_ID, GRID_NAME, states);
+        } catch (Exception e) {
             ctx.assertNull(e);
         }
     }

@@ -12,6 +12,10 @@ import fr.openent.appointments.repository.impl.DefaultGridRepository;
 import fr.openent.appointments.repository.RepositoryFactory;
 import fr.openent.appointments.service.GridService;
 import fr.openent.appointments.service.ServiceFactory;
+import fr.openent.appointments.enums.GridState;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.entcore.common.user.UserUtils;
 
@@ -46,17 +50,37 @@ public class DefaultGridService implements GridService {
         return Future.succeededFuture(new JsonArray());
     }
 
+    private Future<Boolean> isGridAlreadyExists(String gridName, String userId) {
+        Promise<Boolean> promise = Promise.promise();
+        List<GridState> gridStates = new ArrayList<>();
+        gridStates.add(GridState.OPEN);
+        gridStates.add(GridState.SUSPENDED);
+
+        gridRepository.getGrids(userId, gridName, gridStates)
+            .onSuccess(grids -> promise.complete(!grids.isEmpty()))
+            .onFailure(err -> promise.fail(err));
+
+        return promise.future();
+    }
+
     @Override
     public Future<JsonObject> createGrid(HttpServerRequest request, GridPayload grid) {
         Promise<JsonObject> promise = Promise.promise();
 
         UserUtils.getAuthenticatedUserInfos(eb, request)
-            .compose(user -> gridRepository.create(grid, user.getUserId()))
+            .compose(user -> isGridAlreadyExists(grid.getGridName(), user.getUserId())
+                .compose(isExists -> {
+                    if (isExists) {
+                        return Future.failedFuture("Grid already exists");
+                    }
+                    return gridRepository.create(grid, user.getUserId());
+                }))
             .onSuccess(gridId -> promise.complete(new JsonObject().put("gridId", gridId)))
-            .onFailure(err -> promise.fail(err));
+            .onFailure(promise::fail);
 
         return promise.future();
     }
+
 
     @Override
     public Future<Void> updateGrid(Integer gridId, JsonArray grid) {

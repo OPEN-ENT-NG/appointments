@@ -29,25 +29,40 @@ public class DefaultGridRepository implements GridRepository {
         this.sql = repositoryFactory.sql();
     }
 
-    private Future<JsonArray> checkIfGridExists(String gridName, String userId) {
+    public Future<JsonArray> getGrids(String userId) {
+        return getGrids(userId, null, null);
+    }
+
+    public Future<JsonArray> getGrids(String userId, String gridName, List<GridState> gridStates) {
         Promise<JsonArray> promise = Promise.promise();
 
-        String checkQuery = "SELECT id FROM " + SqlTables.DB_GRID_TABLE + 
-                            " WHERE " + Fields.NAME + " = ? " +
-                            " AND " + Fields.OWNER_ID + " = ? " +
-                            " AND " + Fields.STATE + " IN (?, ?)";
+        StringBuilder queryBuilder = new StringBuilder("SELECT * FROM " + SqlTables.DB_GRID_TABLE + " WHERE " + Fields.OWNER_ID + " = ?");
+        JsonArray params = new JsonArray().add(userId);
 
-        JsonArray checkParams = new JsonArray()
-                .add(gridName)
-                .add(userId)
-                .add(GridState.OPEN.getValue())
-                .add(GridState.SUSPENDED.getValue());
+        if (gridName != null) {
+            queryBuilder.append(" AND ").append(Fields.NAME).append(" = ?");
+            params.add(gridName);
+        }
 
-        String errorMessage = "[Appointments@DefaultGridRepository::checkIfGridExists] Fail to check if grid exists : ";
-        sql.prepared(checkQuery, checkParams, SqlResult.validResultHandler(FutureHelper.handlerEither(promise, errorMessage)));
+        if (gridStates != null && !gridStates.isEmpty()) {
+            queryBuilder.append(" AND ").append(Fields.STATE).append(" IN (");
+            for (int i = 0; i < gridStates.size(); i++) {
+                queryBuilder.append("?");
+                if (i < gridStates.size() - 1) {
+                    queryBuilder.append(", ");
+                }
+            }
+            queryBuilder.append(")");
+            gridStates.forEach(gridState -> params.add(gridState.getValue()));
+        }
+
+        String query = queryBuilder.toString();
+        String errorMessage = "[Appointments@DefaultGridRepository::getGrids] Fail to get grids : ";
+        sql.prepared(query, params, SqlResult.validResultHandler(FutureHelper.handlerEither(promise, errorMessage)));
 
         return promise.future();
     }
+
 
     private Future<JsonObject> insert(GridPayload grid, String userId) {
         Promise<JsonObject> promise = Promise.promise();
@@ -141,18 +156,11 @@ public class DefaultGridRepository implements GridRepository {
     
 
     public Future<JsonObject> create(GridPayload grid, String userId) {
-        return checkIfGridExists(grid.getGridName(), userId)
-            .compose(result -> {
-                if (result.isEmpty()) {
-                    String errorMessage = "[Appointments@DefaultGridRepository::create] Grid already exists";
-                    return Future.failedFuture(errorMessage);
-                }
-                return insert(grid, userId)
+        return insert(grid, userId)
                     .compose(insertedGridId -> {
                         Long gridId = insertedGridId.getLong("id");
                         return insertDailySlots(gridId, grid.getDailySlots())
                             .map(inserted -> new JsonObject().put("gridId", gridId));
                     });
-        });
     }
 }
