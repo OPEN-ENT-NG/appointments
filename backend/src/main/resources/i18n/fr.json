@@ -64,5 +64,8 @@
     "appointments.resume": "Reprendre",
     "appointments.delete": "Supprimer",
     "appointments.confirm": "Confirmer",
-    "appointments.consult": "Consulter"
+    "appointments.consult": "Consulter",
+
+    "appointments.from": "De",
+    "appointments.to": "À"
 }
