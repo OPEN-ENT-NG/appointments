@@ -5,7 +5,7 @@ import {
   Typography,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-import { FC } from "react";
+import { FC, useState } from "react";
 
 import { useTranslation } from "react-i18next";
 import { pageGridModalStyle } from "../GridModal/style";
@@ -14,12 +14,31 @@ import { itemStyle, validityPeriodStyle } from "./style";
 import { SecondPageGridModalProps } from "./types";
 import { DAY, PERIODICITY, SLOT_DURATION } from "~/core/enums";
 import { DailySlot } from "~/components/DailySlot";
+import { WeekSlots } from "~/components/WeekSlots";
+import { WeekSlotsModel } from "~/core/types";
 
 export const SecondPageGridModal: FC<SecondPageGridModalProps> = ({
   secondPageInputs,
   setSecondPageInputs,
 }) => {
   const { t } = useTranslation("appointments");
+
+  const [weekSlots, setWeekSlots] = useState<WeekSlotsModel>({
+    [DAY.MONDAY]: [
+    ],
+    [DAY.TUESDAY]: [
+    ],
+    [DAY.WEDNESDAY]: [
+    ],
+    [DAY.THURSDAY]: [
+    ],
+    [DAY.FRIDAY]: [
+    ],
+    [DAY.SATURDAY]: [
+    ]
+  });
+
+
 
   return (
     <Box sx={pageGridModalStyle}>
@@ -65,11 +84,7 @@ export const SecondPageGridModal: FC<SecondPageGridModalProps> = ({
       </Box>
       <Box sx={itemStyle}>
         <Typography>{t("appointments.grid.available.slots") + " *"}</Typography>
-        <DailySlot dailySlot={{
-          day: DAY.MONDAY,
-          begin: { hour: 1, minute: 0 },
-          end: { hour: 2, minute: 0 },
-        }} handleDelete={() => {}} />
+        <WeekSlots weekSlots={weekSlots} setWeekSlots={setWeekSlots} />
       </Box>
     </Box>
   );

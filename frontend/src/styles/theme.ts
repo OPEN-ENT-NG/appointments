@@ -79,6 +79,13 @@ const theme = createTheme({
         },
       },
     },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          borderColor: PURPLE,
+        },
+      },
+    },
     MuiButton: {
       variants: [
         {
