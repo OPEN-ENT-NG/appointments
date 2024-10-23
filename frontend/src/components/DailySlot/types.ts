@@ -1,6 +1,7 @@
-import { DailySlot } from "~/core/types";
+import { Slot } from "~/core/types";
 
 export interface DailySlotProps {
-    dailySlot: DailySlot;
+    slot: Slot;
+    setSlot: (slot: Slot) => void;
     handleDelete: () => void;
 }
