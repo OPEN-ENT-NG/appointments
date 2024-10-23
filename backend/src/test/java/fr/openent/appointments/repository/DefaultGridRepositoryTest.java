@@ -124,7 +124,7 @@ public class DefaultGridRepositoryTest {
     public void testGetGridsWithUserIdAndGridStates(TestContext ctx) throws Exception {
         String expectedQuery = "SELECT * FROM " + SqlTables.DB_GRID_TABLE +
                             " WHERE " + Fields.OWNER_ID + " = ?" +
-                            " AND " + Fields.STATE + " IN (?, ?)";
+                            " AND " + Fields.STATE + " IN (?,?)";
         
         JsonArray expectedParams = new JsonArray()
                 .add(USER_ID)
@@ -152,7 +152,7 @@ public class DefaultGridRepositoryTest {
         String expectedQuery = "SELECT * FROM " + SqlTables.DB_GRID_TABLE +
                             " WHERE " + Fields.OWNER_ID + " = ?" +
                             " AND " + Fields.NAME + " = ?" +
-                            " AND " + Fields.STATE + " IN (?, ?)";
+                            " AND " + Fields.STATE + " IN (?,?)";
         
         JsonArray expectedParams = new JsonArray()
                 .add(USER_ID)

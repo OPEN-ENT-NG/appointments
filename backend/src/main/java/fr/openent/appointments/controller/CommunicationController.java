@@ -30,7 +30,8 @@ public class CommunicationController extends BaseController {
                 communicationService.getVisibleGroups(user.getUserId())
                     .onSuccess(groups -> renderJson(request, groups))
                     .onFailure(error -> {
-                        log.error("[CommunicationController@getVisibleGroups] Failed to retrieve visible groups", error.getMessage());
+                        String errorMessage = "Appointments@CommunicationController::getVisibleGroups" + error.getMessage();
+                        log.error(errorMessage);
                         renderError(request);
                     });
             } else {

@@ -20,6 +20,7 @@ import org.entcore.common.sql.Sql;
 import org.entcore.common.sql.SqlResult;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DefaultGridRepository implements GridRepository {
 
@@ -45,16 +46,11 @@ public class DefaultGridRepository implements GridRepository {
         }
 
         if (gridStates != null && !gridStates.isEmpty()) {
-            queryBuilder.append(" AND ").append(Fields.STATE).append(" IN (");
-            for (int i = 0; i < gridStates.size(); i++) {
-                queryBuilder.append("?");
-                if (i < gridStates.size() - 1) {
-                    queryBuilder.append(", ");
-                }
-            }
-            queryBuilder.append(")");
-            gridStates.forEach(gridState -> params.add(gridState.getValue()));
+            queryBuilder.append(" AND ").append(Fields.STATE).append(" IN ")
+                        .append(Sql.listPrepared(gridStates.toArray()));
+            params.addAll(new JsonArray(gridStates.stream().map(GridState::getValue).collect(Collectors.toList())));
         }
+
 
         String query = queryBuilder.toString();
         String errorMessage = "[Appointments@DefaultGridRepository::getGrids] Fail to get grids : ";
