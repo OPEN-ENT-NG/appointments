@@ -67,5 +67,7 @@
     "appointments.consult": "Consulter",
 
     "appointments.from": "De",
-    "appointments.to": "À"
+    "appointments.to": "À",
+
+    "appointments.everyone": "Tout le monde"
 }

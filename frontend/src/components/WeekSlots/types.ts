@@ -2,5 +2,5 @@ import { WeekSlotsModel } from "~/core/types";
 
 export interface WeekSlotsProps {
     weekSlots: WeekSlotsModel;
-    setWeekSlots: (weekSlots: WeekSlotsModel) => void;
+    handleWeekSlotsChange: (weekSlots: WeekSlotsModel) => void;
 }

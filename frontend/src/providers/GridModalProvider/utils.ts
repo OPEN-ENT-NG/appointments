@@ -1,7 +1,6 @@
+import { DAY, PERIODICITY, SLOT_DURATION } from "~/core/enums";
+import { GridModalInputs, Structure } from "./types";
 import { IUserInfo } from "edifice-ts-client";
-import { FirstPageInputs, Public, SecondPageInputs, Structure } from "./types";
-import { PERIODICITY, SLOT_DURATION } from "~/core/enums";
-
 
 export const userStructures = (userInfo: IUserInfo): Structure[] => {
     if (userInfo.structures.length !== userInfo.structureNames.length) {
@@ -13,29 +12,29 @@ export const userStructures = (userInfo: IUserInfo): Structure[] => {
       name: userInfo.structureNames[index],
     }));
   };
-  
-export const allPublic : Public = {
-    id: "all",
-    name: "All",
-  };
 
-export const initialFirstPageInputs = (structures: Structure[]): FirstPageInputs => ({
+export const initialGridModalInputs = (structures: Structure[]): GridModalInputs => ({
     name: "",
     color: "#f44336",
     structure: structures.length ? structures[0] : { id: "", name: "" },
     location: "",
-    public: [allPublic],
+    public: [],
     isVisio: false,
     visioLink: "",
     publicComment: "",
-  });
-
-export const initialSecondPageInputs = (): SecondPageInputs => ({
     validityPeriod: {
-      start: new Date(),
-      end: new Date(),
+      start: null,
+      end: null,
     },
     slotDuration: SLOT_DURATION.FIVETEEN_MINUTES,
     periodicity: PERIODICITY.WEEKLY,
-    dailySlots: [],
+    weekSlots: {
+        [DAY.MONDAY]: [],
+        [DAY.TUESDAY]: [],
+        [DAY.WEDNESDAY]: [],
+        [DAY.THURSDAY]: [],
+        [DAY.FRIDAY]: [],
+        [DAY.SATURDAY]: [],
+    },
   });
+

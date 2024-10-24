@@ -3,6 +3,7 @@ import { FC } from "react";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import { Button, MobileStepper } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import SaveIcon from "@mui/icons-material/Save";
 
 import {
   backButtonStyle,
@@ -52,7 +53,12 @@ export const CustomStepper: FC<CustomStepperProps> = ({
             {t("appointments.next")}
           </Button>
         ) : (
-          <Button onClick={handleSave} sx={saveButtonStyle}>
+          <Button
+            onClick={handleSave}
+            sx={saveButtonStyle}
+            variant="contained"
+            startIcon={<SaveIcon />}
+          >
             {t("appointments.save")}
           </Button>
         )
