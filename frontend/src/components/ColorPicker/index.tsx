@@ -4,30 +4,29 @@ import { Box } from "@mui/material";
 import { CirclePicker } from "react-color";
 
 import { circlePickerStyle, colorPickerIconStyle } from "./style";
-import { HexaColor } from "./types";
 import { ColorPickerIcon } from "~/components/SVG/ColorPickerIcon";
+import { useGridModalProvider } from "~/providers/GridModalProvider";
 
 export const ColorPicker: FC = () => {
   const [isCirclePickerVisible, setIsCirclePickerVisible] = useState(false);
-  const [color, setColor] = useState<HexaColor>("#f44336");
+  
+  const {inputs, updateInputField} = useGridModalProvider();
   const handleColorChange = (newColor) => {
-    console.log(newColor.type);
-    setColor(newColor.hex);
+    updateInputField("color", newColor.hex);
     setIsCirclePickerVisible(false);
   };
 
   const handlePicker = () => {
-    console.log("clicked");
     setIsCirclePickerVisible(!isCirclePickerVisible);
   };
 
   return (
     <Box sx={colorPickerIconStyle}>
-      <ColorPickerIcon onClick={handlePicker} fill={color} />
+      <ColorPickerIcon onClick={handlePicker} fill={inputs.color} />
       <Box sx={circlePickerStyle}>
         {isCirclePickerVisible && (
           <CirclePicker
-            color={color}
+            color={inputs.color}
             onChange={handleColorChange}
             circleSize={20}
             circleSpacing={5}

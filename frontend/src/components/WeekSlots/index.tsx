@@ -12,37 +12,33 @@ import {
   slotsBoxStyle,
   weekBoxStyle,
 } from "./style";
-import { WeekSlotsProps } from "./types";
 import { DailySlot } from "../DailySlot";
 import { DAY } from "~/core/enums";
-import { Slot, WeekSlotsModel } from "~/core/types";
+import { Slot } from "~/core/types";
 import { useGridModalProvider } from "~/providers/GridModalProvider";
 
 export const WeekSlots: FC = () => {
   const { t } = useTranslation("appointments");
-  const { inputs, setInputs } = useGridModalProvider();
+  const { inputs, updateInputField } = useGridModalProvider();
 
   const addSlot = (day: DAY, slot: Slot) => {
-    setInputs((prev) => ({
-      ...prev,
-      weekSlots: {
-        ...prev.weekSlots,
-        [day]: [...prev.weekSlots[day], slot],
-      },
-    }));
+    updateInputField("weekSlots", {
+      ...inputs.weekSlots,
+      [day]: [...inputs.weekSlots[day], slot],
+    });
   };
 
   return (
     <Box sx={weekBoxStyle}>
       {Object.keys(inputs.weekSlots).map((day) => (
-        <Box sx={dayBoxStyle}>
+        <Box sx={dayBoxStyle} key={day}>
           <Typography sx={dayLabelStyle}>{t(day)}</Typography>
           <Divider flexItem variant="middle" orientation="vertical" />
           <Box sx={slotsBoxStyle}>
             {inputs.weekSlots[day as DAY].map((slot) => (
               <DailySlot
                 key={slot.id}
-                day={day}
+                day={day as DAY}
                 slot={slot}
               />
             ))}
@@ -50,8 +46,8 @@ export const WeekSlots: FC = () => {
               onClick={() =>
                 addSlot(day as DAY, {
                   id: uuidv4(),
-                  begin: { hour: null, minute: null },
-                  end: { hour: null, minute: null },
+                  begin: null,
+                  end: null,
                 })
               }
             >

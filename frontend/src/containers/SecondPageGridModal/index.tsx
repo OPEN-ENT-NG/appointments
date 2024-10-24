@@ -1,72 +1,33 @@
+import { FC, useState } from "react";
+
 import {
   Box,
   ToggleButton,
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers";
-import { FC, useState } from "react";
-
 import { useTranslation } from "react-i18next";
-import { pageGridModalStyle } from "../GridModal/style";
-import RemoveIcon from "@mui/icons-material/Remove";
+
 import { itemStyle, validityPeriodStyle } from "./style";
-import { DAY, PERIODICITY, SLOT_DURATION } from "~/core/enums";
+import { pageGridModalStyle } from "../GridModal/style";
+import { RangeDatePicker } from "~/components/RangeDatePicker";
 import { WeekSlots } from "~/components/WeekSlots";
-import { WeekSlotsModel } from "~/core/types";
 import { useGridModalProvider } from "~/providers/GridModalProvider";
-import { Dayjs } from "dayjs";
+import { useUpdateGridInputs } from "~/hooks/useUpdateGriInputs";
 
 export const SecondPageGridModal: FC = () => {
   const { t } = useTranslation("appointments");
 
-  const { inputs, setInputs, slotDurationOptions, periodicityOptions } =
+  const { inputs, slotDurationOptions, periodicityOptions} =
     useGridModalProvider();
 
-
-  const handleStartChange = (date: Dayjs | null) => {
-    setInputs({
-      ...inputs,
-      validityPeriod: { ...inputs.validityPeriod, start: date },
-    });
-  };
-
-  const handleEndChange = (date: Dayjs | null) => {
-    setInputs({
-      ...inputs,
-      validityPeriod: { ...inputs.validityPeriod, end: date },
-    });
-  };
-
-  const handleSlotDurationChange = (value: SLOT_DURATION) => {
-    setInputs({ ...inputs, slotDuration: value });
-  };
-
-  const handlePeriodicityChange = (value: PERIODICITY) => {
-    setInputs({ ...inputs, periodicity: value });
-  };
-
-  const handleWeekSlotsChange = (value: WeekSlotsModel) => {
-    setInputs({ ...inputs, weekSlots: value });
-  }
+    const {handleSlotDurationChange, handlePeriodicityChange} = useUpdateGridInputs();
 
   return (
     <Box sx={pageGridModalStyle}>
       <Box sx={itemStyle}>
         <Typography>{t("appointments.grid.validity.period") + " *"}</Typography>
-        <Box sx={validityPeriodStyle}>
-          <DatePicker
-            label={t("appointments.grid.validity.period.start")}
-            value={inputs.validityPeriod.start}
-            onChange={handleStartChange}
-          />
-          <RemoveIcon />
-          <DatePicker
-            label={t("appointments.grid.validity.period.end")}
-            value={inputs.validityPeriod.end}
-            onChange={handleEndChange}
-          />
-        </Box>
+        <RangeDatePicker />
       </Box>
       <Box sx={itemStyle}>
         <Typography>{t("appointments.grid.slot.duration") + " *"}</Typography>
@@ -76,7 +37,7 @@ export const SecondPageGridModal: FC = () => {
               <ToggleButton
                 key={option}
                 value={option}
-                onClick={() => handleSlotDurationChange(option)}
+                onClick={handleSlotDurationChange}
               >
                 {t(option)}
               </ToggleButton>
@@ -92,7 +53,7 @@ export const SecondPageGridModal: FC = () => {
               <ToggleButton
                 key={option}
                 value={option}
-                onClick={() => handlePeriodicityChange(option)}
+                onClick={handlePeriodicityChange}
               >
                 {t(option)}
               </ToggleButton>
@@ -102,7 +63,7 @@ export const SecondPageGridModal: FC = () => {
       </Box>
       <Box sx={itemStyle}>
         <Typography>{t("appointments.grid.available.slots") + " *"}</Typography>
-        <WeekSlots weekSlots={inputs.weekSlots} handleWeekSlotsChange={handleWeekSlotsChange} />
+        <WeekSlots/>
       </Box>
     </Box>
   );

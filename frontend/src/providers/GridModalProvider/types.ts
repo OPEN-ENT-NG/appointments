@@ -4,7 +4,6 @@ import { HexaColor } from "~/components/ColorPicker/types";
 import { PERIODICITY, SLOT_DURATION } from "~/core/enums";
 import { WeekSlotsModel } from "~/core/types";
 
-
 export interface GridModalProviderContextProps {
   inputs: GridModalInputs;
   setInputs: Dispatch<SetStateAction<GridModalInputs>>;
@@ -12,6 +11,10 @@ export interface GridModalProviderContextProps {
   publicOptions: Public[];
   slotDurationOptions: SLOT_DURATION[];
   periodicityOptions: PERIODICITY[];
+  updateInputField: <K extends keyof GridModalInputs>(
+    field: K,
+    value: GridModalInputs[K],
+  ) => void;
 }
 
 export interface GridModalProviderProps {
@@ -38,8 +41,8 @@ export interface GridModalInputs {
   visioLink: string;
   publicComment: string;
   validityPeriod: {
-    start: Dayjs | null;
-    end: Dayjs | null;
+    start: Dayjs | undefined;
+    end: Dayjs | undefined;
   };
   slotDuration: SLOT_DURATION;
   periodicity: PERIODICITY;

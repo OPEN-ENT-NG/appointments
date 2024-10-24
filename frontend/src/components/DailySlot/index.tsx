@@ -1,34 +1,37 @@
+
+import { FC } from "react";
+
+
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
   Box,
   FormControl,
   IconButton,
+  Menu,
   MenuItem,
   Select,
   Typography,
 } from "@mui/material";
-
-import { DailySlotProps } from "./types";
-import { FC } from "react";
 import { useTranslation } from "react-i18next";
+
 import {
   boxDailySlotStyle,
   boxValueStyle,
   formControlStyle,
   iconButtonStyle,
   iconStyle,
-  selectBoxStyle,
   selectStyle,
+  timeInputStyle,
 } from "./style";
-
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { DailySlotProps } from "./types";
 import { useGridModalProvider } from "~/providers/GridModalProvider";
+import { formatTime, getStartOptions } from "./utils";
+import { v4 as uuidv4 } from "uuid";
 
 export const DailySlot: FC<DailySlotProps> = ({ day, slot }) => {
   const { t } = useTranslation("appointments");
-  const { setInputs } = useGridModalProvider();
-
-  console.log("DailySlot", slot);
+  const {inputs:{weekSlots}, setInputs } = useGridModalProvider();
 
   const handleDelete = () => {
     setInputs((prev) => ({
@@ -63,33 +66,47 @@ export const DailySlot: FC<DailySlotProps> = ({ day, slot }) => {
       <Typography>{t("appointments.from") + " :"}</Typography>
       <FormControl variant="filled" sx={formControlStyle}>
         <Select
-          onChange={(e) => handleSlotChange(e.target.value, "begin")}
+          onChange={(e) => handleSlotChange(e.target.value as string, "begin")}
           sx={selectStyle}
-          value={slot.begin.hour + ":" + slot.begin.minute}
-          renderValue={(value) => (
+          value={formatTime(slot.begin)}
+          renderValue={(value:String) => (
             <Box sx={boxValueStyle}>
               <AccessTimeIcon sx={iconStyle} />
-              {value}
+              <Typography sx={timeInputStyle}>
+                {value}
+              </Typography>
             </Box>
           )}
         >
-          <MenuItem value={"12:00"}>{"12:00"}</MenuItem>
+          {/* <MenuItem value="--:--">--:--</MenuItem> */}
+          {getStartOptions(day, weekSlots).map((time) => (
+            <MenuItem key={uuidv4()} value={formatTime(time)}>
+              {formatTime(time)}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
       <Typography>{t("appointments.to") + " :"}</Typography>
       <FormControl variant="filled" sx={formControlStyle}>
         <Select
-          onChange={(e) => handleSlotChange(e.target.value, "end")}
+          onChange={(e) => handleSlotChange(e.target.value as string, "end")}
           sx={selectStyle}
-          value={slot.end.hour + ":" + slot.end.minute}
+          value={formatTime(slot.end)}
           renderValue={(value) => (
             <Box sx={boxValueStyle}>
               <AccessTimeIcon sx={iconStyle} />
-              {value}
+              <Typography sx={timeInputStyle}>
+                {value}
+              </Typography>
             </Box>
           )}
         >
-          <MenuItem value={"12:00"}>{"12:00"}</MenuItem>
+          {/* <MenuItem value="--:--">--:--</MenuItem> */}
+          {getStartOptions(day, weekSlots).map((time) => (
+            <MenuItem key={uuidv4()} value={formatTime(time)}>
+              {formatTime(time)}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
       <IconButton onClick={handleDelete} sx={iconButtonStyle}>

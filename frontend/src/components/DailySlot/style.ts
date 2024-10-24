@@ -1,4 +1,4 @@
-import { flexStartBoxStyle } from "~/styles/boxStyles";
+import { centerBoxStyle, flexStartBoxStyle } from "~/styles/boxStyles";
 import { PURPLE } from "~/styles/constants";
 
 export const boxDailySlotStyle = {
@@ -60,4 +60,9 @@ export const iconButtonStyle = {
 export const iconStyle = {
     color: PURPLE,
     fontSize: "2rem",
+}
+
+export const timeInputStyle = {
+  ...centerBoxStyle,
+  width: "3.5rem",
 }

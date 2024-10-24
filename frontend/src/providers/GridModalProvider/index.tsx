@@ -1,22 +1,29 @@
 import {
   createContext,
   FC,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
   useState,
 } from "react";
+
+import { useUser } from "@edifice-ui/react";
+import { use } from "i18next";
+
 import {
   GridModalInputs,
   GridModalProviderContextProps,
   GridModalProviderProps,
-  Public,
   Structure,
 } from "./types";
-import { initialGridModalInputs, userStructures } from "./utils";
-import { useUser } from "@edifice-ui/react";
-import { use } from "i18next";
-import { PERIODICITY, SLOT_DURATION } from "~/core/enums";
+import {
+  initialGridModalInputs,
+  mockPublicList,
+  periodicityOptions,
+  slotDurationOptions,
+  userStructures,
+} from "./utils";
 
 const GridModalProviderContext =
   createContext<GridModalProviderContextProps | null>(null);
@@ -35,35 +42,26 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
   const { user } = useUser();
   const structures: Structure[] = user ? userStructures(user) : [];
 
-  const [inputs, setInputs] = useState<GridModalInputs>(initialGridModalInputs(structures));
+  const [inputs, setInputs] = useState<GridModalInputs>(
+    initialGridModalInputs(structures),
+  );
 
   useEffect(() => {
-    setInputs(prev => ({
+    setInputs((prev) => ({
       ...prev,
       structure: structures.length ? structures[0] : { id: "", name: "" },
     }));
-  }
-  , [user]);
-  
-  const mockPublicList: Public[] = [
-    { name: "Public 1", id: "1" },
-    { name: "Public 2", id: "2" },
-    { name: "Public 3", id: "3" },
-    { name: "Public 4", id: "4" },
-    { name: "Public 5", id: "5" },
-  ];
+  }, [user]);
 
-  const slotDurationOptions : SLOT_DURATION[] = [
-    SLOT_DURATION.FIVETEEN_MINUTES,
-    SLOT_DURATION.THIRTY_MINUTES,
-    SLOT_DURATION.FOURTYFIVE_MINUTES,
-    SLOT_DURATION.ONE_HOUR,
-  ];
-    
-  const periodicityOptions: PERIODICITY[] = [
-    PERIODICITY.WEEKLY,
-    PERIODICITY.BIWEEKLY,
-  ];
+  const updateInputField = useCallback(
+    <K extends keyof GridModalInputs>(field: K, value: GridModalInputs[K]) => {
+      setInputs((prevInputs) => ({
+        ...prevInputs,
+        [field]: value,
+      }));
+    },
+    [setInputs],
+  );
 
   const value = useMemo<GridModalProviderContextProps>(
     () => ({
@@ -73,6 +71,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       publicOptions: mockPublicList,
       slotDurationOptions,
       periodicityOptions,
+      updateInputField,
     }),
     [inputs, setInputs, structures, mockPublicList],
   );

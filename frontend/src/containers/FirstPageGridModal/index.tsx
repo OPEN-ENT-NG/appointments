@@ -20,50 +20,24 @@ import {
   spaceBetweenBoxStyle,
 } from "~/styles/boxStyles";
 import { CustomMultiAutocomplete } from "~/components/CustomMultiAutocomplete";
-import { Public } from "../GridModal/types";
 import { pageGridModalStyle } from "../GridModal/style";
 import { useGridModalProvider } from "~/providers/GridModalProvider";
+import { useUpdateGridInputs } from "~/hooks/useUpdateGriInputs";
 
 export const FirstPageGridModal: FC = () => {
   const { t } = useTranslation("appointments");
 
-  const { inputs, setInputs, structureOptions, publicOptions } =
+  const { inputs, structureOptions } =
     useGridModalProvider();
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputs({ ...inputs, name: e.target.value });
-  }
-
-  const handleStructureChange = (event: SelectChangeEvent) => {
-    const structure = structureOptions.find(
-      (structure) => structure.id === event.target.value
-    );
-    setInputs({
-      ...inputs,
-      structure: structure || { id: "", name: "" },
-      public: [],
-    });
-  }
-
-  const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputs({ ...inputs, location: e.target.value });
-  }
-
-  const handleVisioChange = () => {
-    setInputs({ ...inputs, isVisio: !inputs.isVisio });
-  }
-
-  const handleVisioLinkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputs({ ...inputs, visioLink: e.target.value });
-  }
-
-  const handlePublicChange = (value: Public[]) => {
-    setInputs({ ...inputs, public: value });
-  }
-
-  const handlePublicCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputs({ ...inputs, publicComment: e.target.value });
-  }
+  const {
+    handleNameChange,
+    handleStructureChange,
+    handleLocationChange,
+    handleIsVisioChange,
+    handleVisioLinkChange,
+    handlePublicCommentChange,
+  } = useUpdateGridInputs();
 
   return (
     <Box sx={pageGridModalStyle}>
@@ -110,16 +84,12 @@ export const FirstPageGridModal: FC = () => {
         value={inputs.location}
         onChange={handleLocationChange}
       />
-      <CustomMultiAutocomplete
-        options={publicOptions}
-        selectedPublic={inputs.public}
-        handleSelectedChange={handlePublicChange}
-      />
+      <CustomMultiAutocomplete/>
       <Box sx={flexStartBoxStyle}>
         <Typography>{t("appointments.grid.videoconference")}</Typography>
         <Switch
           checked={inputs.isVisio}
-          onChange={handleVisioChange}
+          onChange={handleIsVisioChange}
         />
       </Box>
       {inputs.isVisio && (

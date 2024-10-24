@@ -1,26 +1,28 @@
-import { Autocomplete, Checkbox, Chip, TextField } from "@mui/material";
 import { FC } from "react";
-import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import { CustomMultiAutocompleteProps } from "./types";
-import { Public } from "~/providers/GridModalProvider/types";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import { Autocomplete, Checkbox, Chip, TextField } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-export const CustomMultiAutocomplete: FC<CustomMultiAutocompleteProps> = ({
-  options,
-  selectedPublic,
-  handleSelectedChange,
-}) => {
+import { useUpdateGridInputs } from "~/hooks/useUpdateGriInputs";
+import { useGridModalProvider } from "~/providers/GridModalProvider";
+
+export const CustomMultiAutocomplete: FC = () => {
+  const { publicOptions, inputs } = useGridModalProvider();
+  const { handlePublicChange } = useUpdateGridInputs();
+  const selectedPublic = inputs.public;
   const { t } = useTranslation("appointments");
+  
   return (
     <Autocomplete
       multiple
-      options={options}
+      options={publicOptions}
       disableCloseOnSelect
       getOptionLabel={(option) => option.name}
       isOptionEqualToValue={(option, value) => option.id === value.id}
       value={selectedPublic}
-      onChange={(_, value) => handleSelectedChange(value)}
+      onChange={handlePublicChange}
       renderOption={(props, option, { selected }) => {
         const { key, ...optionProps } = props;
         return (

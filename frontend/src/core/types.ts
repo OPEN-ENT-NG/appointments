@@ -1,12 +1,14 @@
 import { DAY } from "./enums";
 
-interface Time {
-    hour: number | null;
-    minute: number | null;
+export interface TimeObject {
+    hour: number;
+    minute: number;
 }
 
+export type Time = TimeObject | null;
+
 export interface Slot {
-    id: uu
+    id: string;
     begin: Time;
     end: Time;
 }
