@@ -1,4 +1,7 @@
+import { flexStartBoxStyle } from "~/styles/boxStyles";
+
 export const stepperStyle = {
+  ...flexStartBoxStyle,
   justifyContent: "space-around",
 };
 

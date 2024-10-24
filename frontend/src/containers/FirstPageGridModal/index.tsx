@@ -1,14 +1,8 @@
 import { FC } from "react";
 
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import {
-  Autocomplete,
   Box,
-  Checkbox,
-  Chip,
   FormControl,
-  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -18,22 +12,17 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-import { firstPageGridModalStyle } from "./style";
 import { ColorPicker } from "~/components/ColorPicker";
 import {
   flexEndBoxStyle,
   flexStartBoxStyle,
   spaceBetweenBoxStyle,
 } from "~/styles/boxStyles";
-import { FirstPageGridModalProps } from "./types";
 import { CustomMultiAutocomplete } from "~/components/CustomMultiAutocomplete";
 import { Public } from "../GridModal/types";
 import { pageGridModalStyle } from "../GridModal/style";
 
-export const FirstPageGridModal: FC<FirstPageGridModalProps> = ({
-  firstPageInputs,
-  setFirstPageInputs,
-}) => {
+export const FirstPageGridModal: FC = () => {
   const { t } = useTranslation("appointments");
 
   const mockPublicList: Public[] = [

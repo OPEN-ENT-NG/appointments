@@ -22,9 +22,11 @@ export const selectStyle = {
   padding: "0",
   "&:before": {
     border: "0 !important",
+    height: "100% !important",
   },
   "&after": {
     border: "0 !important",
+    height: "100% !important",
   },
   "& .MuiSelect-icon": {
     display: "none",
@@ -35,6 +37,10 @@ export const selectStyle = {
     padding: "0 0.5rem !important",
     height: "100% !important",
   },
+  "& .MuiSelect-nativeInput": {
+    padding: "0",
+    height: "100%",
+  },
   "& .MuiInputBase-root": {
     padding: "0",
     height: "100%",
@@ -43,6 +49,7 @@ export const selectStyle = {
 
 export const boxValueStyle = {
     ...flexStartBoxStyle,
+    height: "100%",
     gap: "0.8rem",
 }
 

@@ -11,16 +11,11 @@ import { useTranslation } from "react-i18next";
 import { pageGridModalStyle } from "../GridModal/style";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { itemStyle, validityPeriodStyle } from "./style";
-import { SecondPageGridModalProps } from "./types";
 import { DAY, PERIODICITY, SLOT_DURATION } from "~/core/enums";
-import { DailySlot } from "~/components/DailySlot";
 import { WeekSlots } from "~/components/WeekSlots";
 import { WeekSlotsModel } from "~/core/types";
 
-export const SecondPageGridModal: FC<SecondPageGridModalProps> = ({
-  secondPageInputs,
-  setSecondPageInputs,
-}) => {
+export const SecondPageGridModal: FC = () => {
   const { t } = useTranslation("appointments");
 
   const [weekSlots, setWeekSlots] = useState<WeekSlotsModel>({
@@ -37,8 +32,6 @@ export const SecondPageGridModal: FC<SecondPageGridModalProps> = ({
     [DAY.SATURDAY]: [
     ]
   });
-
-
 
   return (
     <Box sx={pageGridModalStyle}>

@@ -4,7 +4,7 @@ export const pageGridModalStyle = {
   ...columnBoxStyle,
   gap: "2rem",
   height: "100%",
-  overflowY: "auto",
+  
 };
 
 export const modalBoxStyle = {
