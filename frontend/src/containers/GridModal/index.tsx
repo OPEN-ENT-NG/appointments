@@ -4,15 +4,13 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Box, IconButton, Modal, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-import { PAGE_TYPE } from "./enum";
+import { GRID_MODAL_TYPE, PAGE_TYPE } from "./enum";
 import { modalBoxStyle } from "./style";
-import { FirstPageInputs, GridModalProps, SecondPageInputs, Structure } from "./types";
+import { GridModalProps } from "./types";
 import { FirstPageGridModal } from "../FirstPageGridModal";
 import { SecondPageGridModal } from "../SecondPageGridModal";
 import { CustomStepper } from "~/components/CustomStepper";
 import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
-import { initialFirstPageInputs, initialSecondPageInputs, userStructures } from "./utils";
-import { useUser } from "@edifice-ui/react";
 
 export const GridModal: FC<GridModalProps> = ({
   isOpen,
@@ -21,19 +19,15 @@ export const GridModal: FC<GridModalProps> = ({
 }) => {
   const { t } = useTranslation("appointments");
   const [page, setPage] = useState<PAGE_TYPE>(PAGE_TYPE.FIRST);
-  const { user } = useUser();
-  const structures: Structure[] = user ? userStructures(user) : [];
 
-  const [firstPageInputs, setFirstPageInputs] = useState<FirstPageInputs>(
-    initialFirstPageInputs(structures),
-  );
-
-  const [secondPageInputs, setSecondPageInputs] = useState<SecondPageInputs>(
-    initialSecondPageInputs(),
-  );    
+  const isDisplayFirstPage =
+    gridModalType === GRID_MODAL_TYPE.EDIT || page === PAGE_TYPE.FIRST;
+  const isDisplaySecondPage =
+    gridModalType === GRID_MODAL_TYPE.EDIT || page === PAGE_TYPE.SECOND;
 
   return (
     <Modal open={isOpen} onClose={handleClose}>
+      <Box sx={{overflowY: "auto", height: "100%"}}>
       <Box sx={modalBoxStyle}>
         <Box sx={spaceBetweenBoxStyle}>
           <Typography variant="h3">
@@ -46,21 +40,15 @@ export const GridModal: FC<GridModalProps> = ({
         <Typography sx={{ fontStyle: "italic" }}>
           {t("appointments.grid.required")}
         </Typography>
-        {page === PAGE_TYPE.FIRST && 
-          <FirstPageGridModal
-            firstPageInputs={firstPageInputs}
-            setFirstPageInputs={setFirstPageInputs}
-          />
-        }
-        {page === PAGE_TYPE.SECOND && <SecondPageGridModal 
-        
-        />}
+        {isDisplayFirstPage && <FirstPageGridModal />}
+        {isDisplaySecondPage && <SecondPageGridModal />}
         <CustomStepper
           page={page}
           setPage={setPage}
           handleCancel={handleClose}
           handleSave={handleClose}
         />
+      </Box>
       </Box>
     </Modal>
   );

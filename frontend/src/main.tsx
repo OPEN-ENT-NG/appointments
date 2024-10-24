@@ -19,6 +19,7 @@ import { setupStore } from "./store";
 import theme from "./styles/theme";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { GridModalProvider } from "./providers/GridInputsProvider";
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement!);
@@ -58,7 +59,9 @@ root.render(
           <ThemeProviderMUI theme={theme}>
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="fr">
               <GlobalProvider>
-                <RouterProvider router={router} />
+                <GridModalProvider>
+                  <RouterProvider router={router} />
+                </GridModalProvider>
               </GlobalProvider>
             </LocalizationProvider>
           </ThemeProviderMUI>
