@@ -1,8 +1,10 @@
 import { FC } from "react";
-import { WeekSlotsProps } from "./types";
+
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Box, Divider, IconButton, Typography } from "@mui/material";
-import { DailySlot } from "../DailySlot";
 import { useTranslation } from "react-i18next";
+import { v4 as uuidv4 } from "uuid";
+
 import {
   dayBoxStyle,
   dayLabelStyle,
@@ -10,33 +12,22 @@ import {
   slotsBoxStyle,
   weekBoxStyle,
 } from "./style";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { WeekSlotsProps } from "./types";
+import { DailySlot } from "../DailySlot";
 import { DAY } from "~/core/enums";
 import { Slot, WeekSlotsModel } from "~/core/types";
-import { v4 as uuidv4 } from "uuid";
 import { useGridModalProvider } from "~/providers/GridModalProvider";
 
-export const WeekSlots: FC =() => {
+export const WeekSlots: FC = () => {
   const { t } = useTranslation("appointments");
   const { inputs, setInputs } = useGridModalProvider();
 
-  
   const addSlot = (day: DAY, slot: Slot) => {
-    setInputs(prev => ({
+    setInputs((prev) => ({
       ...prev,
       weekSlots: {
         ...prev.weekSlots,
         [day]: [...prev.weekSlots[day], slot],
-      },
-    }));
-  };
-
-  const removeSlot = (day: DAY, slot: Slot) => {
-    setInputs(prev => ({
-      ...prev,
-      weekSlots: {
-        ...prev.weekSlots,
-        [day]: prev.weekSlots[day].filter((s) => s !== slot),
       },
     }));
   };
@@ -50,14 +41,15 @@ export const WeekSlots: FC =() => {
           <Box sx={slotsBoxStyle}>
             {inputs.weekSlots[day as DAY].map((slot) => (
               <DailySlot
-                key={uuidv4()}
+                key={slot.id}
+                day={day}
                 slot={slot}
-                handleDelete={() => removeSlot(day as DAY, slot)}
               />
             ))}
             <IconButton
               onClick={() =>
                 addSlot(day as DAY, {
+                  id: uuidv4(),
                   begin: { hour: null, minute: null },
                   end: { hour: null, minute: null },
                 })

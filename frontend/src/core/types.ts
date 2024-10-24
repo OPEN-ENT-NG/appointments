@@ -6,7 +6,7 @@ interface Time {
 }
 
 export interface Slot {
-
+    id: uu
     begin: Time;
     end: Time;
 }
