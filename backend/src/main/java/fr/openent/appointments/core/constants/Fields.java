@@ -43,6 +43,8 @@ public class Fields {
     public static final String CAMEL_TIME_SLOT_ID = "timeSlotId";
     public static final String CAMEL_VISIO_LINK = "visioLink";
 
+    public static final String APPOINTMENTS_ADRESS = "fr.openent.appointments";
+    public static final String PREPARDED = "prepared";
     public static final String ACTION = "action";
     public static final String STATEMENT = "statement";
     public static final String VALUES = "values";
