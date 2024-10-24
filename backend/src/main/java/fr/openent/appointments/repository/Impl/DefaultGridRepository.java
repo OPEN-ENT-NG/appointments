@@ -154,9 +154,9 @@ public class DefaultGridRepository implements GridRepository {
     public Future<JsonObject> create(GridPayload grid, String userId) {
         return insert(grid, userId)
                     .compose(insertedGridId -> {
-                        Long gridId = insertedGridId.getLong("id");
+                        Long gridId = insertedGridId.getLong(Fields.ID, null);
                         return insertDailySlots(gridId, grid.getDailySlots())
-                            .map(inserted -> new JsonObject().put("gridId", gridId));
+                            .map(inserted -> new JsonObject().put(Fields.CAMEL_GRID_ID, gridId));
                     });
     }
 }

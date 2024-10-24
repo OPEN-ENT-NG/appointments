@@ -8,10 +8,14 @@ import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 
 import org.entcore.common.neo4j.Neo4j;
 
 public class DefaultCommunicationService implements CommunicationService {
+    private static final Logger log = LoggerFactory.getLogger(DefaultCommunicationService.class);
+
     private final EventBus eb;
     private final CommunicationRepository communicationRepository;
 
@@ -26,7 +30,12 @@ public class DefaultCommunicationService implements CommunicationService {
 
         communicationRepository.getVisibleGroups(userId)
             .onSuccess(groups -> promise.complete(groups))
-            .onFailure(err -> promise.fail(err));
+            .onFailure(err -> {
+                String errorMessage = String.format("[Appointments@DefaultCommunicationService::getVisibleGroups] %s", err.getMessage());
+                log.error(errorMessage);
+                promise.fail(err);
+            });
+    
         
         return promise.future();
     }

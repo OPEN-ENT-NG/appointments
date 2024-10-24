@@ -25,18 +25,13 @@ public class CommunicationController extends BaseController {
     @ResourceFilter(ManageRight.class)
     @SecuredAction(value = "", type = ActionType.RESOURCE)
     public void getVisibleGroups(final HttpServerRequest request) {
-        UserUtils.getUserInfos(eb, request, user -> {
-            if (user != null) {
-                communicationService.getVisibleGroups(user.getUserId())
-                    .onSuccess(groups -> renderJson(request, groups))
-                    .onFailure(error -> {
-                        String errorMessage = "Appointments@CommunicationController::getVisibleGroups" + error.getMessage();
-                        log.error(errorMessage);
-                        renderError(request);
-                    });
-            } else {
+        UserUtils.getAuthenticatedUserInfos(eb, request)
+            .compose(user -> communicationService.getVisibleGroups(user.getUserId()))
+            .onSuccess(groups -> renderJson(request, groups))
+            .onFailure(error -> {
+                String errorMessage = String.format("[Appointments@CommunicationController::getVisibleGroups] %s", error.getMessage());
+                log.error(errorMessage);
                 renderError(request);
-            }
-        });
+            });
     }
 }

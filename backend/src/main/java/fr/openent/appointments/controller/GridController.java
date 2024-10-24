@@ -73,7 +73,7 @@ public class GridController extends ControllerHelper {
             gridService.createGrid(request, grid)
                 .onSuccess(response -> renderJson(request, response))
                 .onFailure(error -> {
-                    String errorMessage = "[Appointments@GridController::createGrid] Failed to create grid" + error.getMessage();
+                    String errorMessage = String.format("[Appointments@GridController::createGrid] Failed to create grid " , error.getMessage());
                     log.error(errorMessage);
                     badRequest(request);
                 });

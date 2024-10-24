@@ -6,6 +6,8 @@ import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 import fr.openent.appointments.model.payload.GridPayload;
 import fr.openent.appointments.repository.GridRepository;
 import fr.openent.appointments.repository.impl.DefaultGridRepository;
@@ -13,6 +15,7 @@ import fr.openent.appointments.repository.RepositoryFactory;
 import fr.openent.appointments.service.GridService;
 import fr.openent.appointments.service.ServiceFactory;
 import fr.openent.appointments.enums.GridState;
+import fr.openent.appointments.core.constants.Fields;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +26,7 @@ import org.entcore.common.user.UserUtils;
  * Default implementation of the GridService interface.
  */
 public class DefaultGridService implements GridService {
+    private static final Logger log = LoggerFactory.getLogger(DefaultGridService.class);
 
     private final EventBus eb;
     private final GridRepository gridRepository;
@@ -58,7 +62,11 @@ public class DefaultGridService implements GridService {
 
         gridRepository.getGrids(userId, gridName, gridStates)
             .onSuccess(grids -> promise.complete(!grids.isEmpty()))
-            .onFailure(err -> promise.fail(err));
+            .onFailure(err -> {
+                String errorMessage = String.format("[Appointments@DefaultGridService::isGridAlreadyExists] %s", err.getMessage());
+                log.error(errorMessage);
+                promise.fail(err);
+            });
 
         return promise.future();
     }
@@ -75,8 +83,12 @@ public class DefaultGridService implements GridService {
                     }
                     return gridRepository.create(grid, user.getUserId());
                 }))
-            .onSuccess(gridId -> promise.complete(new JsonObject().put("gridId", gridId)))
-            .onFailure(promise::fail);
+            .onSuccess(gridId -> promise.complete(new JsonObject().put(Fields.CAMEL_GRID_ID, gridId)))
+            .onFailure(err -> {
+                String errorMessage = String.format("[Appointments@DefaultGridService::createGrid] %s", err.getMessage());
+                log.error(errorMessage);
+                promise.fail(err);
+            });
 
         return promise.future();
     }

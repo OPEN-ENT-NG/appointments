@@ -25,6 +25,15 @@ build_frontend() {
     cd .. || exit 1
 }
 
+test_frontend() {
+    echo -e '\n--------------'
+    echo 'Test Frontend'
+    echo '--------------'
+    cd frontend || exit 1
+    ./build.sh runTest
+    cd .. || exit 1
+}
+
 # Function to copy frontend files to backend
 copy_frontend_files() {
     echo -e '\n--------------------'
@@ -43,15 +52,28 @@ copy_frontend_files() {
     # Copy all public files from frontend into Backend
     cp -R ../frontend/public/* ./src/main/resources/public
     echo 'Files all copied !'
+    cd .. || exit 1
 }
 
 # Function to build backend
 build_backend() {
+    cd backend || exit 1
     echo -e '\n-------------'
     echo 'Build Backend'
     echo '-------------'
     # cd backend || exit 1
     ./build.sh clean build
+    cd .. || exit 1
+}
+
+# Function to test backend
+test_backend() {
+    cd backend || exit 1
+    echo -e '\n-------------'
+    echo 'Test Backend'
+    echo '-------------'
+    ./build.sh test
+    cd .. || exit 1
 }
 
 # Function to clean frontend folders
@@ -76,6 +98,19 @@ install() {
 main() {
     if [[ "$1" == "install" ]]; then
         install
+    elif  [[ "$1" == "buildBack" ]]; then
+        build_backend
+    elif [[ "$1" == "buildFront" ]]; then
+        build_frontend
+    elif [[ "$1" == "clean" ]]; then
+        clean_backend
+    elif [[ "$1" == "testBack" ]]; then
+        test_backend
+    elif [[ "$1" == "testFront" ]]; then
+        test_frontend
+    elif [[ "$1" == "test" ]]; then
+        test_frontend
+        test_backend
     else
         echo "Usage: ./build.sh install"
         exit 1

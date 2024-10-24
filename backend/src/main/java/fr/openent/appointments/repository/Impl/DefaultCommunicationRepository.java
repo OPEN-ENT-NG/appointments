@@ -22,7 +22,7 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
     public Future<JsonArray> getVisibleGroups(String userId) {
         Promise<JsonArray> promise = Promise.promise();
         String query = "MATCH (g:CommunityGroup:Group:Visible {type: 'manager'})<-[r:IN|COMMUNIQUE]-(u:User {id: {userId}}) " +
-						"RETURN DISTINCT g.id as id, g.name as name, g.displayNameSearchField as displayName, g.nbUsers as nbUsers ORDER BY name";
+		"RETURN DISTINCT g.id as id, g.name as name, g.displayNameSearchField as displayName, g.nbUsers as nbUsers ORDER BY name";
 
 		JsonObject params = new JsonObject().put("userId", userId);
         
