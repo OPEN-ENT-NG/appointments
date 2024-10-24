@@ -2,12 +2,12 @@ export const colorPickerIconStyle = {
   width: "4.4rem",
   height: "4.4rem",
   "&:hover": {},
+  position: "relative",
 };
 
 export const circlePickerStyle = {
   position: "absolute",
-  top: "2rem",
-  right: "0rem",
+  bottom: "5rem",
+  right: "-2rem",
   backgroundColor: "white",
-  padding: "1rem",
 };

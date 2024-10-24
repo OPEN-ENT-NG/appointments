@@ -1,11 +1,12 @@
 import { DAY } from "./enums";
 
 interface Time {
-    hour: number | "--";
-    minute: number | "--";
+    hour: number | null;
+    minute: number | null;
 }
 
 export interface Slot {
+
     begin: Time;
     end: Time;
 }

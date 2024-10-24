@@ -14,70 +14,95 @@ import { itemStyle, validityPeriodStyle } from "./style";
 import { DAY, PERIODICITY, SLOT_DURATION } from "~/core/enums";
 import { WeekSlots } from "~/components/WeekSlots";
 import { WeekSlotsModel } from "~/core/types";
+import { useGridModalProvider } from "~/providers/GridModalProvider";
+import { Dayjs } from "dayjs";
 
 export const SecondPageGridModal: FC = () => {
   const { t } = useTranslation("appointments");
 
-  const [weekSlots, setWeekSlots] = useState<WeekSlotsModel>({
-    [DAY.MONDAY]: [
-    ],
-    [DAY.TUESDAY]: [
-    ],
-    [DAY.WEDNESDAY]: [
-    ],
-    [DAY.THURSDAY]: [
-    ],
-    [DAY.FRIDAY]: [
-    ],
-    [DAY.SATURDAY]: [
-    ]
-  });
+  const { inputs, setInputs, slotDurationOptions, periodicityOptions } =
+    useGridModalProvider();
+
+
+  const handleStartChange = (date: Dayjs | null) => {
+    setInputs({
+      ...inputs,
+      validityPeriod: { ...inputs.validityPeriod, start: date },
+    });
+  };
+
+  const handleEndChange = (date: Dayjs | null) => {
+    setInputs({
+      ...inputs,
+      validityPeriod: { ...inputs.validityPeriod, end: date },
+    });
+  };
+
+  const handleSlotDurationChange = (value: SLOT_DURATION) => {
+    setInputs({ ...inputs, slotDuration: value });
+  };
+
+  const handlePeriodicityChange = (value: PERIODICITY) => {
+    setInputs({ ...inputs, periodicity: value });
+  };
+
+  const handleWeekSlotsChange = (value: WeekSlotsModel) => {
+    setInputs({ ...inputs, weekSlots: value });
+  }
 
   return (
     <Box sx={pageGridModalStyle}>
       <Box sx={itemStyle}>
         <Typography>{t("appointments.grid.validity.period") + " *"}</Typography>
         <Box sx={validityPeriodStyle}>
-          <DatePicker label={t("appointments.grid.validity.period.start")} />
+          <DatePicker
+            label={t("appointments.grid.validity.period.start")}
+            value={inputs.validityPeriod.start}
+            onChange={handleStartChange}
+          />
           <RemoveIcon />
-          <DatePicker label={t("appointments.grid.validity.period.end")} />
+          <DatePicker
+            label={t("appointments.grid.validity.period.end")}
+            value={inputs.validityPeriod.end}
+            onChange={handleEndChange}
+          />
         </Box>
       </Box>
       <Box sx={itemStyle}>
         <Typography>{t("appointments.grid.slot.duration") + " *"}</Typography>
         <Box sx={validityPeriodStyle}>
-          <ToggleButtonGroup exclusive value={SLOT_DURATION.FIVETEEN_MINUTES}>
-            <ToggleButton value={SLOT_DURATION.FIVETEEN_MINUTES}>
-              {SLOT_DURATION.FIVETEEN_MINUTES}
-            </ToggleButton>
-            <ToggleButton value={SLOT_DURATION.THIRTY_MINUTES}>
-              {SLOT_DURATION.THIRTY_MINUTES}
-            </ToggleButton>
-            <ToggleButton value={SLOT_DURATION.FOURTYFIVE_MINUTES}>
-              {SLOT_DURATION.FOURTYFIVE_MINUTES}
-            </ToggleButton>
-            <ToggleButton value={SLOT_DURATION.ONE_HOUR}>
-              {SLOT_DURATION.ONE_HOUR}
-            </ToggleButton>
+          <ToggleButtonGroup exclusive value={inputs.slotDuration}>
+            {slotDurationOptions.map((option) => (
+              <ToggleButton
+                key={option}
+                value={option}
+                onClick={() => handleSlotDurationChange(option)}
+              >
+                {t(option)}
+              </ToggleButton>
+            ))}
           </ToggleButtonGroup>
         </Box>
       </Box>
       <Box sx={itemStyle}>
         <Typography>{t("appointments.grid.periodicity") + " *"}</Typography>
         <Box sx={validityPeriodStyle}>
-          <ToggleButtonGroup exclusive>
-            <ToggleButton value={PERIODICITY.WEEKLY}>
-              {t(PERIODICITY.WEEKLY)}
-            </ToggleButton>
-            <ToggleButton value={PERIODICITY.BIWEEKLY}>
-              {t(PERIODICITY.BIWEEKLY)}
-            </ToggleButton>
+          <ToggleButtonGroup exclusive value={inputs.periodicity}>
+            {periodicityOptions.map((option) => (
+              <ToggleButton
+                key={option}
+                value={option}
+                onClick={() => handlePeriodicityChange(option)}
+              >
+                {t(option)}
+              </ToggleButton>
+            ))}
           </ToggleButtonGroup>
         </Box>
       </Box>
       <Box sx={itemStyle}>
         <Typography>{t("appointments.grid.available.slots") + " *"}</Typography>
-        <WeekSlots weekSlots={weekSlots} setWeekSlots={setWeekSlots} />
+        <WeekSlots weekSlots={inputs.weekSlots} handleWeekSlotsChange={handleWeekSlotsChange} />
       </Box>
     </Box>
   );

@@ -5,7 +5,7 @@ import { Box, IconButton, Modal, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import { GRID_MODAL_TYPE, PAGE_TYPE } from "./enum";
-import { modalBoxStyle } from "./style";
+import { contentBoxStyle, modalBoxStyle } from "./style";
 import { GridModalProps } from "./types";
 import { FirstPageGridModal } from "../FirstPageGridModal";
 import { SecondPageGridModal } from "../SecondPageGridModal";
@@ -27,28 +27,28 @@ export const GridModal: FC<GridModalProps> = ({
 
   return (
     <Modal open={isOpen} onClose={handleClose}>
-      <Box sx={{overflowY: "auto", height: "100%"}}>
       <Box sx={modalBoxStyle}>
-        <Box sx={spaceBetweenBoxStyle}>
-          <Typography variant="h3">
-            {t("appointments.create.grid.title")}
+        <Box sx={contentBoxStyle}>
+          <Box sx={spaceBetweenBoxStyle}>
+            <Typography variant="h3">
+              {t("appointments.create.grid.title")}
+            </Typography>
+            <IconButton onClick={handleClose}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+          <Typography sx={{ fontStyle: "italic" }}>
+            {t("appointments.grid.required")}
           </Typography>
-          <IconButton onClick={handleClose}>
-            <CloseIcon />
-          </IconButton>
+          {isDisplayFirstPage && <FirstPageGridModal />}
+          {isDisplaySecondPage && <SecondPageGridModal />}
+          <CustomStepper
+            page={page}
+            setPage={setPage}
+            handleCancel={handleClose}
+            handleSave={handleClose}
+          />
         </Box>
-        <Typography sx={{ fontStyle: "italic" }}>
-          {t("appointments.grid.required")}
-        </Typography>
-        {isDisplayFirstPage && <FirstPageGridModal />}
-        {isDisplaySecondPage && <SecondPageGridModal />}
-        <CustomStepper
-          page={page}
-          setPage={setPage}
-          handleCancel={handleClose}
-          handleSave={handleClose}
-        />
-      </Box>
       </Box>
     </Modal>
   );

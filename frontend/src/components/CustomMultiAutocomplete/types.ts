@@ -1,7 +1,8 @@
-import { Public } from "~/containers/GridModal/types";
+import { Public } from "~/providers/GridModalProvider/types";
+
 
 export interface CustomMultiAutocompleteProps {
-    publicList : Public[];
+    options : Public[];
     selectedPublic : Public[];
-    setSelectedPublic : (selectedPublic : Public[]) => void;
+    handleSelectedChange : (selectedPublic : Public[]) => void;
 }
