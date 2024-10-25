@@ -9,7 +9,6 @@ import {
 } from "react";
 
 import { useUser } from "@edifice-ui/react";
-import { use } from "i18next";
 
 import {
   GridModalInputs,
@@ -24,6 +23,8 @@ import {
   slotDurationOptions,
   userStructures,
 } from "./utils";
+import { useUpdateGridInputsReturnType } from "~/hooks/types";
+import { useUpdateGridInputs } from "~/hooks/useUpdateGridInputs";
 
 const GridModalProviderContext =
   createContext<GridModalProviderContextProps | null>(null);
@@ -46,22 +47,18 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
     initialGridModalInputs(structures),
   );
 
+  const updateGridModalInputs : useUpdateGridInputsReturnType = useUpdateGridInputs(
+    inputs,
+    setInputs,
+    structures,
+  );
+
   useEffect(() => {
     setInputs((prev) => ({
       ...prev,
       structure: structures.length ? structures[0] : { id: "", name: "" },
     }));
   }, [user]);
-
-  const updateInputField = useCallback(
-    <K extends keyof GridModalInputs>(field: K, value: GridModalInputs[K]) => {
-      setInputs((prevInputs) => ({
-        ...prevInputs,
-        [field]: value,
-      }));
-    },
-    [setInputs],
-  );
 
   const value = useMemo<GridModalProviderContextProps>(
     () => ({
@@ -71,7 +68,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       publicOptions: mockPublicList,
       slotDurationOptions,
       periodicityOptions,
-      updateInputField,
+      updateGridModalInputs,
     }),
     [inputs, setInputs, structures, mockPublicList],
   );

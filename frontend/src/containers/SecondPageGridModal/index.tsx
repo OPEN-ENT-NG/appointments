@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 
 import {
   Box,
@@ -13,15 +13,19 @@ import { pageGridModalStyle } from "../GridModal/style";
 import { RangeDatePicker } from "~/components/RangeDatePicker";
 import { WeekSlots } from "~/components/WeekSlots";
 import { useGridModalProvider } from "~/providers/GridModalProvider";
-import { useUpdateGridInputs } from "~/hooks/useUpdateGriInputs";
 
 export const SecondPageGridModal: FC = () => {
   const { t } = useTranslation("appointments");
 
-  const { inputs, slotDurationOptions, periodicityOptions} =
-    useGridModalProvider();
-
-    const {handleSlotDurationChange, handlePeriodicityChange} = useUpdateGridInputs();
+  const {
+    inputs,
+    slotDurationOptions,
+    periodicityOptions,
+    updateGridModalInputs: {
+      handleSlotDurationChange,
+      handlePeriodicityChange,
+    },
+  } = useGridModalProvider();
 
   return (
     <Box sx={pageGridModalStyle}>
@@ -63,7 +67,7 @@ export const SecondPageGridModal: FC = () => {
       </Box>
       <Box sx={itemStyle}>
         <Typography>{t("appointments.grid.available.slots") + " *"}</Typography>
-        <WeekSlots/>
+        <WeekSlots />
       </Box>
     </Box>
   );

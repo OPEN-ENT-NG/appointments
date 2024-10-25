@@ -10,7 +10,7 @@ import { useGridModalProvider } from "~/providers/GridModalProvider";
 export const ColorPicker: FC = () => {
   const [isCirclePickerVisible, setIsCirclePickerVisible] = useState(false);
   
-  const {inputs, updateInputField} = useGridModalProvider();
+  const {inputs, updateGridModalInputs: {updateInputField}} = useGridModalProvider();
   const handleColorChange = (newColor) => {
     updateInputField("color", newColor.hex);
     setIsCirclePickerVisible(false);

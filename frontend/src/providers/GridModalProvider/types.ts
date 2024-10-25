@@ -1,8 +1,11 @@
-import { Dayjs } from "dayjs";
 import { Dispatch, SetStateAction } from "react";
+
+import { Dayjs } from "dayjs";
+
 import { HexaColor } from "~/components/ColorPicker/types";
 import { PERIODICITY, SLOT_DURATION } from "~/core/enums";
 import { WeekSlotsModel } from "~/core/types";
+import { useUpdateGridInputsReturnType } from "~/hooks/types";
 
 export interface GridModalProviderContextProps {
   inputs: GridModalInputs;
@@ -11,10 +14,7 @@ export interface GridModalProviderContextProps {
   publicOptions: Public[];
   slotDurationOptions: SLOT_DURATION[];
   periodicityOptions: PERIODICITY[];
-  updateInputField: <K extends keyof GridModalInputs>(
-    field: K,
-    value: GridModalInputs[K],
-  ) => void;
+  updateGridModalInputs: useUpdateGridInputsReturnType
 }
 
 export interface GridModalProviderProps {

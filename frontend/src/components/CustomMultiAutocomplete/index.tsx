@@ -5,15 +5,18 @@ import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import { Autocomplete, Checkbox, Chip, TextField } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-import { useUpdateGridInputs } from "~/hooks/useUpdateGriInputs";
 import { useGridModalProvider } from "~/providers/GridModalProvider";
 
 export const CustomMultiAutocomplete: FC = () => {
-  const { publicOptions, inputs } = useGridModalProvider();
-  const { handlePublicChange } = useUpdateGridInputs();
+  const {
+    publicOptions,
+    inputs,
+    updateGridModalInputs: { handlePublicChange },
+  } = useGridModalProvider();
+  
   const selectedPublic = inputs.public;
   const { t } = useTranslation("appointments");
-  
+
   return (
     <Autocomplete
       multiple

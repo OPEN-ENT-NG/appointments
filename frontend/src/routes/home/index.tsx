@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC, SyntheticEvent, useState } from "react";
 
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { ID } from "edifice-ts-client";
@@ -21,12 +21,12 @@ export interface AppProps {
   thumbnail: string;
 }
 
-export const Home: React.FC = () => {
-  const [tabValue, setTabValue] = React.useState(
+export const Home: FC = () => {
+  const [tabValue, setTabValue] = useState(
     parseInt(sessionStorage.getItem("tabValue")!) | 0,
   );
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (event: SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
     sessionStorage.setItem("tabValue", newValue.toString());
   };

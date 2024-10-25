@@ -19,7 +19,7 @@ import { useGridModalProvider } from "~/providers/GridModalProvider";
 
 export const WeekSlots: FC = () => {
   const { t } = useTranslation("appointments");
-  const { inputs, updateInputField } = useGridModalProvider();
+  const { inputs, updateGridModalInputs:{updateInputField} } = useGridModalProvider();
 
   const addSlot = (day: DAY, slot: Slot) => {
     updateInputField("weekSlots", {
@@ -50,6 +50,7 @@ export const WeekSlots: FC = () => {
                   end: null,
                 })
               }
+              // disabled={true}
             >
               <AddCircleIcon sx={iconStyle} />
             </IconButton>

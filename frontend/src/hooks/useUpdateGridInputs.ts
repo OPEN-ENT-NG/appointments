@@ -1,14 +1,30 @@
+import React, {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useCallback,
+} from "react";
+
 import { SelectChangeEvent } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
-import React, { ChangeEvent, useCallback } from "react";
+
 import { PERIODICITY, SLOT_DURATION } from "~/core/enums";
-import { useGridModalProvider } from "~/providers/GridModalProvider";
-import { GridModalInputs, Public } from "~/providers/GridModalProvider/types";
-import { initialPublic, initialWeekSlots } from "~/providers/GridModalProvider/utils";
+import {
+  GridModalInputs,
+  Public,
+  Structure,
+} from "~/providers/GridModalProvider/types";
+import {
+  initialPublic,
+  initialWeekSlots,
+} from "~/providers/GridModalProvider/utils";
+import { useUpdateGridInputsType } from "./types";
 
-export const useUpdateGridInputs = () => {
-  const { inputs, setInputs, structureOptions } = useGridModalProvider();
-
+export const useUpdateGridInputs : useUpdateGridInputsType = (
+  inputs: GridModalInputs,
+  setInputs: Dispatch<SetStateAction<GridModalInputs>>,
+  structureOptions: Structure[],
+) => {
   const updateInputField = useCallback(
     <K extends keyof GridModalInputs>(field: K, value: GridModalInputs[K]) => {
       setInputs((prevInputs) => ({
@@ -69,17 +85,23 @@ export const useUpdateGridInputs = () => {
     });
   };
 
-  const handleSlotDurationChange = (_:React.MouseEvent<HTMLElement>, value: SLOT_DURATION) => {
+  const handleSlotDurationChange = (
+    _: React.MouseEvent<HTMLElement>,
+    value: SLOT_DURATION,
+  ) => {
     updateInputField("slotDuration", value);
     updateInputField("weekSlots", initialWeekSlots);
-  }
+  };
 
-  const handlePeriodicityChange = (_:React.MouseEvent<HTMLElement>, value: PERIODICITY) => {
+  const handlePeriodicityChange = (
+    _: React.MouseEvent<HTMLElement>,
+    value: PERIODICITY,
+  ) => {
     updateInputField("periodicity", value);
-  }
-
+  };
 
   return {
+    updateInputField,
     handleNameChange,
     handleStructureChange,
     handleLocationChange,

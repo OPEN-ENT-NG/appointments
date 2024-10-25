@@ -13,31 +13,28 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
+import { pageGridModalStyle } from "../GridModal/style";
 import { ColorPicker } from "~/components/ColorPicker";
+import { CustomMultiAutocomplete } from "~/components/CustomMultiAutocomplete";
+import { useGridModalProvider } from "~/providers/GridModalProvider";
 import {
   flexEndBoxStyle,
   flexStartBoxStyle,
   spaceBetweenBoxStyle,
 } from "~/styles/boxStyles";
-import { CustomMultiAutocomplete } from "~/components/CustomMultiAutocomplete";
-import { pageGridModalStyle } from "../GridModal/style";
-import { useGridModalProvider } from "~/providers/GridModalProvider";
-import { useUpdateGridInputs } from "~/hooks/useUpdateGriInputs";
 
 export const FirstPageGridModal: FC = () => {
   const { t } = useTranslation("appointments");
 
-  const { inputs, structureOptions } =
-    useGridModalProvider();
-
-  const {
+  const { inputs, structureOptions, updateGridModalInputs:{
     handleNameChange,
     handleStructureChange,
     handleLocationChange,
     handleIsVisioChange,
     handleVisioLinkChange,
     handlePublicCommentChange,
-  } = useUpdateGridInputs();
+  } } =
+    useGridModalProvider();
 
   return (
     <Box sx={pageGridModalStyle}>

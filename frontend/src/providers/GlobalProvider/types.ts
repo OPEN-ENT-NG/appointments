@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 
 import { MODAL_TYPE } from "./enum";
 
@@ -9,7 +9,7 @@ export interface GlobalProviderContextProps {
 }
 
 export interface GlobalProviderProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export interface DisplayModalsState {

@@ -26,7 +26,7 @@ export const GridModal: FC<GridModalProps> = ({
     gridModalType === GRID_MODAL_TYPE.EDIT || page === PAGE_TYPE.SECOND;
 
   return (
-    <Modal open={isOpen} onClose={handleClose}>
+    <Modal open={isOpen}>
       <Box sx={modalBoxStyle}>
         <Box sx={contentBoxStyle}>
           <Box sx={spaceBetweenBoxStyle}>

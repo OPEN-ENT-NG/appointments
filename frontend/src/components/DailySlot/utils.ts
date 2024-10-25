@@ -18,8 +18,6 @@ const isTimeInRange = (time: Time, start: Time, end: Time): boolean => {
     return false;
   }
 
-  console.log(time, start, end);
-
   const currentTime = dayjs().set("hour", time.hour).set("minute", time.minute);
   const startTime = dayjs().set("hour", start.hour).set("minute", start.minute);
   const endTime = dayjs().set("hour", end.hour).set("minute", end.minute);
@@ -34,6 +32,23 @@ export const getStartOptions = (
   day: DAY,
   weekSlots: WeekSlotsModel,
 ): Time[] => {
+  const slots = weekSlots[day];
+
+  const possibleTimes: Time[] = [];
+  for (let hour = 0; hour < 24; hour++) {
+    for (let minute = 0; minute < 60; minute += 15) {
+      possibleTimes.push({ hour, minute });
+    }
+  }
+
+  const availableTimes = possibleTimes.filter((time) => {
+    return !slots.some((slot) => isTimeInRange(time, slot.begin, slot.end));
+  });
+
+  return availableTimes;
+};
+
+export const getEndOptions = (day: DAY, weekSlots: WeekSlotsModel): Time[] => {
   const slots = weekSlots[day];
 
   const possibleTimes: Time[] = [];
