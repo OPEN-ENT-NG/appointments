@@ -6,15 +6,15 @@ export enum SLOT_DURATION {
 }
 
 export enum DAY {
-    MONDAY = "appointments.grid.monday",
-    TUESDAY = "appointments.grid.tuesday",
-    WEDNESDAY = "appointments.grid.wednesday",
-    THURSDAY = "appointments.grid.thursday",
-    FRIDAY = "appointments.grid.friday",
-    SATURDAY = "appointments.grid.saturday",
+    MONDAY = "MONDAY",
+    TUESDAY = "TUESDAY",
+    WEDNESDAY = "WEDNESDAY",
+    THURSDAY = "THURSDAY",
+    FRIDAY = "FRIDAY",
+    SATURDAY = "SATURDAY",
 }
 
 export enum PERIODICITY {
-    WEEKLY = "appointments.grid.periodicity.weekly",
-    BIWEEKLY = "appointments.grid.periodicity.biweekly",
+    WEEKLY = "WEEKLY",
+    BIWEEKLY = "BIWEEKLY",
 }

@@ -2,13 +2,15 @@ import React, {
   ChangeEvent,
   Dispatch,
   SetStateAction,
+  SyntheticEvent,
   useCallback,
+  MouseEvent,
 } from "react";
 
 import { SelectChangeEvent } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
 
-import { PERIODICITY, SLOT_DURATION } from "~/core/enums";
+import { DAY, PERIODICITY, SLOT_DURATION } from "~/core/enums";
 import {
   GridModalInputs,
   Public,
@@ -19,6 +21,9 @@ import {
   initialWeekSlots,
 } from "~/providers/GridModalProvider/utils";
 import { useUpdateGridInputsType } from "./types";
+import { format } from "path";
+import { formatTimeToDayjs } from "~/core/utils";
+import { Time, TimeObject } from "~/core/types";
 
 export const useUpdateGridInputs : useUpdateGridInputsType = (
   inputs: GridModalInputs,
@@ -51,7 +56,7 @@ export const useUpdateGridInputs : useUpdateGridInputsType = (
     updateInputField("location", e.target.value);
   };
 
-  const handlePublicChange = (_: React.SyntheticEvent, value: Public[]) => {
+  const handlePublicChange = (_: SyntheticEvent, value: Public[]) => {
     updateInputField("public", value);
   };
 
@@ -86,7 +91,7 @@ export const useUpdateGridInputs : useUpdateGridInputsType = (
   };
 
   const handleSlotDurationChange = (
-    _: React.MouseEvent<HTMLElement>,
+    _: MouseEvent<HTMLElement>,
     value: SLOT_DURATION,
   ) => {
     updateInputField("slotDuration", value);
@@ -94,11 +99,48 @@ export const useUpdateGridInputs : useUpdateGridInputsType = (
   };
 
   const handlePeriodicityChange = (
-    _: React.MouseEvent<HTMLElement>,
+    _: MouseEvent<HTMLElement>,
     value: PERIODICITY,
   ) => {
     updateInputField("periodicity", value);
   };
+
+  const handleDeleteSlot = (day: DAY, slotId: string) => {
+    updateInputField("weekSlots", {
+      ...inputs.weekSlots,
+      [day]: inputs.weekSlots[day].filter((slot) => slot.id !== slotId),
+    });
+  }
+
+  const handleSlotChange = (day:DAY, slotId: string, value: string, type: "begin" | "end") => {
+    const [hour, minute] = value.split(":");
+    const time : TimeObject = { hour: parseInt(hour), minute: parseInt(minute) };
+    updateInputField("weekSlots", {
+      ...inputs.weekSlots,
+      [day]: inputs.weekSlots[day].map((item) => {
+        if (item.id !== slotId) return item;
+        
+        const updatedSlot = {
+            ...item,
+            [type]: { hour, minute }
+        };
+
+        if (
+            type === "begin" && 
+            updatedSlot.end 
+          
+        ) {
+            const begin = formatTimeToDayjs(time);
+            const end = formatTimeToDayjs(updatedSlot.end);
+            if (begin.isAfter(end) || begin.isSame(end)) {
+                updatedSlot.end = null;
+            }
+        }
+
+        return updatedSlot;
+    })
+    });
+  }
 
   return {
     updateInputField,
@@ -113,5 +155,7 @@ export const useUpdateGridInputs : useUpdateGridInputsType = (
     handleEndDateChange,
     handleSlotDurationChange,
     handlePeriodicityChange,
+    handleDeleteSlot,
+    handleSlotChange,
   };
 };

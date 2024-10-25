@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 
 import { Dayjs } from "dayjs";
 
@@ -18,7 +18,7 @@ export interface GridModalProviderContextProps {
 }
 
 export interface GridModalProviderProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export interface Structure {

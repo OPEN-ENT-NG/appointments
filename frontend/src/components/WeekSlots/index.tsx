@@ -16,6 +16,7 @@ import { DailySlot } from "../DailySlot";
 import { DAY } from "~/core/enums";
 import { Slot } from "~/core/types";
 import { useGridModalProvider } from "~/providers/GridModalProvider";
+import { formatDayToI18n } from "~/core/utils";
 
 export const WeekSlots: FC = () => {
   const { t } = useTranslation("appointments");
@@ -32,7 +33,7 @@ export const WeekSlots: FC = () => {
     <Box sx={weekBoxStyle}>
       {Object.keys(inputs.weekSlots).map((day) => (
         <Box sx={dayBoxStyle} key={day}>
-          <Typography sx={dayLabelStyle}>{t(day)}</Typography>
+          <Typography sx={dayLabelStyle}>{t(formatDayToI18n(DAY[day as keyof typeof DAY]))}</Typography>
           <Divider flexItem variant="middle" orientation="vertical" />
           <Box sx={slotsBoxStyle}>
             {inputs.weekSlots[day as DAY].map((slot) => (
