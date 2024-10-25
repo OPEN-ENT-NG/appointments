@@ -10,6 +10,7 @@ import io.vertx.core.json.JsonObject;
 import fr.wseduc.webutils.Either;
 import org.entcore.common.neo4j.Neo4j;
 import org.entcore.common.neo4j.Neo4jResult;
+import fr.openent.appointments.core.constants.Fields;
 
 public class DefaultCommunicationRepository implements CommunicationRepository {
     
@@ -24,7 +25,7 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
         String query = "MATCH (g:CommunityGroup:Group:Visible {type: 'manager'})<-[r:IN|COMMUNIQUE]-(u:User {id: {userId}}) " +
 		"RETURN DISTINCT g.id as id, g.name as name, g.displayNameSearchField as displayName, g.nbUsers as nbUsers ORDER BY name";
 
-		JsonObject params = new JsonObject().put("userId", userId);
+		JsonObject params = new JsonObject().put(Fields.CAMEL_USER_ID, userId);
         
         String errorMessage = "[Appointments@DefaultCommunicationRepository::getVisibleGroups] Fail to retrieve visible groups : ";
         neo4j.execute(query, params, Neo4jResult.validResultHandler(FutureHelper.handlerEither(promise, errorMessage)));
