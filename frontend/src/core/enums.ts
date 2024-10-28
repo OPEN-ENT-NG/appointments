@@ -15,6 +15,6 @@ export enum DAY {
 }
 
 export enum PERIODICITY {
-    WEEKLY = "WEEKLY",
-    BIWEEKLY = "BIWEEKLY",
+    WEEKLY = 1,
+    BIWEEKLY = 2,
 }

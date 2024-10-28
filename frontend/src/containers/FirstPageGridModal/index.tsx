@@ -6,7 +6,6 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  SelectChangeEvent,
   Switch,
   TextField,
   Typography,
@@ -26,15 +25,20 @@ import {
 export const FirstPageGridModal: FC = () => {
   const { t } = useTranslation("appointments");
 
-  const { inputs, structureOptions, updateGridModalInputs:{
-    handleNameChange,
-    handleStructureChange,
-    handleLocationChange,
-    handleIsVisioChange,
-    handleVisioLinkChange,
-    handlePublicCommentChange,
-  } } =
-    useGridModalProvider();
+  const {
+    inputs,
+    errorInputs,
+    structureOptions,
+    updateGridModalInputs: {
+      handleNameChange,
+      handleStructureChange,
+      handleLocationChange,
+      handleIsVisioChange,
+      handleVisioLinkChange,
+      handlePublicCommentChange,
+    },
+    blurGridModalInputs: { handleNameBlur, handleVisioLinkBlur },
+  } = useGridModalProvider();
 
   return (
     <Box sx={pageGridModalStyle}>
@@ -50,6 +54,9 @@ export const FirstPageGridModal: FC = () => {
           sx={{ width: "100%" }}
           value={inputs.name}
           onChange={handleNameChange}
+          onBlur={handleNameBlur}
+          error={!!errorInputs.name.length}
+          helperText={errorInputs.name}
         />
         <Box sx={flexEndBoxStyle}>
           <Typography>{t("appointments.grid.color") + " * "}</Typography>
@@ -81,13 +88,10 @@ export const FirstPageGridModal: FC = () => {
         value={inputs.location}
         onChange={handleLocationChange}
       />
-      <CustomMultiAutocomplete/>
+      <CustomMultiAutocomplete />
       <Box sx={flexStartBoxStyle}>
         <Typography>{t("appointments.grid.videoconference")}</Typography>
-        <Switch
-          checked={inputs.isVisio}
-          onChange={handleIsVisioChange}
-        />
+        <Switch checked={inputs.isVisio} onChange={handleIsVisioChange} />
       </Box>
       {inputs.isVisio && (
         <TextField
@@ -96,6 +100,9 @@ export const FirstPageGridModal: FC = () => {
           variant="outlined"
           value={inputs.visioLink}
           onChange={handleVisioLinkChange}
+          onBlur={handleVisioLinkBlur}
+          error={!!errorInputs.visioLink.length}
+          helperText={errorInputs.visioLink}
         />
       )}
       <TextField

@@ -16,9 +16,10 @@ import { PAGE_TYPE } from "~/containers/GridModal/enum";
 
 export const CustomStepper: FC<CustomStepperProps> = ({
   page,
-  setPage,
   handleCancel,
-  handleSave,
+  handlePrev,
+  handleNext,
+  handleSubmit
 }) => {
   const { t } = useTranslation("appointments");
 
@@ -36,7 +37,7 @@ export const CustomStepper: FC<CustomStepperProps> = ({
           </Button>
         ) : (
           <Button
-            onClick={() => setPage(PAGE_TYPE.FIRST)}
+            onClick={handlePrev}
             startIcon={<KeyboardArrowLeft />}
             sx={backButtonStyle}
           >
@@ -47,14 +48,14 @@ export const CustomStepper: FC<CustomStepperProps> = ({
       nextButton={
         page === PAGE_TYPE.FIRST ? (
           <Button
-            onClick={() => setPage(PAGE_TYPE.SECOND)}
+            onClick={handleNext}
             sx={nextButtonStyle}
           >
             {t("appointments.next")}
           </Button>
         ) : (
           <Button
-            onClick={handleSave}
+            onClick={handleSubmit}
             sx={saveButtonStyle}
             variant="contained"
             startIcon={<SaveIcon />}

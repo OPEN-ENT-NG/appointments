@@ -1,7 +1,6 @@
 import {
   createContext,
   FC,
-  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -14,16 +13,19 @@ import {
   GridModalInputs,
   GridModalProviderContextProps,
   GridModalProviderProps,
+  InputsErrors,
   Structure,
 } from "./types";
 import {
+  initialErrorInputs,
   initialGridModalInputs,
   mockPublicList,
   periodicityOptions,
   slotDurationOptions,
   userStructures,
 } from "./utils";
-import { useUpdateGridInputsReturnType } from "~/hooks/types";
+import { useBlurGridInputsReturnType, useUpdateGridInputsReturnType } from "~/hooks/types";
+import { useBlurGridInputs } from "~/hooks/useBlurGridInputs";
 import { useUpdateGridInputs } from "~/hooks/useUpdateGridInputs";
 
 const GridModalProviderContext =
@@ -47,11 +49,24 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
     initialGridModalInputs(structures),
   );
 
+  const [errorInputs, setErrorInputs] = useState<InputsErrors>(initialErrorInputs);
+
   const updateGridModalInputs : useUpdateGridInputsReturnType = useUpdateGridInputs(
     inputs,
     setInputs,
+    setErrorInputs,
     structures,
   );
+
+  const blurGridModalInputs : useBlurGridInputsReturnType = useBlurGridInputs(
+    inputs,
+    setErrorInputs
+  );
+
+  const updateFirstPageErrors = () => {
+    blurGridModalInputs.handleNameBlur();
+    blurGridModalInputs.handleVisioLinkBlur();
+  }
 
   useEffect(() => {
     setInputs((prev) => ({
@@ -64,13 +79,17 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
     () => ({
       inputs,
       setInputs,
+      errorInputs,
+      setErrorInputs,
       structureOptions: structures,
       publicOptions: mockPublicList,
       slotDurationOptions,
       periodicityOptions,
       updateGridModalInputs,
+      blurGridModalInputs,
+      updateFirstPageErrors,
     }),
-    [inputs, setInputs, structures, mockPublicList],
+    [inputs, setInputs, errorInputs, setErrorInputs, structures, mockPublicList],
   );
 
   return (

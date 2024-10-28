@@ -15,6 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { v4 as uuidv4 } from "uuid";
 
 import {
   boxDailySlotStyle,
@@ -26,9 +27,8 @@ import {
   timeInputStyle,
 } from "./style";
 import { DailySlotProps } from "./types";
+import { formatTime, getEndOptions, getStartOptions } from "./utils";
 import { useGridModalProvider } from "~/providers/GridModalProvider";
-import { formatTime, generateTimeSlots, getEndOptions, getStartOptions } from "./utils";
-import { v4 as uuidv4 } from "uuid";
 
 export const DailySlot: FC<DailySlotProps> = ({ day, slot }) => {
   const { t } = useTranslation("appointments");
@@ -56,7 +56,6 @@ export const DailySlot: FC<DailySlotProps> = ({ day, slot }) => {
             </Box>
           )}
         >
-          <MenuItem value="--:--">--:--</MenuItem>
           {getStartOptions(weekSlots[day], slotDuration).map((time) => (
             <MenuItem key={uuidv4()} value={formatTime(time)}>
               {formatTime(time)}
@@ -86,7 +85,6 @@ export const DailySlot: FC<DailySlotProps> = ({ day, slot }) => {
             </Box>
           )}
         >
-          <MenuItem value="--:--">--:--</MenuItem>
           {getEndOptions(weekSlots[day], slotDuration, slot).map((time) => (
             <MenuItem key={uuidv4()} value={formatTime(time)}>
               {formatTime(time)}

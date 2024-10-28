@@ -1,4 +1,4 @@
-import React, {
+import {
   ChangeEvent,
   Dispatch,
   SetStateAction,
@@ -9,10 +9,16 @@ import React, {
 
 import { SelectChangeEvent } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
+import { v4 as uuidv4 } from "uuid";
 
+import { useUpdateGridInputsType } from "./types";
+import { HexaColor } from "~/components/ColorPicker/types";
 import { DAY, PERIODICITY, SLOT_DURATION } from "~/core/enums";
+import { TimeObject } from "~/core/types";
+import { formatTimeToDayjs } from "~/core/utils";
 import {
   GridModalInputs,
+  InputsErrors,
   Public,
   Structure,
 } from "~/providers/GridModalProvider/types";
@@ -20,14 +26,11 @@ import {
   initialPublic,
   initialWeekSlots,
 } from "~/providers/GridModalProvider/utils";
-import { useUpdateGridInputsType } from "./types";
-import { format } from "path";
-import { formatTimeToDayjs } from "~/core/utils";
-import { Time, TimeObject } from "~/core/types";
 
-export const useUpdateGridInputs : useUpdateGridInputsType = (
+export const useUpdateGridInputs: useUpdateGridInputsType = (
   inputs: GridModalInputs,
   setInputs: Dispatch<SetStateAction<GridModalInputs>>,
+  setErrorInputs: Dispatch<SetStateAction<InputsErrors>>,
   structureOptions: Structure[],
 ) => {
   const updateInputField = useCallback(
@@ -40,8 +43,23 @@ export const useUpdateGridInputs : useUpdateGridInputsType = (
     [setInputs],
   );
 
+  const updateErrorInputs = useCallback(
+    <K extends keyof InputsErrors>(field: K, value: InputsErrors[K]) => {
+      setErrorInputs((prevInputs) => ({
+        ...prevInputs,
+        [field]: value,
+      }));
+    },
+    [setErrorInputs],
+  );
+
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     updateInputField("name", e.target.value);
+    updateErrorInputs("name", "");
+  };
+
+  const handleColorChange = (color: HexaColor) => {
+    updateInputField("color", color);
   };
 
   const handleStructureChange = (event: SelectChangeEvent) => {
@@ -66,6 +84,12 @@ export const useUpdateGridInputs : useUpdateGridInputsType = (
 
   const handleVisioLinkChange = (e: ChangeEvent<HTMLInputElement>) => {
     updateInputField("visioLink", e.target.value);
+    updateErrorInputs(
+      "visioLink",
+      inputs.isVisio && e.target.value === ""
+        ? "Le lien de visio est obligatoire"
+        : "",
+    );
   };
 
   const handlePublicCommentChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -105,46 +129,61 @@ export const useUpdateGridInputs : useUpdateGridInputsType = (
     updateInputField("periodicity", value);
   };
 
+  const handleAddSlot = (day: DAY) => {
+    updateInputField("weekSlots", {
+      ...inputs.weekSlots,
+      [day]: [
+        ...inputs.weekSlots[day],
+        {
+          id: uuidv4(),
+          begin: null,
+          end: null,
+        },
+      ],
+    });
+  };
+
   const handleDeleteSlot = (day: DAY, slotId: string) => {
     updateInputField("weekSlots", {
       ...inputs.weekSlots,
       [day]: inputs.weekSlots[day].filter((slot) => slot.id !== slotId),
     });
-  }
+  };
 
-  const handleSlotChange = (day:DAY, slotId: string, value: string, type: "begin" | "end") => {
+  const handleSlotChange = (
+    day: DAY,
+    slotId: string,
+    value: string,
+    type: "begin" | "end",
+  ) => {
     const [hour, minute] = value.split(":");
-    const time : TimeObject = { hour: parseInt(hour), minute: parseInt(minute) };
+    const time: TimeObject = { hour: parseInt(hour), minute: parseInt(minute) };
     updateInputField("weekSlots", {
       ...inputs.weekSlots,
       [day]: inputs.weekSlots[day].map((item) => {
         if (item.id !== slotId) return item;
-        
+
         const updatedSlot = {
-            ...item,
-            [type]: { hour, minute }
+          ...item,
+          [type]: { hour, minute },
         };
 
-        if (
-            type === "begin" && 
-            updatedSlot.end 
-          
-        ) {
-            const begin = formatTimeToDayjs(time);
-            const end = formatTimeToDayjs(updatedSlot.end);
-            if (begin.isAfter(end) || begin.isSame(end)) {
-                updatedSlot.end = null;
-            }
+        if (type === "begin" && updatedSlot.end) {
+          const begin = formatTimeToDayjs(time);
+          const end = formatTimeToDayjs(updatedSlot.end);
+          if (begin.isAfter(end) || begin.isSame(end)) {
+            updatedSlot.end = null;
+          }
         }
 
         return updatedSlot;
-    })
+      }),
     });
-  }
+  };
 
   return {
-    updateInputField,
     handleNameChange,
+    handleColorChange,
     handleStructureChange,
     handleLocationChange,
     handlePublicChange,
@@ -155,6 +194,7 @@ export const useUpdateGridInputs : useUpdateGridInputsType = (
     handleEndDateChange,
     handleSlotDurationChange,
     handlePeriodicityChange,
+    handleAddSlot,
     handleDeleteSlot,
     handleSlotChange,
   };

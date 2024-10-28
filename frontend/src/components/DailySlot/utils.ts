@@ -4,7 +4,7 @@ import isBetween from "dayjs/plugin/isBetween";
 
 import { SLOT_DURATION } from "~/core/enums";
 import { Slot, Time, TimeObject } from "~/core/types";
-import { formatSlotDuration, formatTimeToDayjs } from "~/core/utils";
+import { formatSlotDurationToMinutes, formatTimeToDayjs } from "~/core/utils";
 
 dayjs.extend(duration);
 dayjs.extend(isBetween);
@@ -52,7 +52,7 @@ export const getStartOptions = (
   slots: Slot[],
   slotDuration: SLOT_DURATION,
 ): Time[] => {
-  const intervalMinutes: number = formatSlotDuration(slotDuration);
+  const intervalMinutes: number = formatSlotDurationToMinutes(slotDuration);
 
   const possibleTimes: TimeObject[] = generateTimeSlots(
     intervalMinutes,
@@ -82,7 +82,7 @@ export const getEndOptions = (
   slotDuration: SLOT_DURATION,
   currentSlot: Slot,
 ): Time[] => {
-  const intervalMinutes: number = formatSlotDuration(slotDuration);
+  const intervalMinutes: number = formatSlotDurationToMinutes(slotDuration);
 
   const possibleTimes: TimeObject[] = generateTimeSlots(
     intervalMinutes,

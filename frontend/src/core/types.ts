@@ -14,10 +14,5 @@ export interface Slot {
 }
 
 export type WeekSlotsModel = {
-    [DAY.MONDAY]: Slot[];
-    [DAY.TUESDAY]: Slot[];
-    [DAY.WEDNESDAY]: Slot[];
-    [DAY.THURSDAY]: Slot[];
-    [DAY.FRIDAY]: Slot[];
-    [DAY.SATURDAY]: Slot[];
+    [key in DAY]: Slot[];
 };

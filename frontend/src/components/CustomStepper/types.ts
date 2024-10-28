@@ -1,6 +1,9 @@
+import { PAGE_TYPE } from "~/containers/GridModal/enum";
+
 export interface CustomStepperProps {
-  page: number;
-  setPage: (page: number) => void;
+  page: PAGE_TYPE;
   handleCancel: () => void;
-  handleSave: () => void;
+  handlePrev: () => void;
+  handleNext: ()=> void;
+  handleSubmit: () => void;
 }

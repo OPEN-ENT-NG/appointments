@@ -12,6 +12,7 @@ import { itemStyle, validityPeriodStyle } from "./style";
 import { pageGridModalStyle } from "../GridModal/style";
 import { RangeDatePicker } from "~/components/RangeDatePicker";
 import { WeekSlots } from "~/components/WeekSlots";
+import { formatPeriodicityToI18n } from "~/core/utils";
 import { useGridModalProvider } from "~/providers/GridModalProvider";
 
 export const SecondPageGridModal: FC = () => {
@@ -59,7 +60,7 @@ export const SecondPageGridModal: FC = () => {
                 value={option}
                 onClick={handlePeriodicityChange}
               >
-                {t(option)}
+                {t(formatPeriodicityToI18n(option))}
               </ToggleButton>
             ))}
           </ToggleButtonGroup>

@@ -3,18 +3,23 @@ import { Dispatch, ReactNode, SetStateAction } from "react";
 import { Dayjs } from "dayjs";
 
 import { HexaColor } from "~/components/ColorPicker/types";
-import { PERIODICITY, SLOT_DURATION } from "~/core/enums";
+import { DAY, PERIODICITY, SLOT_DURATION } from "~/core/enums";
 import { WeekSlotsModel } from "~/core/types";
-import { useUpdateGridInputsReturnType } from "~/hooks/types";
+import { useBlurGridInputsReturnType, useUpdateGridInputsReturnType } from "~/hooks/types";
+
 
 export interface GridModalProviderContextProps {
   inputs: GridModalInputs;
   setInputs: Dispatch<SetStateAction<GridModalInputs>>;
+  errorInputs: InputsErrors;
+  setErrorInputs: Dispatch<SetStateAction<InputsErrors>>;
   structureOptions: Structure[];
   publicOptions: Public[];
   slotDurationOptions: SLOT_DURATION[];
   periodicityOptions: PERIODICITY[];
-  updateGridModalInputs: useUpdateGridInputsReturnType
+  updateGridModalInputs: useUpdateGridInputsReturnType;
+  blurGridModalInputs: useBlurGridInputsReturnType
+  updateFirstPageErrors: () => void;
 }
 
 export interface GridModalProviderProps {
@@ -47,4 +52,33 @@ export interface GridModalInputs {
   slotDuration: SLOT_DURATION;
   periodicity: PERIODICITY;
   weekSlots: WeekSlotsModel;
+}
+
+export interface InputsErrors {
+  name: string;
+  visioLink: string;
+  validityPeriod: string;
+  weekSlots: string;
+}
+
+interface DaylySlotPayload {
+  day: DAY;
+  beginTime: string;
+  endTime: string;
+}
+
+export interface GridPayload {
+  gridName: string;
+  color: string;
+  beginDate: string;
+  endDate: string;
+  structureId: string;
+  duration: string;
+  periodicity: number;
+  targetPublicListId: string[];
+  dailySlots: DaylySlotPayload[];
+  visioLink: string;
+  place: string;
+  documentId: string;
+  publicComment: string;
 }
