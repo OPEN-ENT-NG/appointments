@@ -83,7 +83,7 @@ export const periodicityOptions: PERIODICITY[] = [
 
 export const gridInputsToGridPayload = (inputs: GridModalInputs): GridPayload => {
   return {
-    gridName: inputs.name,
+    name: inputs.name,
     color: inputs.color,
     beginDate: inputs.validityPeriod.start?.format("YYYY-MM-DD") || "",
     endDate: inputs.validityPeriod.end?.format("YYYY-MM-DD") || "",

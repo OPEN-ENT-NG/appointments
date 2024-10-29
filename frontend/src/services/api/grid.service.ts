@@ -5,7 +5,7 @@ export const gridApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     createGrid: builder.mutation({
       query: (body: GridPayload) => ({
-        url: "/grid",
+        url: "/grids",
         method: "POST",
         body,
       }),

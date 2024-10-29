@@ -13,6 +13,9 @@ import { CustomStepper } from "~/components/CustomStepper";
 import { useGlobalProvider } from "~/providers/GlobalProvider";
 import { MODAL_TYPE } from "~/providers/GlobalProvider/enum";
 import { useGridModalProvider } from "~/providers/GridModalProvider";
+import { GridPayload } from "~/providers/GridModalProvider/types";
+import { gridInputsToGridPayload } from "~/providers/GridModalProvider/utils";
+import { useCreateGridMutation } from "~/services/api/grid.service";
 import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
 
 export const GridModal: FC<GridModalProps> = ({ gridModalType }) => {
@@ -22,8 +25,10 @@ export const GridModal: FC<GridModalProps> = ({ gridModalType }) => {
     displayModals: { grid },
     handleDisplayModal,
   } = useGlobalProvider();
+  const [createGrid] = useCreateGridMutation();
 
   const {
+    inputs,
     blurGridModalInputs: {
       newNameError,
       newVisioLinkError,
@@ -63,7 +68,7 @@ export const GridModal: FC<GridModalProps> = ({ gridModalType }) => {
     setPage(PAGE_TYPE.SECOND);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const newErrors = {
       name: newNameError,
       visioLink: newVisioLinkError,
@@ -80,6 +85,10 @@ export const GridModal: FC<GridModalProps> = ({ gridModalType }) => {
       newErrors.slots.ids.length
     )
       return;
+
+    const payload : GridPayload = gridInputsToGridPayload(inputs);
+    const response = await createGrid(payload);
+    console.log(response);
     handleDisplayModal(MODAL_TYPE.GRID);
   };
 

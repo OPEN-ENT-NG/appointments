@@ -72,7 +72,7 @@ interface DaylySlotPayload {
 }
 
 export interface GridPayload {
-  gridName: string;
+  name: string;
   color: string;
   beginDate: string;
   endDate: string;
