@@ -11,7 +11,7 @@ export const weekBoxStyle = {
 }
 
 export const dayLabelStyle = {
-    width: "8rem",
+    minWidth: "8rem",
     height: "100%",
     marginTop: "1.5rem",
 }
@@ -24,4 +24,8 @@ export const slotsBoxStyle = {
 export const iconStyle = {
     color: PURPLE,
     fontSize: "2rem",
+}
+
+export const errorStyle = {
+    marginLeft: "1rem",
 }

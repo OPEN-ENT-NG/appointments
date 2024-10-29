@@ -55,8 +55,8 @@ export const FirstPageGridModal: FC = () => {
           value={inputs.name}
           onChange={handleNameChange}
           onBlur={handleNameBlur}
-          error={!!errorInputs.name.length}
-          helperText={errorInputs.name}
+          error={!!errorInputs.name}
+          helperText={t(errorInputs.name)}
         />
         <Box sx={flexEndBoxStyle}>
           <Typography>{t("appointments.grid.color") + " * "}</Typography>
@@ -102,7 +102,7 @@ export const FirstPageGridModal: FC = () => {
           onChange={handleVisioLinkChange}
           onBlur={handleVisioLinkBlur}
           error={!!errorInputs.visioLink.length}
-          helperText={errorInputs.visioLink}
+          helperText={t(errorInputs.visioLink)}
         />
       )}
       <TextField

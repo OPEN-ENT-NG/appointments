@@ -26,6 +26,7 @@ import {
   initialPublic,
   initialWeekSlots,
 } from "~/providers/GridModalProvider/utils";
+import { INVALID_SLOT_ERROR } from "~/core/i18nKeys";
 
 export const useUpdateGridInputs: useUpdateGridInputsType = (
   inputs: GridModalInputs,
@@ -84,12 +85,7 @@ export const useUpdateGridInputs: useUpdateGridInputsType = (
 
   const handleVisioLinkChange = (e: ChangeEvent<HTMLInputElement>) => {
     updateInputField("visioLink", e.target.value);
-    updateErrorInputs(
-      "visioLink",
-      inputs.isVisio && e.target.value === ""
-        ? "Le lien de visio est obligatoire"
-        : "",
-    );
+    updateErrorInputs("visioLink", "");
   };
 
   const handlePublicCommentChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -104,14 +100,17 @@ export const useUpdateGridInputs: useUpdateGridInputsType = (
         ? undefined
         : endDate;
     updateInputField("validityPeriod", { start: startDate, end: newEndDate });
+    startDate && endDate && updateErrorInputs("validityPeriod", "");
   };
 
   const handleEndDateChange = (date: Dayjs | null) => {
+    const startDate = inputs.validityPeriod.start;
     const endDate = date ? date : undefined;
     updateInputField("validityPeriod", {
       start: inputs.validityPeriod.start,
       end: endDate,
     });
+    startDate && endDate && updateErrorInputs("validityPeriod", "");
   };
 
   const handleSlotDurationChange = (
@@ -130,6 +129,27 @@ export const useUpdateGridInputs: useUpdateGridInputsType = (
   };
 
   const handleAddSlot = (day: DAY) => {
+    const newDaySlotsErrorIds = inputs.weekSlots[day]
+      .filter((slots) => !slots.begin || !slots.end)
+      .map((slots) => slots.id);
+
+    if (newDaySlotsErrorIds.length) {
+      setErrorInputs((prevInputs) => {
+        const newSlotsErrorIds = [
+          ...prevInputs.slots.ids,
+          ...newDaySlotsErrorIds,
+        ].filter((id, index, array) => array.indexOf(id) === index);
+        return {
+          ...prevInputs,
+          slots: {
+            ids: newSlotsErrorIds,
+            error: INVALID_SLOT_ERROR,
+          },
+        };
+      });
+      return;
+    }
+
     updateInputField("weekSlots", {
       ...inputs.weekSlots,
       [day]: [
@@ -141,6 +161,7 @@ export const useUpdateGridInputs: useUpdateGridInputsType = (
         },
       ],
     });
+    updateErrorInputs("weekSlots", "");
   };
 
   const handleDeleteSlot = (day: DAY, slotId: string) => {

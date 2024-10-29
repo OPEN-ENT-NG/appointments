@@ -41,7 +41,7 @@
     "appointments.grid.periodicity": "Périodicité",
     "appointments.grid.periodicity.weekly": "Hebdomadaire",
     "appointments.grid.periodicity.biweekly": "Bimensuelle",
-    "appointments.grid.available.slots": "Créneaux disponibles",
+    "appointments.grid.available.slots": "Plages horaires",
     "appointments.grid.available.slots.warning": "Veuillez ajouter au moins un créneau.",
     "appointments.grid.monday": "Lundi",
     "appointments.grid.tuesday": "Mardi",
@@ -69,5 +69,10 @@
     "appointments.from": "De",
     "appointments.to": "À",
 
-    "appointments.everyone": "Tout le monde"
+    "appointments.everyone": "Tout le monde",
+
+    "appointments.error.same.grid.already.exists": "Ce nom est déjà utilisé.",
+    "appointments.error.field.required": "Ce champ est obligatoire.",
+    "appointments.error.one.slot.required": "Veuillez ajouter au moins une plage horaire.",
+    "appointments.error.invalid.slot": "Veuillez renseigner les horaires."
 }

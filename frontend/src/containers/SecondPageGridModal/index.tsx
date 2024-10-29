@@ -2,13 +2,19 @@ import { FC } from "react";
 
 import {
   Box,
+  FormHelperText,
   ToggleButton,
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-import { itemStyle, validityPeriodStyle } from "./style";
+import {
+  itemStyle,
+  periodicityItemStyle,
+  slotDurationItemStyle,
+  validityPeriodStyle,
+} from "./style";
 import { pageGridModalStyle } from "../GridModal/style";
 import { RangeDatePicker } from "~/components/RangeDatePicker";
 import { WeekSlots } from "~/components/WeekSlots";
@@ -20,6 +26,7 @@ export const SecondPageGridModal: FC = () => {
 
   const {
     inputs,
+    errorInputs,
     slotDurationOptions,
     periodicityOptions,
     updateGridModalInputs: {
@@ -31,7 +38,16 @@ export const SecondPageGridModal: FC = () => {
   return (
     <Box sx={pageGridModalStyle}>
       <Box sx={itemStyle}>
-        <Typography>{t("appointments.grid.validity.period") + " *"}</Typography>
+        <Box>
+          <Typography>
+            {t("appointments.grid.validity.period") + " *"}
+          </Typography>
+          {errorInputs.validityPeriod && (
+            <FormHelperText error>
+              {t(errorInputs.validityPeriod)}
+            </FormHelperText>
+          )}
+        </Box>
         <RangeDatePicker />
       </Box>
       <Box sx={itemStyle}>
@@ -41,6 +57,7 @@ export const SecondPageGridModal: FC = () => {
             {slotDurationOptions.map((option) => (
               <ToggleButton
                 key={option}
+                sx={slotDurationItemStyle}
                 value={option}
                 onClick={handleSlotDurationChange}
               >
@@ -57,6 +74,7 @@ export const SecondPageGridModal: FC = () => {
             {periodicityOptions.map((option) => (
               <ToggleButton
                 key={option}
+                sx={periodicityItemStyle}
                 value={option}
                 onClick={handlePeriodicityChange}
               >
@@ -67,7 +85,14 @@ export const SecondPageGridModal: FC = () => {
         </Box>
       </Box>
       <Box sx={itemStyle}>
-        <Typography>{t("appointments.grid.available.slots") + " *"}</Typography>
+        <Box>
+          <Typography>
+            {t("appointments.grid.available.slots") + " *"}
+          </Typography>
+          {errorInputs.weekSlots && (
+            <FormHelperText error>{t(errorInputs.weekSlots)}</FormHelperText>
+          )}
+        </Box>
         <WeekSlots />
       </Box>
     </Box>

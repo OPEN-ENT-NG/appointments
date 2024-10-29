@@ -4,6 +4,7 @@ import { GridModalInputs, GridPayload, InputsErrors, Public, Structure } from ".
 import { DAY, PERIODICITY, SLOT_DURATION } from "~/core/enums";
 import { WeekSlotsModel } from "~/core/types";
 import { formatSlotDurationToString, formatTimeToString } from "~/core/utils";
+import { INVALID_SLOT_ERROR } from "~/core/i18nKeys";
 
 export const userStructures = (userInfo: IUserInfo): Structure[] => {
   if (userInfo.structures.length !== userInfo.structureNames.length) {
@@ -53,6 +54,10 @@ export const initialErrorInputs : InputsErrors = {
   visioLink: "",
   validityPeriod: "",
   weekSlots: "",
+  slots: {
+    ids: [],
+    error: INVALID_SLOT_ERROR,
+  },
 };
 
 

@@ -1,4 +1,5 @@
 import { createTheme } from "@mui/material";
+
 import { BLACK, GREY, PURPLE } from "./constants";
 
 const theme = createTheme({
@@ -140,6 +141,13 @@ const theme = createTheme({
           padding: "1rem 1.6rem",
           whiteSpace: "nowrap",
           marginRight: "auto",
+        },
+      },
+    },
+    MuiFormHelperText: {
+      styleOverrides: {
+        root: {
+          fontSize: "1.2rem",
         },
       },
     },

@@ -23,7 +23,16 @@ export const GridModal: FC<GridModalProps> = ({ gridModalType }) => {
     handleDisplayModal,
   } = useGlobalProvider();
 
-  const { blurGridModalInputs: {newNameError, newVisioLinkError} } = useGridModalProvider();
+  const {
+    blurGridModalInputs: {
+      newNameError,
+      newVisioLinkError,
+      newValidityPeriodError,
+      newWeekSlotsError,
+      newSlotsError,
+    },
+    setErrorInputs,
+  } = useGridModalProvider();
 
   const isDisplayFirstPage =
     gridModalType === GRID_MODAL_TYPE.EDIT || page === PAGE_TYPE.FIRST;
@@ -40,17 +49,40 @@ export const GridModal: FC<GridModalProps> = ({ gridModalType }) => {
 
   const handleNext = () => {
     const newErrors = {
-      "name": newNameError,
-    }
-    
-    if (newErrors.name) return;
+      name: newNameError,
+      visioLink: newVisioLinkError,
+      validityPeriod: "",
+      weekSlots: "",
+      slots: {
+        ids: [],
+        error: "",
+      },
+    };
+    setErrorInputs(newErrors);
+    if (newErrors.name || newErrors.visioLink) return;
     setPage(PAGE_TYPE.SECOND);
   };
-  
+
   const handleSubmit = () => {
+    const newErrors = {
+      name: newNameError,
+      visioLink: newVisioLinkError,
+      validityPeriod: newValidityPeriodError,
+      weekSlots: newWeekSlotsError,
+      slots: newSlotsError,
+    };
+    setErrorInputs(newErrors);
+    if (
+      newErrors.name ||
+      newErrors.visioLink ||
+      newErrors.validityPeriod ||
+      newErrors.weekSlots ||
+      newErrors.slots.ids.length
+    )
+      return;
     handleDisplayModal(MODAL_TYPE.GRID);
   };
-  
+
   return (
     <Modal open={grid}>
       <Box sx={modalBoxStyle}>

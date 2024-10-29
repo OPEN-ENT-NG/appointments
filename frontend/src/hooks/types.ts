@@ -55,12 +55,13 @@ export type useUpdateGridInputsType = (
 ) => useUpdateGridInputsReturnType;
 
 export interface useBlurGridInputsReturnType {
-  newNameError: () => string;
-  newVisioLinkError: () => string;
+  newNameError: string;
+  newVisioLinkError: string;
+  newValidityPeriodError: string;
+  newWeekSlotsError: string;
+  newSlotsError: { ids: string[]; error: string };
   handleNameBlur: () => void;
   handleVisioLinkBlur: () => void;
-  handleValidityPeriodBlur: () => void;
-  handleWeekSlotsBlur: () => void;
 }
 
 export type useBlurGridInputsType = (

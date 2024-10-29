@@ -59,6 +59,10 @@ export interface InputsErrors {
   visioLink: string;
   validityPeriod: string;
   weekSlots: string;
+  slots: {
+    ids: string[];
+    error: string;
+  }
 }
 
 interface DaylySlotPayload {
