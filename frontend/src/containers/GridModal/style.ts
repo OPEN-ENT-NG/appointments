@@ -1,12 +1,9 @@
-import { Heading } from "@edifice-ui/react";
-import { hexToRgb } from "@mui/material";
 import { columnBoxStyle } from "~/styles/boxStyles";
 
 export const pageGridModalStyle = {
   ...columnBoxStyle,
   gap: "2rem",
   height: "100%",
-  
 };
 
 export const modalBoxStyle = {
@@ -20,7 +17,7 @@ export const modalBoxStyle = {
   background: "white",
 };
 
-export  const contentBoxStyle = {
+export const contentBoxStyle = {
   borderRadius: ".2rem",
   padding: "2rem 3rem",
   display: "flex",

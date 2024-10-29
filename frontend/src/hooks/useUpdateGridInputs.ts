@@ -14,6 +14,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useUpdateGridInputsType } from "./types";
 import { HexaColor } from "~/components/ColorPicker/types";
 import { DAY, PERIODICITY, SLOT_DURATION } from "~/core/enums";
+import { INVALID_SLOT_ERROR } from "~/core/i18nKeys";
 import { TimeObject } from "~/core/types";
 import { formatTimeToDayjs } from "~/core/utils";
 import {
@@ -26,7 +27,6 @@ import {
   initialPublic,
   initialWeekSlots,
 } from "~/providers/GridModalProvider/utils";
-import { INVALID_SLOT_ERROR } from "~/core/i18nKeys";
 
 export const useUpdateGridInputs: useUpdateGridInputsType = (
   inputs: GridModalInputs,

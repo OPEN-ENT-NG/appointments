@@ -1,9 +1,9 @@
 import { FC } from "react";
 
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import SaveIcon from "@mui/icons-material/Save";
 import { Button, MobileStepper } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import SaveIcon from "@mui/icons-material/Save";
 
 import {
   backButtonStyle,
@@ -19,7 +19,7 @@ export const CustomStepper: FC<CustomStepperProps> = ({
   handleCancel,
   handlePrev,
   handleNext,
-  handleSubmit
+  handleSubmit,
 }) => {
   const { t } = useTranslation("appointments");
 
@@ -47,10 +47,7 @@ export const CustomStepper: FC<CustomStepperProps> = ({
       }
       nextButton={
         page === PAGE_TYPE.FIRST ? (
-          <Button
-            onClick={handleNext}
-            sx={nextButtonStyle}
-          >
+          <Button onClick={handleNext} sx={nextButtonStyle}>
             {t("appointments.next")}
           </Button>
         ) : (

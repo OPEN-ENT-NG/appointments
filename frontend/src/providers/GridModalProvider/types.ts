@@ -5,8 +5,10 @@ import { Dayjs } from "dayjs";
 import { HexaColor } from "~/components/ColorPicker/types";
 import { DAY, PERIODICITY, SLOT_DURATION } from "~/core/enums";
 import { WeekSlotsModel } from "~/core/types";
-import { useBlurGridInputsReturnType, useUpdateGridInputsReturnType } from "~/hooks/types";
-
+import {
+  useBlurGridInputsReturnType,
+  useUpdateGridInputsReturnType,
+} from "~/hooks/types";
 
 export interface GridModalProviderContextProps {
   inputs: GridModalInputs;
@@ -18,7 +20,7 @@ export interface GridModalProviderContextProps {
   slotDurationOptions: SLOT_DURATION[];
   periodicityOptions: PERIODICITY[];
   updateGridModalInputs: useUpdateGridInputsReturnType;
-  blurGridModalInputs: useBlurGridInputsReturnType
+  blurGridModalInputs: useBlurGridInputsReturnType;
   updateFirstPageErrors: () => void;
 }
 
@@ -62,7 +64,7 @@ export interface InputsErrors {
   slots: {
     ids: string[];
     error: string;
-  }
+  };
 }
 
 interface DaylySlotPayload {

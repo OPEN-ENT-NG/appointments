@@ -2,30 +2,30 @@ import { columnBoxStyle, flexStartBoxStyle } from "~/styles/boxStyles";
 import { PURPLE } from "~/styles/constants";
 
 export const dayBoxStyle = {
-    ...flexStartBoxStyle,
-}
+  ...flexStartBoxStyle,
+};
 
 export const weekBoxStyle = {
-    ...columnBoxStyle,
-    gap: "1rem",
-}
+  ...columnBoxStyle,
+  gap: "1rem",
+};
 
 export const dayLabelStyle = {
-    minWidth: "8rem",
-    height: "100%",
-    marginTop: "1.5rem",
-}
+  minWidth: "8rem",
+  height: "100%",
+  marginTop: "1.5rem",
+};
 
 export const slotsBoxStyle = {
-    ...flexStartBoxStyle,
-    flexWrap: "wrap",
-}
+  ...flexStartBoxStyle,
+  flexWrap: "wrap",
+};
 
 export const iconStyle = {
-    color: PURPLE,
-    fontSize: "2rem",
-}
+  color: PURPLE,
+  fontSize: "2rem",
+};
 
 export const errorStyle = {
-    marginLeft: "1rem",
-}
+  marginLeft: "1rem",
+};

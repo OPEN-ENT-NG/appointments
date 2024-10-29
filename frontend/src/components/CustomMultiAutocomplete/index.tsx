@@ -13,7 +13,7 @@ export const CustomMultiAutocomplete: FC = () => {
     inputs,
     updateGridModalInputs: { handlePublicChange },
   } = useGridModalProvider();
-  
+
   const selectedPublic = inputs.public;
   const { t } = useTranslation("appointments");
 

@@ -18,9 +18,7 @@ export const MyAvailability: FC = () => {
     handleDisplayModal,
   } = useGlobalProvider();
 
-  const [gridModalType, setGridModalType] = useState<GRID_MODAL_TYPE>(
-    GRID_MODAL_TYPE.CREATION,
-  );
+  const [gridModalType] = useState<GRID_MODAL_TYPE>(GRID_MODAL_TYPE.CREATION);
 
   return (
     <Box sx={availabilityContainerStyle}>

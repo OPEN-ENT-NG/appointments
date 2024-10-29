@@ -3,6 +3,8 @@ import React from "react";
 import "~/i18n";
 import { OdeClientProvider, ThemeProvider } from "@edifice-ui/react";
 import { ThemeProvider as ThemeProviderMUI } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import {
   QueryCache,
   QueryClient,
@@ -14,12 +16,10 @@ import { Provider } from "react-redux";
 import { RouterProvider } from "react-router-dom";
 
 import { GlobalProvider } from "./providers/GlobalProvider";
+import { GridModalProvider } from "./providers/GridModalProvider";
 import { router } from "./routes";
 import { setupStore } from "./store";
 import theme from "./styles/theme";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { GridModalProvider } from "./providers/GridModalProvider";
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement!);

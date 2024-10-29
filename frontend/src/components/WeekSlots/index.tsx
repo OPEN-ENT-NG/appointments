@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo } from "react";
+import { FC, useMemo } from "react";
 
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
@@ -34,8 +34,8 @@ export const WeekSlots: FC = () => {
   const dayErrors = useMemo(() => {
     const errors: Record<DAY, boolean> = {} as Record<DAY, boolean>;
     for (const day of Object.keys(inputs.weekSlots) as DAY[]) {
-      errors[day] = inputs.weekSlots[day].some((slot) =>
-        slots.ids.includes(slot.id) && (!slot.begin || !slot.end),
+      errors[day] = inputs.weekSlots[day].some(
+        (slot) => slots.ids.includes(slot.id) && (!slot.begin || !slot.end),
       );
     }
     return errors;

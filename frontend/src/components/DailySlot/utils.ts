@@ -54,10 +54,7 @@ export const getStartOptions = (
 ): Time[] => {
   const intervalMinutes: number = formatSlotDurationToMinutes(slotDuration);
 
-  const possibleTimes: TimeObject[] = generateTimeSlots(
-    intervalMinutes,
-    false,
-  );
+  const possibleTimes: TimeObject[] = generateTimeSlots(intervalMinutes, false);
 
   const availableTimes = possibleTimes.filter((time: TimeObject) => {
     return !slots.some((slot) => {
@@ -84,10 +81,7 @@ export const getEndOptions = (
 ): Time[] => {
   const intervalMinutes: number = formatSlotDurationToMinutes(slotDuration);
 
-  const possibleTimes: TimeObject[] = generateTimeSlots(
-    intervalMinutes,
-    true,
-  );
+  const possibleTimes: TimeObject[] = generateTimeSlots(intervalMinutes, true);
 
   const beginTime = currentSlot.begin;
   const maxEndTimes = beginTime
@@ -102,7 +96,7 @@ export const getEndOptions = (
         })
         .reduce<Dayjs | null>(
           (acc, slot) => {
-            if(!slot.begin) {
+            if (!slot.begin) {
               return acc;
             }
             const slotBegin = formatTimeToDayjs(slot.begin);

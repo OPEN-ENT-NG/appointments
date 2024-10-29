@@ -1,10 +1,16 @@
 import { IUserInfo } from "edifice-ts-client";
 
-import { GridModalInputs, GridPayload, InputsErrors, Public, Structure } from "./types";
+import {
+  GridModalInputs,
+  GridPayload,
+  InputsErrors,
+  Public,
+  Structure,
+} from "./types";
 import { DAY, PERIODICITY, SLOT_DURATION } from "~/core/enums";
+import { INVALID_SLOT_ERROR } from "~/core/i18nKeys";
 import { WeekSlotsModel } from "~/core/types";
 import { formatSlotDurationToString, formatTimeToString } from "~/core/utils";
-import { INVALID_SLOT_ERROR } from "~/core/i18nKeys";
 
 export const userStructures = (userInfo: IUserInfo): Structure[] => {
   if (userInfo.structures.length !== userInfo.structureNames.length) {
@@ -49,7 +55,7 @@ export const initialGridModalInputs = (
   weekSlots: initialWeekSlots,
 });
 
-export const initialErrorInputs : InputsErrors = {
+export const initialErrorInputs: InputsErrors = {
   name: "",
   visioLink: "",
   validityPeriod: "",
@@ -59,7 +65,6 @@ export const initialErrorInputs : InputsErrors = {
     error: INVALID_SLOT_ERROR,
   },
 };
-
 
 export const mockPublicList: Public[] = [
   { name: "Public 1", id: "1" },
@@ -81,7 +86,9 @@ export const periodicityOptions: PERIODICITY[] = [
   PERIODICITY.BIWEEKLY,
 ];
 
-export const gridInputsToGridPayload = (inputs: GridModalInputs): GridPayload => {
+export const gridInputsToGridPayload = (
+  inputs: GridModalInputs,
+): GridPayload => {
   return {
     name: inputs.name,
     color: inputs.color,
@@ -109,4 +116,4 @@ export const gridInputsToGridPayload = (inputs: GridModalInputs): GridPayload =>
     documentId: "",
     publicComment: inputs.publicComment,
   };
-}
+};

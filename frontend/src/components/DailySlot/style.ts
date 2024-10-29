@@ -44,25 +44,25 @@ export const selectStyle = {
   "& .MuiInputBase-root": {
     padding: "0",
     height: "100%",
-  }
+  },
 };
 
 export const boxValueStyle = {
-    ...flexStartBoxStyle,
-    height: "100%",
-    gap: "0.8rem",
-}
+  ...flexStartBoxStyle,
+  height: "100%",
+  gap: "0.8rem",
+};
 
 export const iconButtonStyle = {
-    padding: "0",
-}
+  padding: "0",
+};
 
 export const iconStyle = {
-    color: PURPLE,
-    fontSize: "2rem",
-}
+  color: PURPLE,
+  fontSize: "2rem",
+};
 
 export const timeInputStyle = {
   ...centerBoxStyle,
   width: "3.5rem",
-}
+};

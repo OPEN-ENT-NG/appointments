@@ -4,6 +4,6 @@ export interface CustomStepperProps {
   page: PAGE_TYPE;
   handleCancel: () => void;
   handlePrev: () => void;
-  handleNext: ()=> void;
+  handleNext: () => void;
   handleSubmit: () => void;
 }

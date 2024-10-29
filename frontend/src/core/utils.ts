@@ -72,10 +72,12 @@ export const formatTimeToDayjs = (time: TimeObject): Dayjs => {
     .startOf("minute");
 };
 
-export const formatTimeToString = (time: Time) : string => {
+export const formatTimeToString = (time: Time): string => {
   if (!time) {
     return "";
   }
 
-  return `${time.hour.toString().padStart(2, "0")}:${time.minute.toString().padStart(2, "0")}`;
+  return `${time.hour.toString().padStart(2, "0")}:${time.minute
+    .toString()
+    .padStart(2, "0")}`;
 };

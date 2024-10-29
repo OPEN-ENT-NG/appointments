@@ -39,6 +39,9 @@ export const RangeDatePicker: FC = () => {
         onChange={handleEndDateChange}
         minDate={startDate}
         shouldDisableDate={shouldDisableEndDate}
+        slotProps={{
+          day: { sx: { fontSize: "1.2rem" } },
+        }}
       />
     </Box>
   );
