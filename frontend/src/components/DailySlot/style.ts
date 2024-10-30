@@ -4,16 +4,18 @@ import { StyledBoxProps } from "./types";
 import { centerBoxStyle, flexStartBoxStyle } from "~/styles/boxStyles";
 import { PURPLE } from "~/styles/constants";
 
-export const StyledDailySlotBox = styled(Box)<StyledBoxProps>(({ isSlotError }) => ({
-  ...flexStartBoxStyle,
-  boxShadow: "0px 0px 4px 0px #0000001F",
-  borderRadius: "0.5rem",
-  gap: "1rem",
-  padding: "0 1rem",
-  margin: "0.5rem 1rem",
-  width: "fit-content",
-  border: isSlotError ? "1px solid #D32F2F" : "1px solid transparent",
-}));
+export const StyledDailySlotBox = styled(Box)<StyledBoxProps>(
+  ({ isSlotError }) => ({
+    ...flexStartBoxStyle,
+    boxShadow: "0px 0px 4px 0px #0000001F",
+    borderRadius: "0.5rem",
+    gap: "1rem",
+    padding: "0 1rem",
+    margin: "0.5rem 1rem",
+    width: "fit-content",
+    border: isSlotError ? "1px solid #D32F2F" : "1px solid transparent",
+  }),
+);
 
 export const formControlStyle = {
   height: "3rem",
