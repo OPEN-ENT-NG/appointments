@@ -92,6 +92,11 @@ function test() {
   echo "Test done!"
 }
 
+init() {
+  me=`id -u`:`id -g`
+  echo "DEFAULT_DOCKER_USER=$me" > .env
+}
+
 for param in "$@"
 do
   case $param in
