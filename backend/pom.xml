@@ -33,7 +33,7 @@
     </repositories>
 
     <properties>
-        <entCoreVersion>6.0-SNAPSHOT</entCoreVersion>
+        <entCoreVersion>5.0-b2school-SNAPSHOT</entCoreVersion>
         <vertxCronTimer>2.0.0</vertxCronTimer>
         <junitVersion>5.1.0</junitVersion>
         <reflectionsVersion>0.10.2</reflectionsVersion>

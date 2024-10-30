@@ -82,16 +82,6 @@ publishNexus() {
   docker compose run --rm  maven mvn -DrepositoryId=ode-$nexusRepository -Durl=$repo -DskipTests -Dmaven.test.skip=true --settings /var/maven/.m2/settings.xml deploy
 }
 
-function test() {
-  echo "Testing..."
-  if [ "$NO_DOCKER" = "true" ] ; then
-    gradle test
-  else
-    docker-compose run --rm -u "$USER_UID:$GROUP_GID" gradle gradle test
-  fi
-  echo "Test done!"
-}
-
 init() {
   me=`id -u`:`id -g`
   echo "DEFAULT_DOCKER_USER=$me" > .env
