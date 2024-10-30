@@ -28,5 +28,7 @@ public class Appointments extends BaseServer {
         addController(new MainController());
         addController(new GridController(serviceFactory));
         addController(new CommunicationController(serviceFactory));
+        startPromise.tryComplete();
+		startPromise.tryFail("[Appointments@Appointments::start] Fail to start Appointments");
     }
 }
