@@ -33,7 +33,7 @@ export const generateTimeSlots = (
 ): TimeObject[] => {
   const start = dayjs().startOf("day");
 
-  const totalMinutesInDay = 24 * 60;
+  const totalMinutesInDay = 1440;
   const totalIntervals = Math.floor(totalMinutesInDay / intervalInMinutes) - 1;
 
   return Array.from({ length: totalIntervals }, (_, i) => {

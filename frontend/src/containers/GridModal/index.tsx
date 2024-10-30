@@ -87,8 +87,7 @@ export const GridModal: FC<GridModalProps> = ({ gridModalType }) => {
       return;
 
     const payload: GridPayload = gridInputsToGridPayload(inputs);
-    const response = await createGrid(payload);
-    console.log(response);
+    await createGrid(payload);
     handleDisplayModal(MODAL_TYPE.GRID);
   };
 

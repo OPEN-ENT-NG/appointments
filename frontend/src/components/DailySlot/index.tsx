@@ -20,6 +20,7 @@ import {
   iconButtonStyle,
   iconStyle,
   selectStyle,
+  StyledDailySlotBox,
   timeInputStyle,
 } from "./style";
 import { DailySlotProps } from "./types";
@@ -38,17 +39,12 @@ export const DailySlot: FC<DailySlotProps> = ({ day, slot }) => {
     slots.ids.some((item) => item === slot.id) && (!slot.begin || !slot.end);
 
   return (
-    <Box
-      sx={{
-        ...boxDailySlotStyle,
-        border: isSlotError ? "1px solid #D32F2F" : "1px solid transparent",
-      }}
-    >
+    <StyledDailySlotBox isSlotError={isSlotError}>
       <Typography>{t("appointments.from") + " :"}</Typography>
       <FormControl variant="filled" sx={formControlStyle}>
         <Select
           onChange={(e) =>
-            handleSlotChange(day, slot.id, e.target.value as string, "begin")
+            handleSlotChange(day, slot.id, e.target.value, "begin")
           }
           sx={selectStyle}
           value={formatTime(slot.begin)}
@@ -70,7 +66,7 @@ export const DailySlot: FC<DailySlotProps> = ({ day, slot }) => {
       <FormControl variant="filled" sx={formControlStyle}>
         <Select
           onChange={(e) =>
-            handleSlotChange(day, slot.id, e.target.value as string, "end")
+            handleSlotChange(day, slot.id, e.target.value, "end")
           }
           sx={selectStyle}
           value={formatTime(slot.end)}
@@ -95,6 +91,6 @@ export const DailySlot: FC<DailySlotProps> = ({ day, slot }) => {
       >
         <DeleteIcon sx={iconStyle} />
       </IconButton>
-    </Box>
+    </StyledDailySlotBox>
   );
 };

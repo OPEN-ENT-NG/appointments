@@ -51,7 +51,7 @@ export const FirstPageGridModal: FC = () => {
             t("appointments.grid.visible.all")
           }
           variant="outlined"
-          sx={{ width: "100%" }}
+          fullWidth
           value={inputs.name}
           onChange={handleNameChange}
           onBlur={handleNameBlur}

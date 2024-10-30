@@ -41,8 +41,6 @@ export const WeekSlots: FC = () => {
     return errors;
   }, [inputs.weekSlots, slots]);
 
-  console.log(slots.ids);
-
   return (
     <Box sx={weekBoxStyle}>
       {Object.keys(inputs.weekSlots).map((day) => (
