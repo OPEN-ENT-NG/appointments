@@ -15,6 +15,7 @@ export interface GridModalProviderContextProps {
   setInputs: Dispatch<SetStateAction<GridModalInputs>>;
   errorInputs: InputsErrors;
   setErrorInputs: Dispatch<SetStateAction<InputsErrors>>;
+  existingGridsNames: string[];
   structureOptions: Structure[];
   publicOptions: Public[];
   slotDurationOptions: SLOT_DURATION[];

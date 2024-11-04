@@ -30,6 +30,7 @@ import {
 import { useBlurGridInputs } from "~/hooks/useBlurGridInputs";
 import { useUpdateGridInputs } from "~/hooks/useUpdateGridInputs";
 import { useGetCommunicationGroupsQuery } from "~/services/api/communication.service";
+import { useGetMyGridsNameQuery } from "~/services/api/grid.service";
 
 const GridModalProviderContext =
   createContext<GridModalProviderContextProps | null>(null);
@@ -57,27 +58,36 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       skip: !inputs.structure.id,
     });
 
-  useEffect(() => {
-    if (inputs.structure.id) {
-      refetchGroups();
-    }
-  }, [inputs.structure]);
+  const { data: existingGridsNames } = useGetMyGridsNameQuery();
 
   const [errorInputs, setErrorInputs] =
     useState<InputsErrors>(initialErrorInputs);
 
   const updateGridModalInputs: useUpdateGridInputsReturnType =
-    useUpdateGridInputs(inputs, setInputs, setErrorInputs, structures);
+    useUpdateGridInputs(
+      inputs,
+      setInputs,
+      setErrorInputs,
+      structures,
+      existingGridsNames || [],
+    );
 
   const blurGridModalInputs: useBlurGridInputsReturnType = useBlurGridInputs(
     inputs,
     setErrorInputs,
+    existingGridsNames || [],
   );
 
   const updateFirstPageErrors = () => {
     blurGridModalInputs.handleNameBlur();
     blurGridModalInputs.handleVisioLinkBlur();
   };
+
+  useEffect(() => {
+    if (inputs.structure.id) {
+      refetchGroups();
+    }
+  }, [inputs.structure]);
 
   useEffect(() => {
     setInputs((prev) => ({
@@ -92,6 +102,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       setInputs,
       errorInputs,
       setErrorInputs,
+      existingGridsNames: existingGridsNames || [],
       structureOptions: structures,
       publicOptions: groups || [],
       slotDurationOptions,
@@ -100,13 +111,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       blurGridModalInputs,
       updateFirstPageErrors,
     }),
-    [
-      inputs,
-      setInputs,
-      errorInputs,
-      setErrorInputs,
-      structures,
-    ],
+    [inputs, setInputs, errorInputs, setErrorInputs, structures],
   );
 
   return (
