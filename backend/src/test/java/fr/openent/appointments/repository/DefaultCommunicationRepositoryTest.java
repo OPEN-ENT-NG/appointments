@@ -34,20 +34,6 @@ public class DefaultCommunicationRepositoryTest {
         communicationRepository = new DefaultCommunicationRepository(repositoryFactory);
     }
 
-//    @Test
-//    public void testGetVisibleGroups(TestContext ctx) {
-//        String expectedQuery = "MATCH (g:CommunityGroup:Group:Visible {type: 'manager'})<-[r:IN|COMMUNIQUE]-(u:User {id: {userId}}) " +
-//                "RETURN DISTINCT g.id as id, g.name as name, g.displayNameSearchField as displayName, g.nbUsers as nbUsers ORDER BY name";
-//
-//        doAnswer((Answer<Void>) invocation -> {
-//            String queryResult = invocation.getArgument(0);
-//            ctx.assertEquals(expectedQuery, queryResult);
-//            return null;
-//        }).when(neo4jRest).execute(anyString(), any(JsonObject.class), any(Handler.class));
-//
-//        this.communicationRepository.getVisibleGroups("userId");
-//    }
-
     @Test
     public void testGetGroupsCanCommunicateWithMe(TestContext ctx) {
         String userId = Fields.USER_ID;
