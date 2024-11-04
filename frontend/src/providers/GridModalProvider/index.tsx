@@ -83,6 +83,11 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
     blurGridModalInputs.handleVisioLinkBlur();
   };
 
+  const resetInputs = () => {
+    setInputs(initialGridModalInputs(structures));
+    setErrorInputs(initialErrorInputs);
+  };
+
   useEffect(() => {
     if (inputs.structure.id) {
       refetchGroups();
@@ -110,6 +115,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       updateGridModalInputs,
       blurGridModalInputs,
       updateFirstPageErrors,
+      resetInputs,
     }),
     [inputs, setInputs, errorInputs, setErrorInputs, structures],
   );

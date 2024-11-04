@@ -23,6 +23,7 @@ export interface GridModalProviderContextProps {
   updateGridModalInputs: useUpdateGridInputsReturnType;
   blurGridModalInputs: useBlurGridInputsReturnType;
   updateFirstPageErrors: () => void;
+  resetInputs: () => void;
 }
 
 export interface GridModalProviderProps {
