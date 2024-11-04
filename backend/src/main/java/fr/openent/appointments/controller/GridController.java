@@ -36,6 +36,14 @@ public class GridController extends ControllerHelper {
         renderJson(request, new JsonObject());
     }
 
+    @Get("/grids/names")
+    @ApiDoc("Get my grids name")
+    @ResourceFilter(ManageRight.class)
+    @SecuredAction(value = "", type = ActionType.RESOURCE)
+    public void getMyGridsName(final HttpServerRequest request) {
+        renderJson(request, new JsonObject());
+    }
+
     @Get("/grids/:id")
     @ApiDoc("Get grid by id")
     @ResourceFilter(ViewRight.class)

@@ -29,6 +29,7 @@ export const GridModal: FC<GridModalProps> = ({ gridModalType }) => {
 
   const {
     inputs,
+    publicOptions,
     blurGridModalInputs: {
       newNameError,
       newVisioLinkError,
@@ -86,7 +87,7 @@ export const GridModal: FC<GridModalProps> = ({ gridModalType }) => {
     )
       return;
 
-    const payload: GridPayload = gridInputsToGridPayload(inputs);
+    const payload: GridPayload = gridInputsToGridPayload(inputs, publicOptions);
     await createGrid(payload);
     handleDisplayModal(MODAL_TYPE.GRID);
   };

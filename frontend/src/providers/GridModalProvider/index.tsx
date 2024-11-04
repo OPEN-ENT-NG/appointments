@@ -19,7 +19,6 @@ import {
 import {
   initialErrorInputs,
   initialGridModalInputs,
-  mockPublicList,
   periodicityOptions,
   slotDurationOptions,
   userStructures,
@@ -30,6 +29,7 @@ import {
 } from "~/hooks/types";
 import { useBlurGridInputs } from "~/hooks/useBlurGridInputs";
 import { useUpdateGridInputs } from "~/hooks/useUpdateGridInputs";
+import { useGetCommunicationGroupsQuery } from "~/services/api/communication.service";
 
 const GridModalProviderContext =
   createContext<GridModalProviderContextProps | null>(null);
@@ -51,6 +51,17 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
   const [inputs, setInputs] = useState<GridModalInputs>(
     initialGridModalInputs(structures),
   );
+
+  const { data: groups, refetch: refetchGroups } =
+    useGetCommunicationGroupsQuery(inputs.structure.id, {
+      skip: !inputs.structure.id,
+    });
+
+  useEffect(() => {
+    if (inputs.structure.id) {
+      refetchGroups();
+    }
+  }, [inputs.structure]);
 
   const [errorInputs, setErrorInputs] =
     useState<InputsErrors>(initialErrorInputs);
@@ -82,7 +93,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       errorInputs,
       setErrorInputs,
       structureOptions: structures,
-      publicOptions: mockPublicList,
+      publicOptions: groups || [],
       slotDurationOptions,
       periodicityOptions,
       updateGridModalInputs,
@@ -95,7 +106,6 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       errorInputs,
       setErrorInputs,
       structures,
-      mockPublicList,
     ],
   );
 
