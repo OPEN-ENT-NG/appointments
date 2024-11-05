@@ -1,29 +1,28 @@
 import { FC } from "react";
 
+import { useUser } from "@edifice-ui/react";
 import {
   Box,
   FormControl,
   InputLabel,
   MenuItem,
-  Select,
   Switch,
   TextField,
   Typography,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
+import { colorStyle, CustomSelect, firstLineStyle, nameStyle } from "./style";
 import { pageGridModalStyle } from "../GridModal/style";
 import { ColorPicker } from "~/components/ColorPicker";
 import { CustomMultiAutocomplete } from "~/components/CustomMultiAutocomplete";
 import { useGridModalProvider } from "~/providers/GridModalProvider";
-import {
-  flexEndBoxStyle,
-  flexStartBoxStyle,
-  spaceBetweenBoxStyle,
-} from "~/styles/boxStyles";
+import { flexStartBoxStyle } from "~/styles/boxStyles";
 
 export const FirstPageGridModal: FC = () => {
   const { t } = useTranslation("appointments");
+  const { user } = useUser();
+  const structures = user?.structures ?? [];
 
   const {
     inputs,
@@ -40,9 +39,11 @@ export const FirstPageGridModal: FC = () => {
     blurGridModalInputs: { handleNameBlur, handleVisioLinkBlur },
   } = useGridModalProvider();
 
+  const isDisabled = structures.length === 1;
+
   return (
     <Box sx={pageGridModalStyle}>
-      <Box sx={spaceBetweenBoxStyle}>
+      <Box sx={firstLineStyle}>
         <TextField
           id="grid-name"
           label={
@@ -51,14 +52,14 @@ export const FirstPageGridModal: FC = () => {
             t("appointments.grid.visible.all")
           }
           variant="outlined"
-          fullWidth
+          sx={nameStyle}
           value={inputs.name}
           onChange={handleNameChange}
           onBlur={handleNameBlur}
           error={!!errorInputs.name}
           helperText={t(errorInputs.name)}
         />
-        <Box sx={flexEndBoxStyle}>
+        <Box sx={colorStyle}>
           <Typography>{t("appointments.grid.color") + " * "}</Typography>
           <ColorPicker />
         </Box>
@@ -67,19 +68,21 @@ export const FirstPageGridModal: FC = () => {
         <InputLabel id="demo-simple-select-label">
           {t("appointments.grid.structure") + " * "}
         </InputLabel>
-        <Select
+        <CustomSelect
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           label={t("appointments.grid.structure")}
           value={inputs.structure.id}
           onChange={handleStructureChange}
+          disabled={isDisabled}
+          isDisabled={isDisabled}
         >
           {structureOptions.map((structure) => (
             <MenuItem key={structure.id} value={structure.id}>
               {structure.name}
             </MenuItem>
           ))}
-        </Select>
+        </CustomSelect>
       </FormControl>
       <TextField
         id="grid-location"

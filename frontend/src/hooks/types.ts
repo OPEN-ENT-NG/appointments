@@ -21,7 +21,7 @@ import {
 export interface useUpdateGridInputsReturnType {
   handleNameChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleColorChange: (color: HexaColor) => void;
-  handleStructureChange: (event: SelectChangeEvent) => void;
+  handleStructureChange: (event: SelectChangeEvent<unknown>) => void;
   handleLocationChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handlePublicChange: (_: SyntheticEvent, value: Public[]) => void;
   handleIsVisioChange: () => void;

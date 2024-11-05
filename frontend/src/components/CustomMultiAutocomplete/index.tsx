@@ -5,6 +5,7 @@ import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import { Autocomplete, Checkbox, Chip, TextField } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
+import { chipStyle, TextFieldStyle } from "./style";
 import { useGridModalProvider } from "~/providers/GridModalProvider";
 
 export const CustomMultiAutocomplete: FC = () => {
@@ -42,6 +43,7 @@ export const CustomMultiAutocomplete: FC = () => {
       }}
       renderInput={(params) => (
         <TextField
+          sx={TextFieldStyle}
           {...params}
           label={t("appointments.grid.public") + " *"}
           InputProps={{
@@ -52,7 +54,7 @@ export const CustomMultiAutocomplete: FC = () => {
                   <Chip
                     variant="filled"
                     label={t("appointments.everyone")}
-                    style={{ margin: "3px" }}
+                    sx={chipStyle}
                   />
                 )}
                 {params.InputProps.startAdornment}

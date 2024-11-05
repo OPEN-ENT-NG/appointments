@@ -5,7 +5,12 @@ import { Box, IconButton, Modal, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import { GRID_MODAL_TYPE, PAGE_TYPE } from "./enum";
-import { contentBoxStyle, modalBoxStyle } from "./style";
+import {
+  closeIconStyle,
+  contentBoxStyle,
+  instructionStyle,
+  modalBoxStyle,
+} from "./style";
 import { GridModalProps } from "./types";
 import { FirstPageGridModal } from "../FirstPageGridModal";
 import { SecondPageGridModal } from "../SecondPageGridModal";
@@ -107,11 +112,14 @@ export const GridModal: FC<GridModalProps> = ({ gridModalType }) => {
             <Typography variant="h3">
               {t("appointments.create.grid.title")}
             </Typography>
-            <IconButton onClick={() => handleDisplayModal(MODAL_TYPE.GRID)}>
+            <IconButton
+              sx={closeIconStyle}
+              onClick={() => handleDisplayModal(MODAL_TYPE.GRID)}
+            >
               <CloseIcon />
             </IconButton>
           </Box>
-          <Typography sx={{ fontStyle: "italic" }}>
+          <Typography sx={instructionStyle}>
             {t("appointments.grid.required")}
           </Typography>
           {isDisplayFirstPage && <FirstPageGridModal />}

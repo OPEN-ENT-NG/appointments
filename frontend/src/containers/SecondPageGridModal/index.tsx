@@ -42,11 +42,6 @@ export const SecondPageGridModal: FC = () => {
           <Typography>
             {t("appointments.grid.validity.period") + " *"}
           </Typography>
-          {errorInputs.validityPeriod && (
-            <FormHelperText error>
-              {t(errorInputs.validityPeriod)}
-            </FormHelperText>
-          )}
         </Box>
         <RangeDatePicker />
       </Box>

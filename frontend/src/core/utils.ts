@@ -65,6 +65,10 @@ export const formatPeriodicityToI18n = (periodicity: PERIODICITY): string => {
   }
 };
 
+export const formatDayjsToString = (date: Dayjs): string => {
+  return date.format("DD/MM/YYYY");
+};
+
 export const formatTimeToDayjs = (time: TimeObject): Dayjs => {
   return dayjs()
     .set("hour", time.hour)
