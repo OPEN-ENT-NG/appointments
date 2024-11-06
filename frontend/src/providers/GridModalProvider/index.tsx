@@ -69,13 +69,13 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       setInputs,
       setErrorInputs,
       structures,
-      existingGridsNames || [],
+      existingGridsNames ?? [],
     );
 
   const blurGridModalInputs: useBlurGridInputsReturnType = useBlurGridInputs(
     inputs,
     setErrorInputs,
-    existingGridsNames || [],
+    existingGridsNames ?? [],
   );
 
   const updateFirstPageErrors = () => {
@@ -89,9 +89,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
   };
 
   useEffect(() => {
-    if (inputs.structure.id) {
-      refetchGroups();
-    }
+    if (inputs.structure.id) refetchGroups();
   }, [inputs.structure]);
 
   useEffect(() => {
@@ -107,9 +105,9 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       setInputs,
       errorInputs,
       setErrorInputs,
-      existingGridsNames: existingGridsNames || [],
+      existingGridsNames: existingGridsNames ?? [],
       structureOptions: structures,
-      publicOptions: groups || [],
+      publicOptions: groups ?? [],
       slotDurationOptions,
       periodicityOptions,
       updateGridModalInputs,
@@ -117,7 +115,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       updateFirstPageErrors,
       resetInputs,
     }),
-    [inputs, setInputs, errorInputs, setErrorInputs, structures],
+    [inputs, errorInputs, structures, groups, existingGridsNames],
   );
 
   return (

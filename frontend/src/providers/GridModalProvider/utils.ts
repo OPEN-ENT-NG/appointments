@@ -91,8 +91,8 @@ export const gridInputsToGridPayload = (
     duration: formatSlotDurationToString(inputs.slotDuration),
     periodicity: inputs.periodicity,
     targetPublicListId: inputs.public.length
-      ? inputs.public.map((p) => p.id)
-      : publicOptions.map((p) => p.id), // If no public is selected, all publics are selected
+      ? inputs.public.map((item) => item.id)
+      : publicOptions.map((item) => item.id), // If no public is selected, all publics are selected
     dailySlots: Object.entries(inputs.weekSlots).reduce(
       (acc, [day, slots]) => {
         return [

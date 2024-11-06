@@ -60,12 +60,12 @@ export const useUpdateGridInputs: useUpdateGridInputsType = (
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newName = e.target.value;
+    updateInputField("name", newName);
     if (existingGridsNames.includes(newName)) {
       updateErrorInputs("name", SAME_GRID_ALREADY_EXISTS_ERROR);
-    } else {
-      updateErrorInputs("name", "");
+      return;
     }
-    updateInputField("name", newName);
+    updateErrorInputs("name", "");
   };
 
   const handleColorChange = (color: HexaColor) => {
