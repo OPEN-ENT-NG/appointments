@@ -24,7 +24,7 @@ export interface MinimalGrid {
   beginDate: Dayjs;
   endDate: Dayjs;
   state: GRID_STATE;
-  structureName: string;
+  structureId: string;
 }
 
 export interface MyGridsResponse {
@@ -33,7 +33,7 @@ export interface MyGridsResponse {
 }
 
 export interface GetMyGridsPayload {
-  states : GRID_STATE[];
+  states: GRID_STATE[];
   page: number;
   limit: number;
 }

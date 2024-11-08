@@ -59,7 +59,7 @@ export const GridModal: FC<GridModalProps> = ({ gridModalType }) => {
 
   const handleClose = () => {
     setIsDialogOpen(true);
-  }
+  };
 
   const handlePrev = () => {
     setPage(PAGE_TYPE.FIRST);
@@ -112,13 +112,13 @@ export const GridModal: FC<GridModalProps> = ({ gridModalType }) => {
 
   const handleCancelDialog = () => {
     setIsDialogOpen(false);
-  }
-  
+  };
+
   const handleConfirmDialog = () => {
     setIsDialogOpen(false);
     resetInputs();
     handleDisplayModal(MODAL_TYPE.GRID);
-  }
+  };
 
   return (
     <>
@@ -129,10 +129,7 @@ export const GridModal: FC<GridModalProps> = ({ gridModalType }) => {
               <Typography variant="h3">
                 {t("appointments.create.grid.title")}
               </Typography>
-              <IconButton
-                sx={closeIconStyle}
-                onClick={handleClose}
-              >
+              <IconButton sx={closeIconStyle} onClick={handleClose}>
                 <CloseIcon />
               </IconButton>
             </Box>

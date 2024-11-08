@@ -1,6 +1,5 @@
 import { FC } from "react";
 
-import { useUser } from "@edifice-ui/react";
 import {
   Box,
   FormControl,
@@ -16,14 +15,13 @@ import { colorStyle, CustomSelect, firstLineStyle, nameStyle } from "./style";
 import { pageGridModalStyle } from "../GridModal/style";
 import { ColorPicker } from "~/components/ColorPicker";
 import { CustomMultiAutocomplete } from "~/components/CustomMultiAutocomplete";
+import { useStructure } from "~/hooks/useStructure";
 import { useGridModalProvider } from "~/providers/GridModalProvider";
 import { flexStartBoxStyle } from "~/styles/boxStyles";
 
 export const FirstPageGridModal: FC = () => {
   const { t } = useTranslation("appointments");
-  const { user } = useUser();
-  const structures = user?.structures ?? [];
-
+  const { isMultiStructure } = useStructure();
   const {
     inputs,
     errorInputs,
@@ -38,8 +36,6 @@ export const FirstPageGridModal: FC = () => {
     },
     blurGridModalInputs: { handleNameBlur, handleVisioLinkBlur },
   } = useGridModalProvider();
-
-  const isDisabled = structures.length === 1;
 
   return (
     <Box sx={pageGridModalStyle}>
@@ -74,8 +70,8 @@ export const FirstPageGridModal: FC = () => {
           label={t("appointments.grid.structure")}
           value={inputs.structure.id}
           onChange={handleStructureChange}
-          disabled={isDisabled}
-          isDisabled={isDisabled}
+          disabled={!isMultiStructure}
+          isDisabled={!isMultiStructure}
         >
           {structureOptions.map((structure) => (
             <MenuItem key={structure.id} value={structure.id}>

@@ -1,3 +1,3 @@
 export interface CustomSelectProps {
-    isDisabled: boolean;
+  isDisabled: boolean;
 }

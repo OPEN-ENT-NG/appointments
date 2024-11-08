@@ -1,4 +1,8 @@
+import dayjs from "dayjs";
+
 import { emptySplitApi } from "./emptySplitApi.service";
+import { HexaColor } from "~/components/ColorPicker/types";
+import { GRID_STATE } from "~/core/enums";
 import {
   GetMyGridsPayload,
   MyGridsResponse,
@@ -23,6 +27,20 @@ export const gridApi = emptySplitApi.injectEndpoints({
           states: JSON.stringify(body.states),
         },
       }),
+      transformResponse: (response: any) => {
+        return {
+          total: response.total,
+          grids: response.minimal_creator_grids.map((grid: any) => ({
+            id: grid.id.toString(),
+            name: grid.name,
+            color: grid.color as HexaColor,
+            beginDate: dayjs(grid.begin_date),
+            endDate: dayjs(grid.end_date),
+            state: grid.state as GRID_STATE,
+            structureId: grid.structure_id.toString(),
+          })),
+        };
+      },
       providesTags: ["MyGrids"],
     }),
     getMyGridsName: builder.query<string[], void>({
@@ -31,4 +49,8 @@ export const gridApi = emptySplitApi.injectEndpoints({
   }),
 });
 
-export const { useCreateGridMutation, useGetMyGridsQuery, useGetMyGridsNameQuery } = gridApi;
+export const {
+  useCreateGridMutation,
+  useGetMyGridsQuery,
+  useGetMyGridsNameQuery,
+} = gridApi;

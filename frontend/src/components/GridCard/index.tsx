@@ -1,6 +1,5 @@
 import { FC, useState } from "react";
 
-import { useUser } from "@edifice-ui/react";
 import BusinessIcon from "@mui/icons-material/Business";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import EditIcon from "@mui/icons-material/Edit";
@@ -36,15 +35,13 @@ import {
 import { GridCardProps } from "./types";
 import { GRID_STATE } from "~/core/enums";
 import { formatDayjsToString } from "~/core/utils";
+import { useStructure } from "~/hooks/useStructure";
 import { GRID_CARD_SIZE } from "~/providers/AvailabilityProvider/enum";
 
 export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
   const { t } = useTranslation("appointments");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { user } = useUser();
-  const structures = user?.structures ?? [];
-
-  const isMultiStructure = structures.length > 1;
+  const { isMultiStructure, getStructureName } = useStructure();
 
   const handleClickedMoreButton = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -71,7 +68,10 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
               {grid.name}
             </Typography>
             {isMultiStructure && (
-              <Tooltip title={grid.structureName} placement="top">
+              <Tooltip
+                title={getStructureName(grid.structureId)}
+                placement="top"
+              >
                 <BusinessIcon sx={structureIconStyle} />
               </Tooltip>
             )}
@@ -86,7 +86,7 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
             <Box sx={stateStyle}>
               <StateDot state={grid.state} />
               <Typography variant="body1">
-                {t(`appointments.grid.state.${grid.state}`)}
+                {t(`appointments.grid.state.${grid.state.toLowerCase()}`)}
               </Typography>
             </Box>
           </Box>

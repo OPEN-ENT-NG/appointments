@@ -42,7 +42,7 @@ export const RangeDatePicker: FC = () => {
           },
         }}
       />
-      <RemoveIcon sx={removeIconStyle}/>
+      <RemoveIcon sx={removeIconStyle} />
       <DatePicker
         sx={datePickerStyle}
         label={t("appointments.grid.validity.period.end")}

@@ -9,10 +9,16 @@ import {
   RadioGroup,
   Typography,
 } from "@mui/material";
-
-import { buttonsBoxStyle, buttonStyle, cancelButtonStyle, contentBoxStyle, modalBoxStyle } from "./style";
-import { DialogModalProps } from "./types";
 import { useTranslation } from "react-i18next";
+
+import {
+  buttonsBoxStyle,
+  buttonStyle,
+  cancelButtonStyle,
+  contentBoxStyle,
+  modalBoxStyle,
+} from "./style";
+import { DialogModalProps } from "./types";
 
 export const DialogModal: FC<DialogModalProps> = ({
   open,
@@ -24,8 +30,7 @@ export const DialogModal: FC<DialogModalProps> = ({
   options,
   selectedOption,
 }) => {
-
-    const {t} = useTranslation("appointments");
+  const { t } = useTranslation("appointments");
   return (
     <Modal open={open}>
       <Box sx={modalBoxStyle}>
@@ -43,8 +48,16 @@ export const DialogModal: FC<DialogModalProps> = ({
             </FormControl>
           )}
           <Box sx={buttonsBoxStyle}>
-          <Button onClick={handleCancel} sx={cancelButtonStyle}>{t("appointments.cancel")}</Button>
-          <Button onClick={handleConfirm} sx={buttonStyle} variant="contained">{t("appointments.confirm")}</Button>
+            <Button onClick={handleCancel} sx={cancelButtonStyle}>
+              {t("appointments.cancel")}
+            </Button>
+            <Button
+              onClick={handleConfirm}
+              sx={buttonStyle}
+              variant="contained"
+            >
+              {t("appointments.confirm")}
+            </Button>
           </Box>
         </Box>
       </Box>

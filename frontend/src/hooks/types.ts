@@ -15,7 +15,6 @@ import {
   GridModalInputs,
   InputsErrors,
   Public,
-  Structure,
 } from "~/providers/GridModalProvider/types";
 
 export interface useUpdateGridInputsReturnType {
@@ -70,3 +69,8 @@ export type useBlurGridInputsType = (
   errorInputs: InputsErrors,
   setErrorInputs: Dispatch<SetStateAction<InputsErrors>>,
 ) => useBlurGridInputsReturnType;
+
+export interface Structure {
+  id: string;
+  name: string;
+}

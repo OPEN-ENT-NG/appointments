@@ -11,7 +11,7 @@ import { SelectChangeEvent } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
 import { v4 as uuidv4 } from "uuid";
 
-import { useUpdateGridInputsType } from "./types";
+import { Structure, useUpdateGridInputsType } from "./types";
 import { HexaColor } from "~/components/ColorPicker/types";
 import { DAY, PERIODICITY, SLOT_DURATION } from "~/core/enums";
 import {
@@ -24,7 +24,6 @@ import {
   GridModalInputs,
   InputsErrors,
   Public,
-  Structure,
 } from "~/providers/GridModalProvider/types";
 import {
   initialPublic,

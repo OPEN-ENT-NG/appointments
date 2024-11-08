@@ -42,7 +42,7 @@ export const MyAvailability: FC = () => {
       gridListLengths[GRID_TYPE.CLOSED] === 0,
     [gridListLengths],
   );
-  
+
   const boxRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
