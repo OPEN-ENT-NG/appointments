@@ -75,8 +75,7 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
         [GRID_TYPE.IN_PROGRESS]: myInProgressGridsLength,
       });
     }
-  }),
-    [myInProgressData];
+  }, [myInProgressData]);
 
   useEffect(() => {
     const myClosedGrids = myClosedData?.grids;
