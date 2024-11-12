@@ -21,6 +21,7 @@ import { GridModalProvider } from "./providers/GridModalProvider";
 import { router } from "./routes";
 import { setupStore } from "./store";
 import theme from "./styles/theme";
+import { FindAppointmentsProvider } from "./providers/FindAppointmentsProvider";
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement!);
@@ -60,11 +61,13 @@ root.render(
           <ThemeProviderMUI theme={theme}>
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="fr">
               <GlobalProvider>
-                <AvailabilityProvider>
-                  <GridModalProvider>
-                    <RouterProvider router={router} />
-                  </GridModalProvider>
-                </AvailabilityProvider>
+                <FindAppointmentsProvider>
+                  <AvailabilityProvider>
+                    <GridModalProvider>
+                      <RouterProvider router={router} />
+                    </GridModalProvider>
+                  </AvailabilityProvider>
+                </FindAppointmentsProvider>
               </GlobalProvider>
             </LocalizationProvider>
           </ThemeProviderMUI>

@@ -73,6 +73,8 @@
     "appointments.delete": "Supprimer",
     "appointments.confirm": "Confirmer",
     "appointments.consult": "Consulter",
+    "appointments.available": "Disponible",
+    "appointments.unavailable": "Indisponible",
 
     "appointments.from": "De",
     "appointments.to": "À",
