@@ -71,7 +71,7 @@ export const useUpdateGridInputs: useUpdateGridInputsType = (
     updateInputField("color", color);
   };
 
-  const handleStructureChange = (event: SelectChangeEvent) => {
+  const handleStructureChange = (event: SelectChangeEvent<unknown>) => {
     const structure = structureOptions.find(
       (structure) => structure.id === event.target.value,
     );

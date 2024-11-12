@@ -20,13 +20,16 @@ export const gridApi = emptySplitApi.injectEndpoints({
       invalidatesTags: ["MyGrids"],
     }),
     getMyGrids: builder.query<MyGridsResponse, GetMyGridsPayload>({
-      query: (body) => ({
-        url: "/grids",
-        params: {
-          ...body,
-          states: JSON.stringify(body.states),
-        },
-      }),
+      query: (body) => {
+        const statesString = JSON.stringify(body.states);
+        return {
+          url: "/grids",
+          params: {
+            ...body,
+            states: statesString,
+          },
+        };
+      },
       transformResponse: (response: any) => {
         return {
           total: response.total,

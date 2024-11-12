@@ -46,16 +46,12 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
     page: gridPages[GRID_TYPE.IN_PROGRESS],
     limit: GRID_PER_PAGE,
   });
-  const myInProgressGrids = myInProgressData?.grids;
-  const myInProgressGridsLength = myInProgressData?.total;
 
   const { data: myClosedData } = useGetMyGridsQuery({
     states: [GRID_STATE.CLOSED],
     page: gridPages[GRID_TYPE.CLOSED],
     limit: GRID_PER_PAGE,
   });
-  const myClosedGrids = myClosedData?.grids;
-  const myClosedGridsLength = myClosedData?.total;
 
   const handleChangePage = (gridType: GRID_TYPE, newPage: number) => {
     setGridPages({
@@ -65,6 +61,8 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
   };
 
   useEffect(() => {
+    const myInProgressGrids = myInProgressData?.grids;
+    const myInProgressGridsLength = myInProgressData?.total;
     if (myInProgressGrids) {
       setGrids({
         ...grids,
@@ -81,6 +79,8 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
     [myInProgressData];
 
   useEffect(() => {
+  const myClosedGrids = myClosedData?.grids;
+  const myClosedGridsLength = myClosedData?.total;
     if (myClosedGrids) {
       setGrids({
         ...grids,
