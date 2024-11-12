@@ -2,7 +2,10 @@ import { GridModalInputs, GridPayload, InputsErrors, Public } from "./types";
 import { DAY, PERIODICITY, SLOT_DURATION } from "~/core/enums";
 import { INVALID_SLOT_ERROR } from "~/core/i18nKeys";
 import { WeekSlotsModel } from "~/core/types";
-import { formatSlotDurationToString, formatTimeToString } from "~/core/utils";
+import {
+  formatSlotDurationToString,
+  formatTimeToString,
+} from "~/core/utils/date.utils";
 import { Structure } from "~/hooks/types";
 
 export const initialPublic: Public[] = [];

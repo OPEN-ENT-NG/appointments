@@ -4,6 +4,7 @@ import { Box, ClickAwayListener } from "@mui/material";
 import { CirclePicker, ColorResult } from "react-color";
 
 import { circlePickerStyle, colorPickerIconStyle } from "./style";
+import { HexaColor } from "./types";
 import { ColorPickerIcon } from "~/components/SVG/ColorPickerIcon";
 import { useGridModalProvider } from "~/providers/GridModalProvider";
 
@@ -38,7 +39,7 @@ export const ColorPicker: FC = () => {
             <CirclePicker
               color={inputs.color}
               onChange={(newColor: ColorResult) => {
-                handleColorChange(newColor.hex);
+                handleColorChange(newColor.hex as HexaColor);
                 handleClose();
               }}
               circleSize={20}

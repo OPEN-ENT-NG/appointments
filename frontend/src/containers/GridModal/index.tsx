@@ -29,7 +29,7 @@ export const GridModal: FC<GridModalProps> = ({ gridModalType }) => {
   const [page, setPage] = useState<PAGE_TYPE>(PAGE_TYPE.FIRST);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const {
-    displayModals: { grid },
+    displayModals: { [MODAL_TYPE.GRID]: grid },
     handleDisplayModal,
   } = useGlobalProvider();
   const [createGrid] = useCreateGridMutation();

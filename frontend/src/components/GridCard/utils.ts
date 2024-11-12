@@ -3,7 +3,7 @@ import {
   GRID_STATE_OPEN_COLOR,
   GRID_STATE_CLOSED_COLOR,
   GRID_STATE_SUSPENDED_COLOR,
-} from "~/styles/constants";
+} from "~/styles/color.constants";
 
 export const getGridStateColor = (state: GRID_STATE): string => {
   if (state === GRID_STATE.OPEN) {

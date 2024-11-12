@@ -2,7 +2,7 @@ import { Box, styled, SxProps } from "@mui/material";
 
 import { GridListTitleProps } from "./types";
 import { columnBoxStyle } from "~/styles/boxStyles";
-import { ITALIC_FONT } from "~/styles/constants";
+import { ITALIC_FONT } from "~/styles/fontStyle.constants";
 
 export const gridListStyle: SxProps = {
   ...columnBoxStyle,

@@ -21,36 +21,35 @@ import {
 } from "~/providers/AvailabilityProvider/enum";
 import { useGlobalProvider } from "~/providers/GlobalProvider";
 import { MODAL_TYPE } from "~/providers/GlobalProvider/enum";
-import { PURPLE } from "~/styles/constants";
+import { PURPLE } from "~/styles/color.constants";
 
 export const MyAvailability: FC = () => {
   const { t } = useTranslation("appointments");
-  const {
-    displayModals: { grid },
-    handleDisplayModal,
-  } = useGlobalProvider();
+  const { handleDisplayModal } = useGlobalProvider();
 
   const [gridModalType] = useState<GRID_MODAL_TYPE>(GRID_MODAL_TYPE.CREATION);
   const [gridCardSize, setGridCardSize] = useState<GRID_CARD_SIZE>(
     GRID_CARD_SIZE.LARGE,
   );
 
-  const { gridListLengths } = useAvailabilityProvider();
+  const { gridTypeLengths } = useAvailabilityProvider();
   const isAllGridListEmpty = useMemo(
     () =>
-      gridListLengths[GRID_TYPE.IN_PROGRESS] === 0 &&
-      gridListLengths[GRID_TYPE.CLOSED] === 0,
-    [gridListLengths],
+      !gridTypeLengths[GRID_TYPE.IN_PROGRESS] &&
+      !gridTypeLengths[GRID_TYPE.CLOSED],
+    [gridTypeLengths],
   );
 
   const boxRef = useRef<HTMLDivElement | null>(null);
+
+  const sizeWidth = 882;
 
   useEffect(() => {
     const updateGridCardSize = () => {
       if (boxRef.current) {
         const boxWidth = boxRef.current.offsetWidth;
         setGridCardSize(
-          boxWidth < 882 ? GRID_CARD_SIZE.SMALL : GRID_CARD_SIZE.LARGE,
+          boxWidth < sizeWidth ? GRID_CARD_SIZE.SMALL : GRID_CARD_SIZE.LARGE,
         );
       }
     };
@@ -68,11 +67,7 @@ export const MyAvailability: FC = () => {
 
   return (
     <>
-      <GridModal
-        isOpen={grid}
-        handleClose={() => handleDisplayModal(MODAL_TYPE.GRID)}
-        gridModalType={gridModalType}
-      />
+      <GridModal gridModalType={gridModalType} />
       <Box ref={boxRef} sx={availabilityContainerStyle}>
         <Box sx={headerStyle}>
           <Typography variant="h2">

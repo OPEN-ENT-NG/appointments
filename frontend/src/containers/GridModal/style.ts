@@ -1,7 +1,7 @@
 import { SxProps } from "@mui/material";
 
 import { columnBoxStyle } from "~/styles/boxStyles";
-import { ITALIC_FONT } from "~/styles/constants";
+import { ITALIC_FONT } from "~/styles/fontStyle.constants";
 
 export const pageGridModalStyle = {
   ...columnBoxStyle,

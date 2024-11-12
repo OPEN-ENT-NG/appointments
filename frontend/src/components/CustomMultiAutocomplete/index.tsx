@@ -4,6 +4,7 @@ import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import { Autocomplete, Checkbox, Chip, TextField } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { v4 as uuidv4 } from "uuid";
 
 import { chipStyle, TextFieldStyle } from "./style";
 import { useGridModalProvider } from "~/providers/GridModalProvider";
@@ -28,9 +29,9 @@ export const CustomMultiAutocomplete: FC = () => {
       value={selectedPublic}
       onChange={handlePublicChange}
       renderOption={(props, option, { selected }) => {
-        const { key, ...optionProps } = props;
+        const optionProps = props;
         return (
-          <li key={key} {...optionProps}>
+          <li key={uuidv4()} {...optionProps}>
             <Checkbox
               icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
               checkedIcon={<CheckBoxIcon fontSize="small" />}

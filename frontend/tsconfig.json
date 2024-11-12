@@ -25,7 +25,7 @@
     },
 
     /* Test */
-    "types": ["vitest/globals", "@testing-library/jest-dom"]
+    // "types": ["vitest/globals", "@testing-library/jest-dom"]
   },
   "include": ["src"],
   "exclude": ["old"],

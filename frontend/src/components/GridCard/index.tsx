@@ -27,6 +27,7 @@ import {
   leftTextWrapperStyle,
   moreButtonBoxStyle,
   moreButtonStyle,
+  nameTextStyle,
   secondLineBoxStyle,
   StateDot,
   stateStyle,
@@ -34,7 +35,7 @@ import {
 } from "./style";
 import { GridCardProps } from "./types";
 import { GRID_STATE } from "~/core/enums";
-import { formatDayjsToString } from "~/core/utils";
+import { formatDayjsToString } from "~/core/utils/date.utils";
 import { useStructure } from "~/hooks/useStructure";
 import { GRID_CARD_SIZE } from "~/providers/AvailabilityProvider/enum";
 
@@ -57,14 +58,7 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
         <ColorDot color={grid.color} />
         <Box sx={leftTextWrapperStyle}>
           <Box sx={firstLineBoxStyle}>
-            <Typography
-              variant="h5"
-              sx={{
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                textWrap: "nowrap",
-              }}
-            >
+            <Typography variant="h5" sx={nameTextStyle}>
               {grid.name}
             </Typography>
             {isMultiStructure && (

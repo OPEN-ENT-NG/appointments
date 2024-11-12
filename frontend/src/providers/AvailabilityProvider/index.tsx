@@ -12,7 +12,7 @@ import {
   AvailabilityProviderContextProps,
   AvailabilityProviderProps,
   GridList,
-  GridListLength,
+  GridTypeLength,
   GridPages,
 } from "./types";
 import { initialGrids, initialGridsLength, initialPages } from "./utils";
@@ -39,7 +39,7 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
   const [gridPages, setGridPages] = useState<GridPages>(initialPages);
   const [grids, setGrids] = useState<GridList>(initialGrids);
   const [gridsLength, setGridsLength] =
-    useState<GridListLength>(initialGridsLength);
+    useState<GridTypeLength>(initialGridsLength);
 
   const { data: myInProgressData } = useGetMyGridsQuery({
     states: [GRID_STATE.OPEN, GRID_STATE.SUSPENDED],
@@ -79,8 +79,8 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
     [myInProgressData];
 
   useEffect(() => {
-  const myClosedGrids = myClosedData?.grids;
-  const myClosedGridsLength = myClosedData?.total;
+    const myClosedGrids = myClosedData?.grids;
+    const myClosedGridsLength = myClosedData?.total;
     if (myClosedGrids) {
       setGrids({
         ...grids,
@@ -98,7 +98,7 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
   const value = useMemo<AvailabilityProviderContextProps>(
     () => ({
       gridPages,
-      gridListLengths: gridsLength,
+      gridTypeLengths: gridsLength,
       currentGridList: grids,
       handleChangePage,
     }),

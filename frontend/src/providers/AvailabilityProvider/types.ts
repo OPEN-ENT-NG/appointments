@@ -8,7 +8,7 @@ import { GRID_STATE } from "~/core/enums";
 
 export interface AvailabilityProviderContextProps {
   gridPages: GridPages;
-  gridListLengths: GridListLength;
+  gridTypeLengths: GridTypeLength;
   currentGridList: GridList;
   handleChangePage: (gridType: GRID_TYPE, newPage: number) => void;
 }
@@ -43,7 +43,7 @@ export interface GridList {
   [GRID_TYPE.CLOSED]: MinimalGrid[];
 }
 
-export interface GridListLength {
+export interface GridTypeLength {
   [GRID_TYPE.IN_PROGRESS]: number;
   [GRID_TYPE.CLOSED]: number;
 }

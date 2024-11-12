@@ -19,7 +19,7 @@ import {
   SAME_GRID_ALREADY_EXISTS_ERROR,
 } from "~/core/i18nKeys";
 import { TimeObject } from "~/core/types";
-import { formatTimeToDayjs } from "~/core/utils";
+import { formatTimeToDayjs } from "~/core/utils/date.utils";
 import {
   GridModalInputs,
   InputsErrors,

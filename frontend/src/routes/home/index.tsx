@@ -15,7 +15,7 @@ import { AppointmentsIcon } from "~/components/SVG/AppointmentsIcon";
 import { FindAppointments } from "~/containers/FindAppointments";
 import { MyAppointments } from "~/containers/MyAppointments";
 import { MyAvailability } from "~/containers/MyAvailability";
-import { PURPLE } from "~/styles/constants";
+import { PURPLE } from "~/styles/color.constants";
 
 export interface AppProps {
   _id: string;

@@ -22,7 +22,7 @@ export const GridList: FC<GridListProps> = ({ gridType, cardSize }) => {
   const { t } = useTranslation("appointments");
   const {
     gridPages: { [gridType]: page },
-    gridListLengths: {
+    gridTypeLengths: {
       [gridType]: gridsLength,
       [GRID_TYPE.IN_PROGRESS]: inProgressGridsLength,
     },
@@ -47,11 +47,11 @@ export const GridList: FC<GridListProps> = ({ gridType, cardSize }) => {
     <>
       {isGridListEmpty ? (
         <>
-          {gridType === GRID_TYPE.IN_PROGRESS ? (
+          {gridType === GRID_TYPE.IN_PROGRESS && (
             <Typography sx={emptyStateStyle}>
               {t("appointments.grid.in.progress.empty.state")}
             </Typography>
-          ) : null}
+          )}
         </>
       ) : (
         <Box sx={gridListStyle}>

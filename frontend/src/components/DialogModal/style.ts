@@ -1,6 +1,6 @@
 import { SxProps } from "@mui/material";
 
-import { GREY } from "~/styles/constants";
+import { GREY } from "~/styles/color.constants";
 
 export const modalBoxStyle: SxProps = {
   position: "absolute",

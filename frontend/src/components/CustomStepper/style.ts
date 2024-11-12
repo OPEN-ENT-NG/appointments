@@ -1,7 +1,7 @@
 import { SxProps } from "@mui/material";
 
 import { flexStartBoxStyle } from "~/styles/boxStyles";
-import { LIGHT_GREY, PURPLE } from "~/styles/constants";
+import { LIGHT_GREY, PURPLE } from "~/styles/color.constants";
 
 export const stepperStyle: SxProps = {
   ...flexStartBoxStyle,

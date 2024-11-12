@@ -3,7 +3,7 @@ import { Box, styled, SxProps } from "@mui/material";
 import { ColorDotProps, StateDotProps } from "./types";
 import { getGridStateColor } from "./utils";
 import { flexStartBoxStyle } from "~/styles/boxStyles";
-import { GREEN } from "~/styles/constants";
+import { GREEN } from "~/styles/color.constants";
 
 export const ColorDot = styled(Box)<ColorDotProps>(({ color }) => ({
   backgroundColor: color,
@@ -18,6 +18,12 @@ export const firstLineBoxStyle: SxProps = {
   display: "flex",
   gap: "0.6rem",
   alignItems: "center",
+};
+
+export const nameTextStyle: SxProps = {
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  textWrap: "nowrap",
 };
 
 export const secondLineBoxStyle: SxProps = {
