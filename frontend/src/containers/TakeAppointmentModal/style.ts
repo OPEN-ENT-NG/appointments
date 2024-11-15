@@ -1,13 +1,17 @@
 import { SxProps } from "@mui/material";
 
+import { flexStartBoxStyle } from "~/styles/boxStyles";
+import { BLACK } from "~/styles/color.constants";
+
 export const modalBoxStyle: SxProps = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "calc( min(62rem, 95%))",
-  height: "calc(90vh)",
-  maxHeight: "fit-content",
+  width: "calc( min(100rem, 95%))",
+  minHeight: "43rem",
+  height: "fit-content",
+  maxHeight: "80vh",
   background: "white",
   borderRadius: ".5rem",
 };
@@ -17,8 +21,9 @@ export const contentBoxStyle: SxProps = {
   padding: "2rem 3rem",
   display: "flex",
   flexDirection: "column",
+  alignItems: "flex-start",
   gap: "1rem",
-  maxHeight: "100%",
+  maxHeight: "inherit",
   overflowY: "auto",
   "&::-webkit-scrollbar": {
     width: "0.8rem",
@@ -29,3 +34,26 @@ export const contentBoxStyle: SxProps = {
     borderRadius: "0.3rem",
   },
 };
+
+export const closeIconStyle = {
+  "& > .MuiSvgIcon-root": {
+    fontSize: "2.4rem",
+    color: BLACK,
+  },
+};
+
+export const dividerStyle: SxProps = {
+  borderColor: "divider",
+};
+
+export const contentWrapperStyle: SxProps = {
+  ...flexStartBoxStyle,
+  alignItems: "flex-start",
+  gap: "3rem",
+  height: "100%",
+};
+
+export const submitButtonStyle: SxProps = {
+  display: "flex",
+  justifyContent: "flex-end",
+}

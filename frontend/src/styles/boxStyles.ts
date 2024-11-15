@@ -1,3 +1,5 @@
+import { SxProps } from "@mui/material";
+
 export const spaceBetweenBoxStyle = {
   width: "100%",
   display: "flex",
@@ -5,11 +7,12 @@ export const spaceBetweenBoxStyle = {
   justifyContent: "space-between",
 };
 
-export const flexStartBoxStyle = {
+export const flexStartBoxStyle :SxProps = {
   width: "100%",
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-start",
+  marginTop: "1rem",
 };
 
 export const flexEndBoxStyle = {

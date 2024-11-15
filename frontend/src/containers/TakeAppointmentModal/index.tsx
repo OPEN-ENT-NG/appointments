@@ -1,25 +1,24 @@
 import { FC } from "react";
 
-import { Box, Modal } from "@mui/material";
+import { IconButton, Button } from "@cgi-learning-hub/ui";
+import CloseIcon from "@mui/icons-material/Close";
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import { Box, Divider, Modal, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
-import { contentBoxStyle, modalBoxStyle } from "./style";
+import { closeIconStyle, contentBoxStyle, contentWrapperStyle, dividerStyle, modalBoxStyle } from "./style";
 import { TakeAppointmentModalProps } from "./types";
 import { TakeAppointmentGridInfos } from "../TakeAppointmentGridInfos";
-import { SLOT_DURATION } from "~/core/enums";
-import { useFindAppointmentsProvider } from "~/providers/FindAppointmentsProvider";
+import { TakeAppointmentWeekSlots } from "../TakeAppointmentWeekSlots";
+import { useTakeAppointmentModalProvider } from "~/providers/TakeAppointmentModalProvider";
+import { flexEndBoxStyle, spaceBetweenBoxStyle } from "~/styles/boxStyles";
 
 export const TakeAppointmentModal: FC<TakeAppointmentModalProps> = ({
   userInfos,
 }) => {
-  const { isModalOpen, setIsModalOpen } = useFindAppointmentsProvider();
+  const { isModalOpen, setIsModalOpen } = useTakeAppointmentModalProvider();
+  const { t } = useTranslation("appointments");
 
-  const gridsName = ["grid1", "grid2", "grid3"];
-  const gridInfo = {
-    visio: true,
-    slotDuration: SLOT_DURATION.FIFTEEN_MINUTES,
-    location: "Paris",
-    publicComment: "Public comment",
-  };
   return (
     <Modal
       open={isModalOpen}
@@ -28,11 +27,33 @@ export const TakeAppointmentModal: FC<TakeAppointmentModalProps> = ({
     >
       <Box sx={modalBoxStyle}>
         <Box sx={contentBoxStyle}>
-          <TakeAppointmentGridInfos
-            userInfos={userInfos}
-            gridsName={gridsName}
-            gridInfo={gridInfo}
-          />
+          <Box sx={spaceBetweenBoxStyle}>
+            <Typography variant="h3">
+              {t("appointments.take.appointment.modal.title")}
+            </Typography>
+            <IconButton
+              sx={closeIconStyle}
+              onClick={() => {
+                setIsModalOpen(false);
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+          </Box>
+          <Box sx={contentWrapperStyle}>
+            <TakeAppointmentGridInfos
+              userInfos={userInfos}
+            />
+            <Divider sx={dividerStyle} orientation="vertical" flexItem/>
+            <TakeAppointmentWeekSlots />
+          </Box>
+          <Box sx={flexEndBoxStyle}>
+          <Button variant="contained"
+          startIcon={<EventAvailableIcon />}
+          >
+            {t("appointments.take.appointment.modal.submit")}
+          </Button>
+          </Box>
         </Box>
       </Box>
     </Modal>

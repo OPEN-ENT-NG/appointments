@@ -23,7 +23,8 @@
     "paths": {
       "~/*": ["./src/*"],
       "@cgi-learning-hub/ui": [
-        "node_modules/@cgi-learning-hub/ui"
+        "node_modules/@cgi-learning-hub/ui",
+        "node_modules/@cgi-learning-hub/theme"
       ],
     },
 

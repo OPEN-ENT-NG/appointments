@@ -8,10 +8,11 @@ import { TakeAppointmentModal } from "../TakeAppointmentModal";
 import { UserCard } from "~/components/UserCard";
 import { useFindAppointmentsProvider } from "~/providers/FindAppointmentsProvider";
 import { NUMBER_MORE_USERS } from "~/providers/FindAppointmentsProvider/utils";
+import { useTakeAppointmentModalProvider } from "~/providers/TakeAppointmentModalProvider";
 
 export const FindAppointments: FC = () => {
-  const { users, selectedUser, hasMoreUsers, loadMoreUsers } =
-    useFindAppointmentsProvider();
+  const { users, hasMoreUsers, loadMoreUsers } = useFindAppointmentsProvider();
+  const { selectedUser } = useTakeAppointmentModalProvider();
   const observerRef = useRef<IntersectionObserver | null>(null);
   const targetRef = useRef<HTMLDivElement | null>(null);
 

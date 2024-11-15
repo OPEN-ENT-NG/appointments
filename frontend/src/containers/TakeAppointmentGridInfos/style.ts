@@ -11,20 +11,10 @@ import {
   USER_STATUS_UNAVAILABLE_COLOR,
 } from "~/styles/color.constants";
 
-export const closeIconStyle = {
-  "& > .MuiSvgIcon-root": {
-    fontSize: "2.4rem",
-    color: BLACK,
-  },
-};
-
-export const wrapperContentBoxStyle: SxProps = {
-  ...flexStartBoxStyle,
-  gap: "2rem",
-};
-
 export const wrapperUserInfoStyle: SxProps = {
   ...columnBoxStyle,
+  minWidth: "30rem",
+  width: "50%",
   gap: "2rem",
 };
 
@@ -48,11 +38,6 @@ export const bottomUserInfoStyle: SxProps = {
 export const itemStyle: SxProps = {
   ...flexStartBoxStyle,
   gap: "1rem",
-};
-
-export const wrapperWeekSlotsStyle: SxProps = {
-  ...flexStartBoxStyle,
-  gap: "2rem",
 };
 
 export const pictureStyle: SxProps = {
