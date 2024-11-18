@@ -101,7 +101,7 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
       currentGridList: grids,
       handleChangePage,
     }),
-    [gridsLength, grids],
+    [gridPages, gridsLength, grids],
   );
 
   return (
