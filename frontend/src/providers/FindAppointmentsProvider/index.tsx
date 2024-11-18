@@ -22,7 +22,6 @@ export const useFindAppointmentsProvider = () => {
 export const FindAppointmentsProvider: FC<FindAppointmentsProviderProps> = ({
   children,
 }) => {
-  
   const [users, setUsers] = useState(initialUsers);
   const [hasMoreUsers, setHasMoreUsers] = useState(true);
 
@@ -34,14 +33,16 @@ export const FindAppointmentsProvider: FC<FindAppointmentsProviderProps> = ({
       }
       return [...prev, ...newUsers];
     });
-  }
+  };
 
-
-  const value = useMemo<FindAppointmentsProviderContextProps>(() => ({
-    users,
-    hasMoreUsers,
-    loadMoreUsers,
-  }), [users, hasMoreUsers]);
+  const value = useMemo<FindAppointmentsProviderContextProps>(
+    () => ({
+      users,
+      hasMoreUsers,
+      loadMoreUsers,
+    }),
+    [users, hasMoreUsers],
+  );
 
   return (
     <FindAppointmentsProviderContext.Provider value={value}>

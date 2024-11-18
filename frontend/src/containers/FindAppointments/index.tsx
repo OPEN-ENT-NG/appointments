@@ -19,15 +19,15 @@ export const FindAppointments: FC = () => {
         loadMoreUsers();
       }
     },
-    [hasMoreUsers, loadMoreUsers]
+    [hasMoreUsers, loadMoreUsers],
   );
 
   useEffect(() => {
     if (observerRef.current) observerRef.current.disconnect();
 
     observerRef.current = new IntersectionObserver(handleObserver, {
-      root: null, 
-      rootMargin: "0px", 
+      root: null,
+      rootMargin: "0px",
       threshold: 1.0,
     });
 
@@ -51,7 +51,7 @@ export const FindAppointments: FC = () => {
           <UserCard
             key={user.userId}
             infos={user}
-            ref={index ===users.length-NUMBER_MORE_USERS ? targetRef : null}
+            ref={index === users.length - NUMBER_MORE_USERS ? targetRef : null}
           />
         ))}
       </Box>

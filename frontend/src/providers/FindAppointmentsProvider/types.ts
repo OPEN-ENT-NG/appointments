@@ -5,9 +5,9 @@ import { Dayjs } from "dayjs";
 import { USER_STATUS } from "./enums";
 
 export interface FindAppointmentsProviderContextProps {
-    users: UserCardInfos[];
-    hasMoreUsers: boolean;
-    loadMoreUsers: () => void;
+  users: UserCardInfos[];
+  hasMoreUsers: boolean;
+  loadMoreUsers: () => void;
 }
 
 export interface FindAppointmentsProviderProps {

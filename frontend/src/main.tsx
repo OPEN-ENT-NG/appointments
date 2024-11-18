@@ -16,12 +16,12 @@ import { Provider } from "react-redux";
 import { RouterProvider } from "react-router-dom";
 
 import { AvailabilityProvider } from "./providers/AvailabilityProvider";
+import { FindAppointmentsProvider } from "./providers/FindAppointmentsProvider";
 import { GlobalProvider } from "./providers/GlobalProvider";
 import { GridModalProvider } from "./providers/GridModalProvider";
 import { router } from "./routes";
 import { setupStore } from "./store";
 import theme from "./styles/theme";
-import { FindAppointmentsProvider } from "./providers/FindAppointmentsProvider";
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement!);
