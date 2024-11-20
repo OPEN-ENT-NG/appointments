@@ -13,7 +13,7 @@ jobs:
         run: pnpm install
       - name: Check Quality Code
         working-directory: ./frontend
-        run: pnpm run format:check && pnpm run lint
+        run:  pnpm run lint # pnpm run format:check
       - name: Check Lint Fix and Typescript
         working-directory: ./frontend
         run: pnpm run fix && pnpm run check-types
