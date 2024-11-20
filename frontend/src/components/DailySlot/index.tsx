@@ -58,11 +58,13 @@ export const DailySlot: FC<DailySlotProps> = ({ day, slot }) => {
                 </Box>
               )}
             >
-              {getStartOptions(weekSlots[day], slotDuration, slot).map((time) => (
-                <MenuItem key={uuidv4()} value={formatTime(time)}>
-                  {formatTime(time)}
-                </MenuItem>
-              ))}
+              {getStartOptions(weekSlots[day], slotDuration, slot).map(
+                (time) => (
+                  <MenuItem key={uuidv4()} value={formatTime(time)}>
+                    {formatTime(time)}
+                  </MenuItem>
+                ),
+              )}
             </Select>
           </FormControl>
         </Box>
