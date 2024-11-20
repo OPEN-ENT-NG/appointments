@@ -2,11 +2,17 @@ import { FC } from "react";
 
 import { IconButton, Button } from "@cgi-learning-hub/ui";
 import CloseIcon from "@mui/icons-material/Close";
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import { Box, Divider, Modal, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-import { closeIconStyle, contentBoxStyle, contentWrapperStyle, dividerStyle, modalBoxStyle } from "./style";
+import {
+  closeIconStyle,
+  contentBoxStyle,
+  contentWrapperStyle,
+  dividerStyle,
+  modalBoxStyle,
+} from "./style";
 import { TakeAppointmentModalProps } from "./types";
 import { TakeAppointmentGridInfos } from "../TakeAppointmentGridInfos";
 import { TakeAppointmentWeekSlots } from "../TakeAppointmentWeekSlots";
@@ -41,18 +47,14 @@ export const TakeAppointmentModal: FC<TakeAppointmentModalProps> = ({
             </IconButton>
           </Box>
           <Box sx={contentWrapperStyle}>
-            <TakeAppointmentGridInfos
-              userInfos={userInfos}
-            />
-            <Divider sx={dividerStyle} orientation="vertical" flexItem/>
+            <TakeAppointmentGridInfos userInfos={userInfos} />
+            <Divider sx={dividerStyle} orientation="vertical" flexItem />
             <TakeAppointmentWeekSlots />
           </Box>
           <Box sx={flexEndBoxStyle}>
-          <Button variant="contained"
-          startIcon={<EventAvailableIcon />}
-          >
-            {t("appointments.take.appointment.modal.submit")}
-          </Button>
+            <Button variant="contained" startIcon={<EventAvailableIcon />}>
+              {t("appointments.take.appointment.modal.submit")}
+            </Button>
           </Box>
         </Box>
       </Box>

@@ -54,7 +54,14 @@ export const TakeAppointmentModalProvider: FC<
       setIsModalOpen,
       handleOnClickCard,
     }),
-    [isModalOpen, selectedUser, gridsName, selectedGridName, gridInfo, gridSlots],
+    [
+      isModalOpen,
+      selectedUser,
+      gridsName,
+      selectedGridName,
+      gridInfo,
+      gridSlots,
+    ],
   );
   return (
     <TakeAppointmentModalProviderContext.Provider value={value}>

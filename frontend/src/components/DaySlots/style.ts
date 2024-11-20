@@ -4,7 +4,11 @@ import { Box, styled, SxProps } from "@mui/material";
 import { DaySlotsWrapperProps } from "./types";
 import { columnBoxStyle } from "~/styles/boxStyles";
 import { BLACK, LIGHTER_PURPLE, PURPLE } from "~/styles/color.constants";
-import { BOLD_FONT, IMPORTANT, ITALIC_FONT } from "~/styles/fontStyle.constants";
+import {
+  BOLD_FONT,
+  IMPORTANT,
+  ITALIC_FONT,
+} from "~/styles/fontStyle.constants";
 
 export const DaySlotsWrapper = styled(Box)<DaySlotsWrapperProps>(
   ({ isEmpty }) => ({

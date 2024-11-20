@@ -4,7 +4,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Box, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-
 import {
   daySlotsHeaderStyle,
   DaySlotsWrapper,
@@ -33,7 +32,9 @@ export const DaySlots: FC<DaySlotsProps> = ({ weekDay, day, slots }) => {
       <Box sx={timeSlotWrapperStyle}>
         {slots.length ? (
           slots.map((slot, index) => (
-            <TimeSlot variant="text" key={index}>{formatTimeToString(slot)}</TimeSlot>
+            <TimeSlot variant="text" key={index}>
+              {formatTimeToString(slot)}
+            </TimeSlot>
           ))
         ) : (
           <Box sx={noSlotsStyle}>

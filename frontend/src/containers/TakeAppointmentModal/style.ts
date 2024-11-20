@@ -56,4 +56,4 @@ export const contentWrapperStyle: SxProps = {
 export const submitButtonStyle: SxProps = {
   display: "flex",
   justifyContent: "flex-end",
-}
+};

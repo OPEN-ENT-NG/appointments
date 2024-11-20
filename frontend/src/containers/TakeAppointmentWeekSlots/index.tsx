@@ -3,7 +3,11 @@ import { FC } from "react";
 import { Box, Checkbox, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-import { containerStyle, visioOptionStyle, weekSlotsWrapperStyle } from "./style";
+import {
+  containerStyle,
+  visioOptionStyle,
+  weekSlotsWrapperStyle,
+} from "./style";
 import { DaySlots } from "~/components/DaySlots";
 import { useTakeAppointmentModalProvider } from "~/providers/TakeAppointmentModalProvider";
 import { flexStartBoxStyle } from "~/styles/boxStyles";

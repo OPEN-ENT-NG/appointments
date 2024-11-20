@@ -4,7 +4,6 @@ import { GridInfoType } from "./types";
 import { DaySlotsProps } from "~/components/DaySlots/types";
 import { DAY, SLOT_DURATION } from "~/core/enums";
 
-
 export const gridsName = ["grid1", "grid2", "grid3"];
 
 export const gridsInfos: Record<string, GridInfoType> = {
@@ -43,8 +42,7 @@ export const gridsTimeSlots: Record<string, DaySlotsProps[]> = {
     {
       weekDay: DAY.TUESDAY,
       day: dayjs().startOf("week").add(2, "day"), // Mardi
-      slots: [
-      ],
+      slots: [],
     },
     {
       weekDay: DAY.WEDNESDAY,
@@ -104,14 +102,12 @@ export const gridsTimeSlots: Record<string, DaySlotsProps[]> = {
     {
       weekDay: DAY.MONDAY,
       day: dayjs().startOf("week").add(1, "day"), // Lundi
-      slots: [
-      ],
+      slots: [],
     },
     {
       weekDay: DAY.TUESDAY,
       day: dayjs().startOf("week").add(2, "day"), // Mardi
-      slots: [
-      ],
+      slots: [],
     },
     {
       weekDay: DAY.WEDNESDAY,
@@ -210,8 +206,7 @@ export const gridsTimeSlots: Record<string, DaySlotsProps[]> = {
     {
       weekDay: DAY.FRIDAY,
       day: dayjs().startOf("week").add(5, "day"), // Vendredi
-      slots: [
-      ],
+      slots: [],
     },
     {
       weekDay: DAY.SATURDAY,
