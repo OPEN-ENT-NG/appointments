@@ -76,16 +76,13 @@ export const getStartOptions = (
             formatTimeToDayjs(slot.end).isBefore(formatTimeToDayjs(endTime))
           );
         })
-        .reduce<Dayjs | null>(
-          (acc, slot) => {
-            if (!slot.end) {
-              return acc;
-            }
-            const slotEnd = formatTimeToDayjs(slot.end);
-            return acc === null || slotEnd.isAfter(acc) ? slotEnd : acc;
-          },
-          null as Dayjs | null,
-        )
+        .reduce<Dayjs | null>((acc: Dayjs | null, slot) => {
+          if (!slot.end) {
+            return acc;
+          }
+          const slotEnd = formatTimeToDayjs(slot.end);
+          return acc === null || slotEnd.isAfter(acc) ? slotEnd : acc;
+        }, null)
     : null;
 
   const availableTimes = possibleTimes.filter((time: TimeObject) => {
