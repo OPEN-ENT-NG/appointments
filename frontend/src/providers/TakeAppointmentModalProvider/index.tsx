@@ -27,11 +27,21 @@ export const TakeAppointmentModalProvider: FC<
   const [selectedGridName, setSelectedGridName] = useState<string>(
     gridsName[0],
   );
+  const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOnClickCard = (user: UserCardInfos | null) => {
     setSelectedUser(user);
     if (user) setIsModalOpen(true);
+  };
+
+  const handleOnClickSlot = (slotId: string) => {
+    setSelectedSlotId(slotId);
+  };
+
+  const handleGridChange = (gridName: string) => {
+    setSelectedGridName(gridName);
+    setSelectedSlotId(null);
   };
 
   const gridInfo = useMemo(() => {
@@ -50,7 +60,9 @@ export const TakeAppointmentModalProvider: FC<
       gridInfo,
       gridSlots,
       selectedGridName,
-      setSelectedGridName,
+      selectedSlotId,
+      handleGridChange,
+      handleOnClickSlot,
       setIsModalOpen,
       handleOnClickCard,
     }),
@@ -61,6 +73,7 @@ export const TakeAppointmentModalProvider: FC<
       selectedGridName,
       gridInfo,
       gridSlots,
+      selectedSlotId,
     ],
   );
   return (

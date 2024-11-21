@@ -1,6 +1,6 @@
 import { SxProps } from "@mui/material";
 
-import { flexStartBoxStyle } from "~/styles/boxStyles";
+import { flexEndBoxStyle, flexStartBoxStyle } from "~/styles/boxStyles";
 import { BLACK } from "~/styles/color.constants";
 
 export const modalBoxStyle: SxProps = {
@@ -54,6 +54,6 @@ export const contentWrapperStyle: SxProps = {
 };
 
 export const submitButtonStyle: SxProps = {
-  display: "flex",
-  justifyContent: "flex-end",
+  ...flexEndBoxStyle,
+  filter: "blur(0)",
 };

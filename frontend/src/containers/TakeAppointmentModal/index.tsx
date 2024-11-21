@@ -12,12 +12,13 @@ import {
   contentWrapperStyle,
   dividerStyle,
   modalBoxStyle,
+  submitButtonStyle,
 } from "./style";
 import { TakeAppointmentModalProps } from "./types";
 import { TakeAppointmentGridInfos } from "../TakeAppointmentGridInfos";
 import { TakeAppointmentWeekSlots } from "../TakeAppointmentWeekSlots";
 import { useTakeAppointmentModalProvider } from "~/providers/TakeAppointmentModalProvider";
-import { flexEndBoxStyle, spaceBetweenBoxStyle } from "~/styles/boxStyles";
+import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
 
 export const TakeAppointmentModal: FC<TakeAppointmentModalProps> = ({
   userInfos,
@@ -51,7 +52,7 @@ export const TakeAppointmentModal: FC<TakeAppointmentModalProps> = ({
             <Divider sx={dividerStyle} orientation="vertical" flexItem />
             <TakeAppointmentWeekSlots />
           </Box>
-          <Box sx={flexEndBoxStyle}>
+          <Box sx={submitButtonStyle}>
             <Button variant="contained" startIcon={<EventAvailableIcon />}>
               {t("appointments.take.appointment.modal.submit")}
             </Button>

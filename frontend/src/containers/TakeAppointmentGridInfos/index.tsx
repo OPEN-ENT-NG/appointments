@@ -35,7 +35,7 @@ export const TakeAppointmentGridInfos: FC<TakeAppointmentGridInfosProps> = ({
   userInfos,
 }) => {
   const { t } = useTranslation("appointments");
-  const { gridsName, gridInfo, selectedGridName, setSelectedGridName } =
+  const { gridsName, gridInfo, selectedGridName, handleGridChange } =
     useTakeAppointmentModalProvider();
   return (
     <Box sx={wrapperUserInfoStyle}>
@@ -57,7 +57,7 @@ export const TakeAppointmentGridInfos: FC<TakeAppointmentGridInfosProps> = ({
           <Select
             variant="standard"
             value={selectedGridName}
-            onChange={(e) => setSelectedGridName(e.target.value as string)}
+            onChange={(e) => handleGridChange(e.target.value as string)}
           >
             {gridsName.map((gridName) => (
               <MenuItem key={gridName} value={gridName}>

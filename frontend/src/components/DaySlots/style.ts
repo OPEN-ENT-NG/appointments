@@ -1,7 +1,7 @@
 import { Button, common } from "@cgi-learning-hub/ui";
 import { Box, styled, SxProps } from "@mui/material";
 
-import { DaySlotsWrapperProps } from "./types";
+import { DaySlotsWrapperProps, TimeSlotProps } from "./types";
 import { columnBoxStyle } from "~/styles/boxStyles";
 import { BLACK, LIGHTER_PURPLE, PURPLE } from "~/styles/color.constants";
 import {
@@ -26,12 +26,12 @@ export const daySlotsHeaderStyle: SxProps = {
   lineHeight: "0",
 };
 
-export const TimeSlot = styled(Button)({
+export const TimeSlot = styled(Button)<TimeSlotProps>(({ selected }) => ({
   width: "6.2rem",
   height: "3.4rem",
   borderRadius: ".8rem" + IMPORTANT,
-  backgroundColor: LIGHTER_PURPLE + IMPORTANT,
-  color: PURPLE + IMPORTANT,
+  backgroundColor: selected ? PURPLE + IMPORTANT : LIGHTER_PURPLE + IMPORTANT,
+  color: selected ? common.white + IMPORTANT : BLACK + IMPORTANT,
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -42,7 +42,7 @@ export const TimeSlot = styled(Button)({
     backgroundColor: PURPLE + IMPORTANT,
     color: common.white + IMPORTANT,
   },
-});
+}));
 
 export const weekDayStyle: SxProps = {
   ...BOLD_FONT,
@@ -64,6 +64,7 @@ export const timeSlotWrapperStyle: SxProps = {
   alignItems: "flex-start",
   flexWrap: "wrap",
   maxHeight: "calc(100vh - 45rem)",
+  filter: "blur(0)",
   //   overflowY: "auto",
   //   "&::-webkit-scrollbar": {
   //   width: "0.6rem",

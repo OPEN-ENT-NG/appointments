@@ -11,7 +11,9 @@ export interface TakeAppointmentModalProviderContextProps {
   gridInfo: GridInfoType;
   gridSlots: DaySlotsProps[];
   selectedGridName: string;
-  setSelectedGridName: Dispatch<SetStateAction<string>>;
+  selectedSlotId: string | null;
+  handleGridChange: (gridName: string) => void;
+  handleOnClickSlot: (slotId: string) => void;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
   handleOnClickCard: (user: UserCardInfos | null) => void;
 }

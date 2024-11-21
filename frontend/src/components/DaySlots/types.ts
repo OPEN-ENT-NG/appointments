@@ -1,14 +1,18 @@
 import { Dayjs } from "dayjs";
 
 import { DAY } from "~/core/enums";
-import { TimeObject } from "~/core/types";
+import { Slot } from "~/core/types";
 
 export interface DaySlotsProps {
   weekDay: DAY;
   day: Dayjs;
-  slots: TimeObject[];
+  slots: Slot[];
 }
 
 export interface DaySlotsWrapperProps {
   isEmpty: boolean;
+}
+
+export interface TimeSlotProps {
+  selected: boolean;
 }

@@ -62,7 +62,7 @@ export const FirstPageGridModal: FC = () => {
         </Box>
       </Box>
       <FormControl sx={{ width: "100%" }}>
-        <InputLabel id="demo-simple-select-label" sx={{width:"fit-content"}}>
+        <InputLabel id="demo-simple-select-label" sx={{ width: "fit-content" }}>
           {t("appointments.grid.structure") + " * "}
         </InputLabel>
         <CustomSelect

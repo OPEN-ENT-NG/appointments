@@ -15,9 +15,12 @@ import {
 } from "./style";
 import { DaySlotsProps } from "./types";
 import { formatTimeToString } from "~/core/utils/date.utils";
+import { useTakeAppointmentModalProvider } from "~/providers/TakeAppointmentModalProvider";
 
 export const DaySlots: FC<DaySlotsProps> = ({ weekDay, day, slots }) => {
   const { t } = useTranslation("appointments");
+  const { handleOnClickSlot, selectedSlotId } =
+    useTakeAppointmentModalProvider();
 
   return (
     <DaySlotsWrapper isEmpty={!slots.length}>
@@ -31,9 +34,14 @@ export const DaySlots: FC<DaySlotsProps> = ({ weekDay, day, slots }) => {
       </Box>
       <Box sx={timeSlotWrapperStyle}>
         {slots.length ? (
-          slots.map((slot, index) => (
-            <TimeSlot variant="text" key={index}>
-              {formatTimeToString(slot)}
+          slots.map((slot) => (
+            <TimeSlot
+              onClick={() => handleOnClickSlot(slot.id)}
+              selected={slot.id === selectedSlotId}
+              variant="text"
+              key={slot.id}
+            >
+              {formatTimeToString(slot.begin)}
             </TimeSlot>
           ))
         ) : (
