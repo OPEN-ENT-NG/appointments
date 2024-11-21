@@ -22,21 +22,14 @@ import { GREY } from "~/styles/color.constants";
 
 export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(
   ({ infos }, ref) => {
-    const { t } = useTranslation("appointments");
-    const userLanguage = navigator.language.split("-")[0] || "en";
-
-    const displayName = infos.displayName;
-    const profession = infos.profession;
-    const lastAppointment = infos.lastAppointment
-      ? dayjs(infos.lastAppointment).locale(userLanguage).format("D MMMM YYYY")
-      : null;
-    const status = infos.status;
-
-    const displayNameRef = useRef<HTMLDivElement>(null);
+    const { profilePicture, displayName, profession, lastAppointment, status } =
+      infos;
     const [isElipsisDisplayName, setIsElipsisDisplayName] = useState(false);
-
-    const professionRef = useRef<HTMLDivElement>(null);
     const [isElipsisProfession, setIsElipsisProfession] = useState(false);
+
+    const { t } = useTranslation("appointments");
+    const displayNameRef = useRef<HTMLDivElement>(null);
+    const professionRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
       if (displayNameRef.current) {
@@ -52,10 +45,15 @@ export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(
       }
     }, [profession]);
 
+    const userLanguage = navigator.language.split("-")[0] || "en";
+    const lastAppointmentDisplayFormat = lastAppointment
+      ? dayjs(infos.lastAppointment).locale(userLanguage).format("D MMMM YYYY")
+      : null;
+
     return (
-      <WrapperUserCard status={infos.status} ref={ref}>
+      <WrapperUserCard status={status} ref={ref}>
         <Box sx={noAvatarStyle}>
-          {!infos.profilePicture && <NoAvatar fill={GREY} />}
+          {!profilePicture && <NoAvatar fill={GREY} />}
         </Box>
         <Box sx={textWrapperStyle}>
           <Box sx={topTextWrapperStyle}>
@@ -79,7 +77,9 @@ export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(
                 {profession}
               </Typography>
             </Tooltip>
-            <Typography sx={lastAppointmentStyle}>{lastAppointment}</Typography>
+            <Typography sx={lastAppointmentStyle}>
+              {lastAppointmentDisplayFormat}
+            </Typography>
           </Box>
           <Box sx={statusBoxStyle}>
             <StatusColor status={status} />
