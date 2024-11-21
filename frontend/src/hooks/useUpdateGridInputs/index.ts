@@ -225,4 +225,3 @@ export const useUpdateGridInputs: useUpdateGridInputsType = (
     handleSlotChange,
   };
 };
-
