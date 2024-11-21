@@ -65,6 +65,7 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
               <Tooltip
                 title={getStructureNameById(grid.structureId)}
                 placement="top"
+                arrow
               >
                 <BusinessIcon sx={structureIconStyle} />
               </Tooltip>

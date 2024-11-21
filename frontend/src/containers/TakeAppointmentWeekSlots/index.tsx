@@ -1,5 +1,7 @@
 import { FC } from "react";
 
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { Box, Checkbox, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
@@ -19,6 +21,9 @@ export const TakeAppointmentWeekSlots: FC = () => {
   return (
     <Box sx={containerStyle}>
       <Box sx={weekSlotsWrapperStyle}>
+        <Box>
+          <KeyboardArrowLeftIcon />
+        </Box>
         {gridSlots.map((daySlot, index) => (
           <DaySlots
             key={index}
@@ -27,6 +32,9 @@ export const TakeAppointmentWeekSlots: FC = () => {
             slots={daySlot.slots}
           />
         ))}
+        <Box>
+          <KeyboardArrowRightIcon />
+        </Box>
       </Box>
       <Box sx={flexStartBoxStyle}>
         <Checkbox />
