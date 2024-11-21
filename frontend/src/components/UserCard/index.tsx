@@ -31,20 +31,8 @@ export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(
 
     const { t } = useTranslation("appointments");
     const { handleOnClickCard } = useFindAppointmentsProvider();
-    const userLanguage = navigator.language.split("-")[0] || "en";
-
-    const displayName = infos.displayName;
-    const profession = infos.profession;
-    const lastAppointment = infos.lastAppointment
-      ? dayjs(infos.lastAppointment).locale(userLanguage).format("D MMMM YYYY")
-      : null;
-    const status = infos.status;
-
     const displayNameRef = useRef<HTMLDivElement>(null);
-    const [isElipsisDisplayName, setIsElipsisDisplayName] = useState(false);
-
     const professionRef = useRef<HTMLDivElement>(null);
-    const [isElipsisProfession, setIsElipsisProfession] = useState(false);
 
     useEffect(() => {
       if (displayNameRef.current) {
@@ -66,7 +54,6 @@ export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(
       : null;
 
     return (
-      <WrapperUserCard status={status} ref={ref}>
       <WrapperUserCard
         status={infos.status}
         ref={ref}
