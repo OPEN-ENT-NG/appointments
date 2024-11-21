@@ -30,3 +30,10 @@ export const handleConflictingSlot = (
   }
   return item;
 };
+
+export const formatString = (value: string) => {
+  return value
+    .replace(/\s{2,}/g, " ") // Remove multiple spaces
+    .trimStart() // Remove spaces at the beginning and end
+    .slice(0, 250); // Limit to 250 characters
+};
