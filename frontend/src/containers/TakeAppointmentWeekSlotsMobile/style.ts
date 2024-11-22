@@ -1,44 +1,33 @@
 import { Box, styled, SxProps } from "@mui/material";
 
-import { ColumnSlotsWrapperProps } from "./types";
+import { RowSlotsWrapperProps } from "./types";
 import { columnBoxStyle, flexStartBoxStyle } from "~/styles/boxStyles";
 import { BLACK } from "~/styles/color.constants";
 import { BOLD_FONT, ITALIC_FONT } from "~/styles/fontStyle.constants";
 
 export const weekSlotsWrapperStyle: SxProps = {
-  ...flexStartBoxStyle,
+  ...columnBoxStyle,
   justifyContent: "space-around",
   gap: "1.6rem",
   alignItems: "flex-start",
-  overflowY: "scroll",
-  marginRight: "-0.6rem",
-  "&::-webkit-scrollbar": {
-    width: "0.6rem",
-    height: "0.8rem",
-  },
-  "&::-webkit-scrollbar-thumb": {
-    backgroundColor: "divider",
-    borderRadius: "0.3rem",
-  },
 };
 
-export const ColumnSlotsWrapper = styled(Box)<ColumnSlotsWrapperProps>(
+export const RowSlotsWrapper = styled(Box)<RowSlotsWrapperProps>(
   ({ isEmpty }) => ({
     opacity: isEmpty ? "0.5" : "1",
+    ...flexStartBoxStyle,
+    gap: "2rem",
+    alignItems: "flex-start",
   }),
 );
-
-export const daySlotsWrapperStyle: SxProps = {
-  ...columnBoxStyle,
-  gap: ".8rem",
-  justifyContent: "flex-start",
-};
 
 export const daySlotsHeaderStyle: SxProps = {
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   lineHeight: "0",
+  minWidth: "8rem",
+  marginTop: ".4rem",
 };
 
 export const weekDayStyle: SxProps = {
@@ -64,4 +53,5 @@ export const containerStyle: SxProps = {
   flexDirection: "column",
   alignSelf: "stretch",
   justifyContent: "space-between",
+  minHeight: "100%",
 };

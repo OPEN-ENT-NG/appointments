@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 
 import { IconButton, Button } from "@cgi-learning-hub/ui";
 import CloseIcon from "@mui/icons-material/Close";
@@ -6,17 +6,20 @@ import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import { Box, Divider, Modal, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
+import { MODAL_SIZE } from "./enum";
 import {
   closeIconStyle,
   contentBoxStyle,
-  contentWrapperStyle,
+  ContentWrapper,
   dividerStyle,
   modalBoxStyle,
   submitButtonStyle,
 } from "./style";
 import { TakeAppointmentModalProps } from "./types";
 import { TakeAppointmentGridInfos } from "../TakeAppointmentGridInfos";
-import { TakeAppointmentWeekSlots } from "../TakeAppointmentWeekSlots";
+import { TakeAppointmentWeekSlotsDesktop } from "../TakeAppointmentWeekSlotsDesktop";
+import { TakeAppointmentWeekSlotsMobile } from "../TakeAppointmentWeekSlotsMobile";
+import { TAKE_APPOINTMENT_MODAL_BREAKPOINT } from "~/core/breakpoints";
 import { useTakeAppointmentModalProvider } from "~/providers/TakeAppointmentModalProvider";
 import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
 
@@ -26,6 +29,24 @@ export const TakeAppointmentModal: FC<TakeAppointmentModalProps> = ({
   const { isModalOpen, setIsModalOpen, selectedSlotId } =
     useTakeAppointmentModalProvider();
   const { t } = useTranslation("appointments");
+  const [modalSize, setModalSize] = useState<MODAL_SIZE>(MODAL_SIZE.LARGE);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setModalSize(
+        window.innerWidth <= TAKE_APPOINTMENT_MODAL_BREAKPOINT
+          ? MODAL_SIZE.SMALL
+          : MODAL_SIZE.LARGE,
+      );
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <Modal
@@ -48,11 +69,17 @@ export const TakeAppointmentModal: FC<TakeAppointmentModalProps> = ({
               <CloseIcon />
             </IconButton>
           </Box>
-          <Box sx={contentWrapperStyle}>
+          <ContentWrapper modalSize={modalSize}>
             <TakeAppointmentGridInfos userInfos={userInfos} />
-            <Divider sx={dividerStyle} orientation="vertical" flexItem />
-            <TakeAppointmentWeekSlots />
-          </Box>
+            {modalSize === MODAL_SIZE.SMALL ? (
+              <TakeAppointmentWeekSlotsMobile />
+            ) : (
+              <>
+                <Divider sx={dividerStyle} orientation="vertical" flexItem />
+                <TakeAppointmentWeekSlotsDesktop />
+              </>
+            )}
+          </ContentWrapper>
           <Box sx={submitButtonStyle}>
             <Button
               disabled={!selectedSlotId}

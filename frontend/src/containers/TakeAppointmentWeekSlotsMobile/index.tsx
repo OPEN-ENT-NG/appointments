@@ -6,20 +6,20 @@ import { Box, Checkbox, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import {
-  ColumnSlotsWrapper,
+  RowSlotsWrapper,
   containerStyle,
   daySlotsHeaderStyle,
-  daySlotsWrapperStyle,
   dayStyle,
   visioOptionStyle,
   weekDayStyle,
   weekSlotsWrapperStyle,
 } from "./style";
+import { MODAL_SIZE } from "../TakeAppointmentModal/enum";
 import { DaySlots } from "~/components/DaySlots";
 import { useTakeAppointmentModalProvider } from "~/providers/TakeAppointmentModalProvider";
 import { flexStartBoxStyle } from "~/styles/boxStyles";
 
-export const TakeAppointmentWeekSlots: FC = () => {
+export const TakeAppointmentWeekSlotsMobile: FC = () => {
   const { t } = useTranslation("appointments");
 
   const { gridSlots } = useTakeAppointmentModalProvider();
@@ -27,28 +27,21 @@ export const TakeAppointmentWeekSlots: FC = () => {
     <Box sx={containerStyle}>
       <Box sx={weekSlotsWrapperStyle}>
         {gridSlots.map((daySlot, index) => (
-          <ColumnSlotsWrapper
-            isEmpty={!daySlot.slots.length}
-            sx={daySlotsHeaderStyle}
-            key={index}
-          >
-            <Typography sx={weekDayStyle}>
-              {t(`appointments.${daySlot.weekDay.toLowerCase()}`)}
-            </Typography>
-            <Typography sx={dayStyle}>
-              {daySlot.day.locale("fr").format("D MMMM")}
-            </Typography>
-          </ColumnSlotsWrapper>
-        ))}
-      </Box>
-      <Box sx={weekSlotsWrapperStyle}>
-        {gridSlots.map((daySlot, index) => (
-          <ColumnSlotsWrapper
-            isEmpty={!daySlot.slots.length}
-            sx={daySlotsWrapperStyle}
-          >
-            <DaySlots key={index} slots={daySlot.slots} />
-          </ColumnSlotsWrapper>
+          <RowSlotsWrapper isEmpty={!daySlot.slots.length}>
+            <Box sx={daySlotsHeaderStyle}>
+              <Typography sx={weekDayStyle}>
+                {t(`appointments.${daySlot.weekDay.toLowerCase()}`)}
+              </Typography>
+              <Typography sx={dayStyle}>
+                {daySlot.day.locale("fr").format("D MMMM")}
+              </Typography>
+            </Box>
+            <DaySlots
+              key={index}
+              slots={daySlot.slots}
+              modalSize={MODAL_SIZE.SMALL}
+            />
+          </RowSlotsWrapper>
         ))}
       </Box>
       <Box sx={flexStartBoxStyle}>

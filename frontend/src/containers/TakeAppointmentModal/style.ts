@@ -1,6 +1,12 @@
-import { SxProps } from "@mui/material";
+import { Box, styled, SxProps } from "@mui/material";
 
-import { flexEndBoxStyle, flexStartBoxStyle } from "~/styles/boxStyles";
+import { MODAL_SIZE } from "./enum";
+import { ContentWrapperProps } from "./types";
+import {
+  columnBoxStyle,
+  flexEndBoxStyle,
+  flexStartBoxStyle,
+} from "~/styles/boxStyles";
 import { BLACK } from "~/styles/color.constants";
 
 export const modalBoxStyle: SxProps = {
@@ -46,12 +52,14 @@ export const dividerStyle: SxProps = {
   borderColor: "divider",
 };
 
-export const contentWrapperStyle: SxProps = {
-  ...flexStartBoxStyle,
-  alignItems: "flex-start",
-  gap: "3rem",
-  height: "100%",
-};
+export const ContentWrapper = styled(Box)<ContentWrapperProps>(
+  ({ modalSize }) => ({
+    ...(modalSize === MODAL_SIZE.SMALL ? columnBoxStyle : flexStartBoxStyle),
+    alignItems: modalSize === MODAL_SIZE.SMALL ? "center" : "flex-start",
+    gap: "3rem",
+    height: "100%",
+  }),
+);
 
 export const submitButtonStyle: SxProps = {
   ...flexEndBoxStyle,

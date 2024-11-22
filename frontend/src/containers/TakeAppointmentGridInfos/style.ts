@@ -14,13 +14,14 @@ import {
 export const wrapperUserInfoStyle: SxProps = {
   ...columnBoxStyle,
   minWidth: "30rem",
-  width: "50%",
+  maxWidth: "50rem",
   gap: "2rem",
 };
 
 export const topUserInfoStyle: SxProps = {
   ...flexStartBoxStyle,
   gap: "2rem",
+  position: "relative",
 };
 
 export const bottomUserInfoStyle: SxProps = {

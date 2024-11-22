@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 
-import { GridInfoType } from "./types";
-import { DaySlotsProps } from "~/components/DaySlots/types";
+import { GridInfoType, tmpSlotsType } from "./types";
 import { DAY, SLOT_DURATION } from "~/core/enums";
 
 export const gridsName = ["grid1", "grid2", "grid3"];
@@ -27,7 +26,7 @@ export const gridsInfos: Record<string, GridInfoType> = {
   },
 };
 
-export const gridsTimeSlots: Record<string, DaySlotsProps[]> = {
+export const gridsTimeSlots: Record<string, tmpSlotsType[]> = {
   grid1: [
     {
       weekDay: DAY.MONDAY,

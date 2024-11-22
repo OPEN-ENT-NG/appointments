@@ -3,17 +3,17 @@ import { FC } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { Box } from "@mui/material";
 
-import { noSlotsStyle, TimeSlot, timeSlotWrapperStyle } from "./style";
+import { noSlotsStyle, TimeSlot, TimeSlotWrapper } from "./style";
 import { DaySlotsProps } from "./types";
 import { formatTimeToString } from "~/core/utils/date.utils";
 import { useTakeAppointmentModalProvider } from "~/providers/TakeAppointmentModalProvider";
 
-export const DaySlots: FC<DaySlotsProps> = ({ slots }) => {
+export const DaySlots: FC<DaySlotsProps> = ({ slots, modalSize }) => {
   const { handleOnClickSlot, selectedSlotId } =
     useTakeAppointmentModalProvider();
 
   return (
-    <Box sx={timeSlotWrapperStyle}>
+    <TimeSlotWrapper modalSize={modalSize}>
       {slots.length ? (
         slots.map((slot) => (
           <TimeSlot
@@ -30,6 +30,6 @@ export const DaySlots: FC<DaySlotsProps> = ({ slots }) => {
           <CloseIcon />
         </Box>
       )}
-    </Box>
+    </TimeSlotWrapper>
   );
 };
