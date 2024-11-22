@@ -31,7 +31,8 @@ export const TimeSlotWrapper = styled(Box)<TimeSlotWrapperProps>(
     justifyContent: modalSize === MODAL_SIZE.SMALL ? "flex-start" : "center",
     alignItems: "flex-start",
     flexWrap: "wrap",
-    maxHeight: "calc(100vh - 45rem)",
+    maxHeight:
+      modalSize === MODAL_SIZE.LARGE ? "calc(100vh - 45rem)" : "fit-content",
     filter: "blur(0)",
   }),
 );

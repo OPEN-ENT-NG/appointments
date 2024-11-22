@@ -10,6 +10,7 @@ export const weekSlotsWrapperStyle: SxProps = {
   justifyContent: "space-around",
   gap: "1.6rem",
   alignItems: "flex-start",
+  height: "100%",
 };
 
 export const RowSlotsWrapper = styled(Box)<RowSlotsWrapperProps>(
@@ -18,6 +19,7 @@ export const RowSlotsWrapper = styled(Box)<RowSlotsWrapperProps>(
     ...flexStartBoxStyle,
     gap: "2rem",
     alignItems: "flex-start",
+    height: "fit-content",
   }),
 );
 
@@ -53,5 +55,5 @@ export const containerStyle: SxProps = {
   flexDirection: "column",
   alignSelf: "stretch",
   justifyContent: "space-between",
-  minHeight: "100%",
+  height: "100%",
 };

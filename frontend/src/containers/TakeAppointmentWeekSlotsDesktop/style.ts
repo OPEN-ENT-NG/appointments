@@ -8,6 +8,7 @@ import { BOLD_FONT, ITALIC_FONT } from "~/styles/fontStyle.constants";
 export const weekSlotsWrapperStyle: SxProps = {
   ...flexStartBoxStyle,
   justifyContent: "space-around",
+  flex: "0 1 100%",
   gap: "1.6rem",
   alignItems: "flex-start",
   overflowY: "scroll",
@@ -31,6 +32,11 @@ export const ColumnSlotsWrapper = styled(Box)<ColumnSlotsWrapperProps>(
 export const daySlotsWrapperStyle: SxProps = {
   ...columnBoxStyle,
   gap: ".8rem",
+};
+
+export const headerStyle: SxProps = {
+  ...flexStartBoxStyle,
+  justifyContent: "space-around",
 };
 
 export const daySlotsHeaderStyle: SxProps = {

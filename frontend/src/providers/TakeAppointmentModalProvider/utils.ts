@@ -196,6 +196,41 @@ export const gridsTimeSlots: Record<string, tmpSlotsType[]> = {
           begin: { hour: 13, minute: 0 },
           end: { hour: 13, minute: 15 },
         },
+        {
+          id: "2023-11-25_14_0",
+          begin: { hour: 14, minute: 0 },
+          end: { hour: 14, minute: 15 },
+        },
+        {
+          id: "2023-11-25_15_0",
+          begin: { hour: 15, minute: 0 },
+          end: { hour: 15, minute: 15 },
+        },
+        {
+          id: "2023-11-25_16_0",
+          begin: { hour: 16, minute: 0 },
+          end: { hour: 16, minute: 15 },
+        },
+        {
+          id: "2023-11-25_17_0",
+          begin: { hour: 17, minute: 0 },
+          end: { hour: 17, minute: 15 },
+        },
+        {
+          id: "2023-11-25_18_0",
+          begin: { hour: 18, minute: 0 },
+          end: { hour: 18, minute: 15 },
+        },
+        {
+          id: "2023-11-25_19_0",
+          begin: { hour: 19, minute: 0 },
+          end: { hour: 19, minute: 15 },
+        },
+        {
+          id: "2023-11-25_20_0",
+          begin: { hour: 20, minute: 0 },
+          end: { hour: 20, minute: 15 },
+        },
       ],
     },
   ],

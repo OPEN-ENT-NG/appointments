@@ -15,9 +15,8 @@ export const modalBoxStyle: SxProps = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "calc( min(110rem, 95%))",
-  minHeight: "43rem",
-  height: "fit-content",
-  maxHeight: "80vh",
+  height: "80vh",
+  maxHeight: "fit-content",
   background: "white",
   borderRadius: ".5rem",
 };
@@ -29,7 +28,7 @@ export const contentBoxStyle: SxProps = {
   flexDirection: "column",
   alignItems: "flex-start",
   gap: "1rem",
-  maxHeight: "inherit",
+  maxHeight: "100%",
   overflowY: "auto",
   "&::-webkit-scrollbar": {
     width: "0.8rem",

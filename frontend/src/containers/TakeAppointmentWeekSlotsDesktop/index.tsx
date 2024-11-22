@@ -11,6 +11,7 @@ import {
   daySlotsHeaderStyle,
   daySlotsWrapperStyle,
   dayStyle,
+  headerStyle,
   visioOptionStyle,
   weekDayStyle,
   weekSlotsWrapperStyle,
@@ -26,7 +27,7 @@ export const TakeAppointmentWeekSlotsDesktop: FC = () => {
   const { gridSlots } = useTakeAppointmentModalProvider();
   return (
     <Box sx={containerStyle}>
-      <Box sx={weekSlotsWrapperStyle}>
+      <Box sx={headerStyle}>
         {gridSlots.map((daySlot, index) => (
           <ColumnSlotsWrapper
             isEmpty={!daySlot.slots.length}
