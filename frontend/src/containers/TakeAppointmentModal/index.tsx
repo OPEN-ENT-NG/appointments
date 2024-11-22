@@ -23,7 +23,8 @@ import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
 export const TakeAppointmentModal: FC<TakeAppointmentModalProps> = ({
   userInfos,
 }) => {
-  const { isModalOpen, setIsModalOpen } = useTakeAppointmentModalProvider();
+  const { isModalOpen, setIsModalOpen, selectedSlotId } =
+    useTakeAppointmentModalProvider();
   const { t } = useTranslation("appointments");
 
   return (
@@ -53,7 +54,11 @@ export const TakeAppointmentModal: FC<TakeAppointmentModalProps> = ({
             <TakeAppointmentWeekSlots />
           </Box>
           <Box sx={submitButtonStyle}>
-            <Button variant="contained" startIcon={<EventAvailableIcon />}>
+            <Button
+              disabled={!selectedSlotId}
+              variant="contained"
+              startIcon={<EventAvailableIcon />}
+            >
               {t("appointments.take.appointment.modal.submit")}
             </Button>
           </Box>

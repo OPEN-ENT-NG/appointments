@@ -8,7 +8,7 @@ export const modalBoxStyle: SxProps = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "calc( min(100rem, 95%))",
+  width: "calc( min(110rem, 95%))",
   minHeight: "43rem",
   height: "fit-content",
   maxHeight: "80vh",

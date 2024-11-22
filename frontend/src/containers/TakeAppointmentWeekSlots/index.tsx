@@ -1,13 +1,18 @@
 import { FC } from "react";
 
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+// import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+// import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { Box, Checkbox, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import {
+  ColumnSlotsWrapper,
   containerStyle,
+  daySlotsHeaderStyle,
+  daySlotsWrapperStyle,
+  dayStyle,
   visioOptionStyle,
+  weekDayStyle,
   weekSlotsWrapperStyle,
 } from "./style";
 import { DaySlots } from "~/components/DaySlots";
@@ -21,20 +26,30 @@ export const TakeAppointmentWeekSlots: FC = () => {
   return (
     <Box sx={containerStyle}>
       <Box sx={weekSlotsWrapperStyle}>
-        <Box>
-          <KeyboardArrowLeftIcon />
-        </Box>
         {gridSlots.map((daySlot, index) => (
-          <DaySlots
+          <ColumnSlotsWrapper
+            isEmpty={!daySlot.slots.length}
+            sx={daySlotsHeaderStyle}
             key={index}
-            weekDay={daySlot.weekDay}
-            day={daySlot.day}
-            slots={daySlot.slots}
-          />
+          >
+            <Typography sx={weekDayStyle}>
+              {t(`appointments.${daySlot.weekDay.toLowerCase()}`)}
+            </Typography>
+            <Typography sx={dayStyle}>
+              {daySlot.day.locale("fr").format("D MMMM")}
+            </Typography>
+          </ColumnSlotsWrapper>
         ))}
-        <Box>
-          <KeyboardArrowRightIcon />
-        </Box>
+      </Box>
+      <Box sx={weekSlotsWrapperStyle}>
+        {gridSlots.map((daySlot, index) => (
+          <ColumnSlotsWrapper
+            isEmpty={!daySlot.slots.length}
+            sx={daySlotsWrapperStyle}
+          >
+            <DaySlots key={index} slots={daySlot.slots} />
+          </ColumnSlotsWrapper>
+        ))}
       </Box>
       <Box sx={flexStartBoxStyle}>
         <Checkbox />

@@ -161,6 +161,26 @@ export const gridsTimeSlots: Record<string, DaySlotsProps[]> = {
           begin: { hour: 20, minute: 0 },
           end: { hour: 20, minute: 15 },
         },
+        {
+          id: "2023-11-24_21_0",
+          begin: { hour: 21, minute: 0 },
+          end: { hour: 21, minute: 15 },
+        },
+        {
+          id: "2023-11-24_22_0",
+          begin: { hour: 22, minute: 0 },
+          end: { hour: 22, minute: 15 },
+        },
+        {
+          id: "2023-11-24_23_0",
+          begin: { hour: 23, minute: 0 },
+          end: { hour: 23, minute: 15 },
+        },
+        {
+          id: "2023-11-24_24_0",
+          begin: { hour: 24, minute: 0 },
+          end: { hour: 24, minute: 15 },
+        },
       ],
     },
     {
