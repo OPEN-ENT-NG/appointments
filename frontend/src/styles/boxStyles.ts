@@ -10,7 +10,6 @@ export const flexStartBoxStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-start",
-  marginTop: "1rem",
 } as const;
 
 export const flexEndBoxStyle = {
