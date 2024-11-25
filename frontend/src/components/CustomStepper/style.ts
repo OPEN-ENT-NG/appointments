@@ -1,5 +1,4 @@
 import { flexStartBoxStyle } from "~/styles/boxStyles";
-
 import { LIGHT_GREY, PURPLE } from "~/styles/color.constants";
 
 export const stepperStyle = {
