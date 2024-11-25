@@ -14,6 +14,7 @@ import org.entcore.common.sql.SqlResult;
 import static fr.openent.appointments.core.constants.Fields.*;
 import static fr.openent.appointments.core.constants.SqlTables.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +28,7 @@ public class DefaultAppointmentRepository implements AppointmentRepository {
     }
 
     @Override
-    public Future<Optional<Appointment>> create(String timeSlotId, String userId) {
+    public Future<Optional<Appointment>> create(Long timeSlotId, String userId) {
         Promise<Optional<Appointment>> promise = Promise.promise();
 
         if (timeSlotId == null) {
@@ -46,6 +47,28 @@ public class DefaultAppointmentRepository implements AppointmentRepository {
 
         String errorMessage = "[Appointemnts@DefaultAppointmentRepository::create] Failed to create appointment : ";
         sql.prepared(query, params, SqlResult.validUniqueResultHandler(IModelHelper.sqlUniqueResultToIModel(promise, Appointment.class, errorMessage)));
+        return promise.future();
+    }
+
+    @Override
+    public Future<List<Appointment>> getAvailableAppointments(Long timeSlotId){
+        Promise<List<Appointment>> promise = Promise.promise();
+
+        if (timeSlotId == null) {
+            promise.complete(new ArrayList<>());
+            return promise.future();
+        }
+
+        List<String> availableStates = Arrays.asList(AppointmentState.CREATED.getValue(), AppointmentState.ACCEPTED.getValue());
+
+        String query = "SELECT * FROM " + DB_APPOINTMENT_TABLE + " WHERE " + TIME_SLOT_ID + " = ? AND " + STATE + " in " + Sql.listPrepared(availableStates);
+
+        JsonArray params = new JsonArray()
+                .add(timeSlotId);
+
+        String errorMessage = "[Appointemnts@DefaultAppointmentRepository::getAvailableAppointments] Failed to get available appointments : ";
+        sql.prepared(query, params, SqlResult.validResultHandler(IModelHelper.sqlResultToIModel(promise, Appointment.class, errorMessage)));
+
         return promise.future();
     }
 
