@@ -58,28 +58,23 @@ root.render(
           app: "appointments",
         }}
       >
-        <div style={{ fontSize: "16px" }}>
-          <ThemeProvider>
-            <ThemeProviderCGI themeId={"default"} options={options}>
-              <LocalizationProvider
-                dateAdapter={AdapterDayjs}
-                adapterLocale="fr"
-              >
-                <GlobalProvider>
-                  <FindAppointmentsProvider>
-                    <TakeAppointmentModalProvider>
-                      <AvailabilityProvider>
-                        <GridModalProvider>
-                          <RouterProvider router={router} />
-                        </GridModalProvider>
-                      </AvailabilityProvider>
-                    </TakeAppointmentModalProvider>
-                  </FindAppointmentsProvider>
-                </GlobalProvider>
-              </LocalizationProvider>
-            </ThemeProviderCGI>
-          </ThemeProvider>
-        </div>
+        <ThemeProvider>
+          <ThemeProviderCGI themeId={"default"} options={options}>
+            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="fr">
+              <GlobalProvider>
+                <FindAppointmentsProvider>
+                  <TakeAppointmentModalProvider>
+                    <AvailabilityProvider>
+                      <GridModalProvider>
+                        <RouterProvider router={router} />
+                      </GridModalProvider>
+                    </AvailabilityProvider>
+                  </TakeAppointmentModalProvider>
+                </FindAppointmentsProvider>
+              </GlobalProvider>
+            </LocalizationProvider>
+          </ThemeProviderCGI>
+        </ThemeProvider>
       </OdeClientProvider>
     </Provider>
     <ReactQueryDevtools initialIsOpen={false} />
