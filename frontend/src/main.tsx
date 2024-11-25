@@ -1,6 +1,5 @@
 import React from "react";
 
-import "~/i18n";
 import { ThemeProvider as ThemeProviderCGI } from "@cgi-learning-hub/theme";
 import { OdeClientProvider, ThemeProvider } from "@edifice-ui/react";
 import { LocalizationProvider } from "@mui/x-date-pickers";
@@ -14,6 +13,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { RouterProvider } from "react-router-dom";
+import "~/i18n";
 
 import { AvailabilityProvider } from "./providers/AvailabilityProvider";
 import { FindAppointmentsProvider } from "./providers/FindAppointmentsProvider";
@@ -58,23 +58,28 @@ root.render(
           app: "appointments",
         }}
       >
-        <ThemeProvider>
-          <ThemeProviderCGI themeId={"default"} options={options}>
-            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="fr">
-              <GlobalProvider>
-                <FindAppointmentsProvider>
-                  <TakeAppointmentModalProvider>
-                    <AvailabilityProvider>
-                      <GridModalProvider>
-                        <RouterProvider router={router} />
-                      </GridModalProvider>
-                    </AvailabilityProvider>
-                  </TakeAppointmentModalProvider>
-                </FindAppointmentsProvider>
-              </GlobalProvider>
-            </LocalizationProvider>
-          </ThemeProviderCGI>
-        </ThemeProvider>
+        <div style={{ fontSize: "16px" }}>
+          <ThemeProvider>
+            <ThemeProviderCGI themeId={"default"} options={options}>
+              <LocalizationProvider
+                dateAdapter={AdapterDayjs}
+                adapterLocale="fr"
+              >
+                <GlobalProvider>
+                  <FindAppointmentsProvider>
+                    <TakeAppointmentModalProvider>
+                      <AvailabilityProvider>
+                        <GridModalProvider>
+                          <RouterProvider router={router} />
+                        </GridModalProvider>
+                      </AvailabilityProvider>
+                    </TakeAppointmentModalProvider>
+                  </FindAppointmentsProvider>
+                </GlobalProvider>
+              </LocalizationProvider>
+            </ThemeProviderCGI>
+          </ThemeProvider>
+        </div>
       </OdeClientProvider>
     </Provider>
     <ReactQueryDevtools initialIsOpen={false} />

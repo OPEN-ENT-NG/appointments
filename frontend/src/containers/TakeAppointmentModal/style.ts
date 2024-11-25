@@ -1,13 +1,13 @@
 import { Box, styled, SxProps } from "@mui/material";
 
-import { MODAL_SIZE } from "./enum";
-import { ContentWrapperProps } from "./types";
 import {
   columnBoxStyle,
   flexEndBoxStyle,
   flexStartBoxStyle,
 } from "~/styles/boxStyles";
 import { BLACK } from "~/styles/color.constants";
+import { MODAL_SIZE } from "./enum";
+import { ContentWrapperProps } from "./types";
 
 export const modalBoxStyle: SxProps = {
   position: "absolute",
@@ -15,6 +15,9 @@ export const modalBoxStyle: SxProps = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "calc( min(110rem, 95%))",
+  "@media (max-width: 1011px)": {
+    maxWidth: "60rem",
+  },
   height: "80vh",
   maxHeight: "fit-content",
   background: "white",
