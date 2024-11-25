@@ -2,6 +2,7 @@ package fr.openent.appointments.service;
 
 import fr.openent.appointments.config.AppConfig;
 import fr.openent.appointments.repository.TimeSlotRepository;
+import fr.openent.appointments.service.impl.DefaultAppointmentService;
 import fr.openent.appointments.service.impl.DefaultTimeSlotService;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
@@ -17,6 +18,7 @@ public class ServiceFactory {
     private final TimeSlotService timeSlotService;
     private final GridService gridService;
     private final CommunicationService communicationService;
+    private final AppointmentService appointmentService;
 
     public ServiceFactory(Vertx vertx, AppConfig appConfig, RepositoryFactory repositoryFactory) {
         this.vertx = vertx;
@@ -24,6 +26,7 @@ public class ServiceFactory {
         this.timeSlotService = new DefaultTimeSlotService(this, repositoryFactory);
         this.gridService = new DefaultGridService(this, repositoryFactory);
         this.communicationService = new DefaultCommunicationService(this, repositoryFactory);
+        this.appointmentService = new DefaultAppointmentService(this, repositoryFactory);
     }
 
     public Vertx vertx() {
@@ -49,5 +52,7 @@ public class ServiceFactory {
     public CommunicationService communicationService() {
         return this.communicationService;
     }
+
+    public AppointmentService appointmentService() { return this.appointmentService; }
     
 }
