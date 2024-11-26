@@ -16,13 +16,13 @@ import { pageGridModalStyle } from "../GridModal/style";
 import { ColorPicker } from "~/components/ColorPicker";
 import { CustomMultiAutocomplete } from "~/components/CustomMultiAutocomplete";
 import { MAX_STRING_LENGTH } from "~/core/constants";
-import { useGlobalProvider } from "~/providers/GlobalProvider";
-import { useGridModalProvider } from "~/providers/GridModalProvider";
+import { useGlobal } from "~/providers/GlobalProvider";
+import { useGridModal } from "~/providers/GridModalProvider";
 import { flexStartBoxStyle } from "~/styles/boxStyles";
 
 export const FirstPageGridModal: FC = () => {
   const { t } = useTranslation("appointments");
-  const { isMultiStructure } = useGlobalProvider();
+  const { isMultiStructure } = useGlobal();
   const {
     inputs,
     errorInputs,
@@ -36,7 +36,7 @@ export const FirstPageGridModal: FC = () => {
       handlePublicCommentChange,
     },
     blurGridModalInputs: { handleNameBlur, handleVisioLinkBlur },
-  } = useGridModalProvider();
+  } = useGridModal();
 
   return (
     <Box sx={pageGridModalStyle}>

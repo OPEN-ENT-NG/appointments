@@ -9,11 +9,11 @@ import { initialUsers, mock, NUMBER_MORE_USERS } from "./utils";
 const FindAppointmentsProviderContext =
   createContext<FindAppointmentsProviderContextProps | null>(null);
 
-export const useFindAppointmentsProvider = () => {
+export const useFindAppointments = () => {
   const context = useContext(FindAppointmentsProviderContext);
   if (!context) {
     throw new Error(
-      "useFindAppointmentsProvider must be used within a FindAppointmentsProvider",
+      "useFindAppointments must be used within a FindAppointmentsProvider",
     );
   }
   return context;

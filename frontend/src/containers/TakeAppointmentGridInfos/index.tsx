@@ -7,27 +7,27 @@ import VideoCameraFrontIcon from "@mui/icons-material/VideoCameraFront";
 import VideocamOffIcon from "@mui/icons-material/VideocamOff";
 import {
   Box,
-  Typography,
+  FormControl,
   InputLabel,
   MenuItem,
-  FormControl,
   Select,
+  Typography,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import {
-  wrapperUserInfoStyle,
-  topUserInfoStyle,
-  pictureStyle,
-  StatusCircle,
-  displayNameStyle,
-  professionStyle,
   bottomUserInfoStyle,
+  displayNameStyle,
   itemStyle,
+  pictureStyle,
+  professionStyle,
+  StatusCircle,
+  topUserInfoStyle,
+  wrapperUserInfoStyle,
 } from "./style";
 import { TakeAppointmentGridInfosProps } from "./types";
 import { NoAvatar } from "~/components/SVG/NoAvatar";
-import { useTakeAppointmentModalProvider } from "~/providers/TakeAppointmentModalProvider";
+import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
 import { GREY } from "~/styles/color.constants";
 
 // this container is the first part of TakeAppointmentModal
@@ -36,7 +36,7 @@ export const TakeAppointmentGridInfos: FC<TakeAppointmentGridInfosProps> = ({
 }) => {
   const { t } = useTranslation("appointments");
   const { gridsName, gridInfo, selectedGridName, handleGridChange } =
-    useTakeAppointmentModalProvider();
+    useTakeAppointmentModal();
   return (
     <Box sx={wrapperUserInfoStyle}>
       <Box sx={topUserInfoStyle}>

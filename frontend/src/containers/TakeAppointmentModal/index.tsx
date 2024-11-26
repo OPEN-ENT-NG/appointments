@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 
-import { IconButton, Button } from "@cgi-learning-hub/ui";
+import { Button, IconButton } from "@cgi-learning-hub/ui";
 import CloseIcon from "@mui/icons-material/Close";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import { Box, Divider, Modal, Typography } from "@mui/material";
@@ -20,14 +20,14 @@ import { TakeAppointmentGridInfos } from "../TakeAppointmentGridInfos";
 import { TakeAppointmentWeekSlotsDesktop } from "../TakeAppointmentWeekSlotsDesktop";
 import { TakeAppointmentWeekSlotsMobile } from "../TakeAppointmentWeekSlotsMobile";
 import { TAKE_APPOINTMENT_MODAL_BREAKPOINT } from "~/core/breakpoints";
-import { useTakeAppointmentModalProvider } from "~/providers/TakeAppointmentModalProvider";
+import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
 import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
 
 export const TakeAppointmentModal: FC<TakeAppointmentModalProps> = ({
   userInfos,
 }) => {
   const { isModalOpen, setIsModalOpen, selectedSlotId } =
-    useTakeAppointmentModalProvider();
+    useTakeAppointmentModal();
   const { t } = useTranslation("appointments");
   const [modalSize, setModalSize] = useState<MODAL_SIZE>(MODAL_SIZE.LARGE);
 

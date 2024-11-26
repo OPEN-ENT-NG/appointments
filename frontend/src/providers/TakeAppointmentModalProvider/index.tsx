@@ -10,11 +10,11 @@ import { UserCardInfos } from "../FindAppointmentsProvider/types";
 const TakeAppointmentModalProviderContext =
   createContext<TakeAppointmentModalProviderContextProps | null>(null);
 
-export const useTakeAppointmentModalProvider = () => {
+export const useTakeAppointmentModal = () => {
   const context = useContext(TakeAppointmentModalProviderContext);
   if (!context) {
     throw new Error(
-      "useTakeAppointmentModalProvider must be used within a TakeAppointmentModalProvider",
+      "useTakeAppointmentModal must be used within a TakeAppointmentModalProvider",
     );
   }
   return context;

@@ -6,10 +6,6 @@ import { Box, Checkbox, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { v4 as uuid4v } from "uuid";
 
-import { DaySlots } from "~/components/DaySlots";
-import { useTakeAppointmentModalProvider } from "~/providers/TakeAppointmentModalProvider";
-import { flexStartBoxStyle } from "~/styles/boxStyles";
-import { MODAL_SIZE } from "../TakeAppointmentModal/enum";
 import {
   RowSlotsWrapper,
   containerStyle,
@@ -19,11 +15,15 @@ import {
   weekDayStyle,
   weekSlotsWrapperStyle,
 } from "./style";
+import { MODAL_SIZE } from "../TakeAppointmentModal/enum";
+import { DaySlots } from "~/components/DaySlots";
+import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
+import { flexStartBoxStyle } from "~/styles/boxStyles";
 
 export const TakeAppointmentWeekSlotsMobile: FC = () => {
   const { t } = useTranslation("appointments");
 
-  const { gridSlots } = useTakeAppointmentModalProvider();
+  const { gridSlots } = useTakeAppointmentModal();
   return (
     <Box sx={containerStyle}>
       <Box sx={weekSlotsWrapperStyle}>

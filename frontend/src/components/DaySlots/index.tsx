@@ -6,11 +6,10 @@ import { Box } from "@mui/material";
 import { noSlotsStyle, TimeSlot, TimeSlotWrapper } from "./style";
 import { DaySlotsProps } from "./types";
 import { formatTimeToString } from "~/core/utils/date.utils";
-import { useTakeAppointmentModalProvider } from "~/providers/TakeAppointmentModalProvider";
+import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
 
 export const DaySlots: FC<DaySlotsProps> = ({ slots, modalSize }) => {
-  const { handleOnClickSlot, selectedSlotId } =
-    useTakeAppointmentModalProvider();
+  const { handleOnClickSlot, selectedSlotId } = useTakeAppointmentModal();
 
   return (
     <TimeSlotWrapper modalSize={modalSize}>
