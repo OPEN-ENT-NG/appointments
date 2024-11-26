@@ -1,0 +1,5 @@
+{
+  "appointments.new.appointment.notification": "Création d'un nouveau rendez-vous",
+
+  "timeline.new.appointment": "Vous avez reçu une demande de rendez-vous de {{userName}}."
+}
