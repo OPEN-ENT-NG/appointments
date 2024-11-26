@@ -14,7 +14,9 @@ import io.vertx.core.http.HttpServerRequest;
 import org.entcore.common.controller.ControllerHelper;
 import org.entcore.common.http.filter.ResourceFilter;
 import org.entcore.common.user.UserUtils;
+import org.joda.time.DateTime;
 
+import java.time.DateTimeException;
 import java.util.Optional;
 
 import static fr.openent.appointments.core.constants.Constants.CAMEL_TIME_SLOT_ID;
@@ -47,23 +49,23 @@ public class AppointmentController extends ControllerHelper {
         }
 
         UserUtils.getAuthenticatedUserInfos(eb, request)
-                .compose(user -> appointmentService.create(timeSlotId, user.getUserId(), user.getGroupsIds()))
-                .onSuccess(appointment -> {
-                    gridService.getGridByTimeSlotId(timeSlotId)
-                        .onSuccess(grid -> {
-                            notifyService.notifyNewAppointment(request);
-                        })
-                        .onFailure( err -> {
-                            String errorMessage = "Failed to get grid by time slot id";
-                            LogHelper.logError(this, "createAppointment", errorMessage, err.getMessage());
-                            conflict(request);
-                        });
-                    renderJson(request, appointment.toJson());
-                })
-                .onFailure(err -> {
-                    String errorMessage = "Failed to create appointment";
-                    LogHelper.logError(this, "createAppointment", errorMessage, err.getMessage());
-                    conflict(request);
-                });
+            .compose(user -> appointmentService.create(timeSlotId, user.getUserId(), user.getGroupsIds()))
+            .onSuccess(appointment -> {
+                gridService.getGridByTimeSlotId(timeSlotId)
+                    .onSuccess(grid -> {
+                        notifyService.notifyNewAppointment(request);
+                    })
+                    .onFailure(err -> {
+                        String errorMessage = "Failed to get grid by time slot id";
+                        LogHelper.logError(this, "createAppointment", errorMessage, err.getMessage());
+                        conflict(request);
+                    });
+                renderJson(request, appointment.toJson());
+            })
+            .onFailure(err -> {
+                String errorMessage = "Failed to create appointment";
+                LogHelper.logError(this, "createAppointment", errorMessage, err.getMessage());
+                conflict(request);
+            });
     }
 }
