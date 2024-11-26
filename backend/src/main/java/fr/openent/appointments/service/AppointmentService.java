@@ -12,5 +12,5 @@ public interface AppointmentService {
      *  @param timeSlotId The time slot id
      *  @return The created appointment
      */
-    Future<Appointment> create(String timeSlotId, String userId, List<String> userGroupsIds);
+    Future<Appointment> create(Long timeSlotId, String userId, List<String> userGroupsIds);
 }
