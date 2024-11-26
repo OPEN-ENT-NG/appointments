@@ -4,7 +4,12 @@ import { FC } from "react";
 // import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { Box, Checkbox, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { v4 as uuidv4 } from "uuid";
 
+import { DaySlots } from "~/components/DaySlots";
+import { useTakeAppointmentModalProvider } from "~/providers/TakeAppointmentModalProvider";
+import { flexStartBoxStyle } from "~/styles/boxStyles";
+import { MODAL_SIZE } from "../TakeAppointmentModal/enum";
 import {
   ColumnSlotsWrapper,
   containerStyle,
@@ -16,10 +21,6 @@ import {
   weekDayStyle,
   weekSlotsWrapperStyle,
 } from "./style";
-import { MODAL_SIZE } from "../TakeAppointmentModal/enum";
-import { DaySlots } from "~/components/DaySlots";
-import { useTakeAppointmentModalProvider } from "~/providers/TakeAppointmentModalProvider";
-import { flexStartBoxStyle } from "~/styles/boxStyles";
 
 export const TakeAppointmentWeekSlotsDesktop: FC = () => {
   const { t } = useTranslation("appointments");
@@ -28,11 +29,11 @@ export const TakeAppointmentWeekSlotsDesktop: FC = () => {
   return (
     <Box sx={containerStyle}>
       <Box sx={headerStyle}>
-        {gridSlots.map((daySlot, index) => (
+        {gridSlots.map((daySlot) => (
           <ColumnSlotsWrapper
             isEmpty={!daySlot.slots.length}
             sx={daySlotsHeaderStyle}
-            key={index}
+            key={uuidv4()}
           >
             <Typography sx={weekDayStyle}>
               {t(`appointments.${daySlot.weekDay.toLowerCase()}`)}
@@ -48,6 +49,7 @@ export const TakeAppointmentWeekSlotsDesktop: FC = () => {
           <ColumnSlotsWrapper
             isEmpty={!daySlot.slots.length}
             sx={daySlotsWrapperStyle}
+            key={uuidv4()}
           >
             <DaySlots
               key={index}
