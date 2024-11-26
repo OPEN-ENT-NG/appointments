@@ -1,6 +1,7 @@
 package fr.openent.appointments;
 
 import fr.openent.appointments.config.AppConfig;
+import fr.openent.appointments.controller.AppointmentController;
 import fr.openent.appointments.controller.MainController;
 import fr.openent.appointments.controller.GridController;
 import fr.openent.appointments.cron.ClosingCron;
@@ -35,6 +36,7 @@ public class Appointments extends BaseServer {
         addController(new MainController());
         addController(new GridController(serviceFactory));
         addController(new CommunicationController(serviceFactory));
+        addController(new AppointmentController(serviceFactory));
 
         // CRON
         ClosingCron closingCron = new ClosingCron(serviceFactory);

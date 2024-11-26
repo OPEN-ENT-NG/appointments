@@ -1,6 +1,5 @@
 package fr.openent.appointments.controller;
 
-import fr.openent.appointments.helper.IModelHelper;
 import fr.openent.appointments.helper.LogHelper;
 import fr.openent.appointments.security.ViewRight;
 import fr.openent.appointments.service.AppointmentService;
@@ -17,7 +16,6 @@ import org.entcore.common.user.UserUtils;
 import java.util.Optional;
 
 import static fr.openent.appointments.core.constants.Constants.CAMEL_TIME_SLOT_ID;
-import static fr.openent.appointments.helper.IModelHelper.toJson;
 
 public class AppointmentController extends ControllerHelper {
     private final AppointmentService appointmentService;

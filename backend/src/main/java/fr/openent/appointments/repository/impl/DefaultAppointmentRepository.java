@@ -61,10 +61,11 @@ public class DefaultAppointmentRepository implements AppointmentRepository {
 
         List<String> availableStates = Arrays.asList(AppointmentState.CREATED.getValue(), AppointmentState.ACCEPTED.getValue());
 
-        String query = "SELECT * FROM " + DB_APPOINTMENT_TABLE + " WHERE " + TIME_SLOT_ID + " = ? AND " + STATE + " in " + Sql.listPrepared(availableStates);
+        String query = "SELECT * FROM " + DB_APPOINTMENT_TABLE + " WHERE " + TIME_SLOT_ID + " = ? AND " + STATE + " IN " + Sql.listPrepared(availableStates);
 
         JsonArray params = new JsonArray()
-                .add(timeSlotId);
+                .add(timeSlotId)
+                .addAll(new JsonArray(availableStates));
 
         String errorMessage = "[Appointemnts@DefaultAppointmentRepository::getAvailableAppointments] Failed to get available appointments : ";
         sql.prepared(query, params, SqlResult.validResultHandler(IModelHelper.sqlResultToIModel(promise, Appointment.class, errorMessage)));
