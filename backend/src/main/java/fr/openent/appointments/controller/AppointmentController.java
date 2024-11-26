@@ -10,6 +10,7 @@ import fr.wseduc.rs.ApiDoc;
 import fr.wseduc.rs.Post;
 import fr.wseduc.security.ActionType;
 import fr.wseduc.security.SecuredAction;
+import io.vertx.core.Future;
 import io.vertx.core.http.HttpServerRequest;
 import org.entcore.common.controller.ControllerHelper;
 import org.entcore.common.http.filter.ResourceFilter;
@@ -50,22 +51,25 @@ public class AppointmentController extends ControllerHelper {
 
         UserUtils.getAuthenticatedUserInfos(eb, request)
             .compose(user -> appointmentService.create(timeSlotId, user.getUserId(), user.getGroupsIds()))
-            .onSuccess(appointment -> {
-                gridService.getGridByTimeSlotId(timeSlotId)
-                    .onSuccess(grid -> {
-                        notifyService.notifyNewAppointment(request);
-                    })
-                    .onFailure(err -> {
-                        String errorMessage = "Failed to get grid by time slot id";
-                        LogHelper.logError(this, "createAppointment", errorMessage, err.getMessage());
-                        conflict(request);
-                    });
-                renderJson(request, appointment.toJson());
-            })
-            .onFailure(err -> {
+            .recover(err -> {
                 String errorMessage = "Failed to create appointment";
                 LogHelper.logError(this, "createAppointment", errorMessage, err.getMessage());
                 conflict(request);
+                return Future.failedFuture(err);
+            })
+            .compose(appointment -> {
+                renderJson(request, appointment.toJson());
+                return gridService.getGridByTimeSlotId(timeSlotId);
+            })
+            .recover(err -> {
+                String errorMessage = "Failed to get grid in order to notify";
+                LogHelper.logError(this, "createAppointment", errorMessage, err.getMessage());
+                return Future.failedFuture(err);
+            })
+            .onSuccess(grid -> notifyService.notifyNewAppointment(request))
+            .onFailure(err -> {
+                String errorMessage = "Failed to create appointment";
+                LogHelper.logError(this, "createAppointment", errorMessage, err.getMessage());
             });
     }
 }
