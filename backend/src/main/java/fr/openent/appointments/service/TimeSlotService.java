@@ -23,8 +23,6 @@ public interface TimeSlotService {
      */
     Future<Map<String,LocalDate>> getLastAppointmentDateByGridOwner(String userId, List<String> ownersIds);
 
-
-
     /**
      * Retrieve if slotId is linked to a grid that user is in groups of the grid
      *

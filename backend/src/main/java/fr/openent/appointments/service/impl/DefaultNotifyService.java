@@ -12,7 +12,6 @@ public class DefaultNotifyService implements NotifyService {
 
     public DefaultNotifyService(ServiceFactory serviceFactory) {
         this.timelineHelper = serviceFactory.timelineHelper();
-
     }
 
     @Override

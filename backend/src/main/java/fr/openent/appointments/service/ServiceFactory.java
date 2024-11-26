@@ -2,13 +2,10 @@ package fr.openent.appointments.service;
 
 import fr.openent.appointments.config.AppConfig;
 import fr.openent.appointments.repository.TimeSlotRepository;
-import fr.openent.appointments.service.impl.DefaultAppointmentService;
-import fr.openent.appointments.service.impl.DefaultTimeSlotService;
+import fr.openent.appointments.service.impl.*;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
 
-import fr.openent.appointments.service.impl.DefaultGridService;
-import fr.openent.appointments.service.impl.DefaultCommunicationService;
 import fr.openent.appointments.repository.RepositoryFactory;
 import org.entcore.common.notification.TimelineHelper;
 
@@ -21,6 +18,7 @@ public class ServiceFactory {
     private final GridService gridService;
     private final CommunicationService communicationService;
     private final AppointmentService appointmentService;
+    private final NotifyService notifyService;
 
     public ServiceFactory(Vertx vertx, AppConfig appConfig, RepositoryFactory repositoryFactory, TimelineHelper timelineHelper) {
         this.vertx = vertx;
@@ -30,6 +28,7 @@ public class ServiceFactory {
         this.gridService = new DefaultGridService(this, repositoryFactory);
         this.communicationService = new DefaultCommunicationService(this, repositoryFactory);
         this.appointmentService = new DefaultAppointmentService(this, repositoryFactory);
+        this.notifyService = new DefaultNotifyService(this);
     }
 
     public Vertx vertx() {
@@ -59,5 +58,6 @@ public class ServiceFactory {
     }
 
     public AppointmentService appointmentService() { return this.appointmentService; }
-    
+
+    public NotifyService notifyService() { return this.notifyService; }
 }

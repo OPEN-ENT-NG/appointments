@@ -3,6 +3,8 @@ package fr.openent.appointments.controller;
 import fr.openent.appointments.helper.LogHelper;
 import fr.openent.appointments.security.ViewRight;
 import fr.openent.appointments.service.AppointmentService;
+import fr.openent.appointments.service.GridService;
+import fr.openent.appointments.service.NotifyService;
 import fr.openent.appointments.service.ServiceFactory;
 import fr.wseduc.rs.ApiDoc;
 import fr.wseduc.rs.Post;
@@ -19,9 +21,13 @@ import static fr.openent.appointments.core.constants.Constants.CAMEL_TIME_SLOT_I
 
 public class AppointmentController extends ControllerHelper {
     private final AppointmentService appointmentService;
+    private final GridService gridService;
+    private final NotifyService notifyService;
 
     public AppointmentController(ServiceFactory serviceFactory) {
         this.appointmentService = serviceFactory.appointmentService();
+        this.gridService = serviceFactory.gridService();
+        this.notifyService = serviceFactory.notifyService();
     }
 
     @Post("/appointments/:timeSlotId")
@@ -42,7 +48,18 @@ public class AppointmentController extends ControllerHelper {
 
         UserUtils.getAuthenticatedUserInfos(eb, request)
                 .compose(user -> appointmentService.create(timeSlotId, user.getUserId(), user.getGroupsIds()))
-                .onSuccess(appointment -> renderJson(request, appointment.toJson()))
+                .onSuccess(appointment -> {
+                    gridService.getGridByTimeSlotId(timeSlotId)
+                        .onSuccess(grid -> {
+                            notifyService.notifyNewAppointment(request);
+                        })
+                        .onFailure( err -> {
+                            String errorMessage = "Failed to get grid by time slot id";
+                            LogHelper.logError(this, "createAppointment", errorMessage, err.getMessage());
+                            conflict(request);
+                        });
+                    renderJson(request, appointment.toJson());
+                })
                 .onFailure(err -> {
                     String errorMessage = "Failed to create appointment";
                     LogHelper.logError(this, "createAppointment", errorMessage, err.getMessage());
