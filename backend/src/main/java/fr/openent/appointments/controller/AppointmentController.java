@@ -12,8 +12,10 @@ import fr.wseduc.security.ActionType;
 import fr.wseduc.security.SecuredAction;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpServerRequest;
+import io.vertx.core.json.JsonObject;
 import org.entcore.common.controller.ControllerHelper;
 import org.entcore.common.http.filter.ResourceFilter;
+import org.entcore.common.user.UserInfos;
 import org.entcore.common.user.UserUtils;
 import org.joda.time.DateTime;
 
@@ -21,6 +23,7 @@ import java.time.DateTimeException;
 import java.util.Optional;
 
 import static fr.openent.appointments.core.constants.Constants.CAMEL_TIME_SLOT_ID;
+import static fr.openent.appointments.core.constants.Constants.CAMEL_USER_INFO;
 
 public class AppointmentController extends ControllerHelper {
     private final AppointmentService appointmentService;
@@ -49,8 +52,13 @@ public class AppointmentController extends ControllerHelper {
             return;
         }
 
+        final JsonObject composeInfo = new JsonObject();
+
         UserUtils.getAuthenticatedUserInfos(eb, request)
-            .compose(user -> appointmentService.create(timeSlotId, user.getUserId(), user.getGroupsIds()))
+            .compose(user -> {
+                composeInfo.put(CAMEL_USER_INFO, user);
+                return appointmentService.create(timeSlotId, user.getUserId(), user.getGroupsIds());
+            })
             .recover(err -> {
                 String errorMessage = "Failed to create appointment";
                 LogHelper.logError(this, "createAppointment", errorMessage, err.getMessage());
@@ -66,7 +74,11 @@ public class AppointmentController extends ControllerHelper {
                 LogHelper.logError(this, "createAppointment", errorMessage, err.getMessage());
                 return Future.failedFuture(err);
             })
-            .onSuccess(grid -> notifyService.notifyNewAppointment(request))
+            .onSuccess(grid -> {
+                UserInfos user = (UserInfos) composeInfo.getValue(CAMEL_USER_INFO);
+                String targetUserId = grid.getOwnerId();
+                notifyService.notifyNewAppointment(request, user, targetUserId);
+            })
             .onFailure(err -> {
                 String errorMessage = "Failed to create appointment";
                 LogHelper.logError(this, "createAppointment", errorMessage, err.getMessage());

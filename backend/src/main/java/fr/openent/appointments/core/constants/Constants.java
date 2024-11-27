@@ -3,6 +3,7 @@ package fr.openent.appointments.core.constants;
 public class Constants {
     // camelCase constants
     public static final String CAMEL_ACTOR_ID = "actorId";
+    public static final String CAMEL_APPOINTMENT_URI = "appointmentUri";
     public static final String CAMEL_AVAILABLE_GRIDS_IDS = "availableGridsIds";
     public static final String CAMEL_BEGIN_DATE = "beginDate";
     public static final String CAMEL_BEGIN_TIME = "beginTime";
@@ -24,7 +25,10 @@ public class Constants {
     public static final String CAMEL_TIME_SLOTS = "timeSlots";
     public static final String CAMEL_TIME_SLOT_ID = "timeSlotId";
     public static final String CAMEL_VISIO_LINK = "visioLink";
+    public static final String CAMEL_USER_NAME = "userName";
     public static final String CAMEL_USER_ID = "userId";
+    public static final String CAMEL_USER_INFO = "userInfo";
+    public static final String CAMEL_USER_URI = "userUri";
 
     // kebab-case constants
     public static final String KEBAB_CLOSING_CRON = "closing-cron";
