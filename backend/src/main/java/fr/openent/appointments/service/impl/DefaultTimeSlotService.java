@@ -73,7 +73,7 @@ public class DefaultTimeSlotService implements TimeSlotService {
                     String errorMessage = "TimeSlot with id " + timeSlotId + " not found";
                     return Future.failedFuture(errorMessage);
                 }
-                return gridRepository.get(timeSlot.get().getId());
+                return gridRepository.get(timeSlot.get().getGridId());
             })
             .compose(grid -> {
                 if(!grid.isPresent()) {
