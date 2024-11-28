@@ -35,6 +35,6 @@ public class DefaultNotifyService implements NotifyService {
 
         List<String> targetUsers = Collections.singletonList(targetUserId);
 
-        timelineHelper.notifyTimeline(request, "appointments.new.appointment.notification", requesterUser, targetUsers, params);
+        timelineHelper.notifyTimeline(request, "appointments.new_appointment_notification", requesterUser, targetUsers, params);
     }
 }

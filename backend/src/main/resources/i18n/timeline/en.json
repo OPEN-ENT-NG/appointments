@@ -1,6 +1,6 @@
 {
   "appointments": "Rendez-vous",
-  "appointments.new.appointment.notification": "Reception d'une demande de rendez-vous",
+  "appointments.new_appointment_notification": "Reception d'une demande de rendez-vous",
 
   "timeline.appointment.received.new.appointment.request": "Vous avez reçu une demande de rendez-vous de ",
   "timeline.appointment.consult.app": "Consulter l'application ",

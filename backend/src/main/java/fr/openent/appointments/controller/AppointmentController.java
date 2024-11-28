@@ -77,6 +77,7 @@ public class AppointmentController extends ControllerHelper {
             .onSuccess(grid -> {
                 UserInfos user = (UserInfos) composeInfo.getValue(CAMEL_USER_INFO);
                 String targetUserId = grid.getOwnerId();
+                LogHelper.logInfo(this, "createAppointment", "Notify new appointment to " + targetUserId);
                 notifyService.notifyNewAppointment(request, user, targetUserId);
             })
             .onFailure(err -> {
