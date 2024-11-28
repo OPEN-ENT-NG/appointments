@@ -11,7 +11,8 @@ import { NUMBER_MORE_USERS } from "~/providers/FindAppointmentsProvider/utils";
 import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
 
 export const FindAppointments: FC = () => {
-  const { users, hasMoreUsers, loadMoreUsers } = useFindAppointments();
+  const { users, hasMoreUsers, loadMoreUsers, handleSearch } =
+    useFindAppointments();
   const { selectedUser } = useTakeAppointmentModal();
   const observerRef = useRef<IntersectionObserver | null>(null);
   const targetRef = useRef<HTMLDivElement | null>(null);
@@ -50,7 +51,10 @@ export const FindAppointments: FC = () => {
     <>
       {selectedUser && <TakeAppointmentModal userInfos={selectedUser} />}
       <Box sx={containerStyle}>
-        <SearchInput sx={searchInputStyle} />
+        <SearchInput
+          sx={searchInputStyle}
+          onChange={(event) => handleSearch(event.target.value)}
+        />
         <Box sx={listCardStyle}>
           {users.map((user, index) => (
             <UserCard

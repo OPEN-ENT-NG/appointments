@@ -8,6 +8,7 @@ export interface FindAppointmentsProviderContextProps {
   users: UserCardInfos[];
   hasMoreUsers: boolean;
   loadMoreUsers: () => void;
+  handleSearch: (newSearch: string) => void;
 }
 
 export interface FindAppointmentsProviderProps {
@@ -16,9 +17,15 @@ export interface FindAppointmentsProviderProps {
 
 export interface UserCardInfos {
   userId: string;
-  profilePicture: string | null;
+  picture: string | null;
   displayName: string;
-  profession: string;
-  lastAppointment: Dayjs | null;
+  functions: string;
+  lastAppointmentDate: Dayjs | null;
   status: USER_STATUS;
+}
+
+export interface GetUsersPayload {
+  search: string;
+  page: number;
+  limit: number;
 }
