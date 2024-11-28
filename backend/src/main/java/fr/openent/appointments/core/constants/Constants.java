@@ -18,6 +18,7 @@ public class Constants {
     public static final String CAMEL_GROUPS_IDS = "groupsIds";
     public static final String CAMEL_OWNER_ID = "ownerId";
     public static final String CAMEL_PUBLIC_COMMENT = "publicComment";
+    public static final String CAMEL_PUSH_NOTIF = "pushNotif";
     public static final String CAMEL_REQUESTER_ID = "requesterId";
     public static final String CAMEL_STRUCTURE_ID = "structureId";
     public static final String CAMEL_STRUCTURES_EXTERNAL_IDS = "structuresExternalIds";
@@ -37,6 +38,7 @@ public class Constants {
     public static final String ACTION = "action";
     public static final String APPOINTMENTS = "Appointments";
     public static final String APPOINTMENTS_ADDRESS = "fr.openent.appointments";
+    public static final String BODY = "body";
     public static final String FUNCTIONS = "functions";
     public static final String HOST = "host";
     public static final String LIMIT = "limit";
@@ -48,6 +50,7 @@ public class Constants {
     public static final String STATEMENT = "statement";
     public static final String STRUCTURES = "structures";
     public static final String STATES = "states";
+    public static final String TITLE = "title";
     public static final String VALUES = "values";
 
     private Constants() {

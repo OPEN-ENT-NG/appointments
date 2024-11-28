@@ -28,7 +28,8 @@ public class DefaultNotifyService implements NotifyService {
         JsonObject params = new JsonObject()
             .put(CAMEL_USER_NAME, requesterUser.getUsername())
             .put(CAMEL_USER_URI, "/userbook/annuaire#" + requesterUser.getUserId())
-            .put(CAMEL_APPOINTMENT_URI, appointmentUri);
+            .put(CAMEL_APPOINTMENT_URI, appointmentUri)
+            .put(CAMEL_PUSH_NOTIF, new JsonObject().put(TITLE, "appointments.new_appointment_notification").put(BODY, ""));
 
         List<String> targetUsers = Collections.singletonList(targetUserId);
 

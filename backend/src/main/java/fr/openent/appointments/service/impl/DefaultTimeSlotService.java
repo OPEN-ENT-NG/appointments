@@ -101,13 +101,7 @@ public class DefaultTimeSlotService implements TimeSlotService {
         Promise<Boolean> promise = Promise.promise();
 
         appointmentRepository.getAvailableAppointments(timeSlotId)
-            .onSuccess(appointments -> {
-                if(appointments.isEmpty()) {
-                    promise.complete(true);
-                } else {
-                    promise.complete(false);
-                }
-            })
+            .onSuccess(appointments -> promise.complete(appointments.isEmpty()))
             .onFailure(err -> {
                 String errorMessage = "Failed to check if timeSlot with id " + timeSlotId + " is available";
                 LogHelper.logError(this, "checkIfTimeSlotIsAvailable", errorMessage, err.getMessage());

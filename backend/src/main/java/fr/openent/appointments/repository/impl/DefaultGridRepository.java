@@ -159,7 +159,7 @@ public class DefaultGridRepository implements GridRepository {
         String query = "SELECT * FROM " + DB_GRID_TABLE + " WHERE " + ID + " = ?";
         JsonArray params = new JsonArray().add(gridId);
 
-        String errorMessage = String.format("[Appointments@DefaultGridRepository::getGridById] Fail to get grid with id %d : ", gridId);
+        String errorMessage = String.format("[Appointments@DefaultGridRepository::get] Fail to get grid with id %d : ", gridId);
         sql.prepared(query, params, SqlResult.validUniqueResultHandler(IModelHelper.sqlUniqueResultToIModel(promise, Grid.class, errorMessage)));
 
         return promise.future();
