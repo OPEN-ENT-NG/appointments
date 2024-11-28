@@ -9,8 +9,6 @@ import io.vertx.core.json.JsonObject;
 import org.entcore.common.notification.TimelineHelper;
 import org.entcore.common.user.UserInfos;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -31,7 +29,6 @@ public class DefaultNotifyService implements NotifyService {
             .put(CAMEL_USER_NAME, requesterUser.getUsername())
             .put(CAMEL_USER_URI, "/userbook/annuaire#" + requesterUser.getUserId())
             .put(CAMEL_APPOINTMENT_URI, appointmentUri);
-
 
         List<String> targetUsers = Collections.singletonList(targetUserId);
 
