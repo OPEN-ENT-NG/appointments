@@ -7,6 +7,7 @@ import { USER_STATUS } from "./enums";
 export interface FindAppointmentsProviderContextProps {
   users: UserCardInfos[];
   hasMoreUsers: boolean;
+  search: string;
   loadMoreUsers: () => void;
   handleSearch: (newSearch: string) => void;
 }

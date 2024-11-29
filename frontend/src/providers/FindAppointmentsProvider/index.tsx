@@ -69,6 +69,7 @@ export const FindAppointmentsProvider: FC<FindAppointmentsProviderProps> = ({
     () => ({
       users,
       hasMoreUsers,
+      search,
       loadMoreUsers,
       handleSearch,
     }),
