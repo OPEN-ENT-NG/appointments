@@ -2,8 +2,6 @@ package fr.openent.appointments.helper;
 
 import fr.openent.appointments.enums.UserFunction;
 import fr.openent.appointments.enums.UserFunctionException;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,7 +14,6 @@ public class UserFunctionHelper {
     public static final String DE = "de ";
     public static final String DOLLAR = "$";
     public static final List<String> CAPITAL_EXCEPTIONS = Arrays.asList("ce", "cpe");
-    private static Logger log = LoggerFactory.getLogger("UserFunctionHelper");
 
     public static List<String> format(List<String> neoFunctions) {
         if (areFullOfDashFunction(neoFunctions)) {
