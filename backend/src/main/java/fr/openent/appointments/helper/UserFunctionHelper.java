@@ -2,6 +2,8 @@ package fr.openent.appointments.helper;
 
 import fr.openent.appointments.enums.UserFunction;
 import fr.openent.appointments.enums.UserFunctionException;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -14,6 +16,7 @@ public class UserFunctionHelper {
     public static final String DE = "de ";
     public static final String DOLLAR = "$";
     public static final List<String> CAPITAL_EXCEPTIONS = Arrays.asList("ce", "cpe");
+    private static Logger log = LoggerFactory.getLogger("UserFunctionHelper");
 
     public static List<String> format(List<String> neoFunctions) {
         if (areFullOfDashFunction(neoFunctions)) {
@@ -28,16 +31,17 @@ public class UserFunctionHelper {
     }
 
     public static String format(String neoFunction, boolean ignoreDashFunction) {
+        if(neoFunction == null || neoFunction.isEmpty()) return prettifyText(UserFunction.NO_OBJECT.name());
         int first$Pos = neoFunction.indexOf(DOLLAR);
         int second$Pos = neoFunction.indexOf(DOLLAR, first$Pos + 1);
         int third$Pos = neoFunction.indexOf(DOLLAR, second$Pos + 1);
         int last$Pos = neoFunction.lastIndexOf(DOLLAR);
 
         String codeFunction = neoFunction.substring(first$Pos + 1, second$Pos);
-        String function = neoFunction.substring(second$Pos + 1, third$Pos);
-        String discipline = neoFunction.substring(last$Pos + 1);
+        String function = neoFunction.substring(second$Pos + 1, third$Pos >= 0 ? third$Pos : neoFunction.length());
+        String discipline = last$Pos >= 0 ? neoFunction.substring(last$Pos + 1) : UserFunction.SANS_DISCIPLINE.getValue();
 
-        if (DASH.equals(codeFunction)) return ignoreDashFunction ? null : UserFunction.NO_OBJECT.getValue();
+        if (DASH.equals(codeFunction)) return ignoreDashFunction ? null : prettifyText(UserFunction.NO_OBJECT.name());
         if (UserFunctionException.getAllValues().contains(codeFunction)) return specificFormat(codeFunction, function, discipline);
 
         return prettifyText(function);
