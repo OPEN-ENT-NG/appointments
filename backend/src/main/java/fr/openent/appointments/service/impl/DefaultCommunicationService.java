@@ -111,23 +111,29 @@ public class DefaultCommunicationService implements CommunicationService {
     }
 
     private List<NeoUser> filterNeoUsersBySearchAndPagination(List<NeoUser> users, String search, Long page, Long limit) {
-        List<NeoUser> filteredUsers = users;
+        List<NeoUser> uniqueAndFilteredUsers = new ArrayList<>(users.stream()
+                .collect(Collectors.toMap(
+                        NeoUser::getId,
+                        user -> user,
+                        (existing, replacement) -> existing
+                ))
+                .values());
 
         if (search != null && !search.isEmpty()) {
-            filteredUsers = filteredUsers.stream()
+            uniqueAndFilteredUsers = uniqueAndFilteredUsers.stream()
                 .filter(user -> user.getDisplayName().toLowerCase().contains(search.toLowerCase()) ||
                                 user.getFunctions().stream().anyMatch(fn -> fn.toLowerCase().contains(search.toLowerCase())))
                 .collect(Collectors.toList());
         }
 
         if (page != null && page >= 1 && limit != null && limit >= 1) {
-            filteredUsers = filteredUsers.stream()
+            uniqueAndFilteredUsers = uniqueAndFilteredUsers.stream()
                 .skip((page - 1) * limit)
                 .limit(limit)
                 .collect(Collectors.toList());
         }
 
-        return filteredUsers;
+        return uniqueAndFilteredUsers;
     }
 
     private Future<List<UserAppointment>> getGridsAndBuildListUserAppointementResponse(String userId, List<NeoUser> users) {

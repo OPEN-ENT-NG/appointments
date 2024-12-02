@@ -86,7 +86,9 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
     }
 
     private String getCommunicationQuery(boolean isIncoming, String structureId) {
-        return "MATCH (g:Group)<-[:COMMUNIQUE]-(u:User { id: {userId}}) " +
+        // first part of the query is to get groups that can communicate with me
+        // second part is to get groups that can communicate with groups I am in
+        return "MATCH (g:Group)"+ (isIncoming ? "-[:COMMUNIQUE]-> " : "<-[:COMMUNIQUE]- ")+ "(u:User { id: {userId}}) " +
                 "WHERE exists(g.id) " +
                 "OPTIONAL MATCH (sg:Structure)<-[:DEPENDS]-(g) " +
                 "OPTIONAL MATCH (sc:Structure)<-[:BELONGS]-(c:Class)<-[:DEPENDS]-(g) " +
@@ -100,7 +102,7 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
                 "UNION " +
 
                 "MATCH (u:User {id: {userId}})-[:IN]->(ug:Group) " +
-                "MATCH (g:Group)" + (isIncoming ? "<-[:COMMUNIQUE]-(ug) " : "-[:COMMUNIQUE]->(ug) ") +
+                "MATCH (g:Group)" + (isIncoming ? "-[:COMMUNIQUE]->(ug) " : "<-[:COMMUNIQUE]-(ug) ")+
                 "WHERE exists(g.id) " +
                 "OPTIONAL MATCH (sg:Structure)<-[:DEPENDS]-(g) " +
                 "OPTIONAL MATCH (sc:Structure)<-[:BELONGS]-(c:Class)<-[:DEPENDS]-(g) " +
