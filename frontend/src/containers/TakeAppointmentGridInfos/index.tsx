@@ -15,6 +15,9 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
+import { NoAvatar } from "~/components/SVG/NoAvatar";
+import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
+import { GREY } from "~/styles/color.constants";
 import {
   bottomUserInfoStyle,
   displayNameStyle,
@@ -26,27 +29,30 @@ import {
   wrapperUserInfoStyle,
 } from "./style";
 import { TakeAppointmentGridInfosProps } from "./types";
-import { NoAvatar } from "~/components/SVG/NoAvatar";
-import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
-import { GREY } from "~/styles/color.constants";
 
 // this container is the first part of TakeAppointmentModal
 export const TakeAppointmentGridInfos: FC<TakeAppointmentGridInfosProps> = ({
   userInfos,
 }) => {
+  const { picture, displayName, functions } = userInfos;
   const { t } = useTranslation("appointments");
-  const { gridsName, gridInfo, selectedGridName, handleGridChange } =
+  const { grids, gridInfo, selectedGrid, handleGridChange } =
     useTakeAppointmentModal();
+
   return (
     <Box sx={wrapperUserInfoStyle}>
       <Box sx={topUserInfoStyle}>
         <Box sx={pictureStyle}>
-          {!userInfos.picture && <NoAvatar fill={GREY} />}
+          {!(picture && picture.startsWith("/userbook/avatar/")) ? (
+            <NoAvatar fill={GREY} />
+          ) : (
+            <Box alt="user picture" component="img" src={picture} />
+          )}
           <StatusCircle status={userInfos.status} />
         </Box>
         <Box>
-          <Typography sx={displayNameStyle}>{userInfos.displayName}</Typography>
-          <Typography sx={functionsStyle}>{userInfos.functions}</Typography>
+          <Typography sx={displayNameStyle}>{displayName}</Typography>
+          <Typography sx={functionsStyle}>{functions}</Typography>
         </Box>
       </Box>
       <Box sx={bottomUserInfoStyle}>
@@ -56,12 +62,12 @@ export const TakeAppointmentGridInfos: FC<TakeAppointmentGridInfosProps> = ({
           </InputLabel>
           <Select
             variant="standard"
-            value={selectedGridName}
+            value={selectedGrid}
             onChange={(e) => handleGridChange(e.target.value as string)}
           >
-            {gridsName.map((gridName) => (
-              <MenuItem key={gridName} value={gridName}>
-                {gridName}
+            {grids?.map((grid) => (
+              <MenuItem key={grid.id} value={grid.name}>
+                {grid.name}
               </MenuItem>
             ))}
           </Select>

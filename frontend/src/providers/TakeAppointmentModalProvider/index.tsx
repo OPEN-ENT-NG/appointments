@@ -1,11 +1,13 @@
 import { createContext, FC, useContext, useMemo, useState } from "react";
 
+import { useGetAvailableUserMinimalGridsQuery } from "~/services/api/grid.service";
+import { UserCardInfos } from "../FindAppointmentsProvider/types";
 import {
+  GridNameWithId,
   TakeAppointmentModalProviderContextProps,
   TakeAppointmentModalProviderProps,
 } from "./types";
-import { gridsInfos, gridsName, gridsTimeSlots } from "./utils";
-import { UserCardInfos } from "../FindAppointmentsProvider/types";
+import { gridsInfos, gridsTimeSlots } from "./utils";
 
 const TakeAppointmentModalProviderContext =
   createContext<TakeAppointmentModalProviderContextProps | null>(null);
@@ -24,8 +26,12 @@ export const TakeAppointmentModalProvider: FC<
   TakeAppointmentModalProviderProps
 > = ({ children }) => {
   const [selectedUser, setSelectedUser] = useState<UserCardInfos | null>(null);
-  const [selectedGridName, setSelectedGridName] = useState<string>(
-    gridsName[0],
+  const { data: grids } = useGetAvailableUserMinimalGridsQuery(
+    selectedUser?.userId ?? "",
+    { skip: !selectedUser?.userId },
+  );
+  const [selectedGrid, setSelectedGrid] = useState<GridNameWithId | undefined>(
+    grids?.[0],
   );
   const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -40,26 +46,26 @@ export const TakeAppointmentModalProvider: FC<
   };
 
   const handleGridChange = (gridName: string) => {
-    setSelectedGridName(gridName);
+    setSelectedGrid(grids?.find((grid) => grid.name === gridName));
     setSelectedSlotId(null);
   };
 
   const gridInfo = useMemo(() => {
-    return gridsInfos[selectedGridName];
-  }, [selectedGridName]);
+    return gridsInfos["grid1"];
+  }, [selectedGrid]);
 
   const gridSlots = useMemo(() => {
-    return gridsTimeSlots[selectedGridName];
-  }, [selectedGridName]);
+    return gridsTimeSlots["grid1"];
+  }, [selectedGrid]);
 
   const value = useMemo<TakeAppointmentModalProviderContextProps>(
     () => ({
       selectedUser,
       isModalOpen,
-      gridsName,
+      grids,
       gridInfo,
       gridSlots,
-      selectedGridName,
+      selectedGrid,
       selectedSlotId,
       handleGridChange,
       handleOnClickSlot,
@@ -69,8 +75,8 @@ export const TakeAppointmentModalProvider: FC<
     [
       isModalOpen,
       selectedUser,
-      gridsName,
-      selectedGridName,
+      grids,
+      selectedGrid,
       gridInfo,
       gridSlots,
       selectedSlotId,

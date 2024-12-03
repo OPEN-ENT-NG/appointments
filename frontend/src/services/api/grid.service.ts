@@ -1,13 +1,14 @@
 import dayjs from "dayjs";
 
-import { emptySplitApi } from "./emptySplitApi.service";
 import { HexaColor } from "~/components/ColorPicker/types";
 import { GRID_STATE } from "~/core/enums";
 import {
   GetMyGridsPayload,
   MyGridsResponse,
 } from "~/providers/AvailabilityProvider/types";
+import { GridNameWithId } from "~/providers/FindAppointmentsProvider/types";
 import { GridPayload } from "~/providers/GridModalProvider/types";
+import { emptySplitApi } from "./emptySplitApi.service";
 
 export const gridApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -49,6 +50,9 @@ export const gridApi = emptySplitApi.injectEndpoints({
     getMyGridsName: builder.query<string[], void>({
       query: () => "/grids/names",
     }),
+    getAvailableUserMinimalGrids: builder.query<GridNameWithId[], string>({
+      query: (userId) => `/users/${userId}/grids/minimal`,
+    }),
   }),
 });
 
@@ -56,4 +60,5 @@ export const {
   useCreateGridMutation,
   useGetMyGridsQuery,
   useGetMyGridsNameQuery,
+  useGetAvailableUserMinimalGridsQuery,
 } = gridApi;

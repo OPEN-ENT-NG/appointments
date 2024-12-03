@@ -2,17 +2,17 @@ import { Dispatch, ReactNode, SetStateAction } from "react";
 
 import { Dayjs } from "dayjs";
 
-import { UserCardInfos } from "../FindAppointmentsProvider/types";
 import { DAY, SLOT_DURATION } from "~/core/enums";
 import { Slot } from "~/core/types";
+import { UserCardInfos } from "../FindAppointmentsProvider/types";
 
 export interface TakeAppointmentModalProviderContextProps {
   selectedUser: UserCardInfos | null;
   isModalOpen: boolean;
-  gridsName: string[];
+  grids: GridNameWithId[] | undefined;
   gridInfo: GridInfoType;
   gridSlots: tmpSlotsType[];
-  selectedGridName: string;
+  selectedGrid: GridNameWithId | undefined;
   selectedSlotId: string | null;
   handleGridChange: (gridName: string) => void;
   handleOnClickSlot: (slotId: string) => void;
@@ -35,4 +35,9 @@ export interface tmpSlotsType {
   weekDay: DAY;
   day: Dayjs;
   slots: Slot[];
+}
+
+export interface GridNameWithId {
+  id: number;
+  name: string;
 }
