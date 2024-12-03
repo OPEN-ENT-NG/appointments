@@ -1,10 +1,10 @@
 import {
   ChangeEvent,
   Dispatch,
+  MouseEvent,
   SetStateAction,
   SyntheticEvent,
   useCallback,
-  MouseEvent,
 } from "react";
 
 import { SelectChangeEvent } from "@mui/material";
@@ -14,21 +14,22 @@ import { v4 as uuidv4 } from "uuid";
 import { formatString, handleConflictingSlot } from "./utils";
 import { Structure, useUpdateGridInputsType } from "../types";
 import { HexaColor } from "~/components/ColorPicker/types";
-import { DAY, PERIODICITY, SLOT_DURATION } from "~/core/enums";
+import { DAY, DURATION, PERIODICITY } from "~/core/enums";
 import {
   INVALID_SLOT_ERROR,
   SAME_GRID_ALREADY_EXISTS_ERROR,
 } from "~/core/i18nKeys";
+import { Time } from "~/core/models/Time";
 import { Slot } from "~/core/types";
 import {
   GridModalInputs,
   InputsErrors,
-  Public,
 } from "~/providers/GridModalProvider/types";
 import {
   initialPublic,
   initialWeekSlots,
 } from "~/providers/GridModalProvider/utils";
+import { Public } from "~/services/api/CommunicationService/types";
 
 export const useUpdateGridInputs: useUpdateGridInputsType = (
   inputs: GridModalInputs,
@@ -123,9 +124,9 @@ export const useUpdateGridInputs: useUpdateGridInputsType = (
 
   const handleSlotDurationChange = (
     _: MouseEvent<HTMLElement>,
-    value: SLOT_DURATION,
+    value: DURATION,
   ) => {
-    updateInputField("slotDuration", value);
+    updateInputField("duration", value);
     updateInputField("weekSlots", initialWeekSlots);
   };
 
@@ -138,7 +139,7 @@ export const useUpdateGridInputs: useUpdateGridInputsType = (
 
   const handleAddSlot = (day: DAY) => {
     const newDaySlotsErrorIds = inputs.weekSlots[day]
-      .filter((slots) => !slots.begin || !slots.end)
+      .filter((slots) => !slots.begin.time || !slots.end.time)
       .map((slots) => slots.id);
 
     if (newDaySlotsErrorIds.length) {
@@ -164,15 +165,15 @@ export const useUpdateGridInputs: useUpdateGridInputsType = (
         ...inputs.weekSlots[day],
         {
           id: uuidv4(),
-          begin: null,
-          end: null,
+          begin: new Time(null),
+          end: new Time(null),
         },
       ],
     });
     updateErrorInputs("weekSlots", "");
   };
 
-  const handleDeleteSlot = (day: DAY, slotId: string) => {
+  const handleDeleteSlot = (day: DAY, slotId: number) => {
     updateInputField("weekSlots", {
       ...inputs.weekSlots,
       [day]: inputs.weekSlots[day].filter((slot) => slot.id !== slotId),
@@ -188,7 +189,7 @@ export const useUpdateGridInputs: useUpdateGridInputsType = (
     const [hour, minute] = value.split(":");
     const updatedSlot = {
       ...slot,
-      [type]: { hour, minute },
+      [type]: new Time({ hour: parseInt(hour), minute: parseInt(minute) }),
     };
     updateInputField("weekSlots", {
       ...inputs.weekSlots,

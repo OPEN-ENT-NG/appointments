@@ -19,13 +19,15 @@ export const CustomMultiAutocomplete: FC = () => {
   const selectedPublic = inputs.public;
   const { t } = useTranslation("appointments");
 
+  console.log("publicOptions", publicOptions);
+
   return (
     <Autocomplete
       multiple
       options={publicOptions}
       disableCloseOnSelect
-      getOptionLabel={(option) => option.name}
-      isOptionEqualToValue={(option, value) => option.id === value.id}
+      getOptionLabel={(option) => option.groupName}
+      isOptionEqualToValue={(option, value) => option.groupId === value.groupId}
       value={selectedPublic}
       onChange={handlePublicChange}
       renderOption={(props, option, { selected }) => {
@@ -38,7 +40,7 @@ export const CustomMultiAutocomplete: FC = () => {
               style={{ marginRight: 8 }}
               checked={selected}
             />
-            {option.name}
+            {option.groupName}
           </li>
         );
       }}
