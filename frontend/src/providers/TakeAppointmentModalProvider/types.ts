@@ -42,3 +42,21 @@ export interface GridNameWithId {
   id: number;
   name: string;
 }
+
+export interface TimeSlot {
+  id: number;
+  gridId: number;
+  begin: string;
+  end: string;
+}
+
+export interface TimeSlots {
+  timeSlots: TimeSlot[];
+  nextAvailableTimeSlot: TimeSlot | null;
+}
+
+export interface GetTimeSlotPayload {
+  gridId: number;
+  beginDate: string;
+  endDate: string;
+}

@@ -42,6 +42,7 @@ export const TakeAppointmentGridInfos: FC<TakeAppointmentGridInfosProps> = ({
     useTakeAppointmentModal();
 
   const { slotDuration, visio, place, publicComment } = gridInfos || {};
+  console.log("gridInfos", gridInfos);
 
   return (
     <Box sx={wrapperUserInfoStyle}>

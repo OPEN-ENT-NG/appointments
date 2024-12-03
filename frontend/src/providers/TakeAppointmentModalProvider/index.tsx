@@ -8,16 +8,17 @@ import {
 } from "react";
 
 import {
+  useGetAvailableUserMinimalGridsQuery,
+  useGetMinimalGridInfosByIdQuery,
+  useGetTimeSlotsByGridIdAndDateQuery,
+} from "~/services/api/grid.service";
+import { UserCardInfos } from "../FindAppointmentsProvider/types";
+import {
   GridNameWithId,
   TakeAppointmentModalProviderContextProps,
   TakeAppointmentModalProviderProps,
 } from "./types";
 import { gridsTimeSlots } from "./utils";
-import { UserCardInfos } from "../FindAppointmentsProvider/types";
-import {
-  useGetAvailableUserMinimalGridsQuery,
-  useGetMinimalGridInfosByIdQuery,
-} from "~/services/api/grid.service";
 
 const TakeAppointmentModalProviderContext =
   createContext<TakeAppointmentModalProviderContextProps | null>(null);
@@ -46,6 +47,10 @@ export const TakeAppointmentModalProvider: FC<
   );
   const { data: gridInfos } = useGetMinimalGridInfosByIdQuery(
     selectedGrid?.id ?? 0,
+    { skip: !selectedGrid },
+  );
+  const { data: gridTimeSlots } = useGetTimeSlotsByGridIdAndDateQuery(
+    { gridId: selectedGrid?.id ?? 0, beginDate: "", endDate: "" },
     { skip: !selectedGrid },
   );
 

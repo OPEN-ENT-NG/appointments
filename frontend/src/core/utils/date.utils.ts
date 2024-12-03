@@ -1,7 +1,7 @@
 import dayjs, { Dayjs } from "dayjs";
 
-import { SLOT_DURATION, DAY, PERIODICITY } from "../enums";
-import { TimeObject, Time } from "../types";
+import { DAY, PERIODICITY, SLOT_DURATION } from "../enums";
+import { Time, TimeObject } from "../types";
 
 export const formatSlotDurationToMinutes = (
   duration: SLOT_DURATION,
@@ -32,6 +32,23 @@ export const formatSlotDurationToString = (duration: SLOT_DURATION): string => {
       return "01:00";
     default:
       return "00:15";
+  }
+};
+
+export const parseStringToSlotDuration = (
+  durationString: string,
+): SLOT_DURATION => {
+  switch (durationString) {
+    case "00:15":
+      return SLOT_DURATION.FIFTEEN_MINUTES;
+    case "00:30":
+      return SLOT_DURATION.THIRTY_MINUTES;
+    case "00:45":
+      return SLOT_DURATION.FOURTYFIVE_MINUTES;
+    case "01:00":
+      return SLOT_DURATION.ONE_HOUR;
+    default:
+      return SLOT_DURATION.FIFTEEN_MINUTES;
   }
 };
 

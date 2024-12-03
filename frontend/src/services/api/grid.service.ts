@@ -2,14 +2,17 @@ import dayjs from "dayjs";
 
 import { HexaColor } from "~/components/ColorPicker/types";
 import { GRID_STATE } from "~/core/enums";
+import { parseStringToSlotDuration } from "~/core/utils/date.utils";
 import {
   GetMyGridsPayload,
   MyGridsResponse,
 } from "~/providers/AvailabilityProvider/types";
 import { GridPayload } from "~/providers/GridModalProvider/types";
 import {
+  GetTimeSlotPayload,
   GridInfos,
   GridNameWithId,
+  TimeSlots,
 } from "~/providers/TakeAppointmentModalProvider/types";
 import { emptySplitApi } from "./emptySplitApi.service";
 
@@ -60,13 +63,22 @@ export const gridApi = emptySplitApi.injectEndpoints({
       query: (gridId) => `/grids/${gridId}/minimal/infos`,
       transformResponse: (response: any) => {
         return {
-          slotDuration: response.duration,
+          slotDuration: parseStringToSlotDuration(response.duration),
           visio: !!response.visioLink,
           place: response.place,
-          publicComment: response.public_comment,
-          documentId: response.document_id,
+          publicComment: response.publicComment,
+          documentId: response.documentId,
         };
       },
+    }),
+    getTimeSlotsByGridIdAndDate: builder.query<TimeSlots, GetTimeSlotPayload>({
+      query: (params) => ({
+        url: `/grids/${params.gridId}/timeslots`,
+        params: {
+          beginDate: params.beginDate,
+          endDate: params.endDate,
+        },
+      }),
     }),
   }),
 });
@@ -77,4 +89,5 @@ export const {
   useGetMyGridsNameQuery,
   useGetAvailableUserMinimalGridsQuery,
   useGetMinimalGridInfosByIdQuery,
+  useGetTimeSlotsByGridIdAndDateQuery,
 } = gridApi;
