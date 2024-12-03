@@ -1,30 +1,7 @@
 import dayjs from "dayjs";
 
-import { GridInfoType, tmpSlotsType } from "./types";
-import { DAY, SLOT_DURATION } from "~/core/enums";
-
-export const gridsName = ["grid1", "grid2", "grid3"];
-
-export const gridsInfos: Record<string, GridInfoType> = {
-  grid1: {
-    visio: true,
-    slotDuration: SLOT_DURATION.FIFTEEN_MINUTES,
-    location: "Paris",
-    publicComment: "Public comment grille 1",
-  },
-  grid2: {
-    visio: false,
-    slotDuration: SLOT_DURATION.THIRTY_MINUTES,
-    location: "Lyon",
-    publicComment: "Public comment grille 2",
-  },
-  grid3: {
-    visio: true,
-    slotDuration: SLOT_DURATION.ONE_HOUR,
-    location: "Marseille",
-    publicComment: "Public comment grille 3",
-  },
-};
+import { DAY } from "~/core/enums";
+import { tmpSlotsType } from "./types";
 
 export const gridsTimeSlots: Record<string, tmpSlotsType[]> = {
   grid1: [

@@ -6,8 +6,11 @@ import {
   GetMyGridsPayload,
   MyGridsResponse,
 } from "~/providers/AvailabilityProvider/types";
-import { GridNameWithId } from "~/providers/FindAppointmentsProvider/types";
 import { GridPayload } from "~/providers/GridModalProvider/types";
+import {
+  GridInfos,
+  GridNameWithId,
+} from "~/providers/TakeAppointmentModalProvider/types";
 import { emptySplitApi } from "./emptySplitApi.service";
 
 export const gridApi = emptySplitApi.injectEndpoints({
@@ -53,6 +56,18 @@ export const gridApi = emptySplitApi.injectEndpoints({
     getAvailableUserMinimalGrids: builder.query<GridNameWithId[], string>({
       query: (userId) => `/users/${userId}/grids/minimal`,
     }),
+    getMinimalGridInfosById: builder.query<GridInfos, number>({
+      query: (gridId) => `/grids/${gridId}/minimal/infos`,
+      transformResponse: (response: any) => {
+        return {
+          slotDuration: response.duration,
+          visio: !!response.visioLink,
+          place: response.place,
+          publicComment: response.public_comment,
+          documentId: response.document_id,
+        };
+      },
+    }),
   }),
 });
 
@@ -61,4 +76,5 @@ export const {
   useGetMyGridsQuery,
   useGetMyGridsNameQuery,
   useGetAvailableUserMinimalGridsQuery,
+  useGetMinimalGridInfosByIdQuery,
 } = gridApi;

@@ -11,6 +11,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Skeleton,
   Typography,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
@@ -24,6 +25,7 @@ import {
   functionsStyle,
   itemStyle,
   pictureStyle,
+  skeletonStyle,
   StatusCircle,
   topUserInfoStyle,
   wrapperUserInfoStyle,
@@ -36,10 +38,10 @@ export const TakeAppointmentGridInfos: FC<TakeAppointmentGridInfosProps> = ({
 }) => {
   const { picture, displayName, functions } = userInfos;
   const { t } = useTranslation("appointments");
-  const { grids, gridInfo, selectedGrid, handleGridChange } =
+  const { grids, gridInfos, selectedGrid, handleGridChange } =
     useTakeAppointmentModal();
 
-  console.log(selectedGrid);
+  const { slotDuration, visio, place, publicComment } = gridInfos || {};
 
   return (
     <Box sx={wrapperUserInfoStyle}>
@@ -57,46 +59,54 @@ export const TakeAppointmentGridInfos: FC<TakeAppointmentGridInfosProps> = ({
           <Typography sx={functionsStyle}>{functions}</Typography>
         </Box>
       </Box>
-      <Box sx={bottomUserInfoStyle}>
-        <FormControl variant="standard">
-          <InputLabel>
-            {t("appointments.take.appointment.modal.time.grid")}
-          </InputLabel>
-          <Select
-            variant="standard"
-            value={selectedGrid?.name ?? ""}
-            onChange={(e) => handleGridChange(e.target.value as string)}
-          >
-            {grids?.map((grid) => (
-              <MenuItem key={grid.id} value={grid.name}>
-                {grid.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <Box sx={itemStyle}>
-          {gridInfo.visio ? <VideoCameraFrontIcon /> : <VideocamOffIcon />}
-          <Typography>
-            {t(
-              `appointments.take.appointment.modal.visio.${
-                gridInfo.visio ? "possible" : "impossible"
-              }`,
-            )}
-          </Typography>
+      {!gridInfos ? (
+        <Skeleton variant="rectangular" sx={skeletonStyle} />
+      ) : (
+        <Box sx={bottomUserInfoStyle}>
+          <FormControl variant="standard">
+            <InputLabel>
+              {t("appointments.take.appointment.modal.time.grid")}
+            </InputLabel>
+            <Select
+              variant="standard"
+              value={selectedGrid?.name ?? ""}
+              onChange={(e) => handleGridChange(e.target.value as string)}
+            >
+              {grids?.map((grid) => (
+                <MenuItem key={grid.id} value={grid.name}>
+                  {grid.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <Box sx={itemStyle}>
+            {visio ? <VideoCameraFrontIcon /> : <VideocamOffIcon />}
+            <Typography>
+              {t(
+                `appointments.take.appointment.modal.visio.${
+                  visio ? "possible" : "impossible"
+                }`,
+              )}
+            </Typography>
+          </Box>
+          <Box sx={itemStyle}>
+            <TimerIcon />
+            <Typography>{slotDuration}</Typography>
+          </Box>
+          {!!place && (
+            <Box sx={itemStyle}>
+              <PlaceIcon />
+              <Typography>{place}</Typography>
+            </Box>
+          )}
+          {!!publicComment && (
+            <Box sx={itemStyle}>
+              <ChatIcon />
+              <Typography>{publicComment}</Typography>
+            </Box>
+          )}
         </Box>
-        <Box sx={itemStyle}>
-          <TimerIcon />
-          <Typography>{gridInfo.slotDuration.toLocaleLowerCase()}</Typography>
-        </Box>
-        <Box sx={itemStyle}>
-          <PlaceIcon />
-          <Typography>{gridInfo.location}</Typography>
-        </Box>
-        <Box sx={itemStyle}>
-          <ChatIcon />
-          <Typography>{gridInfo.publicComment}</Typography>
-        </Box>
-      </Box>
+      )}
     </Box>
   );
 };

@@ -1,6 +1,5 @@
 import { Box, styled, SxProps } from "@mui/material";
 
-import { StatusCircleProps } from "./types";
 import { USER_STATUS } from "~/providers/FindAppointmentsProvider/enums";
 import { columnBoxStyle, flexStartBoxStyle } from "~/styles/boxStyles";
 import {
@@ -10,6 +9,7 @@ import {
   USER_STATUS_AVAILABLE_COLOR,
   USER_STATUS_UNAVAILABLE_COLOR,
 } from "~/styles/color.constants";
+import { StatusCircleProps } from "./types";
 
 export const wrapperUserInfoStyle: SxProps = {
   ...columnBoxStyle,
@@ -30,10 +30,26 @@ export const bottomUserInfoStyle: SxProps = {
   padding: "1.6rem",
   gap: "1rem",
   borderRadius: ".5rem",
+  opacity: 0,
+  animation: "fadeIn .3s ease-in-out forwards",
+  "@keyframes fadeIn": {
+    "0%": {
+      opacity: 0,
+    },
+    "100%": {
+      opacity: 1,
+    },
+  },
   "& .MuiSvgIcon-root": {
     fontSize: "2.3rem",
     color: GREY,
   },
+};
+
+export const skeletonStyle: SxProps = {
+  height: "21rem",
+  borderRadius: ".5rem",
+  backgroundColor: LIGHTER_GREY,
 };
 
 export const itemStyle: SxProps = {

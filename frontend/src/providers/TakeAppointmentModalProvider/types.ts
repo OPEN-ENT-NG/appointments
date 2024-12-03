@@ -10,7 +10,7 @@ export interface TakeAppointmentModalProviderContextProps {
   selectedUser: UserCardInfos | null;
   isModalOpen: boolean;
   grids: GridNameWithId[] | undefined;
-  gridInfo: GridInfoType;
+  gridInfos: GridInfos | undefined;
   gridSlots: tmpSlotsType[];
   selectedGrid: GridNameWithId | null;
   selectedSlotId: string | null;
@@ -24,11 +24,12 @@ export interface TakeAppointmentModalProviderProps {
   children: ReactNode;
 }
 
-export interface GridInfoType {
-  visio: boolean;
+export interface GridInfos {
   slotDuration: SLOT_DURATION;
-  location: string;
+  visio: boolean;
+  place: string;
   publicComment: string;
+  documentId: string;
 }
 
 export interface tmpSlotsType {

@@ -7,14 +7,17 @@ import {
   useState,
 } from "react";
 
-import { useGetAvailableUserMinimalGridsQuery } from "~/services/api/grid.service";
-import { UserCardInfos } from "../FindAppointmentsProvider/types";
 import {
   GridNameWithId,
   TakeAppointmentModalProviderContextProps,
   TakeAppointmentModalProviderProps,
 } from "./types";
-import { gridsInfos, gridsTimeSlots } from "./utils";
+import { gridsTimeSlots } from "./utils";
+import { UserCardInfos } from "../FindAppointmentsProvider/types";
+import {
+  useGetAvailableUserMinimalGridsQuery,
+  useGetMinimalGridInfosByIdQuery,
+} from "~/services/api/grid.service";
 
 const TakeAppointmentModalProviderContext =
   createContext<TakeAppointmentModalProviderContextProps | null>(null);
@@ -33,13 +36,18 @@ export const TakeAppointmentModalProvider: FC<
   TakeAppointmentModalProviderProps
 > = ({ children }) => {
   const [selectedUser, setSelectedUser] = useState<UserCardInfos | null>(null);
+  const [selectedGrid, setSelectedGrid] = useState<GridNameWithId | null>(null);
+  const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const { data: grids } = useGetAvailableUserMinimalGridsQuery(
     selectedUser?.userId ?? "",
     { skip: !selectedUser?.userId },
   );
-  const [selectedGrid, setSelectedGrid] = useState<GridNameWithId | null>(null);
-  const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { data: gridInfos } = useGetMinimalGridInfosByIdQuery(
+    selectedGrid?.id ?? 0,
+    { skip: !selectedGrid },
+  );
 
   const handleOnClickCard = (user: UserCardInfos | null) => {
     setSelectedUser(user);
@@ -54,10 +62,6 @@ export const TakeAppointmentModalProvider: FC<
     setSelectedGrid(grids?.find((grid) => grid.name === gridName));
     setSelectedSlotId(null);
   };
-
-  const gridInfo = useMemo(() => {
-    return gridsInfos["grid1"];
-  }, [selectedGrid]);
 
   const gridSlots = useMemo(() => {
     return gridsTimeSlots["grid1"];
@@ -74,7 +78,7 @@ export const TakeAppointmentModalProvider: FC<
       selectedUser,
       isModalOpen,
       grids,
-      gridInfo,
+      gridInfos,
       gridSlots,
       selectedGrid,
       selectedSlotId,
@@ -88,7 +92,7 @@ export const TakeAppointmentModalProvider: FC<
       selectedUser,
       grids,
       selectedGrid,
-      gridInfo,
+      gridInfos,
       gridSlots,
       selectedSlotId,
     ],
