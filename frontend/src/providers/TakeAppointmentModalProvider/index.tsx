@@ -1,4 +1,11 @@
-import { createContext, FC, useContext, useMemo, useState } from "react";
+import {
+  createContext,
+  FC,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 import { useGetAvailableUserMinimalGridsQuery } from "~/services/api/grid.service";
 import { UserCardInfos } from "../FindAppointmentsProvider/types";
@@ -30,9 +37,7 @@ export const TakeAppointmentModalProvider: FC<
     selectedUser?.userId ?? "",
     { skip: !selectedUser?.userId },
   );
-  const [selectedGrid, setSelectedGrid] = useState<GridNameWithId | undefined>(
-    grids?.[0],
-  );
+  const [selectedGrid, setSelectedGrid] = useState<GridNameWithId | null>(null);
   const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -57,6 +62,12 @@ export const TakeAppointmentModalProvider: FC<
   const gridSlots = useMemo(() => {
     return gridsTimeSlots["grid1"];
   }, [selectedGrid]);
+
+  useEffect(() => {
+    if (grids && !selectedGrid) {
+      setSelectedGrid(grids[0]);
+    }
+  }, [grids]);
 
   const value = useMemo<TakeAppointmentModalProviderContextProps>(
     () => ({

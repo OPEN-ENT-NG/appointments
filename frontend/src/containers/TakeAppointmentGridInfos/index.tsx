@@ -39,6 +39,8 @@ export const TakeAppointmentGridInfos: FC<TakeAppointmentGridInfosProps> = ({
   const { grids, gridInfo, selectedGrid, handleGridChange } =
     useTakeAppointmentModal();
 
+  console.log(selectedGrid);
+
   return (
     <Box sx={wrapperUserInfoStyle}>
       <Box sx={topUserInfoStyle}>
@@ -62,7 +64,7 @@ export const TakeAppointmentGridInfos: FC<TakeAppointmentGridInfosProps> = ({
           </InputLabel>
           <Select
             variant="standard"
-            value={selectedGrid}
+            value={selectedGrid?.name ?? ""}
             onChange={(e) => handleGridChange(e.target.value as string)}
           >
             {grids?.map((grid) => (

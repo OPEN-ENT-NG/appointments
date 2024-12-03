@@ -12,7 +12,7 @@ export interface TakeAppointmentModalProviderContextProps {
   grids: GridNameWithId[] | undefined;
   gridInfo: GridInfoType;
   gridSlots: tmpSlotsType[];
-  selectedGrid: GridNameWithId | undefined;
+  selectedGrid: GridNameWithId | null;
   selectedSlotId: string | null;
   handleGridChange: (gridName: string) => void;
   handleOnClickSlot: (slotId: string) => void;
