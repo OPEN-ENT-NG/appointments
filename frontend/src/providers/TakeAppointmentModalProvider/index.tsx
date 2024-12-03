@@ -50,7 +50,11 @@ export const TakeAppointmentModalProvider: FC<
     { skip: !selectedGrid },
   );
   const { data: gridTimeSlots } = useGetTimeSlotsByGridIdAndDateQuery(
-    { gridId: selectedGrid?.id ?? 0, beginDate: "", endDate: "" },
+    {
+      gridId: selectedGrid?.id ?? 0,
+      beginDate: "2024-12-09",
+      endDate: "2024-12-14",
+    },
     { skip: !selectedGrid },
   );
 
