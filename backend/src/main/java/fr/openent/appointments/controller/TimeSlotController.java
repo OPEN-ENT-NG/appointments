@@ -9,6 +9,7 @@ import fr.wseduc.rs.Get;
 import fr.wseduc.security.ActionType;
 import fr.wseduc.security.SecuredAction;
 import io.vertx.core.http.HttpServerRequest;
+import io.vertx.core.json.JsonObject;
 import org.entcore.common.controller.ControllerHelper;
 import org.entcore.common.http.filter.ResourceFilter;
 import org.entcore.common.user.UserUtils;
@@ -62,6 +63,7 @@ public class TimeSlotController extends ControllerHelper {
             .onFailure(err -> {
                 String errorMessage = String.format("Failed to get available timeslots of grid %s between %s and %s ", gridId, beginDate, endDate);
                 LogHelper.logError(this, "getTimeSlotsByDates", errorMessage, err.getMessage());
+                renderError(request, new JsonObject().put("error", errorMessage));
             });
     }
 }
