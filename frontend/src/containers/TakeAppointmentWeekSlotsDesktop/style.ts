@@ -1,18 +1,25 @@
+import { common, IconButton } from "@cgi-learning-hub/ui";
 import { Box, styled, SxProps } from "@mui/material";
 
-import { ColumnSlotsWrapperProps } from "./types";
 import { columnBoxStyle, flexStartBoxStyle } from "~/styles/boxStyles";
 import { BLACK } from "~/styles/color.constants";
 import { BOLD_FONT, ITALIC_FONT } from "~/styles/fontStyle.constants";
+import { ArrowButtonProps, ColumnSlotsWrapperProps } from "./types";
+
+export const globalContainerStyle: SxProps = {
+  display: "flex",
+  gap: ".5rem",
+  alignSelf: "stretch",
+  width: "100%",
+  flex: "1 0 60%",
+};
 
 export const weekSlotsWrapperStyle: SxProps = {
   ...flexStartBoxStyle,
   justifyContent: "space-around",
-  flex: "0 1 100%",
   gap: "1.6rem",
   alignItems: "flex-start",
   overflowY: "scroll",
-  marginRight: "-0.6rem",
   "&::-webkit-scrollbar": {
     width: "0.6rem",
     height: "0.8rem",
@@ -21,11 +28,24 @@ export const weekSlotsWrapperStyle: SxProps = {
     backgroundColor: "divider",
     borderRadius: "0.3rem",
   },
+  scrollbarGutter: "stable",
 };
+
+export const ArrowButton = styled(IconButton)<ArrowButtonProps>(
+  ({ isVisible }) => ({
+    width: "3rem",
+    height: "3rem",
+    padding: "0.3rem",
+    display: isVisible ? "block" : "none",
+    color: common.black,
+    filter: "blur(0)",
+  }),
+);
 
 export const ColumnSlotsWrapper = styled(Box)<ColumnSlotsWrapperProps>(
   ({ isEmpty }) => ({
     opacity: isEmpty ? "0.5" : "1",
+    minWidth: "7.5rem",
   }),
 );
 
@@ -37,6 +57,9 @@ export const daySlotsWrapperStyle: SxProps = {
 export const headerStyle: SxProps = {
   ...flexStartBoxStyle,
   justifyContent: "space-around",
+  gap: "1.6rem",
+  height: "4rem",
+  paddingRight: ".6rem",
 };
 
 export const daySlotsHeaderStyle: SxProps = {
@@ -67,6 +90,7 @@ export const visioOptionStyle: SxProps = {
 export const containerStyle: SxProps = {
   display: "flex",
   flexDirection: "column",
-  alignSelf: "stretch",
+  width: "100%",
   justifyContent: "space-between",
+  gap: "1rem",
 };

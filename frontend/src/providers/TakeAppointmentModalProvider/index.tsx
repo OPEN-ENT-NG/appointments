@@ -72,6 +72,14 @@ export const TakeAppointmentModalProvider: FC<
     setSelectedSlotId(slotId);
   };
 
+  const handleNextWeek = () => {
+    setCurrentDay(currentDay.add(1, "week"));
+  };
+
+  const handlePreviousWeek = () => {
+    setCurrentDay(currentDay.subtract(1, "week"));
+  };
+
   const handleGridChange = (gridName: string) => {
     if (!grids) return;
     setSelectedGrid(grids?.find((grid) => grid.name === gridName));
@@ -105,6 +113,8 @@ export const TakeAppointmentModalProvider: FC<
       selectedSlotId,
       handleGridChange,
       handleOnClickSlot,
+      handleNextWeek,
+      handlePreviousWeek,
       setIsModalOpen,
       handleOnClickCard,
     }),

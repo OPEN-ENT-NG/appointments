@@ -5,14 +5,6 @@ import { ThemeOptions } from "@mui/material";
 import { BLACK, GREY, PURPLE } from "./color.constants";
 
 export const options: ThemeOptions = {
-  palette: {
-    background: {
-      default: "#F9F9F9",
-    },
-    text: {
-      primary: GREY,
-    },
-  },
   typography: {
     fontFamily: "Roboto",
     h1: {
@@ -152,6 +144,13 @@ export const options: ThemeOptions = {
       styleOverrides: {
         tooltip: {
           fontSize: "1.2rem",
+        },
+      },
+    },
+    MuiSvgIcon: {
+      styleOverrides: {
+        root: {
+          fontSize: "2.4rem",
         },
       },
     },
