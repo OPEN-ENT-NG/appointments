@@ -72,12 +72,12 @@ export interface GridInfos {
 
 export interface TimeSlot {
   id: number;
-  begin: string;
-  end: string;
+  beginDate: string; // format YYYY-MM-DD HH:mm
+  endDate: string; // format YYYY-MM-DD HH:mm
 }
 
 export interface TimeSlots {
-  timeSlots: TimeSlot[] | null;
+  timeslots: TimeSlot[] | null;
   nextAvailableTimeSlot: TimeSlot | null;
 }
 

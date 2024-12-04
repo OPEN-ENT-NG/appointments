@@ -7,6 +7,8 @@ import {
   useState,
 } from "react";
 
+import dayjs, { Dayjs } from "dayjs";
+
 import { UserCardInfos } from "~/services/api/CommunicationService/types";
 import {
   useGetAvailableUserMinimalGridsQuery,
@@ -14,11 +16,12 @@ import {
   useGetTimeSlotsByGridIdAndDateQuery,
 } from "~/services/api/GridService";
 import {
+  DaySlots,
   GridNameWithId,
   TakeAppointmentModalProviderContextProps,
   TakeAppointmentModalProviderProps,
 } from "./types";
-import { gridsTimeSlots } from "./utils";
+import { transformTimeSlotsToDaySlots } from "./utils";
 
 const TakeAppointmentModalProviderContext =
   createContext<TakeAppointmentModalProviderContextProps | null>(null);
@@ -39,6 +42,8 @@ export const TakeAppointmentModalProvider: FC<
   const [selectedUser, setSelectedUser] = useState<UserCardInfos | null>(null);
   const [selectedGrid, setSelectedGrid] = useState<GridNameWithId | null>(null);
   const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
+  const [currentDay, setCurrentDay] = useState<Dayjs>(dayjs().locale("fr"));
+  const [currentSlots, setCurrentSlots] = useState<DaySlots[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data: grids } = useGetAvailableUserMinimalGridsQuery(
@@ -52,13 +57,11 @@ export const TakeAppointmentModalProvider: FC<
   const { data: gridTimeSlots } = useGetTimeSlotsByGridIdAndDateQuery(
     {
       gridId: selectedGrid?.id ?? 0,
-      beginDate: "2024-12-09",
-      endDate: "2024-12-14",
+      beginDate: currentDay.startOf("week").format("YYYY-MM-DD"),
+      endDate: currentDay.startOf("week").add(5, "day").format("YYYY-MM-DD"),
     },
     { skip: !selectedGrid },
   );
-
-  console.log(gridTimeSlots);
 
   const handleOnClickCard = (user: UserCardInfos | null) => {
     setSelectedUser(user);
@@ -75,9 +78,23 @@ export const TakeAppointmentModalProvider: FC<
     setSelectedSlotId(null);
   };
 
-  const gridSlots = useMemo(() => {
-    return gridsTimeSlots["grid1"];
-  }, [selectedGrid]);
+  useEffect(() => {
+    if (!gridTimeSlots) return;
+    console.log("gridTimeSlots", gridTimeSlots);
+    setCurrentSlots(transformTimeSlotsToDaySlots(gridTimeSlots, currentDay));
+  }, [gridTimeSlots]);
+
+  useEffect(() => {
+    console.log("currentSlots", currentSlots);
+  }, [currentSlots]);
+
+  // const gridSlots = gridTimeSlots
+  //   ? transformTimeSlotsToDaySlots(gridTimeSlots)
+  //   : [];
+
+  // const gridSlots = useMemo(() => {
+  //   return gridsTimeSlots["grid1"];
+  // }, [selectedGrid]);
 
   useEffect(() => {
     if (grids && !selectedGrid) {
@@ -91,7 +108,7 @@ export const TakeAppointmentModalProvider: FC<
       isModalOpen,
       grids,
       gridInfos,
-      gridSlots,
+      currentSlots,
       selectedGrid,
       selectedSlotId,
       handleGridChange,
@@ -105,7 +122,8 @@ export const TakeAppointmentModalProvider: FC<
       grids,
       selectedGrid,
       gridInfos,
-      gridSlots,
+      currentSlots,
+      currentDay,
       selectedSlotId,
     ],
   );

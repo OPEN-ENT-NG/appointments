@@ -2,7 +2,7 @@ import { DAY } from "./enums";
 import { Time } from "./models/Time";
 
 export interface Slot {
-  id: string;
+  id: number;
   begin: Time;
   end: Time;
 }

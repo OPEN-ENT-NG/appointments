@@ -26,27 +26,27 @@ export const DURATION_VALUES = {
 export const DAY_VALUES = {
   [DAY.MONDAY]: {
     i18nKey: "appointments.monday",
-    numberOfWeekDay: 1,
+    numberOfWeekDay: 0,
   },
   [DAY.TUESDAY]: {
     i18nKey: "appointments.tuesday",
-    numberOfWeekDay: 2,
+    numberOfWeekDay: 1,
   },
   [DAY.WEDNESDAY]: {
     i18nKey: "appointments.wednesday",
-    numberOfWeekDay: 3,
+    numberOfWeekDay: 2,
   },
   [DAY.THURSDAY]: {
     i18nKey: "appointments.thursday",
-    numberOfWeekDay: 4,
+    numberOfWeekDay: 3,
   },
   [DAY.FRIDAY]: {
     i18nKey: "appointments.friday",
-    numberOfWeekDay: 5,
+    numberOfWeekDay: 4,
   },
   [DAY.SATURDAY]: {
     i18nKey: "appointments.saturday",
-    numberOfWeekDay: 6,
+    numberOfWeekDay: 5,
   },
 };
 

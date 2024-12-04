@@ -6,6 +6,11 @@ import { Box, Checkbox, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { v4 as uuidv4 } from "uuid";
 
+import { DaySlots } from "~/components/DaySlots";
+import { DAY_VALUES } from "~/core/constants";
+import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
+import { flexStartBoxStyle } from "~/styles/boxStyles";
+import { MODAL_SIZE } from "../TakeAppointmentModal/enum";
 import {
   ColumnSlotsWrapper,
   containerStyle,
@@ -17,11 +22,6 @@ import {
   weekDayStyle,
   weekSlotsWrapperStyle,
 } from "./style";
-import { MODAL_SIZE } from "../TakeAppointmentModal/enum";
-import { DaySlots } from "~/components/DaySlots";
-import { DAY_VALUES } from "~/core/constants";
-import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
-import { flexStartBoxStyle } from "~/styles/boxStyles";
 
 export const TakeAppointmentWeekSlotsDesktop: FC = () => {
   const { t } = useTranslation("appointments");
@@ -37,7 +37,7 @@ export const TakeAppointmentWeekSlotsDesktop: FC = () => {
             key={uuidv4()}
           >
             <Typography sx={weekDayStyle}>
-              {t(`appointments.${DAY_VALUES[daySlot.weekDay].value}`)}
+              {t(DAY_VALUES[daySlot.weekDay].i18nKey)}
             </Typography>
             <Typography sx={dayStyle}>
               {daySlot.day.locale("fr").format("D MMMM")}
