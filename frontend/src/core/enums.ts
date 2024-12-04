@@ -1,10 +1,3 @@
-export enum SLOT_DURATION {
-  FIFTEEN_MINUTES = "15 MIN",
-  THIRTY_MINUTES = "30 MIN",
-  FOURTYFIVE_MINUTES = "45 MIN",
-  ONE_HOUR = "1 H",
-}
-
 export enum DAY {
   MONDAY = "MONDAY",
   TUESDAY = "TUESDAY",

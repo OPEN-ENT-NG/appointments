@@ -1,9 +1,9 @@
 import dayjs from "dayjs";
 
 import { DAY } from "~/core/enums";
-import { tmpSlotsType } from "./types";
+import { DaySlots } from "./types";
 
-export const gridsTimeSlots: Record<string, tmpSlotsType[]> = {
+export const gridsTimeSlots: Record<string, DaySlots[]> = {
   grid1: [
     {
       weekDay: DAY.MONDAY,

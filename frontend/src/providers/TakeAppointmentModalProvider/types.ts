@@ -11,7 +11,7 @@ export interface TakeAppointmentModalProviderContextProps {
   isModalOpen: boolean;
   grids: GridNameWithId[] | undefined;
   gridInfos: GridInfos | undefined;
-  gridSlots: tmpSlotsType[];
+  gridSlots: DaySlots[];
   selectedGrid: GridNameWithId | null;
   selectedSlotId: string | null;
   handleGridChange: (gridName: string) => void;
@@ -32,7 +32,7 @@ export interface GridInfos {
   documentId: string;
 }
 
-export interface tmpSlotsType {
+export interface DaySlots {
   weekDay: DAY;
   day: Dayjs;
   slots: Slot[];

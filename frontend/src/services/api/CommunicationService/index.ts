@@ -1,4 +1,4 @@
-import { emptySplitApi } from "./emptySplitApi.service";
+import { emptySplitApi } from "../EmptySplitService";
 import { USER_STATUS } from "~/providers/FindAppointmentsProvider/enums";
 import {
   GetUsersPayload,

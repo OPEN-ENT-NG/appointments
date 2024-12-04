@@ -3,7 +3,7 @@ import { Dispatch, ReactNode, SetStateAction } from "react";
 import { Dayjs } from "dayjs";
 
 import { HexaColor } from "~/components/ColorPicker/types";
-import { DAY, PERIODICITY, SLOT_DURATION } from "~/core/enums";
+import { PERIODICITY, SLOT_DURATION } from "~/core/enums";
 import { WeekSlotsModel } from "~/core/types";
 import {
   Structure,
@@ -63,26 +63,4 @@ export interface InputsErrors {
     ids: string[];
     error: string;
   };
-}
-
-interface DaylySlotPayload {
-  day: DAY;
-  beginTime: string;
-  endTime: string;
-}
-
-export interface GridPayload {
-  name: string;
-  color: string;
-  beginDate: string;
-  endDate: string;
-  structureId: string;
-  duration: string;
-  periodicity: number;
-  targetPublicListId: string[];
-  dailySlots: DaylySlotPayload[];
-  visioLink: string;
-  place: string;
-  documentId: string;
-  publicComment: string;
 }
