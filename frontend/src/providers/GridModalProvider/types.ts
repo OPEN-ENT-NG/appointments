@@ -3,13 +3,14 @@ import { Dispatch, ReactNode, SetStateAction } from "react";
 import { Dayjs } from "dayjs";
 
 import { HexaColor } from "~/components/ColorPicker/types";
-import { PERIODICITY, SLOT_DURATION } from "~/core/enums";
+import { DURATION, PERIODICITY } from "~/core/enums";
 import { WeekSlotsModel } from "~/core/types";
 import {
   Structure,
   useBlurGridInputsReturnType,
   useUpdateGridInputsReturnType,
 } from "~/hooks/types";
+import { Public } from "~/services/api/CommunicationService/types";
 
 export interface GridModalProviderContextProps {
   inputs: GridModalInputs;
@@ -19,7 +20,7 @@ export interface GridModalProviderContextProps {
   existingGridsNames: string[];
   structureOptions: Structure[];
   publicOptions: Public[];
-  slotDurationOptions: SLOT_DURATION[];
+  slotDurationOptions: DURATION[];
   periodicityOptions: PERIODICITY[];
   updateGridModalInputs: useUpdateGridInputsReturnType;
   blurGridModalInputs: useBlurGridInputsReturnType;
@@ -29,11 +30,6 @@ export interface GridModalProviderContextProps {
 
 export interface GridModalProviderProps {
   children: ReactNode;
-}
-
-export interface Public {
-  id: string;
-  name: string;
 }
 
 export interface GridModalInputs {
@@ -49,7 +45,7 @@ export interface GridModalInputs {
     start: Dayjs | undefined;
     end: Dayjs | undefined;
   };
-  slotDuration: SLOT_DURATION;
+  duration: DURATION;
   periodicity: PERIODICITY;
   weekSlots: WeekSlotsModel;
 }

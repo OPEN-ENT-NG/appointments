@@ -1,9 +1,5 @@
 import { ReactNode } from "react";
 
-import { Dayjs } from "dayjs";
-
-import { USER_STATUS } from "./enums";
-
 export interface FindAppointmentsProviderContextProps {
   users: UserCardInfos[];
   hasMoreUsers: boolean;
@@ -14,15 +10,6 @@ export interface FindAppointmentsProviderContextProps {
 
 export interface FindAppointmentsProviderProps {
   children: ReactNode;
-}
-
-export interface UserCardInfos {
-  userId: string;
-  picture: string | null;
-  displayName: string;
-  functions: string;
-  lastAppointmentDate: Dayjs | null;
-  status: USER_STATUS;
 }
 
 export interface GetUsersPayload {

@@ -1,7 +1,5 @@
-import { Dayjs } from "dayjs";
-
 import { HexaColor } from "~/components/ColorPicker/types";
-import { DAY, GRID_STATE } from "~/core/enums";
+import { DAY, DURATION, GRID_STATE } from "~/core/enums";
 
 interface DailySlotPayload {
   day: DAY;
@@ -33,8 +31,8 @@ export interface GetMyGridsPayload {
 
 export interface MinimalGrid extends NameWithId {
   color: HexaColor;
-  beginDate: Dayjs;
-  endDate: Dayjs;
+  beginDate: string;
+  endDate: string;
   state: GRID_STATE;
   structureId: string;
 }
@@ -49,6 +47,27 @@ export interface NameWithId {
   name: string;
 }
 
-export interface GetAvailableUserMinimalGridsResponse {
-  grids: NameWithId[];
+export interface GridInfos {
+  duration: DURATION;
+  visioLink: string;
+  place: string;
+  publicComment: string;
+  documentId: string;
+}
+
+export interface TimeSlot {
+  id: number;
+  begin: string;
+  end: string;
+}
+
+export interface TimeSlots {
+  timeSlots: TimeSlot[] | null;
+  nextAvailableTimeSlot: TimeSlot | null;
+}
+
+export interface GetTimeSlotsPayload {
+  gridId: number;
+  beginDate: string;
+  endDate: string;
 }

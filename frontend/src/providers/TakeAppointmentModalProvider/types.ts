@@ -2,8 +2,9 @@ import { Dispatch, ReactNode, SetStateAction } from "react";
 
 import { Dayjs } from "dayjs";
 
-import { DAY, SLOT_DURATION } from "~/core/enums";
+import { DAY } from "~/core/enums";
 import { Slot } from "~/core/types";
+import { GridInfos } from "~/services/api/GridService/types";
 import { UserCardInfos } from "../FindAppointmentsProvider/types";
 
 export interface TakeAppointmentModalProviderContextProps {
@@ -22,14 +23,6 @@ export interface TakeAppointmentModalProviderContextProps {
 
 export interface TakeAppointmentModalProviderProps {
   children: ReactNode;
-}
-
-export interface GridInfos {
-  slotDuration: SLOT_DURATION;
-  visio: boolean;
-  place: string;
-  publicComment: string;
-  documentId: string;
 }
 
 export interface DaySlots {

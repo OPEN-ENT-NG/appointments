@@ -1,6 +1,0 @@
-export enum DURATION {
-  FIFTEEN_MINUTES = "00:15",
-  THIRTY_MINUTES = "00:30",
-  FOURTYFIVE_MINUTES = "00:45",
-  ONE_HOUR = "01:00",
-}

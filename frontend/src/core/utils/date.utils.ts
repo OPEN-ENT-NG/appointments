@@ -1,7 +1,5 @@
 import { Dayjs } from "dayjs";
 
-import { DAY, PERIODICITY } from "../enums";
-
 // export const formatSlotDurationToMinutes = (
 //   duration: SLOT_DURATION,
 // ): number => {
@@ -51,35 +49,35 @@ import { DAY, PERIODICITY } from "../enums";
 //   }
 // };
 
-export const formatDayToI18n = (day: DAY): string => {
-  switch (day) {
-    case DAY.MONDAY:
-      return "appointments.grid.monday";
-    case DAY.TUESDAY:
-      return "appointments.grid.tuesday";
-    case DAY.WEDNESDAY:
-      return "appointments.grid.wednesday";
-    case DAY.THURSDAY:
-      return "appointments.grid.thursday";
-    case DAY.FRIDAY:
-      return "appointments.grid.friday";
-    case DAY.SATURDAY:
-      return "appointments.grid.saturday";
-    default:
-      return "";
-  }
-};
+// export const formatDayToI18n = (day: DAY): string => {
+//   switch (day) {
+//     case DAY.MONDAY:
+//       return "appointments.grid.monday";
+//     case DAY.TUESDAY:
+//       return "appointments.grid.tuesday";
+//     case DAY.WEDNESDAY:
+//       return "appointments.grid.wednesday";
+//     case DAY.THURSDAY:
+//       return "appointments.grid.thursday";
+//     case DAY.FRIDAY:
+//       return "appointments.grid.friday";
+//     case DAY.SATURDAY:
+//       return "appointments.grid.saturday";
+//     default:
+//       return "";
+//   }
+// };
 
-export const formatPeriodicityToI18n = (periodicity: PERIODICITY): string => {
-  switch (periodicity) {
-    case PERIODICITY.WEEKLY:
-      return "appointments.grid.periodicity.weekly";
-    case PERIODICITY.BIWEEKLY:
-      return "appointments.grid.periodicity.biweekly";
-    default:
-      return "";
-  }
-};
+// export const formatPeriodicityToI18n = (periodicity: PERIODICITY): string => {
+//   switch (periodicity) {
+//     case PERIODICITY.WEEKLY:
+//       return "appointments.grid.periodicity.weekly";
+//     case PERIODICITY.BIWEEKLY:
+//       return "appointments.grid.periodicity.biweekly";
+//     default:
+//       return "";
+//   }
+// };
 
 export const formatDayjsToString = (date: Dayjs): string => {
   return date.format("DD/MM/YYYY");

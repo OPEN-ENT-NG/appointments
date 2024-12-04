@@ -1,10 +1,5 @@
 import { emptySplitApi } from "../EmptySplitService";
-import { USER_STATUS } from "~/providers/FindAppointmentsProvider/enums";
-import {
-  GetUsersPayload,
-  UserCardInfos,
-} from "~/providers/FindAppointmentsProvider/types";
-import { Public } from "~/providers/GridModalProvider/types";
+import { Public } from "./types";
 
 export const communicationApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({

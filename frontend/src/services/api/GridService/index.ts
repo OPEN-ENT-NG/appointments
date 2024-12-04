@@ -1,15 +1,12 @@
-import { parseStringToSlotDuration } from "~/core/utils/date.utils";
-import {
-  GetTimeSlotPayload,
-  GridInfos,
-  TimeSlots,
-} from "~/providers/TakeAppointmentModalProvider/types";
 import { emptySplitApi } from "../EmptySplitService";
 import {
   CreateGridPayload,
   GetMyGridsPayload,
-  GridNameWithId,
+  GetTimeSlotsPayload,
+  GridInfos,
   MyGrids,
+  NameWithId,
+  TimeSlots,
 } from "./types";
 import { transformResponseToMyGridsResponse } from "./utils";
 
@@ -40,27 +37,18 @@ export const gridApi = emptySplitApi.injectEndpoints({
     getMyGridsName: builder.query<string[], void>({
       query: () => "/grids/names",
     }),
-    getAvailableUserMinimalGrids: builder.query<GridNameWithId[], string>({
+    getAvailableUserMinimalGrids: builder.query<NameWithId[], string>({
       query: (userId) => `/users/${userId}/grids/minimal`,
     }),
     getMinimalGridInfosById: builder.query<GridInfos, number>({
       query: (gridId) => `/grids/${gridId}/minimal/infos`,
-      transformResponse: (response: any) => {
-        return {
-          slotDuration: parseStringToSlotDuration(response.duration),
-          visio: !!response.visioLink,
-          place: response.place,
-          publicComment: response.publicComment,
-          documentId: response.documentId,
-        };
-      },
     }),
-    getTimeSlotsByGridIdAndDate: builder.query<TimeSlots, GetTimeSlotPayload>({
-      query: (params) => ({
-        url: `/grids/${params.gridId}/timeslots`,
+    getTimeSlotsByGridIdAndDate: builder.query<TimeSlots, GetTimeSlotsPayload>({
+      query: ({ gridId, beginDate, endDate }) => ({
+        url: `/grids/${gridId}/timeslots`,
         params: {
-          beginDate: params.beginDate,
-          endDate: params.endDate,
+          beginDate: beginDate,
+          endDate: endDate,
         },
       }),
     }),
