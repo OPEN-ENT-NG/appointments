@@ -147,7 +147,7 @@ public class DefaultTimeSlotService implements TimeSlotService {
         Promise<TimeSlotsAvailableResponse> promise = Promise.promise();
 
         // If timeslots were present we return them
-        if (timeslots != null && timeslots.isEmpty()) {
+        if (timeslots != null && !timeslots.isEmpty()) {
             promise.complete(new TimeSlotsAvailableResponse(timeslots));
             return promise.future();
         }

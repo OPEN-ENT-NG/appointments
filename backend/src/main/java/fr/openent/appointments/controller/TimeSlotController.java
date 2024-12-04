@@ -49,7 +49,7 @@ public class TimeSlotController extends ControllerHelper {
                 .map(DateHelper::parseDate)
                 .orElse(null);
 
-        if (beginDate != null && beginDate.isAfter(endDate)) {
+        if (beginDate != null && endDate != null && beginDate.isAfter(endDate)) {
             String errorMessage = "beginDate cannot be after endDate";
             LogHelper.logError(this, "getTimeSlotsByDates", errorMessage);
             badRequest(request);
