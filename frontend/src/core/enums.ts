@@ -6,17 +6,17 @@ export enum DURATION {
 }
 
 export enum DAY {
-  MONDAY = 1,
-  TUESDAY = 2,
-  WEDNESDAY = 3,
-  THURSDAY = 4,
-  FRIDAY = 5,
-  SATURDAY = 6,
+  MONDAY = "MONDAY",
+  TUESDAY = "TUESDAY",
+  WEDNESDAY = "WEDNESDAY",
+  THURSDAY = "THURSDAY",
+  FRIDAY = "FRIDAY",
+  SATURDAY = "SATURDAY",
 }
 
 export enum PERIODICITY {
-  WEEKLY = 1,
-  BIWEEKLY = 2,
+  WEEKLY = "WEEKLY",
+  BIWEEKLY = "BIWEEKLY",
 }
 
 export enum GRID_STATE {

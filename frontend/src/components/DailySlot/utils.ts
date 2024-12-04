@@ -68,14 +68,14 @@ export const getStartOptions = (
     ? slots
         .filter((slot) => {
           return (
-            slot.begin &&
-            slot.end &&
-            endTime &&
+            slot.begin.time &&
+            slot.end.time &&
+            endTime.time &&
             slot.end.parseToDayjs().isBefore(endTime.parseToDayjs())
           );
         })
         .reduce<Dayjs | null>((acc: Dayjs | null, slot) => {
-          if (!slot.end) {
+          if (!slot.end.time) {
             return acc;
           }
           const slotEnd = slot.end.parseToDayjs();
@@ -85,7 +85,7 @@ export const getStartOptions = (
 
   const availableTimes = possibleTimes.filter((time: Time) => {
     return !slots.some((slot) => {
-      if (!slot.begin || !slot.end) return false;
+      if (!slot.begin.time || !slot.end.time) return false;
 
       if (slot.id === currentSlot.id) return false;
       const currentTime = time.parseToDayjs();
@@ -101,7 +101,7 @@ export const getStartOptions = (
   const availableTimes2 = availableTimes.filter((time: Time) => {
     const currentTime = time.parseToDayjs();
 
-    if (!endTime) return true;
+    if (!endTime.time) return true;
 
     return currentTime.isBefore(endTime.parseToDayjs());
   });
@@ -132,15 +132,15 @@ export const getEndOptions = (
     ? slots
         .filter((slot) => {
           return (
-            slot.begin &&
-            slot.end &&
-            beginTime &&
+            slot.begin.time &&
+            slot.end.time &&
+            beginTime.time &&
             slot.begin.parseToDayjs().isAfter(beginTime.parseToDayjs())
           );
         })
         .reduce<Dayjs | null>(
           (acc, slot) => {
-            if (!slot.begin) {
+            if (!slot.begin.time) {
               return acc;
             }
             const slotBegin = slot.begin.parseToDayjs();
@@ -152,7 +152,7 @@ export const getEndOptions = (
 
   const availableTimes = possibleTimes.filter((time: Time) => {
     return !slots.some((slot) => {
-      if (!slot.begin || !slot.end) return false;
+      if (!slot.begin.time || !slot.end.time) return false;
 
       if (slot.id === currentSlot.id) return false;
 
@@ -169,7 +169,7 @@ export const getEndOptions = (
   const availableTimes2 = availableTimes.filter((time: Time) => {
     const currentTime = time.parseToDayjs();
 
-    if (!beginTime) return true;
+    if (!beginTime.time) return true;
 
     return currentTime.isAfter(beginTime.parseToDayjs());
   });

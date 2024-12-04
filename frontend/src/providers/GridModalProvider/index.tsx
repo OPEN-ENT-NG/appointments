@@ -8,19 +8,6 @@ import {
 } from "react";
 
 import {
-  GridModalInputs,
-  GridModalProviderContextProps,
-  GridModalProviderProps,
-  InputsErrors,
-} from "./types";
-import {
-  initialErrorInputs,
-  initialGridModalInputs,
-  periodicityOptions,
-  slotDurationOptions,
-} from "./utils";
-import { useGlobal } from "../GlobalProvider";
-import {
   useBlurGridInputsReturnType,
   useUpdateGridInputsReturnType,
 } from "~/hooks/types";
@@ -28,6 +15,19 @@ import { useBlurGridInputs } from "~/hooks/useBlurGridInputs";
 import { useUpdateGridInputs } from "~/hooks/useUpdateGridInputs";
 import { useGetCommunicationGroupsQuery } from "~/services/api/CommunicationService";
 import { useGetMyGridsNameQuery } from "~/services/api/GridService";
+import { useGlobal } from "../GlobalProvider";
+import {
+  GridModalInputs,
+  GridModalProviderContextProps,
+  GridModalProviderProps,
+  InputsErrors,
+} from "./types";
+import {
+  durationOptions,
+  initialErrorInputs,
+  initialGridModalInputs,
+  periodicityOptions,
+} from "./utils";
 
 const GridModalProviderContext =
   createContext<GridModalProviderContextProps | null>(null);
@@ -105,7 +105,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       existingGridsNames: existingGridsNames ?? [],
       structureOptions: structures,
       publicOptions: groups ?? [],
-      slotDurationOptions,
+      durationOptions,
       periodicityOptions,
       updateGridModalInputs,
       blurGridModalInputs,

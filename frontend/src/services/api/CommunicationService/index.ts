@@ -1,11 +1,13 @@
-import { GetUsersPayload, Public, UserCardInfos } from "./types";
 import { emptySplitApi } from "../EmptySplitService";
+import { GetUsersPayload, Public, UserCardInfos } from "./types";
+import { transformResponseToPublic } from "./utils";
 
 export const communicationApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     getCommunicationGroups: builder.query<Public[], string>({
       query: (structureId: string) =>
         `/structures/${structureId}/communication/from/groups`,
+      transformResponse: transformResponseToPublic,
     }),
     getCommunicationUsers: builder.query<UserCardInfos[], GetUsersPayload>({
       query: (body) => ({

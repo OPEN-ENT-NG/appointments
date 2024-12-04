@@ -1,3 +1,5 @@
+import { Dayjs } from "dayjs";
+
 import { HexaColor } from "~/components/ColorPicker/types";
 import { DAY, DURATION, GRID_STATE } from "~/core/enums";
 
@@ -29,10 +31,23 @@ export interface GetMyGridsPayload {
   limit: number;
 }
 
+export interface MyGridsResponse {
+  total: number;
+  minimalCreatorGrids: Array<{
+    id: number;
+    name: string;
+    color: HexaColor;
+    begin_date: string;
+    end_date: string;
+    structureId: string;
+    state: GRID_STATE;
+  }>;
+}
+
 export interface MinimalGrid extends NameWithId {
   color: HexaColor;
-  beginDate: string;
-  endDate: string;
+  beginDate: Dayjs;
+  endDate: Dayjs;
   state: GRID_STATE;
   structureId: string;
 }

@@ -4,6 +4,9 @@ import { Box, Tooltip, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 
+import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
+import { GREY } from "~/styles/color.constants";
+import { NoAvatar } from "../SVG/NoAvatar";
 import {
   displayNameStyle,
   functionsStyle,
@@ -17,9 +20,6 @@ import {
   WrapperUserCard,
 } from "./style";
 import { UserCardProps } from "./types";
-import { NoAvatar } from "../SVG/NoAvatar";
-import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
-import { GREY } from "~/styles/color.constants";
 
 export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(
   ({ infos }, ref) => {
@@ -100,7 +100,7 @@ export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(
           <Box sx={statusBoxStyle}>
             <StatusColor isAvailable={isAvailable} />
             <Typography sx={statusStyle}>
-              {t("appointments." + status.toLowerCase())}
+              {t("appointments." + (isAvailable ? "available" : "unavailable"))}
             </Typography>
           </Box>
         </Box>

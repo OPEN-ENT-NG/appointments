@@ -7,18 +7,18 @@ import {
   useState,
 } from "react";
 
-import {
-  GridNameWithId,
-  TakeAppointmentModalProviderContextProps,
-  TakeAppointmentModalProviderProps,
-} from "./types";
-import { gridsTimeSlots } from "./utils";
 import { UserCardInfos } from "~/services/api/CommunicationService/types";
 import {
   useGetAvailableUserMinimalGridsQuery,
   useGetMinimalGridInfosByIdQuery,
   useGetTimeSlotsByGridIdAndDateQuery,
 } from "~/services/api/GridService";
+import {
+  GridNameWithId,
+  TakeAppointmentModalProviderContextProps,
+  TakeAppointmentModalProviderProps,
+} from "./types";
+import { gridsTimeSlots } from "./utils";
 
 const TakeAppointmentModalProviderContext =
   createContext<TakeAppointmentModalProviderContextProps | null>(null);
@@ -58,7 +58,7 @@ export const TakeAppointmentModalProvider: FC<
     { skip: !selectedGrid },
   );
 
-  console.log("gridTimeSlots", gridTimeSlots);
+  console.log(gridTimeSlots);
 
   const handleOnClickCard = (user: UserCardInfos | null) => {
     setSelectedUser(user);

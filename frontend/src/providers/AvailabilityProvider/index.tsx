@@ -7,6 +7,10 @@ import {
   useState,
 } from "react";
 
+import { GRID_PER_PAGE } from "~/core/constants";
+import { GRID_STATE } from "~/core/enums";
+import { useGetMyGridsQuery } from "~/services/api/GridService";
+import { useGlobal } from "../GlobalProvider";
 import { GRID_TYPE } from "./enum";
 import {
   AvailabilityProviderContextProps,
@@ -16,10 +20,6 @@ import {
   GridTypeLength,
 } from "./types";
 import { initialGrids, initialGridsLength, initialPages } from "./utils";
-import { useGlobal } from "../GlobalProvider";
-import { GRID_PER_PAGE } from "~/core/constants";
-import { GRID_STATE } from "~/core/enums";
-import { useGetMyGridsQuery } from "~/services/api/GridService";
 
 const AvailabilityProviderContext =
   createContext<AvailabilityProviderContextProps | null>(null);

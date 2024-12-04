@@ -25,36 +25,40 @@ export const DURATION_VALUES = {
 
 export const DAY_VALUES = {
   [DAY.MONDAY]: {
-    value: "monday",
     i18nKey: "appointments.monday",
+    numberOfWeekDay: 1,
   },
   [DAY.TUESDAY]: {
-    value: "tuesday",
     i18nKey: "appointments.tuesday",
+    numberOfWeekDay: 2,
   },
   [DAY.WEDNESDAY]: {
-    value: "wednesday",
     i18nKey: "appointments.wednesday",
+    numberOfWeekDay: 3,
   },
   [DAY.THURSDAY]: {
-    value: "thursday",
     i18nKey: "appointments.thursday",
+    numberOfWeekDay: 4,
   },
   [DAY.FRIDAY]: {
-    value: "friday",
     i18nKey: "appointments.friday",
+    numberOfWeekDay: 5,
   },
   [DAY.SATURDAY]: {
-    value: "saturday",
     i18nKey: "appointments.saturday",
+    numberOfWeekDay: 6,
   },
 };
 
 export const PERIODICITY_VALUES = {
   [PERIODICITY.WEEKLY]: {
+    numberOfWeeks: 1,
     i18nKey: "appointments.grid.periodicity.weekly",
   },
   [PERIODICITY.BIWEEKLY]: {
+    numberOfWeeks: 2,
     i18nKey: "appointments.grid.periodicity.biweekly",
   },
 };
+
+export const DISPLAY_DATE_FORMAT = "DD/MM/YYYY";

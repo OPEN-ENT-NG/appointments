@@ -1,14 +1,17 @@
 import dayjs from "dayjs";
 
-import { MyGrids } from "./types";
+import { MyGrids, MyGridsResponse } from "./types";
 
-export const transformResponseToMyGridsResponse = (response: any): MyGrids => {
-  return {
+export const transformResponseToMyGridsResponse = (
+  response: MyGridsResponse,
+): MyGrids => {
+  const myGrids: MyGrids = {
     total: response.total,
-    grids: response.minimal_creator_grids.map((grid: any) => ({
+    grids: response.minimalCreatorGrids.map((grid) => ({
       ...grid,
       beginDate: dayjs(grid.begin_date),
       endDate: dayjs(grid.end_date),
     })),
   };
+  return myGrids;
 };

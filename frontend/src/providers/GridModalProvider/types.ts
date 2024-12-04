@@ -20,7 +20,7 @@ export interface GridModalProviderContextProps {
   existingGridsNames: string[];
   structureOptions: Structure[];
   publicOptions: Public[];
-  slotDurationOptions: DURATION[];
+  durationOptions: DURATION[];
   periodicityOptions: PERIODICITY[];
   updateGridModalInputs: useUpdateGridInputsReturnType;
   blurGridModalInputs: useBlurGridInputsReturnType;

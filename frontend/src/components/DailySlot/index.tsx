@@ -37,7 +37,8 @@ export const DailySlot: FC<DailySlotProps> = ({ day, slot }) => {
   } = useGridModal();
 
   const isSlotError =
-    slots.ids.some((item) => item === slot.id) && (!slot.begin || !slot.end);
+    slots.ids.some((item) => item === slot.id) &&
+    (!slot.begin.time || !slot.end.time);
 
   return (
     <StyledDailySlotBox isSlotError={isSlotError}>

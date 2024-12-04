@@ -16,6 +16,9 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
+import { NoAvatar } from "~/components/SVG/NoAvatar";
+import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
+import { GREY } from "~/styles/color.constants";
 import {
   bottomUserInfoStyle,
   displayNameStyle,
@@ -28,9 +31,6 @@ import {
   wrapperUserInfoStyle,
 } from "./style";
 import { TakeAppointmentGridInfosProps } from "./types";
-import { NoAvatar } from "~/components/SVG/NoAvatar";
-import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
-import { GREY } from "~/styles/color.constants";
 
 // this container is the first part of TakeAppointmentModal
 export const TakeAppointmentGridInfos: FC<TakeAppointmentGridInfosProps> = ({
@@ -42,7 +42,6 @@ export const TakeAppointmentGridInfos: FC<TakeAppointmentGridInfosProps> = ({
     useTakeAppointmentModal();
 
   const { duration, visioLink, place, publicComment } = gridInfos || {};
-  console.log("gridInfos", gridInfos);
 
   return (
     <Box sx={wrapperUserInfoStyle}>

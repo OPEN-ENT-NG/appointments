@@ -11,7 +11,7 @@ export class Time implements ITime {
 
   parseToString(): string {
     if (!this.time) {
-      return "";
+      return "--:--";
     }
 
     const hour = this.time.hour.toString().padStart(2, "0");

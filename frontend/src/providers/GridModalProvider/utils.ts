@@ -1,11 +1,11 @@
-import { GridModalInputs, InputsErrors } from "./types";
-import { DURATION_VALUES } from "~/core/constants";
+import { PERIODICITY_VALUES } from "~/core/constants";
 import { DAY, DURATION, PERIODICITY } from "~/core/enums";
 import { INVALID_SLOT_ERROR } from "~/core/i18nKeys";
 import { WeekSlotsModel } from "~/core/types";
 import { Structure } from "~/hooks/types";
 import { Public } from "~/services/api/CommunicationService/types";
 import { CreateGridPayload } from "~/services/api/GridService/types";
+import { GridModalInputs, InputsErrors } from "./types";
 
 export const initialPublic: Public[] = [];
 export const initialWeekSlots: WeekSlotsModel = {
@@ -48,7 +48,7 @@ export const initialErrorInputs: InputsErrors = {
   },
 };
 
-export const slotDurationOptions: DURATION[] = Object.values(
+export const durationOptions: DURATION[] = Object.values(
   DURATION,
 ) as DURATION[];
 
@@ -66,18 +66,17 @@ export const gridInputsToGridPayload = (
     beginDate: inputs.validityPeriod.start?.format("YYYY-MM-DD") || "",
     endDate: inputs.validityPeriod.end?.format("YYYY-MM-DD") || "",
     structureId: inputs.structure.id,
-    duration: DURATION_VALUES[inputs.duration].displayValue,
-    periodicity: inputs.periodicity,
+    duration: inputs.duration,
+    periodicity: PERIODICITY_VALUES[inputs.periodicity].numberOfWeeks,
     targetPublicListId: inputs.public.length
       ? inputs.public.map((item) => item.groupId)
       : publicOptions.map((item) => item.groupId), // If no public is selected, all publics are selected
     dailySlots: Object.entries(inputs.weekSlots).reduce(
       (acc, [day, slots]) => {
-        const dayTyped = parseInt(day) as DAY;
         return [
           ...acc,
           ...slots.map((slot) => ({
-            day: dayTyped,
+            day: day as DAY,
             beginTime: slot.begin.parseToString(),
             endTime: slot.end.parseToString(),
           })),
