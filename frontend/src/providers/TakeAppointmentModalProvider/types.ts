@@ -4,8 +4,8 @@ import { Dayjs } from "dayjs";
 
 import { DAY } from "~/core/enums";
 import { Slot } from "~/core/types";
+import { UserCardInfos } from "~/services/api/CommunicationService/types";
 import { GridInfos } from "~/services/api/GridService/types";
-import { UserCardInfos } from "../FindAppointmentsProvider/types";
 
 export interface TakeAppointmentModalProviderContextProps {
   selectedUser: UserCardInfos | null;

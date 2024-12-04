@@ -18,7 +18,7 @@ import {
 import { pageGridModalStyle } from "../GridModal/style";
 import { RangeDatePicker } from "~/components/RangeDatePicker";
 import { WeekSlots } from "~/components/WeekSlots";
-import { formatPeriodicityToI18n } from "~/core/utils/date.utils";
+import { PERIODICITY_VALUES } from "~/core/constants";
 import { useGridModal } from "~/providers/GridModalProvider";
 
 export const SecondPageGridModal: FC = () => {
@@ -48,7 +48,7 @@ export const SecondPageGridModal: FC = () => {
       <Box sx={itemStyle}>
         <Typography>{t("appointments.grid.slot.duration") + " *"}</Typography>
         <Box sx={validityPeriodStyle}>
-          <ToggleButtonGroup exclusive value={inputs.slotDuration}>
+          <ToggleButtonGroup exclusive value={inputs.duration}>
             {slotDurationOptions.map((option) => (
               <ToggleButton
                 key={option}
@@ -73,7 +73,7 @@ export const SecondPageGridModal: FC = () => {
                 value={option}
                 onClick={handlePeriodicityChange}
               >
-                {t(formatPeriodicityToI18n(option))}
+                {t(PERIODICITY_VALUES[option].i18nKey)}
               </ToggleButton>
             ))}
           </ToggleButtonGroup>

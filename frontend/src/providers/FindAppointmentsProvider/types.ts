@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
 
+import { UserCardInfos } from "~/services/api/CommunicationService/types";
+
 export interface FindAppointmentsProviderContextProps {
   users: UserCardInfos[];
   hasMoreUsers: boolean;
@@ -10,10 +12,4 @@ export interface FindAppointmentsProviderContextProps {
 
 export interface FindAppointmentsProviderProps {
   children: ReactNode;
-}
-
-export interface GetUsersPayload {
-  search: string;
-  page: number;
-  limit: number;
 }

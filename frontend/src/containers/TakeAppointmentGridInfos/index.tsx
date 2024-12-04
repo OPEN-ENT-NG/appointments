@@ -16,9 +16,6 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-import { NoAvatar } from "~/components/SVG/NoAvatar";
-import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
-import { GREY } from "~/styles/color.constants";
 import {
   bottomUserInfoStyle,
   displayNameStyle,
@@ -31,17 +28,20 @@ import {
   wrapperUserInfoStyle,
 } from "./style";
 import { TakeAppointmentGridInfosProps } from "./types";
+import { NoAvatar } from "~/components/SVG/NoAvatar";
+import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
+import { GREY } from "~/styles/color.constants";
 
 // this container is the first part of TakeAppointmentModal
 export const TakeAppointmentGridInfos: FC<TakeAppointmentGridInfosProps> = ({
   userInfos,
 }) => {
-  const { picture, displayName, functions } = userInfos;
+  const { picture, displayName, functions, isAvailable } = userInfos;
   const { t } = useTranslation("appointments");
   const { grids, gridInfos, selectedGrid, handleGridChange } =
     useTakeAppointmentModal();
 
-  const { slotDuration, visio, place, publicComment } = gridInfos || {};
+  const { duration, visioLink, place, publicComment } = gridInfos || {};
   console.log("gridInfos", gridInfos);
 
   return (
@@ -53,7 +53,7 @@ export const TakeAppointmentGridInfos: FC<TakeAppointmentGridInfosProps> = ({
           ) : (
             <Box alt="user picture" component="img" src={picture} />
           )}
-          <StatusCircle status={userInfos.status} />
+          <StatusCircle isAvailable={isAvailable} />
         </Box>
         <Box>
           <Typography sx={displayNameStyle}>{displayName}</Typography>
@@ -81,18 +81,18 @@ export const TakeAppointmentGridInfos: FC<TakeAppointmentGridInfosProps> = ({
             </Select>
           </FormControl>
           <Box sx={itemStyle}>
-            {visio ? <VideoCameraFrontIcon /> : <VideocamOffIcon />}
+            {visioLink ? <VideoCameraFrontIcon /> : <VideocamOffIcon />}
             <Typography>
               {t(
                 `appointments.take.appointment.modal.visio.${
-                  visio ? "possible" : "impossible"
+                  visioLink ? "possible" : "impossible"
                 }`,
               )}
             </Typography>
           </Box>
           <Box sx={itemStyle}>
             <TimerIcon />
-            <Typography>{slotDuration}</Typography>
+            <Typography>{duration}</Typography>
           </Box>
           {!!place && (
             <Box sx={itemStyle}>

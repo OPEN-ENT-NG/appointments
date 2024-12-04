@@ -1,10 +1,10 @@
 import {
   ChangeEvent,
   Dispatch,
+  MouseEvent,
   SetStateAction,
   SyntheticEvent,
   useCallback,
-  MouseEvent,
 } from "react";
 
 import { SelectChangeEvent } from "@mui/material";
@@ -14,7 +14,7 @@ import { v4 as uuidv4 } from "uuid";
 import { formatString, handleConflictingSlot } from "./utils";
 import { Structure, useUpdateGridInputsType } from "../types";
 import { HexaColor } from "~/components/ColorPicker/types";
-import { DAY, PERIODICITY, SLOT_DURATION } from "~/core/enums";
+import { DAY, DURATION, PERIODICITY } from "~/core/enums";
 import {
   INVALID_SLOT_ERROR,
   SAME_GRID_ALREADY_EXISTS_ERROR,
@@ -23,12 +23,12 @@ import { Slot } from "~/core/types";
 import {
   GridModalInputs,
   InputsErrors,
-  Public,
 } from "~/providers/GridModalProvider/types";
 import {
   initialPublic,
   initialWeekSlots,
 } from "~/providers/GridModalProvider/utils";
+import { Public } from "~/services/api/CommunicationService/types";
 
 export const useUpdateGridInputs: useUpdateGridInputsType = (
   inputs: GridModalInputs,
@@ -123,9 +123,9 @@ export const useUpdateGridInputs: useUpdateGridInputsType = (
 
   const handleSlotDurationChange = (
     _: MouseEvent<HTMLElement>,
-    value: SLOT_DURATION,
+    value: DURATION,
   ) => {
-    updateInputField("slotDuration", value);
+    updateInputField("duration", value);
     updateInputField("weekSlots", initialWeekSlots);
   };
 

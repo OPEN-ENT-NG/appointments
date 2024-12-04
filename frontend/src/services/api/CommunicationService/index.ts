@@ -1,5 +1,5 @@
+import { GetUsersPayload, Public, UserCardInfos } from "./types";
 import { emptySplitApi } from "../EmptySplitService";
-import { Public } from "./types";
 
 export const communicationApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -12,17 +12,6 @@ export const communicationApi = emptySplitApi.injectEndpoints({
         url: "/communication/to/users",
         params: body,
       }),
-      transformResponse: (response: any) =>
-        response.map((userInfo: any) => ({
-          userId: userInfo.userId,
-          picture: userInfo.picture,
-          displayName: userInfo.displayName,
-          functions: userInfo.functions,
-          lastAppointmentDate: userInfo.lastAppointmentDate,
-          status: userInfo.isAvailable
-            ? USER_STATUS.AVAILABLE
-            : USER_STATUS.UNAVAILABLE,
-        })),
     }),
   }),
 });

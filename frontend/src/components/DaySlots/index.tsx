@@ -5,7 +5,6 @@ import { Box } from "@mui/material";
 
 import { noSlotsStyle, TimeSlot, TimeSlotWrapper } from "./style";
 import { DaySlotsProps } from "./types";
-import { formatTimeToString } from "~/core/utils/date.utils";
 import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
 
 export const DaySlots: FC<DaySlotsProps> = ({ slots, modalSize }) => {
@@ -21,7 +20,7 @@ export const DaySlots: FC<DaySlotsProps> = ({ slots, modalSize }) => {
             variant="text"
             key={slot.id}
           >
-            {formatTimeToString(slot.begin)}
+            {slot.begin.parseToString()}
           </TimeSlot>
         ))
       ) : (

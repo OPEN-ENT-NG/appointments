@@ -17,6 +17,7 @@ import {
 } from "./style";
 import { MODAL_SIZE } from "../TakeAppointmentModal/enum";
 import { DaySlots } from "~/components/DaySlots";
+import { DAY_VALUES } from "~/core/constants";
 import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
 import { flexStartBoxStyle } from "~/styles/boxStyles";
 
@@ -31,7 +32,7 @@ export const TakeAppointmentWeekSlotsMobile: FC = () => {
           <RowSlotsWrapper isEmpty={!daySlot.slots.length} key={uuid4v()}>
             <Box sx={daySlotsHeaderStyle}>
               <Typography sx={weekDayStyle}>
-                {t(`appointments.${daySlot.weekDay.toLowerCase()}`)}
+                {t(`appointments.${DAY_VALUES[daySlot.weekDay].value}`)}
               </Typography>
               <Typography sx={dayStyle}>
                 {daySlot.day.locale("fr").format("D MMMM")}

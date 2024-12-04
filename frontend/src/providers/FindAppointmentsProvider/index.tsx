@@ -7,13 +7,13 @@ import {
   useState,
 } from "react";
 
-import { useGetCommunicationUsersQuery } from "~/services/api/communication.service";
 import {
   FindAppointmentsProviderContextProps,
   FindAppointmentsProviderProps,
-  UserCardInfos,
 } from "./types";
 import { NUMBER_MORE_USERS } from "./utils";
+import { useGetCommunicationUsersQuery } from "~/services/api/CommunicationService";
+import { UserCardInfos } from "~/services/api/CommunicationService/types";
 
 const FindAppointmentsProviderContext =
   createContext<FindAppointmentsProviderContextProps | null>(null);

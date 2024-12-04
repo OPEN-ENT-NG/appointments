@@ -1,6 +1,6 @@
 import { Box, styled, SxProps } from "@mui/material";
 
-import { USER_STATUS } from "~/providers/FindAppointmentsProvider/enums";
+import { StatusCircleProps } from "./types";
 import { columnBoxStyle, flexStartBoxStyle } from "~/styles/boxStyles";
 import {
   BLACK,
@@ -9,7 +9,6 @@ import {
   USER_STATUS_AVAILABLE_COLOR,
   USER_STATUS_UNAVAILABLE_COLOR,
 } from "~/styles/color.constants";
-import { StatusCircleProps } from "./types";
 
 export const wrapperUserInfoStyle: SxProps = {
   ...columnBoxStyle,
@@ -66,20 +65,21 @@ export const pictureStyle: SxProps = {
   overflow: "hidden",
 };
 
-export const StatusCircle = styled(Box)<StatusCircleProps>(({ status }) => ({
-  minWidth: "1.7rem",
-  maxWidth: "1.7rem",
-  minHeight: "1.7rem",
-  maxHeight: "1.7rem",
-  borderRadius: "50%",
-  position: "absolute",
-  transform: "translate(250%, -80%)",
-  zIndex: 1000,
-  backgroundColor:
-    status === USER_STATUS.AVAILABLE
+export const StatusCircle = styled(Box)<StatusCircleProps>(
+  ({ isAvailable }) => ({
+    minWidth: "1.7rem",
+    maxWidth: "1.7rem",
+    minHeight: "1.7rem",
+    maxHeight: "1.7rem",
+    borderRadius: "50%",
+    position: "absolute",
+    transform: "translate(250%, -80%)",
+    zIndex: 1000,
+    backgroundColor: isAvailable
       ? USER_STATUS_AVAILABLE_COLOR
       : USER_STATUS_UNAVAILABLE_COLOR,
-}));
+  }),
+);
 
 export const displayNameStyle: SxProps = {
   fontSize: "2rem",
