@@ -3,17 +3,20 @@ import { FC } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { Box } from "@mui/material";
 
+import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
 import { noSlotsStyle, TimeSlot, TimeSlotWrapper } from "./style";
 import { DaySlotsProps } from "./types";
-import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
+import { sortSlots } from "./utils";
 
 export const DaySlots: FC<DaySlotsProps> = ({ slots, modalSize }) => {
   const { handleOnClickSlot, selectedSlotId } = useTakeAppointmentModal();
 
+  const sortedSlots = sortSlots(slots);
+
   return (
     <TimeSlotWrapper modalSize={modalSize}>
-      {slots.length ? (
-        slots.map((slot) => (
+      {sortedSlots.length ? (
+        sortedSlots.map((slot) => (
           <TimeSlot
             onClick={() => handleOnClickSlot(slot.id)}
             selected={slot.id === selectedSlotId}

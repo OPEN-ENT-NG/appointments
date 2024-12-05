@@ -26,11 +26,11 @@ import {
 export const TakeAppointmentWeekSlotsDesktop: FC = () => {
   const { t } = useTranslation("appointments");
 
-  const { gridSlots } = useTakeAppointmentModal();
+  const { currentSlots } = useTakeAppointmentModal();
   return (
     <Box sx={containerStyle}>
       <Box sx={headerStyle}>
-        {gridSlots.map((daySlot) => (
+        {currentSlots.map((daySlot) => (
           <ColumnSlotsWrapper
             isEmpty={!daySlot.slots.length}
             sx={daySlotsHeaderStyle}
@@ -46,7 +46,7 @@ export const TakeAppointmentWeekSlotsDesktop: FC = () => {
         ))}
       </Box>
       <Box sx={weekSlotsWrapperStyle}>
-        {gridSlots.map((daySlot) => (
+        {currentSlots.map((daySlot) => (
           <ColumnSlotsWrapper
             isEmpty={!daySlot.slots.length}
             sx={daySlotsWrapperStyle}

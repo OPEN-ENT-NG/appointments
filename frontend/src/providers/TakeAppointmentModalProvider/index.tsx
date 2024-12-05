@@ -41,7 +41,7 @@ export const TakeAppointmentModalProvider: FC<
 > = ({ children }) => {
   const [selectedUser, setSelectedUser] = useState<UserCardInfos | null>(null);
   const [selectedGrid, setSelectedGrid] = useState<GridNameWithId | null>(null);
-  const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
+  const [selectedSlotId, setSelectedSlotId] = useState<number | null>(null);
   const [currentDay, setCurrentDay] = useState<Dayjs>(dayjs().locale("fr"));
   const [currentSlots, setCurrentSlots] = useState<DaySlots[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -68,7 +68,7 @@ export const TakeAppointmentModalProvider: FC<
     if (user) setIsModalOpen(true);
   };
 
-  const handleOnClickSlot = (slotId: string) => {
+  const handleOnClickSlot = (slotId: number) => {
     setSelectedSlotId(slotId);
   };
 
@@ -87,14 +87,6 @@ export const TakeAppointmentModalProvider: FC<
   useEffect(() => {
     console.log("currentSlots", currentSlots);
   }, [currentSlots]);
-
-  // const gridSlots = gridTimeSlots
-  //   ? transformTimeSlotsToDaySlots(gridTimeSlots)
-  //   : [];
-
-  // const gridSlots = useMemo(() => {
-  //   return gridsTimeSlots["grid1"];
-  // }, [selectedGrid]);
 
   useEffect(() => {
     if (grids && !selectedGrid) {

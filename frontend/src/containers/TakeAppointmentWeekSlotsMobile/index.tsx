@@ -24,11 +24,11 @@ import {
 export const TakeAppointmentWeekSlotsMobile: FC = () => {
   const { t } = useTranslation("appointments");
 
-  const { gridSlots } = useTakeAppointmentModal();
+  const { currentSlots } = useTakeAppointmentModal();
   return (
     <Box sx={containerStyle}>
       <Box sx={weekSlotsWrapperStyle}>
-        {gridSlots.map((daySlot, index) => (
+        {currentSlots.map((daySlot, index) => (
           <RowSlotsWrapper isEmpty={!daySlot.slots.length} key={uuid4v()}>
             <Box sx={daySlotsHeaderStyle}>
               <Typography sx={weekDayStyle}>
