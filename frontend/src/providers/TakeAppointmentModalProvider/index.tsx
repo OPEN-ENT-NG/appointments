@@ -1,11 +1,27 @@
-import { createContext, FC, useContext, useMemo, useState } from "react";
-
 import {
+  createContext,
+  FC,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
+import dayjs, { Dayjs } from "dayjs";
+
+import { UserCardInfos } from "~/services/api/CommunicationService/types";
+import {
+  useGetAvailableUserMinimalGridsQuery,
+  useGetMinimalGridInfosByIdQuery,
+  useGetTimeSlotsByGridIdAndDateQuery,
+} from "~/services/api/GridService";
+import {
+  DaySlots,
+  GridNameWithId,
   TakeAppointmentModalProviderContextProps,
   TakeAppointmentModalProviderProps,
 } from "./types";
-import { gridsInfos, gridsName, gridsTimeSlots } from "./utils";
-import { UserCardInfos } from "../FindAppointmentsProvider/types";
+import { loadingDaySlots, transformTimeSlotsToDaySlots } from "./utils";
 
 const TakeAppointmentModalProviderContext =
   createContext<TakeAppointmentModalProviderContextProps | null>(null);
@@ -24,55 +40,93 @@ export const TakeAppointmentModalProvider: FC<
   TakeAppointmentModalProviderProps
 > = ({ children }) => {
   const [selectedUser, setSelectedUser] = useState<UserCardInfos | null>(null);
-  const [selectedGridName, setSelectedGridName] = useState<string>(
-    gridsName[0],
+  const [selectedGrid, setSelectedGrid] = useState<GridNameWithId | null>(null);
+  const [selectedSlotId, setSelectedSlotId] = useState<number | null>(null);
+  const [currentDay, setCurrentDay] = useState<Dayjs>(dayjs().locale("fr"));
+  const [currentSlots, setCurrentSlots] = useState<DaySlots[]>(
+    loadingDaySlots(currentDay),
   );
-  const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { data: grids } = useGetAvailableUserMinimalGridsQuery(
+    selectedUser?.userId ?? "",
+    { skip: !selectedUser?.userId },
+  );
+  const { data: gridInfos } = useGetMinimalGridInfosByIdQuery(
+    selectedGrid?.id ?? 0,
+    { skip: !selectedGrid },
+  );
+  const { data: gridTimeSlots } = useGetTimeSlotsByGridIdAndDateQuery(
+    {
+      gridId: selectedGrid?.id ?? 0,
+      beginDate: currentDay.startOf("week").format("YYYY-MM-DD"),
+      endDate: currentDay.startOf("week").add(5, "day").format("YYYY-MM-DD"),
+    },
+    { skip: !selectedGrid },
+  );
 
   const handleOnClickCard = (user: UserCardInfos | null) => {
     setSelectedUser(user);
     if (user) setIsModalOpen(true);
   };
 
-  const handleOnClickSlot = (slotId: string) => {
+  const handleOnClickSlot = (slotId: number) => {
     setSelectedSlotId(slotId);
   };
 
+  const handleNextWeek = () => {
+    const newCurrentDay = currentDay.add(1, "week");
+    setCurrentDay((prev) => prev.add(1, "week"));
+    setCurrentSlots(loadingDaySlots(newCurrentDay));
+  };
+
+  const handlePreviousWeek = () => {
+    const newCurrentDay = currentDay.subtract(1, "week");
+    setCurrentDay((prev) => prev.subtract(1, "week"));
+    setCurrentSlots(loadingDaySlots(newCurrentDay));
+  };
+
   const handleGridChange = (gridName: string) => {
-    setSelectedGridName(gridName);
+    if (!grids) return;
+    setSelectedGrid(grids?.find((grid) => grid.name === gridName));
     setSelectedSlotId(null);
   };
 
-  const gridInfo = useMemo(() => {
-    return gridsInfos[selectedGridName];
-  }, [selectedGridName]);
+  useEffect(() => {
+    if (gridTimeSlots)
+      setCurrentSlots(transformTimeSlotsToDaySlots(gridTimeSlots, currentDay));
+  }, [gridTimeSlots]);
 
-  const gridSlots = useMemo(() => {
-    return gridsTimeSlots[selectedGridName];
-  }, [selectedGridName]);
+  useEffect(() => {
+    if (grids && !selectedGrid) {
+      setSelectedGrid(grids[0]);
+    }
+  }, [grids]);
 
   const value = useMemo<TakeAppointmentModalProviderContextProps>(
     () => ({
       selectedUser,
       isModalOpen,
-      gridsName,
-      gridInfo,
-      gridSlots,
-      selectedGridName,
+      grids,
+      gridInfos,
+      currentSlots,
+      selectedGrid,
       selectedSlotId,
       handleGridChange,
       handleOnClickSlot,
+      handleNextWeek,
+      handlePreviousWeek,
       setIsModalOpen,
       handleOnClickCard,
     }),
     [
       isModalOpen,
       selectedUser,
-      gridsName,
-      selectedGridName,
-      gridInfo,
-      gridSlots,
+      grids,
+      selectedGrid,
+      gridInfos,
+      currentSlots,
+      currentDay,
       selectedSlotId,
     ],
   );

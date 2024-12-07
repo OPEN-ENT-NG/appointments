@@ -4,6 +4,17 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Box, IconButton, Modal, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
+import { CustomStepper } from "~/components/CustomStepper";
+import { DialogModal } from "~/components/DialogModal";
+import { useGlobal } from "~/providers/GlobalProvider";
+import { MODAL_TYPE } from "~/providers/GlobalProvider/enum";
+import { useGridModal } from "~/providers/GridModalProvider";
+import { gridInputsToGridPayload } from "~/providers/GridModalProvider/utils";
+import { useCreateGridMutation } from "~/services/api/GridService";
+import { CreateGridPayload } from "~/services/api/GridService/types";
+import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
+import { FirstPageGridModal } from "../FirstPageGridModal";
+import { SecondPageGridModal } from "../SecondPageGridModal";
 import { GRID_MODAL_TYPE, PAGE_TYPE } from "./enum";
 import {
   closeIconStyle,
@@ -12,17 +23,6 @@ import {
   modalBoxStyle,
 } from "./style";
 import { GridModalProps } from "./types";
-import { FirstPageGridModal } from "../FirstPageGridModal";
-import { SecondPageGridModal } from "../SecondPageGridModal";
-import { CustomStepper } from "~/components/CustomStepper";
-import { DialogModal } from "~/components/DialogModal";
-import { useGlobal } from "~/providers/GlobalProvider";
-import { MODAL_TYPE } from "~/providers/GlobalProvider/enum";
-import { useGridModal } from "~/providers/GridModalProvider";
-import { GridPayload } from "~/providers/GridModalProvider/types";
-import { gridInputsToGridPayload } from "~/providers/GridModalProvider/utils";
-import { useCreateGridMutation } from "~/services/api/grid.service";
-import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
 
 export const GridModal: FC<GridModalProps> = ({ gridModalType }) => {
   const { t } = useTranslation("appointments");
@@ -99,7 +99,10 @@ export const GridModal: FC<GridModalProps> = ({ gridModalType }) => {
     )
       return;
 
-    const payload: GridPayload = gridInputsToGridPayload(inputs, publicOptions);
+    const payload: CreateGridPayload = gridInputsToGridPayload(
+      inputs,
+      publicOptions,
+    );
     try {
       await createGrid(payload);
     } catch (error) {

@@ -4,6 +4,9 @@ import { Box, Tooltip, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 
+import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
+import { GREY } from "~/styles/color.constants";
+import { NoAvatar } from "../SVG/NoAvatar";
 import {
   displayNameStyle,
   functionsStyle,
@@ -17,15 +20,16 @@ import {
   WrapperUserCard,
 } from "./style";
 import { UserCardProps } from "./types";
-import { NoAvatar } from "../SVG/NoAvatar";
-import { USER_STATUS } from "~/providers/FindAppointmentsProvider/enums";
-import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
-import { GREY } from "~/styles/color.constants";
 
 export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(
   ({ infos }, ref) => {
-    const { picture, displayName, functions, lastAppointmentDate, status } =
-      infos;
+    const {
+      picture,
+      displayName,
+      functions,
+      lastAppointmentDate,
+      isAvailable,
+    } = infos;
     const [isElipsisDisplayName, setIsElipsisDisplayName] = useState(false);
     const [isElipsisfunctions, setIsElipsisfunctions] = useState(false);
 
@@ -51,18 +55,14 @@ export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(
 
     const userLanguage = navigator.language.split("-")[0] || "en";
     const lastAppointmentDateDisplayFormat = lastAppointmentDate
-      ? dayjs(infos.lastAppointmentDate)
-          .locale(userLanguage)
-          .format("D MMMM YYYY")
+      ? dayjs(lastAppointmentDate).locale(userLanguage).format("D MMMM YYYY")
       : null;
 
     return (
       <WrapperUserCard
-        status={infos.status}
+        isAvailable={isAvailable}
         ref={ref}
-        onClick={() =>
-          handleOnClickCard(status === USER_STATUS.AVAILABLE ? infos : null)
-        }
+        onClick={() => handleOnClickCard(isAvailable ? infos : null)}
       >
         <Box sx={pictureStyle}>
           {!(picture && picture.startsWith("/userbook/avatar/")) ? (
@@ -98,9 +98,9 @@ export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(
             </Typography>
           </Box>
           <Box sx={statusBoxStyle}>
-            <StatusColor status={status} />
+            <StatusColor isAvailable={isAvailable} />
             <Typography sx={statusStyle}>
-              {t("appointments." + status.toLowerCase())}
+              {t("appointments." + (isAvailable ? "available" : "unavailable"))}
             </Typography>
           </Box>
         </Box>

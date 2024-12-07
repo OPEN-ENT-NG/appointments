@@ -9,17 +9,17 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
+import { RangeDatePicker } from "~/components/RangeDatePicker";
+import { WeekSlots } from "~/components/WeekSlots";
+import { DURATION_VALUES, PERIODICITY_VALUES } from "~/core/constants";
+import { useGridModal } from "~/providers/GridModalProvider";
+import { pageGridModalStyle } from "../GridModal/style";
 import {
   itemStyle,
   periodicityItemStyle,
   slotDurationItemStyle,
   validityPeriodStyle,
 } from "./style";
-import { pageGridModalStyle } from "../GridModal/style";
-import { RangeDatePicker } from "~/components/RangeDatePicker";
-import { WeekSlots } from "~/components/WeekSlots";
-import { formatPeriodicityToI18n } from "~/core/utils/date.utils";
-import { useGridModal } from "~/providers/GridModalProvider";
 
 export const SecondPageGridModal: FC = () => {
   const { t } = useTranslation("appointments");
@@ -27,7 +27,7 @@ export const SecondPageGridModal: FC = () => {
   const {
     inputs,
     errorInputs,
-    slotDurationOptions,
+    durationOptions,
     periodicityOptions,
     updateGridModalInputs: {
       handleSlotDurationChange,
@@ -48,15 +48,15 @@ export const SecondPageGridModal: FC = () => {
       <Box sx={itemStyle}>
         <Typography>{t("appointments.grid.slot.duration") + " *"}</Typography>
         <Box sx={validityPeriodStyle}>
-          <ToggleButtonGroup exclusive value={inputs.slotDuration}>
-            {slotDurationOptions.map((option) => (
+          <ToggleButtonGroup exclusive value={inputs.duration}>
+            {durationOptions.map((option) => (
               <ToggleButton
                 key={option}
                 sx={slotDurationItemStyle}
                 value={option}
                 onClick={handleSlotDurationChange}
               >
-                {t(option)}
+                {DURATION_VALUES[option].displayValue}
               </ToggleButton>
             ))}
           </ToggleButtonGroup>
@@ -73,7 +73,7 @@ export const SecondPageGridModal: FC = () => {
                 value={option}
                 onClick={handlePeriodicityChange}
               >
-                {t(formatPeriodicityToI18n(option))}
+                {t(PERIODICITY_VALUES[option].i18nKey)}
               </ToggleButton>
             ))}
           </ToggleButtonGroup>

@@ -2,7 +2,7 @@ import { MODAL_SIZE } from "~/containers/TakeAppointmentModal/enum";
 import { Slot } from "~/core/types";
 
 export interface DaySlotsProps {
-  slots: Slot[];
+  slots: Slot[] | null;
   modalSize: MODAL_SIZE;
 }
 
