@@ -30,7 +30,7 @@ export interface TakeAppointmentModalProviderProps {
 export interface DaySlots {
   weekDay: DAY;
   day: Dayjs;
-  slots: Slot[];
+  slots: Slot[] | null;
 }
 
 export interface GridNameWithId {

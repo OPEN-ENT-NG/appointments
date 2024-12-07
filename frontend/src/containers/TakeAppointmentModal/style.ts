@@ -65,5 +65,4 @@ export const ContentWrapper = styled(Box)<ContentWrapperProps>(
 
 export const submitButtonStyle: SxProps = {
   ...flexEndBoxStyle,
-  filter: "blur(0)",
 };

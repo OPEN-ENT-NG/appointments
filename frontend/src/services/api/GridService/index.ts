@@ -1,3 +1,4 @@
+import { emptySplitApi } from "../EmptySplitService";
 import {
   CreateGridPayload,
   GetMyGridsPayload,
@@ -8,7 +9,6 @@ import {
   TimeSlots,
 } from "./types";
 import { transformResponseToMyGridsResponse } from "./utils";
-import { emptySplitApi } from "../EmptySplitService";
 
 export const gridApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({

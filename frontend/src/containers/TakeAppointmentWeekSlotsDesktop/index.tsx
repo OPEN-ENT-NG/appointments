@@ -33,14 +33,16 @@ export const TakeAppointmentWeekSlotsDesktop: FC = () => {
   console.log("currentSlots", currentSlots);
   return (
     <Box sx={globalContainerStyle}>
-      <ArrowButton isVisible onClick={handlePreviousWeek}>
-        <KeyboardArrowLeftIcon />
-      </ArrowButton>
+      <Box sx={{ filter: "blur(0)" }}>
+        <ArrowButton isVisible onClick={handlePreviousWeek}>
+          <KeyboardArrowLeftIcon />
+        </ArrowButton>
+      </Box>
       <Box sx={containerStyle}>
         <Box sx={headerStyle}>
           {currentSlots.map((daySlot) => (
             <ColumnSlotsWrapper
-              isEmpty={!daySlot.slots.length}
+              isEmpty={!daySlot.slots?.length}
               sx={daySlotsHeaderStyle}
               key={uuidv4()}
             >
@@ -56,7 +58,7 @@ export const TakeAppointmentWeekSlotsDesktop: FC = () => {
         <Box sx={weekSlotsWrapperStyle}>
           {currentSlots.map((daySlot) => (
             <ColumnSlotsWrapper
-              isEmpty={!daySlot.slots.length}
+              isEmpty={!daySlot.slots?.length}
               sx={daySlotsWrapperStyle}
               key={uuidv4()}
             >
@@ -75,9 +77,11 @@ export const TakeAppointmentWeekSlotsDesktop: FC = () => {
           </Typography>
         </Box>
       </Box>
-      <ArrowButton isVisible onClick={handleNextWeek}>
-        <KeyboardArrowRightIcon />
-      </ArrowButton>
+      <Box sx={{ filter: "blur(0)" }}>
+        <ArrowButton isVisible onClick={handleNextWeek}>
+          <KeyboardArrowRightIcon />
+        </ArrowButton>
+      </Box>
     </Box>
   );
 };

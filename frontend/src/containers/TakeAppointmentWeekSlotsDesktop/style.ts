@@ -38,7 +38,6 @@ export const ArrowButton = styled(IconButton)<ArrowButtonProps>(
     padding: "0.3rem",
     display: isVisible ? "block" : "none",
     color: common.black,
-    filter: "blur(0)",
   }),
 );
 

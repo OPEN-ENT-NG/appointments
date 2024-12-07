@@ -8,8 +8,8 @@ import { TimeSlotProps, TimeSlotWrapperProps } from "./types";
 
 export const TimeSlot = styled(Button)<TimeSlotProps>(({ selected }) => ({
   width: "6.2rem",
-  height: "3.4rem",
-  borderRadius: ".8rem" + IMPORTANT,
+  minHeight: "3.4rem",
+  borderRadius: ".8rem !important",
   backgroundColor: selected ? PURPLE + IMPORTANT : LIGHTER_PURPLE + IMPORTANT,
   color: selected ? common.white + IMPORTANT : BLACK + IMPORTANT,
   display: "flex",
@@ -23,6 +23,13 @@ export const TimeSlot = styled(Button)<TimeSlotProps>(({ selected }) => ({
     color: common.white + IMPORTANT,
   },
 }));
+
+export const skeletonStyle: SxProps = {
+  width: "6.2rem",
+  minHeight: "3.4rem",
+  borderRadius: ".8rem !important",
+  backgroundColor: PURPLE,
+};
 
 export const TimeSlotWrapper = styled(Box)<TimeSlotWrapperProps>(
   ({ modalSize }) => ({

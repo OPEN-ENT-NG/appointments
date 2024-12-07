@@ -21,7 +21,7 @@ import {
   TakeAppointmentModalProviderContextProps,
   TakeAppointmentModalProviderProps,
 } from "./types";
-import { transformTimeSlotsToDaySlots } from "./utils";
+import { loadingDaySlots, transformTimeSlotsToDaySlots } from "./utils";
 
 const TakeAppointmentModalProviderContext =
   createContext<TakeAppointmentModalProviderContextProps | null>(null);
@@ -43,7 +43,9 @@ export const TakeAppointmentModalProvider: FC<
   const [selectedGrid, setSelectedGrid] = useState<GridNameWithId | null>(null);
   const [selectedSlotId, setSelectedSlotId] = useState<number | null>(null);
   const [currentDay, setCurrentDay] = useState<Dayjs>(dayjs().locale("fr"));
-  const [currentSlots, setCurrentSlots] = useState<DaySlots[]>([]);
+  const [currentSlots, setCurrentSlots] = useState<DaySlots[]>(
+    loadingDaySlots(currentDay),
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data: grids } = useGetAvailableUserMinimalGridsQuery(
@@ -73,11 +75,15 @@ export const TakeAppointmentModalProvider: FC<
   };
 
   const handleNextWeek = () => {
-    setCurrentDay(currentDay.add(1, "week"));
+    const newCurrentDay = currentDay.add(1, "week");
+    setCurrentDay((prev) => prev.add(1, "week"));
+    setCurrentSlots(loadingDaySlots(newCurrentDay));
   };
 
   const handlePreviousWeek = () => {
-    setCurrentDay(currentDay.subtract(1, "week"));
+    const newCurrentDay = currentDay.subtract(1, "week");
+    setCurrentDay((prev) => prev.subtract(1, "week"));
+    setCurrentSlots(loadingDaySlots(newCurrentDay));
   };
 
   const handleGridChange = (gridName: string) => {
@@ -87,14 +93,9 @@ export const TakeAppointmentModalProvider: FC<
   };
 
   useEffect(() => {
-    if (!gridTimeSlots) return;
-    console.log("gridTimeSlots", gridTimeSlots);
-    setCurrentSlots(transformTimeSlotsToDaySlots(gridTimeSlots, currentDay));
+    if (gridTimeSlots)
+      setCurrentSlots(transformTimeSlotsToDaySlots(gridTimeSlots, currentDay));
   }, [gridTimeSlots]);
-
-  useEffect(() => {
-    console.log("currentSlots", currentSlots);
-  }, [currentSlots]);
 
   useEffect(() => {
     if (grids && !selectedGrid) {
