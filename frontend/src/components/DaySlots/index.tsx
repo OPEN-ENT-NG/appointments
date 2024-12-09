@@ -1,33 +1,55 @@
 import { FC } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
-import { Box } from "@mui/material";
+import { Box, Skeleton } from "@mui/material";
 
-import { noSlotsStyle, TimeSlot, TimeSlotWrapper } from "./style";
-import { DaySlotsProps } from "./types";
-import { formatTimeToString } from "~/core/utils/date.utils";
 import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
+import {
+  noSlotsStyle,
+  skeletonStyle,
+  TimeSlot,
+  TimeSlotWrapper,
+} from "./style";
+import { DaySlotsProps } from "./types";
+import { sortSlots } from "./utils";
 
-export const DaySlots: FC<DaySlotsProps> = ({ slots, modalSize }) => {
+export const DaySlots: FC<DaySlotsProps> = ({
+  slots,
+  modalSize,
+  isVisioOptionVisible,
+}) => {
   const { handleOnClickSlot, selectedSlotId } = useTakeAppointmentModal();
 
+  const sortedSlots = slots ? sortSlots(slots) : [];
+
+  const nbOfSkeletons = 5;
+
   return (
-    <TimeSlotWrapper modalSize={modalSize}>
-      {slots.length ? (
-        slots.map((slot) => (
-          <TimeSlot
-            onClick={() => handleOnClickSlot(slot.id)}
-            selected={slot.id === selectedSlotId}
-            variant="text"
-            key={slot.id}
-          >
-            {formatTimeToString(slot.begin)}
-          </TimeSlot>
-        ))
+    <TimeSlotWrapper
+      modalSize={modalSize}
+      isVisioOptionVisible={isVisioOptionVisible}
+    >
+      {slots ? (
+        sortedSlots.length ? (
+          sortedSlots.map((slot) => (
+            <TimeSlot
+              onClick={() => handleOnClickSlot(slot.id)}
+              selected={slot.id === selectedSlotId}
+              variant="text"
+              key={slot.id}
+            >
+              {slot.begin.parseToString()}
+            </TimeSlot>
+          ))
+        ) : (
+          <Box sx={noSlotsStyle}>
+            <CloseIcon />
+          </Box>
+        )
       ) : (
-        <Box sx={noSlotsStyle}>
-          <CloseIcon />
-        </Box>
+        Array.from({ length: nbOfSkeletons }).map((_, index) => (
+          <Skeleton key={index} variant="rectangular" sx={skeletonStyle} />
+        ))
       )}
     </TimeSlotWrapper>
   );

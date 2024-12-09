@@ -5,15 +5,6 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Box, Button, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-import {
-  availabilityContainerStyle,
-  emptyStateStyle,
-  emptyStateSvgStyle,
-  headerStyle,
-} from "./style";
-import { GridList } from "../GridList";
-import { GridModal } from "../GridModal";
-import { GRID_MODAL_TYPE } from "../GridModal/enum";
 import { AvailabilityEmptyState } from "~/components/SVG/AvailabilityEmptyState";
 import { useAvailability } from "~/providers/AvailabilityProvider";
 import {
@@ -23,6 +14,15 @@ import {
 import { useGlobal } from "~/providers/GlobalProvider";
 import { MODAL_TYPE } from "~/providers/GlobalProvider/enum";
 import { PURPLE } from "~/styles/color.constants";
+import { GridList } from "../GridList";
+import { GridModal } from "../GridModal";
+import { GRID_MODAL_TYPE } from "../GridModal/enum";
+import {
+  availabilityContainerStyle,
+  emptyStateStyle,
+  emptyStateSvgStyle,
+  headerStyle,
+} from "./style";
 
 export const MyAvailability: FC = () => {
   const { t } = useTranslation("appointments");
@@ -34,6 +34,7 @@ export const MyAvailability: FC = () => {
   );
 
   const { gridTypeLengths, isLoading } = useAvailability();
+
   const isAllGridListEmpty = useMemo(
     () =>
       !gridTypeLengths[GRID_TYPE.IN_PROGRESS] &&

@@ -1,22 +1,22 @@
 import {
   ChangeEvent,
   Dispatch,
+  MouseEvent,
   SetStateAction,
   SyntheticEvent,
-  MouseEvent,
 } from "react";
 
 import { SelectChangeEvent } from "@mui/material";
 import { Dayjs } from "dayjs";
 
 import { HexaColor } from "~/components/ColorPicker/types";
-import { DAY, PERIODICITY, SLOT_DURATION } from "~/core/enums";
+import { DAY, DURATION, PERIODICITY } from "~/core/enums";
 import { Slot } from "~/core/types";
 import {
   GridModalInputs,
   InputsErrors,
-  Public,
 } from "~/providers/GridModalProvider/types";
+import { Public } from "~/services/api/CommunicationService/types";
 
 export interface useUpdateGridInputsReturnType {
   handleNameChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -31,7 +31,7 @@ export interface useUpdateGridInputsReturnType {
   handleEndDateChange: (date: Dayjs | null) => void;
   handleSlotDurationChange: (
     _: MouseEvent<HTMLElement>,
-    value: SLOT_DURATION,
+    value: DURATION,
   ) => void;
   handlePeriodicityChange: (
     _: MouseEvent<HTMLElement>,

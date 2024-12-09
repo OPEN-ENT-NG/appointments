@@ -18,6 +18,10 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
+import { DISPLAY_DATE_FORMAT } from "~/core/constants";
+import { GRID_STATE } from "~/core/enums";
+import { GRID_CARD_SIZE } from "~/providers/AvailabilityProvider/enum";
+import { useGlobal } from "~/providers/GlobalProvider";
 import {
   buttonsBoxStyle,
   cardWrapperStyle,
@@ -34,10 +38,6 @@ import {
   structureIconStyle,
 } from "./style";
 import { GridCardProps } from "./types";
-import { GRID_STATE } from "~/core/enums";
-import { formatDayjsToString } from "~/core/utils/date.utils";
-import { GRID_CARD_SIZE } from "~/providers/AvailabilityProvider/enum";
-import { useGlobal } from "~/providers/GlobalProvider";
 
 export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
   const { t } = useTranslation("appointments");
@@ -74,8 +74,8 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
           <Box sx={secondLineBoxStyle}>
             <Typography variant="body1">
               {t("appointments.grid.from.date.to.date", {
-                beginDate: formatDayjsToString(grid.beginDate),
-                endDate: formatDayjsToString(grid.endDate),
+                beginDate: grid.beginDate.format(DISPLAY_DATE_FORMAT),
+                endDate: grid.endDate.format(DISPLAY_DATE_FORMAT),
               })}
             </Typography>
             <Box sx={stateStyle}>
