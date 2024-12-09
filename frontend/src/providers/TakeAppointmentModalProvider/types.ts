@@ -15,6 +15,8 @@ export interface TakeAppointmentModalProviderContextProps {
   currentSlots: DaySlots[];
   selectedGrid: GridNameWithId | null;
   selectedSlotId: number | null;
+  canGoNext: boolean;
+  canGoPrev: boolean;
   handleGridChange: (gridName: string) => void;
   handleOnClickSlot: (slotId: number) => void;
   handleNextWeek: () => void;

@@ -13,15 +13,22 @@ import {
 import { DaySlotsProps } from "./types";
 import { sortSlots } from "./utils";
 
-export const DaySlots: FC<DaySlotsProps> = ({ slots, modalSize }) => {
+export const DaySlots: FC<DaySlotsProps> = ({
+  slots,
+  modalSize,
+  isVisioOptionVisible,
+}) => {
   const { handleOnClickSlot, selectedSlotId } = useTakeAppointmentModal();
 
   const sortedSlots = slots ? sortSlots(slots) : [];
 
-  const randomNbOfSkeletons = Math.floor(Math.random() * 5) + 1;
+  const nbOfSkeletons = 5;
 
   return (
-    <TimeSlotWrapper modalSize={modalSize}>
+    <TimeSlotWrapper
+      modalSize={modalSize}
+      isVisioOptionVisible={isVisioOptionVisible}
+    >
       {slots ? (
         sortedSlots.length ? (
           sortedSlots.map((slot) => (
@@ -40,7 +47,7 @@ export const DaySlots: FC<DaySlotsProps> = ({ slots, modalSize }) => {
           </Box>
         )
       ) : (
-        Array.from({ length: randomNbOfSkeletons }).map((_, index) => (
+        Array.from({ length: nbOfSkeletons }).map((_, index) => (
           <Skeleton key={index} variant="rectangular" sx={skeletonStyle} />
         ))
       )}

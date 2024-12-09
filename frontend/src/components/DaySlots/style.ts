@@ -28,11 +28,11 @@ export const skeletonStyle: SxProps = {
   width: "6.2rem",
   minHeight: "3.4rem",
   borderRadius: ".8rem !important",
-  backgroundColor: PURPLE,
+  // backgroundColor: LIGHTER_PURPLE,
 };
 
 export const TimeSlotWrapper = styled(Box)<TimeSlotWrapperProps>(
-  ({ modalSize }) => ({
+  ({ modalSize, isVisioOptionVisible }) => ({
     display: "flex",
     gap: ".8rem",
     justifyContent: modalSize === MODAL_SIZE.SMALL ? "flex-start" : "center",
@@ -40,7 +40,11 @@ export const TimeSlotWrapper = styled(Box)<TimeSlotWrapperProps>(
     alignContent: "flex-start",
     flexWrap: "wrap",
     height:
-      modalSize === MODAL_SIZE.LARGE ? "calc(100vh - 45rem)" : "fit-content",
+      modalSize === MODAL_SIZE.LARGE
+        ? isVisioOptionVisible
+          ? "calc(100vh - 45rem)"
+          : "calc(100vh - 40.1rem)"
+        : "fit-content",
     filter: "blur(0)",
     minWidth: "6.2rem",
   }),

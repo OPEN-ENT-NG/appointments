@@ -2,7 +2,7 @@ import { common, IconButton } from "@cgi-learning-hub/ui";
 import { Box, styled, SxProps } from "@mui/material";
 
 import { columnBoxStyle, flexStartBoxStyle } from "~/styles/boxStyles";
-import { BLACK } from "~/styles/color.constants";
+import { BLACK, PURPLE } from "~/styles/color.constants";
 import { BOLD_FONT, ITALIC_FONT } from "~/styles/fontStyle.constants";
 import { ArrowButtonProps, ColumnSlotsWrapperProps } from "./types";
 
@@ -42,9 +42,10 @@ export const ArrowButton = styled(IconButton)<ArrowButtonProps>(
 );
 
 export const ColumnSlotsWrapper = styled(Box)<ColumnSlotsWrapperProps>(
-  ({ isEmpty }) => ({
+  ({ isEmpty, isToday }) => ({
     opacity: isEmpty ? "0.5" : "1",
     minWidth: "7.5rem",
+    color: isToday ? PURPLE : "inherit",
   }),
 );
 
@@ -72,13 +73,11 @@ export const weekDayStyle: SxProps = {
   ...BOLD_FONT,
   fontSize: "1.3rem",
   lineHeight: "1.2rem",
-  color: BLACK,
 };
 
 export const dayStyle: SxProps = {
   ...ITALIC_FONT,
   fontSize: "1.3rem",
-  color: BLACK,
 };
 
 export const visioOptionStyle: SxProps = {

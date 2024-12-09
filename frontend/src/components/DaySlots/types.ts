@@ -4,6 +4,7 @@ import { Slot } from "~/core/types";
 export interface DaySlotsProps {
   slots: Slot[] | null;
   modalSize: MODAL_SIZE;
+  isVisioOptionVisible: boolean;
 }
 
 export interface TimeSlotProps {
@@ -12,4 +13,5 @@ export interface TimeSlotProps {
 
 export interface TimeSlotWrapperProps {
   modalSize: MODAL_SIZE;
+  isVisioOptionVisible: boolean;
 }

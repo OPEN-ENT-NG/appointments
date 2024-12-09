@@ -46,6 +46,8 @@ export const TakeAppointmentModalProvider: FC<
   const [currentSlots, setCurrentSlots] = useState<DaySlots[]>(
     loadingDaySlots(currentDay),
   );
+  const [canGoNext, setCanGoNext] = useState(true);
+  const [canGoPrev, setCanGoPrev] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data: grids } = useGetAvailableUserMinimalGridsQuery(
@@ -88,8 +90,13 @@ export const TakeAppointmentModalProvider: FC<
 
   const handleGridChange = (gridName: string) => {
     if (!grids) return;
-    setSelectedGrid(grids?.find((grid) => grid.name === gridName));
+    const newGrid = grids.find((grid) => grid.name === gridName);
+    if (!newGrid) return;
+    setSelectedGrid(newGrid);
     setSelectedSlotId(null);
+    const newCurrentDay = dayjs().locale("fr");
+    setCurrentDay(newCurrentDay);
+    setCurrentSlots(loadingDaySlots(newCurrentDay));
   };
 
   useEffect(() => {
@@ -103,6 +110,14 @@ export const TakeAppointmentModalProvider: FC<
     }
   }, [grids]);
 
+  useEffect(() => {
+    if (currentDay.isSame(dayjs().locale("fr"), "week")) {
+      setCanGoPrev(false);
+    } else {
+      setCanGoPrev(true);
+    }
+  }, [currentDay]);
+
   const value = useMemo<TakeAppointmentModalProviderContextProps>(
     () => ({
       selectedUser,
@@ -112,6 +127,8 @@ export const TakeAppointmentModalProvider: FC<
       currentSlots,
       selectedGrid,
       selectedSlotId,
+      canGoNext,
+      canGoPrev,
       handleGridChange,
       handleOnClickSlot,
       handleNextWeek,
@@ -128,6 +145,8 @@ export const TakeAppointmentModalProvider: FC<
       currentSlots,
       currentDay,
       selectedSlotId,
+      canGoNext,
+      canGoPrev,
     ],
   );
   return (
