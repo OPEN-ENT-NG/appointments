@@ -3,6 +3,7 @@ import { FC } from "react";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { Box, Checkbox, Typography } from "@mui/material";
+import { common } from "@mui/material/colors";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 import { v4 as uuidv4 } from "uuid";
@@ -21,6 +22,8 @@ import {
   dayStyle,
   globalContainerStyle,
   headerStyle,
+  NoSlots,
+  noSlotsStyle,
   visioOptionStyle,
   weekDayStyle,
   weekSlotsWrapperStyle,
@@ -68,22 +71,36 @@ export const TakeAppointmentWeekSlotsDesktop: FC = () => {
             );
           })}
         </Box>
-        <Box sx={weekSlotsWrapperStyle}>
-          {currentSlots.map((daySlot) => (
-            <ColumnSlotsWrapper
-              isEmpty={!!daySlot.slots && !daySlot.slots.length}
-              sx={daySlotsWrapperStyle}
-              key={uuidv4()}
-            >
-              <DaySlots
+        {canGoNext ? (
+          <Box sx={weekSlotsWrapperStyle}>
+            {currentSlots.map((daySlot) => (
+              <ColumnSlotsWrapper
+                isEmpty={!!daySlot.slots && !daySlot.slots.length}
+                sx={daySlotsWrapperStyle}
                 key={uuidv4()}
-                slots={daySlot.slots}
-                modalSize={MODAL_SIZE.LARGE}
-                isVisioOptionVisible={isVisioOptionVisible}
-              />
-            </ColumnSlotsWrapper>
-          ))}
-        </Box>
+              >
+                <DaySlots
+                  key={uuidv4()}
+                  slots={daySlot.slots}
+                  modalSize={MODAL_SIZE.LARGE}
+                  isVisioOptionVisible={isVisioOptionVisible}
+                />
+              </ColumnSlotsWrapper>
+            ))}
+          </Box>
+        ) : (
+          <NoSlots isVisioOptionVisible={isVisioOptionVisible}>
+            <Box sx={noSlotsStyle}>
+              <Typography
+                variant="body2"
+                fontStyle={"italic"}
+                color={common.black}
+              >
+                {t("appointments.take.appointment.modal.no.slot")}
+              </Typography>
+            </Box>
+          </NoSlots>
+        )}
         {isVisioOptionVisible && (
           <Box sx={flexStartBoxStyle}>
             <Checkbox />

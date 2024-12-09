@@ -15,6 +15,7 @@ import {
   useGetMinimalGridInfosByIdQuery,
   useGetTimeSlotsByGridIdAndDateQuery,
 } from "~/services/api/GridService";
+import { TimeSlot } from "~/services/api/GridService/types";
 import {
   DaySlots,
   GridNameWithId,
@@ -46,6 +47,8 @@ export const TakeAppointmentModalProvider: FC<
   const [currentSlots, setCurrentSlots] = useState<DaySlots[]>(
     loadingDaySlots(currentDay),
   );
+  const [nextAvailableTimeSlot, setNextAvailableTimeSlot] =
+    useState<TimeSlot | null>(null);
   const [canGoNext, setCanGoNext] = useState(true);
   const [canGoPrev, setCanGoPrev] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -58,14 +61,15 @@ export const TakeAppointmentModalProvider: FC<
     selectedGrid?.id ?? 0,
     { skip: !selectedGrid },
   );
-  const { data: gridTimeSlots } = useGetTimeSlotsByGridIdAndDateQuery(
-    {
-      gridId: selectedGrid?.id ?? 0,
-      beginDate: currentDay.startOf("week").format("YYYY-MM-DD"),
-      endDate: currentDay.startOf("week").add(5, "day").format("YYYY-MM-DD"),
-    },
-    { skip: !selectedGrid },
-  );
+  const { data: gridTimeSlots, isFetching: isGridTimeSlotsFetching } =
+    useGetTimeSlotsByGridIdAndDateQuery(
+      {
+        gridId: selectedGrid?.id ?? 0,
+        beginDate: currentDay.startOf("week").format("YYYY-MM-DD"),
+        endDate: currentDay.startOf("week").add(5, "day").format("YYYY-MM-DD"),
+      },
+      { skip: !selectedGrid },
+    );
 
   const handleOnClickCard = (user: UserCardInfos | null) => {
     setSelectedUser(user);
@@ -77,32 +81,41 @@ export const TakeAppointmentModalProvider: FC<
   };
 
   const handleNextWeek = () => {
-    const newCurrentDay = currentDay.add(1, "week");
     setCurrentDay((prev) => prev.add(1, "week"));
-    setCurrentSlots(loadingDaySlots(newCurrentDay));
   };
 
   const handlePreviousWeek = () => {
-    const newCurrentDay = currentDay.subtract(1, "week");
     setCurrentDay((prev) => prev.subtract(1, "week"));
-    setCurrentSlots(loadingDaySlots(newCurrentDay));
   };
 
   const handleGridChange = (gridName: string) => {
     if (!grids) return;
     const newGrid = grids.find((grid) => grid.name === gridName);
     if (!newGrid) return;
+    setCanGoNext(true);
+    setCanGoPrev(false);
     setSelectedGrid(newGrid);
     setSelectedSlotId(null);
-    const newCurrentDay = dayjs().locale("fr");
-    setCurrentDay(newCurrentDay);
-    setCurrentSlots(loadingDaySlots(newCurrentDay));
+    setCurrentDay(dayjs().locale("fr"));
   };
 
   useEffect(() => {
-    if (gridTimeSlots)
+    if (gridTimeSlots) {
       setCurrentSlots(transformTimeSlotsToDaySlots(gridTimeSlots, currentDay));
+      setNextAvailableTimeSlot(gridTimeSlots.nextAvailableTimeSlot);
+
+      gridTimeSlots.timeslots === null &&
+      gridTimeSlots.nextAvailableTimeSlot === null
+        ? setCanGoNext(false)
+        : setCanGoNext(true);
+    }
   }, [gridTimeSlots]);
+
+  useEffect(() => {
+    if (isGridTimeSlotsFetching) {
+      setCurrentSlots(loadingDaySlots(currentDay));
+    }
+  }, [isGridTimeSlotsFetching]);
 
   useEffect(() => {
     if (grids && !selectedGrid) {

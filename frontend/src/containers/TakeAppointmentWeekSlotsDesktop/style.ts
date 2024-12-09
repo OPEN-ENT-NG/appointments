@@ -2,9 +2,13 @@ import { common, IconButton } from "@cgi-learning-hub/ui";
 import { Box, styled, SxProps } from "@mui/material";
 
 import { columnBoxStyle, flexStartBoxStyle } from "~/styles/boxStyles";
-import { BLACK, PURPLE } from "~/styles/color.constants";
+import { BLACK, LIGHTER_GREY, PURPLE } from "~/styles/color.constants";
 import { BOLD_FONT, ITALIC_FONT } from "~/styles/fontStyle.constants";
-import { ArrowButtonProps, ColumnSlotsWrapperProps } from "./types";
+import {
+  ArrowButtonProps,
+  ColumnSlotsWrapperProps,
+  NoSlotsProps,
+} from "./types";
 
 export const globalContainerStyle: SxProps = {
   display: "flex",
@@ -36,7 +40,7 @@ export const ArrowButton = styled(IconButton)<ArrowButtonProps>(
     width: "3rem",
     height: "3rem",
     padding: "0.3rem",
-    display: isVisible ? "block" : "none",
+    visibility: isVisible ? "visible" : "hidden",
     color: common.black,
   }),
 );
@@ -91,4 +95,29 @@ export const containerStyle: SxProps = {
   width: "100%",
   justifyContent: "space-between",
   gap: "1rem",
+};
+
+export const NoSlots = styled(Box)<NoSlotsProps>(
+  ({ isVisioOptionVisible }) => ({
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100%",
+    maxHeight: isVisioOptionVisible
+      ? "calc(100vh - 45rem)"
+      : "calc(100vh - 40.1rem)",
+    width: "100%",
+    padding: "2rem",
+  }),
+);
+
+export const noSlotsStyle: SxProps = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  borderRadius: "0.5rem",
+  backgroundColor: LIGHTER_GREY,
+  width: "100%",
+  height: "100%",
+  boxShadow: "0px 2px 8px 0px rgba(156, 156, 156, 0.25)",
 };

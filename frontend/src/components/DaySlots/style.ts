@@ -28,7 +28,6 @@ export const skeletonStyle: SxProps = {
   width: "6.2rem",
   minHeight: "3.4rem",
   borderRadius: ".8rem !important",
-  // backgroundColor: LIGHTER_PURPLE,
 };
 
 export const TimeSlotWrapper = styled(Box)<TimeSlotWrapperProps>(

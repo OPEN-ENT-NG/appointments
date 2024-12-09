@@ -6,3 +6,7 @@ export interface ColumnSlotsWrapperProps {
 export interface ArrowButtonProps {
   isVisible: boolean;
 }
+
+export interface NoSlotsProps {
+  isVisioOptionVisible: boolean;
+}
