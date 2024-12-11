@@ -6,8 +6,8 @@ import { Autocomplete, Checkbox, Chip, TextField } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { v4 as uuidv4 } from "uuid";
 
-import { chipStyle, TextFieldStyle } from "./style";
 import { useGridModal } from "~/providers/GridModalProvider";
+import { chipStyle, TextFieldStyle } from "./style";
 
 export const CustomMultiAutocomplete: FC = () => {
   const {
@@ -18,8 +18,6 @@ export const CustomMultiAutocomplete: FC = () => {
 
   const selectedPublic = inputs.public;
   const { t } = useTranslation("appointments");
-
-  console.log("publicOptions", publicOptions);
 
   return (
     <Autocomplete
