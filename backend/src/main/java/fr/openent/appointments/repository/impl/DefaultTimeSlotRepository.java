@@ -18,6 +18,7 @@ import org.entcore.common.sql.Sql;
 import org.entcore.common.sql.SqlResult;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +27,7 @@ import java.util.Optional;
 import static fr.openent.appointments.core.constants.Fields.*;
 import static fr.openent.appointments.core.constants.SqlTables.*;
 import static fr.openent.appointments.enums.AppointmentState.ACCEPTED;
+import static fr.openent.appointments.enums.AppointmentState.CREATED;
 
 /**
  * Default implementation of the TimeSlotRepository interface.
@@ -129,9 +131,10 @@ public class DefaultTimeSlotRepository implements TimeSlotRepository {
         String query = "SELECT ts.* FROM " + DB_TIME_SLOT_TABLE + " ts " +
                 "JOIN " + DB_GRID_TABLE + " g ON ts.grid_id = g.id " +
                 "LEFT JOIN " + DB_APPOINTMENT_TABLE + " a ON a.time_slot_id = ts.id " +
-                "WHERE (a.id IS NULL OR a.state != ?) AND ts.grid_id = ? ";
+                "WHERE (a.id IS NULL OR a.state != ? OR a.state != ?) AND ts.grid_id = ? " +
+                "AND ts.begin_date >= NOW() ";
 
-        JsonArray params = new JsonArray().add(ACCEPTED).add(gridId);
+        JsonArray params = new JsonArray().add(ACCEPTED).add(CREATED).add(gridId);
 
         if (beginDate != null) {
             query += "AND ts.begin_date >= ? ";
@@ -139,8 +142,8 @@ public class DefaultTimeSlotRepository implements TimeSlotRepository {
         }
 
         if (endDate != null) {
-            query += "AND ts.end_date <= ? ";
-            params.add(DateHelper.formatDate(endDate));
+            query += "AND ts.end_date < ? ";
+            params.add(DateHelper.formatDate(endDate.plusDays(1)));
         }
 
         String errorMessage = "[Appointments@DefaultTimeSlotRepository::getAvailableByGridAndDates] Fail to get available timeslots for gridId : " + gridId;
@@ -156,12 +159,13 @@ public class DefaultTimeSlotRepository implements TimeSlotRepository {
         String query = "SELECT ts.* FROM " + DB_TIME_SLOT_TABLE + " ts " +
                 "JOIN " + DB_GRID_TABLE + " g ON ts.grid_id = g.id " +
                 "LEFT JOIN " + DB_APPOINTMENT_TABLE + " a ON a.time_slot_id = ts.id " +
-                "WHERE (a.id IS NULL OR a.state != ?) AND ts.grid_id = ? AND ts.begin_date > ? " +
+                "WHERE (a.id IS NULL OR a.state != ? OR a.state != ?) AND ts.grid_id = ? AND ts.begin_date > ? " +
                 "ORDER BY begin_date ASC, end_date ASC " +
                 "LIMIT 1;";
 
         JsonArray params = new JsonArray()
                 .add(ACCEPTED)
+                .add(CREATED)
                 .add(gridId)
                 .add(DateHelper.formatDate(date != null ? date : LocalDate.now()));
 
