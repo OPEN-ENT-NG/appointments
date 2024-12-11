@@ -49,7 +49,7 @@ export const TakeAppointmentWeekSlotsMobile: FC = () => {
           <KeyboardArrowLeftIcon />
         </ArrowButton>
         <Typography variant="h5" fontWeight={"bold"}>
-          {t("appointments.take.appointment.modal.whange.week")}
+          {t("appointments.take.appointment.modal.change.week")}
         </Typography>
         <ArrowButton isVisible={canGoNext} onClick={handleNextWeek}>
           <KeyboardArrowRightIcon />
