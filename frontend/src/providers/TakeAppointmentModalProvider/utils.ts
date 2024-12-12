@@ -29,14 +29,11 @@ export const transformTimeSlotsToDaySlots = (
   timeSlots: TimeSlots,
   currentDay: Dayjs,
 ): DaySlots[] => {
-  console.log(currentDay.format("YYYY-MM-DD"));
   const daySlots: DaySlots[] = Object.values(DAY).map((day) => ({
     weekDay: day,
     day: currentDay.startOf("week").add(DAY_VALUES[day].numberOfWeekDay, "day"),
     slots: [],
   }));
-
-  console.log(daySlots);
 
   if (!timeSlots.timeslots) {
     return daySlots;

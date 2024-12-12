@@ -138,9 +138,11 @@ export const useUpdateGridInputs: useUpdateGridInputsType = (
   };
 
   const handleAddSlot = (day: DAY) => {
-    const newDaySlotsErrorIds = inputs.weekSlots[day]
-      .filter((slots) => !slots.begin.time || !slots.end.time)
-      .map((slots) => slots.id);
+    const newDaySlotsErrorIds = inputs.weekSlots[day].reduce(
+      (acc, slot) =>
+        !slot.begin.time || !slot.end.time ? [...acc, slot.id] : acc,
+      [] as number[],
+    );
 
     if (newDaySlotsErrorIds.length) {
       setErrorInputs((prevInputs) => {

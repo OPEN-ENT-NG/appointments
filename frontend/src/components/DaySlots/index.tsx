@@ -20,6 +20,7 @@ export const DaySlots: FC<DaySlotsProps> = ({ slots, isMobile }) => {
   const sortedSlots = slots ? sortSlots(slots) : [];
 
   const nbOfSkeletons = 5;
+  const arrayForSkeletons = Array.from({ length: nbOfSkeletons });
 
   return (
     <TimeSlotWrapper isMobile={isMobile}>
@@ -41,7 +42,7 @@ export const DaySlots: FC<DaySlotsProps> = ({ slots, isMobile }) => {
           </Box>
         )
       ) : (
-        Array.from({ length: nbOfSkeletons }).map((_, index) => (
+        arrayForSkeletons.map((_, index) => (
           <Skeleton key={index} variant="rectangular" sx={skeletonStyle} />
         ))
       )}

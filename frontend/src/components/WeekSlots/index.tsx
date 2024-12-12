@@ -21,6 +21,7 @@ import {
 import { DailySlot } from "../DailySlot";
 import { DAY_VALUES } from "~/core/constants";
 import { DAY } from "~/core/enums";
+import { Slot } from "~/core/types";
 import { useGridModal } from "~/providers/GridModalProvider";
 
 export const WeekSlots: FC = () => {
@@ -31,10 +32,12 @@ export const WeekSlots: FC = () => {
     updateGridModalInputs: { handleAddSlot },
   } = useGridModal();
 
+  const entries = Object.entries(inputs.weekSlots) as [DAY, Slot[]][];
+
   const dayErrors = useMemo(() => {
     const errors: Record<DAY, boolean> = {} as Record<DAY, boolean>;
-    Object.entries(inputs.weekSlots).map(([day, timeSlots]) => {
-      errors[day as DAY] = timeSlots.some(
+    entries.map(([day, timeSlots]) => {
+      errors[day] = timeSlots.some(
         (slot) =>
           slots.ids.includes(slot.id) && (!slot.begin.time || !slot.end.time),
       );
@@ -44,24 +47,24 @@ export const WeekSlots: FC = () => {
 
   return (
     <Box sx={weekBoxStyle}>
-      {Object.entries(inputs.weekSlots).map(([day, timeSlots]) => {
+      {entries.map(([day, timeSlots]) => {
         return (
           <>
             <Box sx={dayBoxStyle} key={day}>
               <Typography sx={dayLabelStyle}>
-                {t(DAY_VALUES[day as DAY].i18nKey)}
+                {t(DAY_VALUES[day].i18nKey)}
               </Typography>
               <Divider flexItem variant="middle" orientation="vertical" />
               <Box>
                 <Box sx={slotsBoxStyle}>
                   {timeSlots.map((slot) => (
-                    <DailySlot key={slot.id} day={day as DAY} slot={slot} />
+                    <DailySlot key={slot.id} day={day} slot={slot} />
                   ))}
-                  <IconButton onClick={() => handleAddSlot(day as DAY)}>
+                  <IconButton onClick={() => handleAddSlot(day)}>
                     <AddCircleIcon sx={iconStyle} />
                   </IconButton>
                 </Box>
-                {dayErrors[day as DAY] && (
+                {dayErrors[day] && (
                   <FormHelperText sx={errorStyle} error>
                     {t(slots.error)}
                   </FormHelperText>
