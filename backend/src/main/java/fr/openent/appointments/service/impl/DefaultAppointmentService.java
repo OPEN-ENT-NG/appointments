@@ -32,18 +32,24 @@ public class DefaultAppointmentService implements AppointmentService {
     }
 
     @Override
-    public Future<Appointment> create(Long timeSlotId, String userId) {
+    public Future<Appointment> create(Long timeSlotId, String userId, Boolean isVisio) {
 
         Promise<Appointment> promise = Promise.promise();
 
-        appointmentRepository.create(timeSlotId, userId)
+        timeSlotService.checkIfTimeSlotIsVisio(timeSlotId)
+            .compose(isVisioTimeSlot -> {
+                if (isVisio && !isVisioTimeSlot) {
+                        String errorMessage = "The grid linked to the time slot does not allow visio";
+                        LogHelper.logError(this, "create", errorMessage, "");
+                }
+                return appointmentRepository.create(timeSlotId, userId, isVisioTimeSlot && isVisio);
+            })
             .onSuccess(appointment -> {
                 if (!appointment.isPresent()) {
                     String errorMessage = "Error while creating appointment";
                     promise.fail(errorMessage);
                 }
                 else {
-                    if(true) {}
                     promise.complete(appointment.get());
                 }
             })

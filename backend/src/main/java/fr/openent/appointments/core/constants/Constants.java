@@ -13,6 +13,7 @@ public class Constants {
     public static final String CAMEL_END_TIME = "endTime";
     public static final String CAMEL_GRID_ID = "gridId";
     public static final String CAMEL_GROUPS_IDS = "groupsIds";
+    public static final String CAMEL_IS_VISIO = "isVisio";
     public static final String CAMEL_PUBLIC_COMMENT = "publicComment";
     public static final String CAMEL_PUSH_NOTIF = "pushNotif";
     public static final String CAMEL_STRUCTURE_ID = "structureId";

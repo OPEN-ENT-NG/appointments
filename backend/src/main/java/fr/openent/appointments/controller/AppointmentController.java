@@ -22,8 +22,7 @@ import org.joda.time.DateTime;
 import java.time.DateTimeException;
 import java.util.Optional;
 
-import static fr.openent.appointments.core.constants.Constants.CAMEL_TIME_SLOT_ID;
-import static fr.openent.appointments.core.constants.Constants.CAMEL_USER_INFO;
+import static fr.openent.appointments.core.constants.Constants.*;
 
 public class AppointmentController extends ControllerHelper {
     private final AppointmentService appointmentService;
@@ -52,6 +51,10 @@ public class AppointmentController extends ControllerHelper {
             return;
         }
 
+        boolean isVisio = Optional.ofNullable(request.getParam(CAMEL_IS_VISIO))
+                .map(Boolean::parseBoolean)
+                .orElse(false);
+
         final JsonObject composeInfo = new JsonObject();
 
         UserUtils.getAuthenticatedUserInfos(eb, request)
@@ -76,7 +79,7 @@ public class AppointmentController extends ControllerHelper {
                     return Future.failedFuture(errorMessage);
                 }
                 UserInfos user = (UserInfos) composeInfo.getValue(CAMEL_USER_INFO);
-                return appointmentService.create(timeSlotId, user.getUserId());
+                return appointmentService.create(timeSlotId, user.getUserId(), isVisio);
             })
             .recover(err -> {
                 String errorMessage = "Failed to create appointment";

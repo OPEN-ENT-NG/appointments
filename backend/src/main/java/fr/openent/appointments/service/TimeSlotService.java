@@ -43,6 +43,13 @@ public interface TimeSlotService {
     Future<Boolean> checkIfTimeSlotIsAvailable(Long timeSlotId);
 
     /**
+     * Retrieve if slot is linked to a grid that allow visio
+     *
+     * @param timeSlotId The ID of the time slot
+     */
+    Future<Boolean> checkIfTimeSlotIsVisio(Long timeSlotId);
+
+    /**
      * Retrieve all the timeslots of a specified grid between two dates (included)
      *
      * @param user The {@link UserInfos} of the user connected user.

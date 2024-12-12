@@ -80,6 +80,7 @@ CREATE TABLE appointments.appointment (
     requester_id varchar(255) NOT NULL,
     time_slot_id bigint NOT NULL,
     state appointments.A_STATE NOT NULL,
+    is_visio boolean NOT NULL,
     CONSTRAINT fk_time_slot_id FOREIGN KEY (time_slot_id) REFERENCES appointments.time_slot (id) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
