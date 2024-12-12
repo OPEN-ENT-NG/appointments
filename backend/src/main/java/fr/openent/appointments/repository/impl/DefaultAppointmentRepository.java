@@ -59,7 +59,7 @@ public class DefaultAppointmentRepository implements AppointmentRepository {
             return promise.future();
         }
 
-        List<String> availableStates = Arrays.asList(AppointmentState.CREATED.getValue(), AppointmentState.ACCEPTED.getValue());
+        List<String> availableStates = AppointmentState.getAvailableStates();
 
         String query = "SELECT * FROM " + DB_APPOINTMENT_TABLE + " WHERE " + TIME_SLOT_ID + " = ? AND " + STATE + " IN " + Sql.listPrepared(availableStates);
 

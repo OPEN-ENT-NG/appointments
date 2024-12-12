@@ -19,7 +19,7 @@ public class Appointment implements IModel<Appointment> {
     public Appointment(JsonObject appointment) {
         this.id = appointment.getLong(ID, null);
         this.timeSlotId = appointment.getLong(TIME_SLOT_ID, null);
-        this.requesterId = appointment.getString(GRID_ID, null);
+        this.requesterId = appointment.getString(REQUESTER_ID, null);
         this.state = AppointmentState.getAppointmentState(appointment.getString(STATE, null));
     }
 

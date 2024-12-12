@@ -43,6 +43,7 @@ public class DefaultAppointmentService implements AppointmentService {
                     promise.fail(errorMessage);
                 }
                 else {
+                    if(true) {}
                     promise.complete(appointment.get());
                 }
             })

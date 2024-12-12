@@ -128,13 +128,16 @@ public class DefaultTimeSlotRepository implements TimeSlotRepository {
     public Future<List<TimeSlot>> getAvailableByGridAndDates(Long gridId, LocalDate beginDate, LocalDate endDate) {
         Promise<List<TimeSlot>> promise = Promise.promise();
 
+        List<String> availableAppointmentStates = AppointmentState.getAvailableStates();
+
         String query = "SELECT ts.* FROM " + DB_TIME_SLOT_TABLE + " ts " +
                 "JOIN " + DB_GRID_TABLE + " g ON ts.grid_id = g.id " +
                 "LEFT JOIN " + DB_APPOINTMENT_TABLE + " a ON a.time_slot_id = ts.id " +
-                "WHERE (a.id IS NULL OR a.state != ? OR a.state != ?) AND ts.grid_id = ? " +
+                "WHERE (a.id IS NULL OR a.state NOT IN " +
+                Sql.listPrepared(availableAppointmentStates) + ") AND ts.grid_id = ? " +
                 "AND ts.begin_date >= NOW() ";
 
-        JsonArray params = new JsonArray().add(ACCEPTED).add(CREATED).add(gridId);
+        JsonArray params = new JsonArray().addAll(new JsonArray(availableAppointmentStates)).add(gridId);
 
         if (beginDate != null) {
             query += "AND ts.begin_date >= ? ";
@@ -156,16 +159,19 @@ public class DefaultTimeSlotRepository implements TimeSlotRepository {
     public Future<Optional<TimeSlot>> getNextAvailableTimeslot(Long gridId, LocalDate date) {
         Promise<Optional<TimeSlot>> promise = Promise.promise();
 
+        List<String> availableAppointmentStates = AppointmentState.getAvailableStates();
+
         String query = "SELECT ts.* FROM " + DB_TIME_SLOT_TABLE + " ts " +
                 "JOIN " + DB_GRID_TABLE + " g ON ts.grid_id = g.id " +
                 "LEFT JOIN " + DB_APPOINTMENT_TABLE + " a ON a.time_slot_id = ts.id " +
-                "WHERE (a.id IS NULL OR a.state != ? OR a.state != ?) AND ts.grid_id = ? AND ts.begin_date > ? " +
+                "WHERE (a.id IS NULL OR a.state NOT IN " +
+                Sql.listPrepared(availableAppointmentStates) +
+                ") AND ts.grid_id = ? AND ts.begin_date > ? " +
                 "ORDER BY begin_date ASC, end_date ASC " +
                 "LIMIT 1;";
 
         JsonArray params = new JsonArray()
-                .add(ACCEPTED)
-                .add(CREATED)
+                .addAll(new JsonArray(availableAppointmentStates))
                 .add(gridId)
                 .add(DateHelper.formatDate(date != null ? date : LocalDate.now()));
 
