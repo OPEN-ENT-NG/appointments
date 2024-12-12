@@ -15,13 +15,16 @@ import io.vertx.core.json.JsonObject;
 import org.entcore.common.sql.Sql;
 import org.entcore.common.sql.SqlResult;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static fr.openent.appointments.core.constants.Constants.FRENCH_SQL_NOW;
+import static fr.openent.appointments.core.constants.Constants.FRENCH_NOW;
 import static fr.openent.appointments.enums.AppointmentState.ACCEPTED;
 import static fr.openent.appointments.enums.GridState.CLOSED;
 import static fr.openent.appointments.core.constants.Fields.*;
@@ -139,7 +142,7 @@ public class DefaultGridRepository implements GridRepository {
                 "JOIN " + DB_TIME_SLOT_TABLE + " ts ON ts.grid_id = g.id " +
                 "LEFT JOIN " + DB_APPOINTMENT_TABLE + " a ON a.time_slot_id = ts.id " +
                 "WHERE g.id IN " + Sql.listPrepared(gridsIds) +
-                "AND ts.begin_date > " + FRENCH_SQL_NOW +
+                "AND ts.begin_date > " + FRENCH_NOW + " " +
                 "AND (a.id IS NULL OR a.state != ?);";
 
         JsonArray params = new JsonArray()
@@ -219,8 +222,8 @@ public class DefaultGridRepository implements GridRepository {
     public Future<JsonObject> closeAllPassedGrids() {
         Promise<JsonObject> promise = Promise.promise();
         
-        String query = "UPDATE " + DB_GRID_TABLE + " SET " + STATE + " = ? WHERE " + END_DATE + " < ?;";
-        JsonArray params = new JsonArray().add(CLOSED).add(FRENCH_SQL_NOW);
+        String query = "UPDATE " + DB_GRID_TABLE + " SET " + STATE + " = ? WHERE " + END_DATE + " < " + FRENCH_NOW;
+        JsonArray params = new JsonArray().add(CLOSED);
 
         String errorMessage = "[Appointments@DefaultGridRepository::closeAllPassedGrids] Fail to close passed grids : ";
         sql.prepared(query, params, SqlResult.validUniqueResultHandler(FutureHelper.handlerEither(promise, errorMessage)));
@@ -233,8 +236,26 @@ public class DefaultGridRepository implements GridRepository {
     private Future<Optional<Grid>> insert(GridPayload grid, String userId) {
         Promise<Optional<Grid>> promise = Promise.promise();
 
-        List<String> sqlColumns = Arrays.asList(NAME, OWNER_ID, STRUCTURE_ID, BEGIN_DATE, END_DATE,  CREATION_DATE, UPDATING_DATE,
-                COLOR, DURATION, PERIODICITY, TARGET_PUBLIC_LIST_ID, VISIO_LINK, PLACE, DOCUMENT_ID, PUBLIC_COMMENT, STATE);
+        String frenchNow = ZonedDateTime.now(ZoneId.of("Europe/Paris"))
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        List<String> sqlColumns = Arrays.asList(
+                NAME,
+                OWNER_ID,
+                STRUCTURE_ID,
+                BEGIN_DATE,
+                END_DATE,
+                CREATION_DATE,
+                UPDATING_DATE,
+                COLOR,
+                DURATION,
+                PERIODICITY,
+                TARGET_PUBLIC_LIST_ID,
+                VISIO_LINK,
+                PLACE,
+                DOCUMENT_ID,
+                PUBLIC_COMMENT,
+                STATE);
 
         String query = "INSERT INTO "+ DB_GRID_TABLE + " (" + String.join(", ", sqlColumns) + ") " +
                 "VALUES " + Sql.listPrepared(sqlColumns) + " RETURNING *";
@@ -245,8 +266,8 @@ public class DefaultGridRepository implements GridRepository {
                 .add(grid.getStructureId())
                 .add(DateHelper.formatDate(grid.getBeginDate()))
                 .add(DateHelper.formatDate(grid.getEndDate()))
-                .add(FRENCH_SQL_NOW)
-                .add(FRENCH_SQL_NOW)
+                .add(frenchNow)
+                .add(frenchNow)
                 .add(grid.getColor())
                 .add(DateHelper.formatDuration(grid.getDuration()))
                 .add(grid.getPeriodicity().getValue())

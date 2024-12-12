@@ -24,11 +24,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static fr.openent.appointments.core.constants.Constants.FRENCH_SQL_NOW;
+import static fr.openent.appointments.core.constants.Constants.FRENCH_NOW;
 import static fr.openent.appointments.core.constants.Fields.*;
 import static fr.openent.appointments.core.constants.SqlTables.*;
-import static fr.openent.appointments.enums.AppointmentState.ACCEPTED;
-import static fr.openent.appointments.enums.AppointmentState.CREATED;
 
 /**
  * Default implementation of the TimeSlotRepository interface.
@@ -83,7 +81,7 @@ public class DefaultTimeSlotRepository implements TimeSlotRepository {
 
         String query =
                 // First we rank every timeslot (by owner) matching our filtering
-                "WITH ranked_timeslots AS ( " +
+                " WITH ranked_timeslots AS ( " +
                     "SELECT ts.end_date, g.owner_id, ROW_NUMBER() OVER (PARTITION BY g.owner_id ORDER BY ts.end_date DESC) AS row_num " +
                     "FROM " + DB_TIME_SLOT_TABLE + " ts " +
                     "JOIN " + DB_GRID_TABLE + " g ON ts.grid_id = g.id " +
@@ -92,7 +90,7 @@ public class DefaultTimeSlotRepository implements TimeSlotRepository {
                     "AND g.state = ? " +
                     "AND a.state = ? " +
                     "AND a.requester_id = ? " +
-                    "AND ts.end_date < " + FRENCH_SQL_NOW +
+                    "AND ts.end_date < " + FRENCH_NOW +
                 ") " +
                 // Then we just pick the first ranked lines (ie the later appointment dates for each owner)
                 "SELECT " + END_DATE + ", " + OWNER_ID + " FROM ranked_timeslots " +
@@ -136,7 +134,7 @@ public class DefaultTimeSlotRepository implements TimeSlotRepository {
                 "LEFT JOIN " + DB_APPOINTMENT_TABLE + " a ON a.time_slot_id = ts.id " +
                 "WHERE (a.id IS NULL OR a.state NOT IN " +
                 Sql.listPrepared(availableAppointmentStates) + ") AND ts.grid_id = ? " +
-                "AND ts.begin_date >= "+ FRENCH_SQL_NOW;
+                "AND ts.begin_date >= " + FRENCH_NOW;
 
         JsonArray params = new JsonArray().addAll(new JsonArray(availableAppointmentStates)).add(gridId);
 
