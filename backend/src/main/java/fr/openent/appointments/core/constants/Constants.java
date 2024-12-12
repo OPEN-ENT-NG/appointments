@@ -35,6 +35,7 @@ public class Constants {
     public static final String APPOINTMENTS = "Appointments";
     public static final String APPOINTMENTS_ADDRESS = "fr.openent.appointments";
     public static final String BODY = "body";
+    public static final String FRENCH_SQL_NOW = "now() at time zone 'Europe/Paris' ";
     public static final String FUNCTIONS = "functions";
     public static final String HOST = "host";
     public static final String LIMIT = "limit";

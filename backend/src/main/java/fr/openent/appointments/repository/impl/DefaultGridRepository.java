@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static fr.openent.appointments.core.constants.Constants.FRENCH_SQL_NOW;
 import static fr.openent.appointments.enums.AppointmentState.ACCEPTED;
 import static fr.openent.appointments.enums.GridState.CLOSED;
 import static fr.openent.appointments.core.constants.Fields.*;
@@ -138,7 +139,7 @@ public class DefaultGridRepository implements GridRepository {
                 "JOIN " + DB_TIME_SLOT_TABLE + " ts ON ts.grid_id = g.id " +
                 "LEFT JOIN " + DB_APPOINTMENT_TABLE + " a ON a.time_slot_id = ts.id " +
                 "WHERE g.id IN " + Sql.listPrepared(gridsIds) +
-                "AND ts.begin_date > NOW() " +
+                "AND ts.begin_date > " + FRENCH_SQL_NOW +
                 "AND (a.id IS NULL OR a.state != ?);";
 
         JsonArray params = new JsonArray()
@@ -219,7 +220,7 @@ public class DefaultGridRepository implements GridRepository {
         Promise<JsonObject> promise = Promise.promise();
         
         String query = "UPDATE " + DB_GRID_TABLE + " SET " + STATE + " = ? WHERE " + END_DATE + " < ?;";
-        JsonArray params = new JsonArray().add(CLOSED).add("NOW()");
+        JsonArray params = new JsonArray().add(CLOSED).add(FRENCH_SQL_NOW);
 
         String errorMessage = "[Appointments@DefaultGridRepository::closeAllPassedGrids] Fail to close passed grids : ";
         sql.prepared(query, params, SqlResult.validUniqueResultHandler(FutureHelper.handlerEither(promise, errorMessage)));
@@ -244,8 +245,8 @@ public class DefaultGridRepository implements GridRepository {
                 .add(grid.getStructureId())
                 .add(DateHelper.formatDate(grid.getBeginDate()))
                 .add(DateHelper.formatDate(grid.getEndDate()))
-                .add("NOW()")
-                .add("NOW()")
+                .add(FRENCH_SQL_NOW)
+                .add(FRENCH_SQL_NOW)
                 .add(grid.getColor())
                 .add(DateHelper.formatDuration(grid.getDuration()))
                 .add(grid.getPeriodicity().getValue())
