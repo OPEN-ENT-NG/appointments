@@ -27,6 +27,7 @@ export interface TakeAppointmentModalProviderContextProps {
   handleNextTimeSlot: () => void;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
   handleOnClickCard: (user: UserCardInfos | null) => void;
+  handleSubmitAppointment: () => void;
 }
 
 export interface TakeAppointmentModalProviderProps {

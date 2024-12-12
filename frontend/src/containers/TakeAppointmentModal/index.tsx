@@ -6,6 +6,12 @@ import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import { Box, Divider, Modal, Typography, useMediaQuery } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
+import { TAKE_APPOINTMENT_MODAL_BREAKPOINT } from "~/core/breakpoints";
+import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
+import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
+import { TakeAppointmentGridInfos } from "../TakeAppointmentGridInfos";
+import { TakeAppointmentWeekSlotsDesktop } from "../TakeAppointmentWeekSlotsDesktop";
+import { TakeAppointmentWeekSlotsMobile } from "../TakeAppointmentWeekSlotsMobile";
 import {
   closeIconStyle,
   contentBoxStyle,
@@ -15,18 +21,16 @@ import {
   submitButtonStyle,
 } from "./style";
 import { TakeAppointmentModalProps } from "./types";
-import { TakeAppointmentGridInfos } from "../TakeAppointmentGridInfos";
-import { TakeAppointmentWeekSlotsDesktop } from "../TakeAppointmentWeekSlotsDesktop";
-import { TakeAppointmentWeekSlotsMobile } from "../TakeAppointmentWeekSlotsMobile";
-import { TAKE_APPOINTMENT_MODAL_BREAKPOINT } from "~/core/breakpoints";
-import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
-import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
 
 export const TakeAppointmentModal: FC<TakeAppointmentModalProps> = ({
   userInfos,
 }) => {
-  const { isModalOpen, setIsModalOpen, selectedSlotId } =
-    useTakeAppointmentModal();
+  const {
+    isModalOpen,
+    setIsModalOpen,
+    selectedSlotId,
+    handleSubmitAppointment,
+  } = useTakeAppointmentModal();
   const { t } = useTranslation("appointments");
   const isMobile = useMediaQuery(
     `(max-width: ${TAKE_APPOINTMENT_MODAL_BREAKPOINT}px)`,
@@ -68,6 +72,7 @@ export const TakeAppointmentModal: FC<TakeAppointmentModalProps> = ({
             <Button
               disabled={!selectedSlotId}
               variant="contained"
+              onClick={handleSubmitAppointment}
               startIcon={<EventAvailableIcon />}
             >
               {t("appointments.take.appointment.modal.submit")}

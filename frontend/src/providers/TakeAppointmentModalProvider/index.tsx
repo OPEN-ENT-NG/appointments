@@ -9,6 +9,13 @@ import {
 
 import dayjs, { Dayjs } from "dayjs";
 
+import { useTakeAppointmentMutation } from "~/services/api/AppointmentService";
+import { UserCardInfos } from "~/services/api/CommunicationService/types";
+import {
+  useGetAvailableUserMinimalGridsQuery,
+  useGetMinimalGridInfosByIdQuery,
+  useGetTimeSlotsByGridIdAndDateQuery,
+} from "~/services/api/GridService";
 import {
   DaySlots,
   GridNameWithId,
@@ -20,12 +27,6 @@ import {
   transformStringToDayjs,
   transformTimeSlotsToDaySlots,
 } from "./utils";
-import { UserCardInfos } from "~/services/api/CommunicationService/types";
-import {
-  useGetAvailableUserMinimalGridsQuery,
-  useGetMinimalGridInfosByIdQuery,
-  useGetTimeSlotsByGridIdAndDateQuery,
-} from "~/services/api/GridService";
 
 const TakeAppointmentModalProviderContext =
   createContext<TakeAppointmentModalProviderContextProps | null>(null);
@@ -75,6 +76,8 @@ export const TakeAppointmentModalProvider: FC<
       { skip: !selectedGrid },
     );
 
+  const [takeAppointment] = useTakeAppointmentMutation();
+
   const handleOnClickCard = (user: UserCardInfos | null) => {
     setSelectedUser(user);
     if (user) setIsModalOpen(true);
@@ -107,6 +110,16 @@ export const TakeAppointmentModalProvider: FC<
     setSelectedGrid(newGrid);
     setSelectedSlotId(null);
     setCurrentDay(dayjs().locale("fr"));
+  };
+
+  const handleSubmitAppointment = async () => {
+    if (!selectedSlotId) return;
+    try {
+      await takeAppointment(selectedSlotId);
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -168,6 +181,7 @@ export const TakeAppointmentModalProvider: FC<
       handleNextTimeSlot,
       setIsModalOpen,
       handleOnClickCard,
+      handleSubmitAppointment,
     }),
     [
       isModalOpen,
