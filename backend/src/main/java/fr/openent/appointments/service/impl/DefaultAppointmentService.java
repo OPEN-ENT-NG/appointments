@@ -22,25 +22,21 @@ public class DefaultAppointmentService implements AppointmentService {
     }
 
     @Override
-    public Future<Appointment> create(Long timeSlotId, String userId, List<String> userGroupsIds) {
+    public Future<Boolean> checkIfUserCanAccessTimeSlot(Long timeSlotId, String userId, List<String> userGroupsIds) {
+        return timeSlotService.checkIfUserCanAccessTimeSlot(timeSlotId, userId, userGroupsIds);
+    }
+
+    @Override
+    public Future<Boolean> checkIfTimeSlotIsAvailable(Long timeSlotId) {
+        return timeSlotService.checkIfTimeSlotIsAvailable(timeSlotId);
+    }
+
+    @Override
+    public Future<Appointment> create(Long timeSlotId, String userId) {
 
         Promise<Appointment> promise = Promise.promise();
 
-        timeSlotService.checkIfUserCanAccessTimeSlot(timeSlotId, userId, userGroupsIds)
-            .compose(isAuthorized -> {
-                if (!isAuthorized) {
-                    String errorMessage = "User is not authorized to access this time slot";
-                    return Future.failedFuture(errorMessage);
-                }
-                return timeSlotService.checkIfTimeSlotIsAvailable(timeSlotId);
-            })
-            .compose(isAvailable -> {
-                if (!isAvailable) {
-                    String errorMessage = "Time slot is not available";
-                    return Future.failedFuture(errorMessage);
-                }
-                return appointmentRepository.create(timeSlotId, userId);
-            })
+        appointmentRepository.create(timeSlotId, userId)
             .onSuccess(appointment -> {
                 if (!appointment.isPresent()) {
                     String errorMessage = "Error while creating appointment";
@@ -55,7 +51,6 @@ public class DefaultAppointmentService implements AppointmentService {
                 LogHelper.logError(this, "create", errorMessage, err.getMessage());
                 promise.fail(err);
             });
-
         return promise.future();
     }
 }
