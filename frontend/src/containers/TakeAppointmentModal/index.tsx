@@ -15,13 +15,6 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-import { TAKE_APPOINTMENT_MODAL_BREAKPOINT } from "~/core/breakpoints";
-import { ALERT_VALUES } from "~/core/constants";
-import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
-import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
-import { TakeAppointmentGridInfos } from "../TakeAppointmentGridInfos";
-import { TakeAppointmentWeekSlotsDesktop } from "../TakeAppointmentWeekSlotsDesktop";
-import { TakeAppointmentWeekSlotsMobile } from "../TakeAppointmentWeekSlotsMobile";
 import {
   closeIconStyle,
   contentBoxStyle,
@@ -31,6 +24,13 @@ import {
   submitButtonStyle,
 } from "./style";
 import { TakeAppointmentModalProps } from "./types";
+import { TakeAppointmentGridInfos } from "../TakeAppointmentGridInfos";
+import { TakeAppointmentWeekSlotsDesktop } from "../TakeAppointmentWeekSlotsDesktop";
+import { TakeAppointmentWeekSlotsMobile } from "../TakeAppointmentWeekSlotsMobile";
+import { TAKE_APPOINTMENT_MODAL_BREAKPOINT } from "~/core/breakpoints";
+import { ALERT_VALUES } from "~/core/constants";
+import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
+import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
 
 export const TakeAppointmentModal: FC<TakeAppointmentModalProps> = ({
   userInfos,

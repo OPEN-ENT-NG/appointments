@@ -9,15 +9,6 @@ import {
 
 import dayjs, { Dayjs } from "dayjs";
 
-import { ALERT } from "~/core/enums";
-import { useTakeAppointmentMutation } from "~/services/api/AppointmentService";
-import { UserCardInfos } from "~/services/api/CommunicationService/types";
-import {
-  useGetAvailableUserMinimalGridsQuery,
-  useGetMinimalGridInfosByIdQuery,
-  useGetTimeSlotsByGridIdAndDateQuery,
-} from "~/services/api/GridService";
-import { useFindAppointments } from "../FindAppointmentsProvider";
 import {
   Alert,
   DaySlots,
@@ -30,6 +21,15 @@ import {
   transformStringToDayjs,
   transformTimeSlotsToDaySlots,
 } from "./utils";
+import { useFindAppointments } from "../FindAppointmentsProvider";
+import { ALERT } from "~/core/enums";
+import { useTakeAppointmentMutation } from "~/services/api/AppointmentService";
+import { UserCardInfos } from "~/services/api/CommunicationService/types";
+import {
+  useGetAvailableUserMinimalGridsQuery,
+  useGetMinimalGridInfosByIdQuery,
+  useGetTimeSlotsByGridIdAndDateQuery,
+} from "~/services/api/GridService";
 
 const TakeAppointmentModalProviderContext =
   createContext<TakeAppointmentModalProviderContextProps | null>(null);
