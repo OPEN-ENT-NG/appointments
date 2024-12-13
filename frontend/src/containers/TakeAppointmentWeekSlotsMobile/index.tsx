@@ -7,6 +7,11 @@ import { Box, Checkbox, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { v4 as uuid4v } from "uuid";
 
+import { DaySlots } from "~/components/DaySlots";
+import { DAY_VALUES } from "~/core/constants";
+import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
+import { flexStartBoxStyle, spaceBetweenBoxStyle } from "~/styles/boxStyles";
+import { ArrowButton } from "../TakeAppointmentWeekSlotsDesktop/style";
 import {
   RowSlotsWrapper,
   containerStyle,
@@ -19,11 +24,6 @@ import {
   weekDayStyle,
   weekSlotsWrapperStyle,
 } from "./style";
-import { ArrowButton } from "../TakeAppointmentWeekSlotsDesktop/style";
-import { DaySlots } from "~/components/DaySlots";
-import { DAY_VALUES } from "~/core/constants";
-import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
-import { flexStartBoxStyle, spaceBetweenBoxStyle } from "~/styles/boxStyles";
 
 export const TakeAppointmentWeekSlotsMobile: FC = () => {
   const { t } = useTranslation("appointments");
@@ -35,9 +35,11 @@ export const TakeAppointmentWeekSlotsMobile: FC = () => {
     canGoPrev,
     hasNoSlots,
     nextAvailableTimeSlot,
+    isVisioOptionChecked,
     handlePreviousWeek,
     handleNextWeek,
     handleNextTimeSlot,
+    handleVisioCheckboxChange,
   } = useTakeAppointmentModal();
 
   const isVisioOptionVisible = !!gridInfos?.visioLink;
@@ -101,7 +103,10 @@ export const TakeAppointmentWeekSlotsMobile: FC = () => {
       </Box>
       {isVisioOptionVisible && (
         <Box sx={flexStartBoxStyle}>
-          <Checkbox />
+          <Checkbox
+            onChange={handleVisioCheckboxChange}
+            checked={isVisioOptionChecked}
+          />
           <Typography sx={visioOptionStyle}>
             {t("appointments.take.appointment.modal.visio.option")}
           </Typography>

@@ -57,6 +57,7 @@ export const TakeAppointmentModalProvider: FC<
   const [canGoNext, setCanGoNext] = useState(true);
   const [canGoPrev, setCanGoPrev] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isVisioOptionChecked, setIsVisioOptionChecked] = useState(false);
 
   const { data: grids } = useGetAvailableUserMinimalGridsQuery(
     selectedUser?.userId ?? "",
@@ -112,10 +113,18 @@ export const TakeAppointmentModalProvider: FC<
     setCurrentDay(dayjs().locale("fr"));
   };
 
+  const handleVisioCheckboxChange = () => {
+    setIsVisioOptionChecked((prev) => !prev);
+  };
+
   const handleSubmitAppointment = async () => {
     if (!selectedSlotId) return;
     try {
-      await takeAppointment(selectedSlotId);
+      const takeAppointmentPayload = gridInfos?.visioLink.length
+        ? { timeSlotId: selectedSlotId, isVisio: isVisioOptionChecked }
+        : { timeSlotId: selectedSlotId };
+
+      await takeAppointment(takeAppointmentPayload);
       setIsModalOpen(false);
     } catch (error) {
       console.error(error);
@@ -174,6 +183,7 @@ export const TakeAppointmentModalProvider: FC<
       hasNoSlots,
       nextAvailableTimeSlot,
       isGridTimeSlotsFetching,
+      isVisioOptionChecked,
       handleGridChange,
       handleOnClickSlot,
       handleNextWeek,
@@ -182,6 +192,7 @@ export const TakeAppointmentModalProvider: FC<
       setIsModalOpen,
       handleOnClickCard,
       handleSubmitAppointment,
+      handleVisioCheckboxChange,
     }),
     [
       isModalOpen,
@@ -197,6 +208,7 @@ export const TakeAppointmentModalProvider: FC<
       hasNoSlots,
       nextAvailableTimeSlot,
       isGridTimeSlotsFetching,
+      isVisioOptionChecked,
     ],
   );
   return (

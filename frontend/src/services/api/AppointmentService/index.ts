@@ -1,10 +1,13 @@
 import { emptySplitApi } from "../EmptySplitService";
+import { TakeAppointmentPayload } from "./types";
 
 export const appointmentApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
-    takeAppointment: builder.mutation<void, number>({
-      query: (timeSlotId) => ({
-        url: `/appointments/${timeSlotId}`,
+    takeAppointment: builder.mutation<void, TakeAppointmentPayload>({
+      query: ({ timeSlotId, isVisio }) => ({
+        url: `/appointments/${timeSlotId}${
+          isVisio !== undefined ? `?isVisio=${isVisio}` : ""
+        }`,
         method: "POST",
       }),
     }),
