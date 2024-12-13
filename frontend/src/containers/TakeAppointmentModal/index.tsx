@@ -52,7 +52,7 @@ export const TakeAppointmentModal: FC<TakeAppointmentModalProps> = ({
     <>
       <Snackbar
         open={alert.isOpen}
-        autoHideDuration={3000}
+        autoHideDuration={7000}
         onClose={handleCloseAlert}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
