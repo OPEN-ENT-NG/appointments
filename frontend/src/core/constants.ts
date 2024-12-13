@@ -1,4 +1,4 @@
-import { DAY, DURATION, PERIODICITY } from "./enums";
+import { ALERT, DAY, DURATION, PERIODICITY } from "./enums";
 
 export const GRID_PER_PAGE = 5;
 
@@ -62,3 +62,18 @@ export const PERIODICITY_VALUES = {
 };
 
 export const DISPLAY_DATE_FORMAT = "DD/MM/YYYY";
+
+export const ALERT_VALUES = {
+  [ALERT.TAKE_APPOINTMENT_SUCCESS]: {
+    i18nKey: "appointments.take.appointment.success",
+    severity: "success",
+  },
+  [ALERT.TAKE_APPOINTMENT_UNAVAILABLE_ERROR]: {
+    i18nKey: "appointments.take.appointment.error.not.available",
+    severity: "error",
+  },
+  [ALERT.TAKE_APPOINTMENT_INTERNAL_ERROR]: {
+    i18nKey: "appointments.take.appointment.internal.error",
+    severity: "error",
+  },
+};

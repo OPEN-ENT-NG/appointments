@@ -5,6 +5,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import {
   Alert,
+  AlertColor,
   Box,
   Divider,
   Modal,
@@ -14,6 +15,13 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
+import { TAKE_APPOINTMENT_MODAL_BREAKPOINT } from "~/core/breakpoints";
+import { ALERT_VALUES } from "~/core/constants";
+import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
+import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
+import { TakeAppointmentGridInfos } from "../TakeAppointmentGridInfos";
+import { TakeAppointmentWeekSlotsDesktop } from "../TakeAppointmentWeekSlotsDesktop";
+import { TakeAppointmentWeekSlotsMobile } from "../TakeAppointmentWeekSlotsMobile";
 import {
   closeIconStyle,
   contentBoxStyle,
@@ -23,12 +31,6 @@ import {
   submitButtonStyle,
 } from "./style";
 import { TakeAppointmentModalProps } from "./types";
-import { TakeAppointmentGridInfos } from "../TakeAppointmentGridInfos";
-import { TakeAppointmentWeekSlotsDesktop } from "../TakeAppointmentWeekSlotsDesktop";
-import { TakeAppointmentWeekSlotsMobile } from "../TakeAppointmentWeekSlotsMobile";
-import { TAKE_APPOINTMENT_MODAL_BREAKPOINT } from "~/core/breakpoints";
-import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
-import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
 
 export const TakeAppointmentModal: FC<TakeAppointmentModalProps> = ({
   userInfos,
@@ -56,10 +58,10 @@ export const TakeAppointmentModal: FC<TakeAppointmentModalProps> = ({
       >
         <Alert
           onClose={handleCloseAlert}
-          severity={alert.alertType}
+          severity={ALERT_VALUES[alert.alert].severity as AlertColor}
           sx={{ width: "100%" }}
         >
-          {alert.message}
+          {t(ALERT_VALUES[alert.alert].i18nKey)}
         </Alert>
       </Snackbar>
       <Modal

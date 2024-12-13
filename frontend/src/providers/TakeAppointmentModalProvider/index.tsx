@@ -9,6 +9,15 @@ import {
 
 import dayjs, { Dayjs } from "dayjs";
 
+import { ALERT } from "~/core/enums";
+import { useTakeAppointmentMutation } from "~/services/api/AppointmentService";
+import { UserCardInfos } from "~/services/api/CommunicationService/types";
+import {
+  useGetAvailableUserMinimalGridsQuery,
+  useGetMinimalGridInfosByIdQuery,
+  useGetTimeSlotsByGridIdAndDateQuery,
+} from "~/services/api/GridService";
+import { useFindAppointments } from "../FindAppointmentsProvider";
 import {
   Alert,
   DaySlots,
@@ -21,14 +30,6 @@ import {
   transformStringToDayjs,
   transformTimeSlotsToDaySlots,
 } from "./utils";
-import { useFindAppointments } from "../FindAppointmentsProvider";
-import { useTakeAppointmentMutation } from "~/services/api/AppointmentService";
-import { UserCardInfos } from "~/services/api/CommunicationService/types";
-import {
-  useGetAvailableUserMinimalGridsQuery,
-  useGetMinimalGridInfosByIdQuery,
-  useGetTimeSlotsByGridIdAndDateQuery,
-} from "~/services/api/GridService";
 
 const TakeAppointmentModalProviderContext =
   createContext<TakeAppointmentModalProviderContextProps | null>(null);
@@ -63,8 +64,7 @@ export const TakeAppointmentModalProvider: FC<
 
   const [alert, setAlert] = useState<Alert>({
     isOpen: false,
-    alertType: "success",
-    message: "",
+    alert: ALERT.TAKE_APPOINTMENT_SUCCESS,
   });
 
   const { data: grids } = useGetAvailableUserMinimalGridsQuery(
@@ -136,23 +136,20 @@ export const TakeAppointmentModalProvider: FC<
       await takeAppointment(takeAppointmentPayload).unwrap();
       setAlert({
         isOpen: true,
-        alertType: "success",
-        message: "Rendez-vous pris avec succès",
+        alert: ALERT.TAKE_APPOINTMENT_SUCCESS,
       });
     } catch (error: any) {
       if (error && error.status) {
         if (error.status === 409) {
           setAlert({
             isOpen: true,
-            alertType: "error",
-            message: "Rendez-vous déjà pris",
+            alert: ALERT.TAKE_APPOINTMENT_UNAVAILABLE_ERROR,
           });
         }
         if (error.status === 500) {
           setAlert({
             isOpen: true,
-            alertType: "error",
-            message: "Erreur serveur",
+            alert: ALERT.TAKE_APPOINTMENT_INTERNAL_ERROR,
           });
         }
       }

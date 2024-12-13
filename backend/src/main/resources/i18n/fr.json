@@ -67,6 +67,9 @@
   "appointments.take.appointment.modal.next.slot": "Prochain créneau disponible le",
   "appointments.take.appointment.modal.no.slot": "Il n’y a pas encore de créneau ouvert pour ces dates.",
   "appointments.take.appointment.modal.change.week": "Changer de semaine",
+  "appointments.take.appointment.success": "Votre demande de rendez-vous a bien été envoyée.",
+  "appointments.take.appointment.error.not.available": "Ce créneau n'est plus disponible. Veuillez en choisir un autre.",
+  "appointments.take.appointment.internal.error": "Une erreur est survenue lors de la réservation. Veuillez réessayer.",
 
   "appointments.cancel": "Annuler",
   "appointments.save": "Enregistrer",

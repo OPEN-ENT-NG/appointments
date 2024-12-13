@@ -2,7 +2,7 @@ import { Dispatch, ReactNode, SetStateAction } from "react";
 
 import { Dayjs } from "dayjs";
 
-import { DAY } from "~/core/enums";
+import { ALERT, DAY } from "~/core/enums";
 import { Slot } from "~/core/types";
 import { UserCardInfos } from "~/services/api/CommunicationService/types";
 import { GridInfos } from "~/services/api/GridService/types";
@@ -51,6 +51,5 @@ export interface GridNameWithId {
 
 export interface Alert {
   isOpen: boolean;
-  alertType: "success" | "error";
-  message: string;
+  alert: ALERT;
 }
