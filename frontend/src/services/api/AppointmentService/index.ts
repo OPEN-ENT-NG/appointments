@@ -1,5 +1,5 @@
-import { emptySplitApi } from "../EmptySplitService";
 import { TakeAppointmentPayload } from "./types";
+import { emptySplitApi } from "../EmptySplitService";
 
 export const appointmentApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -10,6 +10,7 @@ export const appointmentApi = emptySplitApi.injectEndpoints({
         }`,
         method: "POST",
       }),
+      invalidatesTags: ["Availability"],
     }),
   }),
 });

@@ -9,14 +9,8 @@ import {
 
 import dayjs, { Dayjs } from "dayjs";
 
-import { useTakeAppointmentMutation } from "~/services/api/AppointmentService";
-import { UserCardInfos } from "~/services/api/CommunicationService/types";
 import {
-  useGetAvailableUserMinimalGridsQuery,
-  useGetMinimalGridInfosByIdQuery,
-  useGetTimeSlotsByGridIdAndDateQuery,
-} from "~/services/api/GridService";
-import {
+  Alert,
   DaySlots,
   GridNameWithId,
   TakeAppointmentModalProviderContextProps,
@@ -27,6 +21,14 @@ import {
   transformStringToDayjs,
   transformTimeSlotsToDaySlots,
 } from "./utils";
+import { useFindAppointments } from "../FindAppointmentsProvider";
+import { useTakeAppointmentMutation } from "~/services/api/AppointmentService";
+import { UserCardInfos } from "~/services/api/CommunicationService/types";
+import {
+  useGetAvailableUserMinimalGridsQuery,
+  useGetMinimalGridInfosByIdQuery,
+  useGetTimeSlotsByGridIdAndDateQuery,
+} from "~/services/api/GridService";
 
 const TakeAppointmentModalProviderContext =
   createContext<TakeAppointmentModalProviderContextProps | null>(null);
@@ -59,6 +61,12 @@ export const TakeAppointmentModalProvider: FC<
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isVisioOptionChecked, setIsVisioOptionChecked] = useState(false);
 
+  const [alert, setAlert] = useState<Alert>({
+    isOpen: false,
+    alertType: "success",
+    message: "",
+  });
+
   const { data: grids } = useGetAvailableUserMinimalGridsQuery(
     selectedUser?.userId ?? "",
     { skip: !selectedUser?.userId },
@@ -78,6 +86,7 @@ export const TakeAppointmentModalProvider: FC<
     );
 
   const [takeAppointment] = useTakeAppointmentMutation();
+  const { refreshSearch } = useFindAppointments();
 
   const handleOnClickCard = (user: UserCardInfos | null) => {
     setSelectedUser(user);
@@ -124,11 +133,36 @@ export const TakeAppointmentModalProvider: FC<
         ? { timeSlotId: selectedSlotId, isVisio: isVisioOptionChecked }
         : { timeSlotId: selectedSlotId };
 
-      await takeAppointment(takeAppointmentPayload);
-      setIsModalOpen(false);
-    } catch (error) {
-      console.error(error);
+      await takeAppointment(takeAppointmentPayload).unwrap();
+      setAlert({
+        isOpen: true,
+        alertType: "success",
+        message: "Rendez-vous pris avec succès",
+      });
+    } catch (error: any) {
+      if (error && error.status) {
+        if (error.status === 409) {
+          setAlert({
+            isOpen: true,
+            alertType: "error",
+            message: "Rendez-vous déjà pris",
+          });
+        }
+        if (error.status === 500) {
+          setAlert({
+            isOpen: true,
+            alertType: "error",
+            message: "Erreur serveur",
+          });
+        }
+      }
     }
+    setIsModalOpen(false);
+    refreshSearch();
+  };
+
+  const handleCloseAlert = () => {
+    setAlert({ ...alert, isOpen: false });
   };
 
   useEffect(() => {
@@ -184,6 +218,7 @@ export const TakeAppointmentModalProvider: FC<
       nextAvailableTimeSlot,
       isGridTimeSlotsFetching,
       isVisioOptionChecked,
+      alert,
       handleGridChange,
       handleOnClickSlot,
       handleNextWeek,
@@ -193,6 +228,7 @@ export const TakeAppointmentModalProvider: FC<
       handleOnClickCard,
       handleSubmitAppointment,
       handleVisioCheckboxChange,
+      handleCloseAlert,
     }),
     [
       isModalOpen,
@@ -209,6 +245,7 @@ export const TakeAppointmentModalProvider: FC<
       nextAvailableTimeSlot,
       isGridTimeSlotsFetching,
       isVisioOptionChecked,
+      alert,
     ],
   );
   return (

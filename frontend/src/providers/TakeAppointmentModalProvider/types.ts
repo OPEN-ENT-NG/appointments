@@ -21,6 +21,7 @@ export interface TakeAppointmentModalProviderContextProps {
   nextAvailableTimeSlot: Dayjs | null;
   isGridTimeSlotsFetching: boolean;
   isVisioOptionChecked: boolean;
+  alert: Alert;
   handleGridChange: (gridName: string) => void;
   handleOnClickSlot: (slotId: number) => void;
   handleNextWeek: () => void;
@@ -30,6 +31,7 @@ export interface TakeAppointmentModalProviderContextProps {
   handleOnClickCard: (user: UserCardInfos | null) => void;
   handleSubmitAppointment: () => void;
   handleVisioCheckboxChange: () => void;
+  handleCloseAlert: () => void;
 }
 
 export interface TakeAppointmentModalProviderProps {
@@ -45,4 +47,10 @@ export interface DaySlots {
 export interface GridNameWithId {
   id: number;
   name: string;
+}
+
+export interface Alert {
+  isOpen: boolean;
+  alertType: "success" | "error";
+  message: string;
 }
