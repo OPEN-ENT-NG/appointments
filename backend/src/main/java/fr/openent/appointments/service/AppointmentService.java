@@ -29,8 +29,8 @@ public interface AppointmentService {
      *
      *  @param timeSlotId The time slot id
      *  @param userId The user id
-     *  @param isVisio The user choice for visio
+     *  @param isVideoCall The user choice for video call
      *  @return The created appointment
      */
-    Future<Appointment> create(Long timeSlotId, String userId, Boolean isVisio);
+    Future<Appointment> create(Long timeSlotId, String userId, Boolean isVideoCall);
 }

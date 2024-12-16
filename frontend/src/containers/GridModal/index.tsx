@@ -4,16 +4,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Box, IconButton, Modal, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-import { GRID_MODAL_TYPE, PAGE_TYPE } from "./enum";
-import {
-  closeIconStyle,
-  contentBoxStyle,
-  instructionStyle,
-  modalBoxStyle,
-} from "./style";
-import { GridModalProps } from "./types";
-import { FirstPageGridModal } from "../FirstPageGridModal";
-import { SecondPageGridModal } from "../SecondPageGridModal";
 import { CustomStepper } from "~/components/CustomStepper";
 import { DialogModal } from "~/components/DialogModal";
 import { useGlobal } from "~/providers/GlobalProvider";
@@ -23,6 +13,16 @@ import { gridInputsToGridPayload } from "~/providers/GridModalProvider/utils";
 import { useCreateGridMutation } from "~/services/api/GridService";
 import { CreateGridPayload } from "~/services/api/GridService/types";
 import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
+import { FirstPageGridModal } from "../FirstPageGridModal";
+import { SecondPageGridModal } from "../SecondPageGridModal";
+import { GRID_MODAL_TYPE, PAGE_TYPE } from "./enum";
+import {
+  closeIconStyle,
+  contentBoxStyle,
+  instructionStyle,
+  modalBoxStyle,
+} from "./style";
+import { GridModalProps } from "./types";
 
 export const GridModal: FC<GridModalProps> = ({ gridModalType }) => {
   const { t } = useTranslation("appointments");
@@ -39,7 +39,7 @@ export const GridModal: FC<GridModalProps> = ({ gridModalType }) => {
     publicOptions,
     blurGridModalInputs: {
       newNameError,
-      newVisioLinkError,
+      newVideoCallLinkError,
       newValidityPeriodError,
       newWeekSlotsError,
       newSlotsError,
@@ -68,7 +68,7 @@ export const GridModal: FC<GridModalProps> = ({ gridModalType }) => {
   const handleNext = () => {
     const newErrors = {
       name: newNameError,
-      visioLink: newVisioLinkError,
+      videoCallLink: newVideoCallLinkError,
       validityPeriod: "",
       weekSlots: "",
       slots: {
@@ -77,14 +77,14 @@ export const GridModal: FC<GridModalProps> = ({ gridModalType }) => {
       },
     };
     setErrorInputs(newErrors);
-    if (newErrors.name || newErrors.visioLink) return;
+    if (newErrors.name || newErrors.videoCallLink) return;
     setPage(PAGE_TYPE.SECOND);
   };
 
   const handleSubmit = async () => {
     const newErrors = {
       name: newNameError,
-      visioLink: newVisioLinkError,
+      videoCallLink: newVideoCallLinkError,
       validityPeriod: newValidityPeriodError,
       weekSlots: newWeekSlotsError,
       slots: newSlotsError,
@@ -92,7 +92,7 @@ export const GridModal: FC<GridModalProps> = ({ gridModalType }) => {
     setErrorInputs(newErrors);
     if (
       newErrors.name ||
-      newErrors.visioLink ||
+      newErrors.videoCallLink ||
       newErrors.validityPeriod ||
       newErrors.weekSlots ||
       newErrors.slots.ids.length

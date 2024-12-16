@@ -1,4 +1,3 @@
-import { GridModalInputs, InputsErrors } from "./types";
 import { PERIODICITY_VALUES } from "~/core/constants";
 import { DAY, DURATION, PERIODICITY } from "~/core/enums";
 import { INVALID_SLOT_ERROR } from "~/core/i18nKeys";
@@ -6,6 +5,7 @@ import { WeekSlotsModel } from "~/core/types";
 import { Structure } from "~/hooks/types";
 import { Public } from "~/services/api/CommunicationService/types";
 import { CreateGridPayload } from "~/services/api/GridService/types";
+import { GridModalInputs, InputsErrors } from "./types";
 
 export const initialPublic: Public[] = [];
 export const initialWeekSlots: WeekSlotsModel = {
@@ -25,8 +25,8 @@ export const initialGridModalInputs = (
   structure: structures.length ? structures[0] : { id: "", name: "" },
   location: "",
   public: initialPublic,
-  isVisio: false,
-  visioLink: "",
+  isVideoCall: false,
+  videoCallLink: "",
   publicComment: "",
   validityPeriod: {
     start: undefined,
@@ -39,7 +39,7 @@ export const initialGridModalInputs = (
 
 export const initialErrorInputs: InputsErrors = {
   name: "",
-  visioLink: "",
+  videoCallLink: "",
   validityPeriod: "",
   weekSlots: "",
   slots: {
@@ -84,7 +84,7 @@ export const gridInputsToGridPayload = (
       },
       [] as { day: DAY; beginTime: string; endTime: string }[],
     ),
-    visioLink: inputs.isVisio ? inputs.visioLink : "",
+    videoCallLink: inputs.isVideoCall ? inputs.videoCallLink : "",
     place: inputs.location,
     documentId: "",
     publicComment: inputs.publicComment,

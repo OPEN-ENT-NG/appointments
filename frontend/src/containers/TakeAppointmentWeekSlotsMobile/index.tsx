@@ -7,6 +7,11 @@ import { Box, Checkbox, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { v4 as uuid4v } from "uuid";
 
+import { DaySlots } from "~/components/DaySlots";
+import { DAY_VALUES } from "~/core/constants";
+import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
+import { flexStartBoxStyle, spaceBetweenBoxStyle } from "~/styles/boxStyles";
+import { ArrowButton } from "../TakeAppointmentWeekSlotsDesktop/style";
 import {
   RowSlotsWrapper,
   containerStyle,
@@ -15,15 +20,10 @@ import {
   nextTimeSlotStyle,
   nextTimeSlotTextStyle,
   noSlotStyle,
-  visioOptionStyle,
+  videoCallOptionStyle,
   weekDayStyle,
   weekSlotsWrapperStyle,
 } from "./style";
-import { ArrowButton } from "../TakeAppointmentWeekSlotsDesktop/style";
-import { DaySlots } from "~/components/DaySlots";
-import { DAY_VALUES } from "~/core/constants";
-import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
-import { flexStartBoxStyle, spaceBetweenBoxStyle } from "~/styles/boxStyles";
 
 export const TakeAppointmentWeekSlotsMobile: FC = () => {
   const { t } = useTranslation("appointments");
@@ -35,14 +35,14 @@ export const TakeAppointmentWeekSlotsMobile: FC = () => {
     canGoPrev,
     hasNoSlots,
     nextAvailableTimeSlot,
-    isVisioOptionChecked,
+    isVideoCallOptionChecked,
     handlePreviousWeek,
     handleNextWeek,
     handleNextTimeSlot,
-    handleVisioCheckboxChange,
+    handleVideoCallCheckboxChange,
   } = useTakeAppointmentModal();
 
-  const isVisioOptionVisible = !!gridInfos?.visioLink;
+  const isVideoCallOptionVisible = !!gridInfos?.videoCallLink;
 
   return (
     <Box sx={containerStyle}>
@@ -101,14 +101,14 @@ export const TakeAppointmentWeekSlotsMobile: FC = () => {
             </Typography>
           ))}
       </Box>
-      {isVisioOptionVisible && (
+      {isVideoCallOptionVisible && (
         <Box sx={flexStartBoxStyle}>
           <Checkbox
-            onChange={handleVisioCheckboxChange}
-            checked={isVisioOptionChecked}
+            onChange={handleVideoCallCheckboxChange}
+            checked={isVideoCallOptionChecked}
           />
-          <Typography sx={visioOptionStyle}>
-            {t("appointments.take.appointment.modal.visio.option")}
+          <Typography sx={videoCallOptionStyle}>
+            {t("appointments.take.appointment.modal.video.call.option")}
           </Typography>
         </Box>
       )}

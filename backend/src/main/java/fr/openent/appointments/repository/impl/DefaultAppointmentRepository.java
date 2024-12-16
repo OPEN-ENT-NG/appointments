@@ -28,7 +28,7 @@ public class DefaultAppointmentRepository implements AppointmentRepository {
     }
 
     @Override
-    public Future<Optional<Appointment>> create(Long timeSlotId, String userId, Boolean isVisio) {
+    public Future<Optional<Appointment>> create(Long timeSlotId, String userId, Boolean isVideoCall) {
         Promise<Optional<Appointment>> promise = Promise.promise();
 
         if (timeSlotId == null) {
@@ -36,7 +36,7 @@ public class DefaultAppointmentRepository implements AppointmentRepository {
             return promise.future();
         }
 
-        List<String> sqlColumns = Arrays.asList(TIME_SLOT_ID, REQUESTER_ID, STATE, IS_VISIO);
+        List<String> sqlColumns = Arrays.asList(TIME_SLOT_ID, REQUESTER_ID, STATE, IS_VIDEO_CALL);
         String query = "INSERT INTO " + DB_APPOINTMENT_TABLE + " (" + String.join(", ", sqlColumns) + ") " +
                 "VALUES " + Sql.listPrepared(sqlColumns) + " RETURNING *";
 
@@ -44,7 +44,7 @@ public class DefaultAppointmentRepository implements AppointmentRepository {
                 .add(timeSlotId)
                 .add(userId)
                 .add(AppointmentState.CREATED.getValue())
-                .add(isVisio);
+                .add(isVideoCall);
 
         String errorMessage = "[Appointemnts@DefaultAppointmentRepository::create] Failed to create appointment : ";
         sql.prepared(query, params, SqlResult.validUniqueResultHandler(IModelHelper.sqlUniqueResultToIModel(promise, Appointment.class, errorMessage)));

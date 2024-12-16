@@ -257,7 +257,7 @@ public class DefaultGridRepository implements GridRepository {
                 DURATION,
                 PERIODICITY,
                 TARGET_PUBLIC_LIST_ID,
-                VISIO_LINK,
+                VIDEO_CALL_LINK,
                 PLACE,
                 DOCUMENT_ID,
                 PUBLIC_COMMENT,
@@ -278,7 +278,7 @@ public class DefaultGridRepository implements GridRepository {
                 .add(DateHelper.formatDuration(grid.getDuration()))
                 .add(grid.getPeriodicity().getValue())
                 .add(grid.getTargetPublicIds().toString())
-                .add(grid.getVisioLink())
+                .add(grid.getVideoCallLink())
                 .add(grid.getPlace())
                 .add(grid.getDocumentId())
                 .add(grid.getPublicComment())

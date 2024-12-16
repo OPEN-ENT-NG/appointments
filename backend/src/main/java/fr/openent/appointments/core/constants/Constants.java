@@ -13,7 +13,7 @@ public class Constants {
     public static final String CAMEL_END_TIME = "endTime";
     public static final String CAMEL_GRID_ID = "gridId";
     public static final String CAMEL_GROUPS_IDS = "groupsIds";
-    public static final String CAMEL_IS_VISIO = "isVisio";
+    public static final String CAMEL_IS_VIDEO_CALL = "isVideoCall";
     public static final String CAMEL_PUBLIC_COMMENT = "publicComment";
     public static final String CAMEL_PUSH_NOTIF = "pushNotif";
     public static final String CAMEL_STRUCTURE_ID = "structureId";
@@ -22,7 +22,7 @@ public class Constants {
     public static final String CAMEL_TARGET_PUBLIC_LIST_ID = "targetPublicListId";
     public static final String CAMEL_TIME_SLOTS = "timeSlots";
     public static final String CAMEL_TIME_SLOT_ID = "timeSlotId";
-    public static final String CAMEL_VISIO_LINK = "visioLink";
+    public static final String CAMEL_VIDEO_CALL_LINK = "videoCallLink";
     public static final String CAMEL_USER_NAME = "userName";
     public static final String CAMEL_USER_ID = "userId";
     public static final String CAMEL_USER_INFO = "userInfo";

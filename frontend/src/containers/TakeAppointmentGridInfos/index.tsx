@@ -16,6 +16,9 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
+import { NoAvatar } from "~/components/SVG/NoAvatar";
+import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
+import { GREY } from "~/styles/color.constants";
 import {
   bottomUserInfoStyle,
   displayNameStyle,
@@ -28,9 +31,6 @@ import {
   wrapperUserInfoStyle,
 } from "./style";
 import { TakeAppointmentGridInfosProps } from "./types";
-import { NoAvatar } from "~/components/SVG/NoAvatar";
-import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
-import { GREY } from "~/styles/color.constants";
 
 // this container is the first part of TakeAppointmentModal
 export const TakeAppointmentGridInfos: FC<TakeAppointmentGridInfosProps> = ({
@@ -41,7 +41,7 @@ export const TakeAppointmentGridInfos: FC<TakeAppointmentGridInfosProps> = ({
   const { grids, gridInfos, selectedGrid, handleGridChange } =
     useTakeAppointmentModal();
 
-  const { duration, visioLink, place, publicComment } = gridInfos || {};
+  const { duration, videoCallLink, place, publicComment } = gridInfos || {};
 
   return (
     <Box sx={wrapperUserInfoStyle}>
@@ -80,11 +80,11 @@ export const TakeAppointmentGridInfos: FC<TakeAppointmentGridInfosProps> = ({
             </Select>
           </FormControl>
           <Box sx={itemStyle}>
-            {visioLink ? <VideoCameraFrontIcon /> : <VideocamOffIcon />}
+            {videoCallLink ? <VideoCameraFrontIcon /> : <VideocamOffIcon />}
             <Typography>
               {t(
-                `appointments.take.appointment.modal.visio.${
-                  visioLink ? "possible" : "impossible"
+                `appointments.take.appointment.modal.video.call.${
+                  videoCallLink ? "possible" : "impossible"
                 }`,
               )}
             </Typography>

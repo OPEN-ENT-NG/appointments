@@ -9,6 +9,15 @@ import {
 
 import dayjs, { Dayjs } from "dayjs";
 
+import { ALERT } from "~/core/enums";
+import { useTakeAppointmentMutation } from "~/services/api/AppointmentService";
+import { UserCardInfos } from "~/services/api/CommunicationService/types";
+import {
+  useGetAvailableUserMinimalGridsQuery,
+  useGetMinimalGridInfosByIdQuery,
+  useGetTimeSlotsByGridIdAndDateQuery,
+} from "~/services/api/GridService";
+import { useFindAppointments } from "../FindAppointmentsProvider";
 import {
   Alert,
   DaySlots,
@@ -21,15 +30,6 @@ import {
   transformStringToDayjs,
   transformTimeSlotsToDaySlots,
 } from "./utils";
-import { useFindAppointments } from "../FindAppointmentsProvider";
-import { ALERT } from "~/core/enums";
-import { useTakeAppointmentMutation } from "~/services/api/AppointmentService";
-import { UserCardInfos } from "~/services/api/CommunicationService/types";
-import {
-  useGetAvailableUserMinimalGridsQuery,
-  useGetMinimalGridInfosByIdQuery,
-  useGetTimeSlotsByGridIdAndDateQuery,
-} from "~/services/api/GridService";
 
 const TakeAppointmentModalProviderContext =
   createContext<TakeAppointmentModalProviderContextProps | null>(null);
@@ -60,7 +60,8 @@ export const TakeAppointmentModalProvider: FC<
   const [canGoNext, setCanGoNext] = useState(true);
   const [canGoPrev, setCanGoPrev] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isVisioOptionChecked, setIsVisioOptionChecked] = useState(false);
+  const [isVideoCallOptionChecked, setIsVideoCallOptionChecked] =
+    useState(false);
 
   const [alert, setAlert] = useState<Alert>({
     isOpen: false,
@@ -122,15 +123,15 @@ export const TakeAppointmentModalProvider: FC<
     setCurrentDay(dayjs().locale("fr"));
   };
 
-  const handleVisioCheckboxChange = () => {
-    setIsVisioOptionChecked((prev) => !prev);
+  const handleVideoCallCheckboxChange = () => {
+    setIsVideoCallOptionChecked((prev) => !prev);
   };
 
   const handleSubmitAppointment = async () => {
     if (!selectedSlotId) return;
     try {
-      const takeAppointmentPayload = gridInfos?.visioLink.length
-        ? { timeSlotId: selectedSlotId, isVisio: isVisioOptionChecked }
+      const takeAppointmentPayload = gridInfos?.videoCallLink.length
+        ? { timeSlotId: selectedSlotId, isVideoCall: isVideoCallOptionChecked }
         : { timeSlotId: selectedSlotId };
 
       await takeAppointment(takeAppointmentPayload).unwrap();
@@ -214,7 +215,7 @@ export const TakeAppointmentModalProvider: FC<
       hasNoSlots,
       nextAvailableTimeSlot,
       isGridTimeSlotsFetching,
-      isVisioOptionChecked,
+      isVideoCallOptionChecked,
       alert,
       handleGridChange,
       handleOnClickSlot,
@@ -224,7 +225,7 @@ export const TakeAppointmentModalProvider: FC<
       setIsModalOpen,
       handleOnClickCard,
       handleSubmitAppointment,
-      handleVisioCheckboxChange,
+      handleVideoCallCheckboxChange,
       handleCloseAlert,
     }),
     [
@@ -241,7 +242,7 @@ export const TakeAppointmentModalProvider: FC<
       hasNoSlots,
       nextAvailableTimeSlot,
       isGridTimeSlotsFetching,
-      isVisioOptionChecked,
+      isVideoCallOptionChecked,
       alert,
     ],
   );

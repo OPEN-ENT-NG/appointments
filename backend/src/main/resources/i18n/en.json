@@ -60,9 +60,9 @@
 
   "appointments.take.appointment.modal.title": "Prendre un rendez-vous avec...",
   "appointments.take.appointment.modal.time.grid": "Grille horaire",
-  "appointments.take.appointment.modal.visio.possible": "Rendez-vous en visio possibles",
-  "appointments.take.appointment.modal.visio.impossible": "Pas de rendez-vous en visio",
-  "appointments.take.appointment.modal.visio.option": "Je souhaite participer à ce rendez-vous en visioconférence",
+  "appointments.take.appointment.modal.video.call.possible": "Rendez-vous en visio possibles",
+  "appointments.take.appointment.modal.video.call.impossible": "Pas de rendez-vous en visio",
+  "appointments.take.appointment.modal.video.call.option": "Je souhaite participer à ce rendez-vous en visioconférence",
   "appointments.take.appointment.modal.submit": "Réserver ce créneau",
   "appointments.take.appointment.modal.next.slot": "Prochain créneau disponible le",
   "appointments.take.appointment.modal.no.slot": "Il n’y a pas encore de créneau ouvert pour ces dates.",

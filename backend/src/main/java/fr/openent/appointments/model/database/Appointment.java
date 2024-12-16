@@ -13,7 +13,7 @@ public class Appointment implements IModel<Appointment> {
     private Long timeSlotId;
     private String requesterId;
     private AppointmentState state;
-    private Boolean isVisio;
+    private Boolean isVideoCall;
 
     // Constructor
 
@@ -22,7 +22,7 @@ public class Appointment implements IModel<Appointment> {
         this.timeSlotId = appointment.getLong(TIME_SLOT_ID, null);
         this.requesterId = appointment.getString(REQUESTER_ID, null);
         this.state = AppointmentState.getAppointmentState(appointment.getString(STATE, null));
-        this.isVisio = appointment.getBoolean(IS_VISIO, false);
+        this.isVideoCall = appointment.getBoolean(IS_VIDEO_CALL, false);
     }
 
     // Getter
@@ -43,8 +43,8 @@ public class Appointment implements IModel<Appointment> {
         return state;
     }
 
-    public Boolean getIsVisio() {
-        return isVisio;
+    public Boolean getIsVideoCall() {
+        return isVideoCall;
     }
 
     // Setter
@@ -69,8 +69,8 @@ public class Appointment implements IModel<Appointment> {
         return this;
     }
 
-    public Appointment setIsVisio(Boolean isVisio) {
-        this.isVisio = isVisio;
+    public Appointment setIsVideoCall(Boolean isVideoCall) {
+        this.isVideoCall = isVideoCall;
         return this;
     }
 

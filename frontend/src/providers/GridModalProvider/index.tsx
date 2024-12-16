@@ -8,6 +8,15 @@ import {
 } from "react";
 
 import {
+  useBlurGridInputsReturnType,
+  useUpdateGridInputsReturnType,
+} from "~/hooks/types";
+import { useBlurGridInputs } from "~/hooks/useBlurGridInputs";
+import { useUpdateGridInputs } from "~/hooks/useUpdateGridInputs";
+import { useGetCommunicationGroupsQuery } from "~/services/api/CommunicationService";
+import { useGetMyGridsNameQuery } from "~/services/api/GridService";
+import { useGlobal } from "../GlobalProvider";
+import {
   GridModalInputs,
   GridModalProviderContextProps,
   GridModalProviderProps,
@@ -19,15 +28,6 @@ import {
   initialGridModalInputs,
   periodicityOptions,
 } from "./utils";
-import { useGlobal } from "../GlobalProvider";
-import {
-  useBlurGridInputsReturnType,
-  useUpdateGridInputsReturnType,
-} from "~/hooks/types";
-import { useBlurGridInputs } from "~/hooks/useBlurGridInputs";
-import { useUpdateGridInputs } from "~/hooks/useUpdateGridInputs";
-import { useGetCommunicationGroupsQuery } from "~/services/api/CommunicationService";
-import { useGetMyGridsNameQuery } from "~/services/api/GridService";
 
 const GridModalProviderContext =
   createContext<GridModalProviderContextProps | null>(null);
@@ -84,7 +84,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
 
   const updateFirstPageErrors = () => {
     blurGridModalInputs.handleNameBlur();
-    blurGridModalInputs.handleVisioLinkBlur();
+    blurGridModalInputs.handleVideoCallLinkBlur();
   };
 
   const resetInputs = () => {

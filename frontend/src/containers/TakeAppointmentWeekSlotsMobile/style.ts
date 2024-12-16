@@ -1,6 +1,5 @@
 import { Box, styled, SxProps } from "@mui/material";
 
-import { RowSlotsWrapperProps } from "./types";
 import {
   centerBoxStyle,
   columnBoxStyle,
@@ -8,6 +7,7 @@ import {
 } from "~/styles/boxStyles";
 import { BLACK, LIGHTER_GREY } from "~/styles/color.constants";
 import { BOLD_FONT, ITALIC_FONT } from "~/styles/fontStyle.constants";
+import { RowSlotsWrapperProps } from "./types";
 
 export const weekSlotsWrapperStyle: SxProps = {
   ...columnBoxStyle,
@@ -50,7 +50,7 @@ export const dayStyle: SxProps = {
   color: BLACK,
 };
 
-export const visioOptionStyle: SxProps = {
+export const videoCallOptionStyle: SxProps = {
   color: BLACK,
   fontSize: "1.4rem",
 };

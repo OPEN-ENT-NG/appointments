@@ -32,17 +32,17 @@ public class DefaultAppointmentService implements AppointmentService {
     }
 
     @Override
-    public Future<Appointment> create(Long timeSlotId, String userId, Boolean isVisio) {
+    public Future<Appointment> create(Long timeSlotId, String userId, Boolean isVideoCall) {
 
         Promise<Appointment> promise = Promise.promise();
 
-        timeSlotService.checkIfTimeSlotIsVisio(timeSlotId)
-            .compose(isVisioTimeSlot -> {
-                if (isVisio && !isVisioTimeSlot) {
-                        String errorMessage = "The grid linked to the time slot does not allow visio";
+        timeSlotService.checkIfTimeSlotIsVideoCall(timeSlotId)
+            .compose(isVideoCallTimeSlot -> {
+                if (isVideoCall && !isVideoCallTimeSlot) {
+                        String errorMessage = "The grid linked to the time slot does not allow video call";
                         LogHelper.logError(this, "create", errorMessage, "");
                 }
-                return appointmentRepository.create(timeSlotId, userId, isVisioTimeSlot && isVisio);
+                return appointmentRepository.create(timeSlotId, userId, isVideoCallTimeSlot && isVideoCall);
             })
             .onSuccess(appointment -> {
                 if (!appointment.isPresent()) {

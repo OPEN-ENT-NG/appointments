@@ -43,11 +43,11 @@ public interface TimeSlotService {
     Future<Boolean> checkIfTimeSlotIsAvailable(Long timeSlotId);
 
     /**
-     * Retrieve if slot is linked to a grid that allow visio
+     * Retrieve if slot is linked to a grid that allow video call
      *
      * @param timeSlotId The ID of the time slot
      */
-    Future<Boolean> checkIfTimeSlotIsVisio(Long timeSlotId);
+    Future<Boolean> checkIfTimeSlotIsVideoCall(Long timeSlotId);
 
     /**
      * Retrieve all the timeslots of a specified grid between two dates (included)

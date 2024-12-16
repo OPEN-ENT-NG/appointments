@@ -49,7 +49,7 @@ public class AppointmentController extends ControllerHelper {
             return;
         }
 
-        boolean isVisio = Optional.ofNullable(request.getParam(CAMEL_IS_VISIO))
+        boolean isVideoCall = Optional.ofNullable(request.getParam(CAMEL_IS_VIDEO_CALL))
                 .map(Boolean::parseBoolean)
                 .orElse(false);
 
@@ -77,7 +77,7 @@ public class AppointmentController extends ControllerHelper {
                     return Future.failedFuture(errorMessage);
                 }
                 UserInfos user = (UserInfos) composeInfo.getValue(CAMEL_USER_INFO);
-                return appointmentService.create(timeSlotId, user.getUserId(), isVisio);
+                return appointmentService.create(timeSlotId, user.getUserId(), isVideoCall);
             })
             .recover(err -> {
                 String errorMessage = "Failed to create appointment";

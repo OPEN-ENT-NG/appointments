@@ -11,8 +11,6 @@ import { SelectChangeEvent } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
 import { v4 as uuidv4 } from "uuid";
 
-import { formatString, handleConflictingSlot } from "./utils";
-import { Structure, useUpdateGridInputsType } from "../types";
 import { HexaColor } from "~/components/ColorPicker/types";
 import { DAY, DURATION, PERIODICITY } from "~/core/enums";
 import {
@@ -30,6 +28,8 @@ import {
   initialWeekSlots,
 } from "~/providers/GridModalProvider/utils";
 import { Public } from "~/services/api/CommunicationService/types";
+import { Structure, useUpdateGridInputsType } from "../types";
+import { formatString, handleConflictingSlot } from "./utils";
 
 export const useUpdateGridInputs: useUpdateGridInputsType = (
   inputs: GridModalInputs,
@@ -88,13 +88,13 @@ export const useUpdateGridInputs: useUpdateGridInputsType = (
     updateInputField("public", value);
   };
 
-  const handleIsVisioChange = () => {
-    updateInputField("isVisio", !inputs.isVisio);
+  const handleIsVideoCallChange = () => {
+    updateInputField("isVideoCall", !inputs.isVideoCall);
   };
 
-  const handleVisioLinkChange = (e: ChangeEvent<HTMLInputElement>) => {
-    updateInputField("visioLink", formatString(e.target.value));
-    updateErrorInputs("visioLink", "");
+  const handleVideoCallLinkChange = (e: ChangeEvent<HTMLInputElement>) => {
+    updateInputField("videoCallLink", formatString(e.target.value));
+    updateErrorInputs("videoCallLink", "");
   };
 
   const handlePublicCommentChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -216,8 +216,8 @@ export const useUpdateGridInputs: useUpdateGridInputsType = (
     handleStructureChange,
     handleLocationChange,
     handlePublicChange,
-    handleIsVisioChange,
-    handleVisioLinkChange,
+    handleIsVideoCallChange,
+    handleVideoCallLinkChange,
     handlePublicCommentChange,
     handleStartDateChange,
     handleEndDateChange,

@@ -20,7 +20,7 @@ export interface TakeAppointmentModalProviderContextProps {
   hasNoSlots: boolean;
   nextAvailableTimeSlot: Dayjs | null;
   isGridTimeSlotsFetching: boolean;
-  isVisioOptionChecked: boolean;
+  isVideoCallOptionChecked: boolean;
   alert: Alert;
   handleGridChange: (gridName: string) => void;
   handleOnClickSlot: (slotId: number) => void;
@@ -30,7 +30,7 @@ export interface TakeAppointmentModalProviderContextProps {
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
   handleOnClickCard: (user: UserCardInfos | null) => void;
   handleSubmitAppointment: () => void;
-  handleVisioCheckboxChange: () => void;
+  handleVideoCallCheckboxChange: () => void;
   handleCloseAlert: () => void;
 }
 
