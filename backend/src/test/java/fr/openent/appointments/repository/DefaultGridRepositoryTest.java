@@ -3,13 +3,10 @@ package fr.openent.appointments.repository;
 import fr.openent.appointments.core.constants.Fields;
 import fr.openent.appointments.core.constants.SqlTables;
 import fr.openent.appointments.enums.GridState;
-import fr.openent.appointments.model.payload.DailySlotPayload;
 import fr.openent.appointments.repository.impl.DefaultGridRepository;
 import fr.openent.appointments.model.payload.GridPayload;
 import fr.openent.appointments.enums.Periodicity;
-import fr.openent.appointments.enums.Day;
 import fr.openent.appointments.helper.DateHelper;
-import fr.openent.appointments.model.TransactionElement;
 
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
@@ -27,10 +24,10 @@ import org.powermock.reflect.Whitebox;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.ArrayList;
 import java.util.List;
 
 import static fr.openent.appointments.core.constants.Constants.*;
+import static fr.openent.appointments.core.constants.DateFormat.DATE_TIME_FORMAT_2;
 import static fr.openent.appointments.core.constants.Fields.*;
 import static fr.openent.appointments.core.constants.SqlTables.DB_GRID_TABLE;
 import static org.mockito.Mockito.*;
@@ -52,7 +49,6 @@ public class DefaultGridRepositoryTest {
     private static final String TEST_DOCUMENT_ID = "docId";
     private static final String TEST_PUBLIC_COMMENT = "Comment here";
     private static final String TEST_OPEN_STATE = GridState.OPEN.getValue();
-    private static final String TEST_SUSPENDED_STATE = GridState.SUSPENDED.getValue();
     private static final String TEST_CLOSED_STATE = GridState.CLOSED.getValue();
 
     
@@ -193,8 +189,8 @@ public class DefaultGridRepositoryTest {
         String expectedQuery = "INSERT INTO "+ DB_GRID_TABLE + " (" + String.join(", ", sqlColumns) + ") " +
                 "VALUES " + Sql.listPrepared(sqlColumns) + " RETURNING *";
 
-        String frenchNow = ZonedDateTime.now(ZoneId.of("Europe/Paris"))
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String frenchNow = ZonedDateTime.now(ZoneId.of(FRENCH_TIME_ZONE))
+                .format(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT_2));
 
         JsonArray expectedParams = new JsonArray()
                 .add(TEST_GRID_NAME)
