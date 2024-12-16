@@ -1,3 +1,4 @@
+import { GridModalInputs, InputsErrors } from "./types";
 import { PERIODICITY_VALUES } from "~/core/constants";
 import { DAY, DURATION, PERIODICITY } from "~/core/enums";
 import { INVALID_SLOT_ERROR } from "~/core/i18nKeys";
@@ -5,7 +6,6 @@ import { WeekSlotsModel } from "~/core/types";
 import { Structure } from "~/hooks/types";
 import { Public } from "~/services/api/CommunicationService/types";
 import { CreateGridPayload } from "~/services/api/GridService/types";
-import { GridModalInputs, InputsErrors } from "./types";
 
 export const initialPublic: Public[] = [];
 export const initialWeekSlots: WeekSlotsModel = {

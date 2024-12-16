@@ -3,7 +3,6 @@ import { FC } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { Box, Skeleton } from "@mui/material";
 
-import { useBookAppointmentModal } from "~/providers/BookAppointmentModalProvider";
 import {
   noSlotsStyle,
   skeletonStyle,
@@ -12,6 +11,7 @@ import {
 } from "./style";
 import { DaySlotsProps } from "./types";
 import { sortSlots } from "./utils";
+import { useBookAppointmentModal } from "~/providers/BookAppointmentModalProvider";
 
 export const DaySlots: FC<DaySlotsProps> = ({ slots, isMobile }) => {
   const { handleOnClickSlot, selectedSlotId, isGridTimeSlotsFetching } =

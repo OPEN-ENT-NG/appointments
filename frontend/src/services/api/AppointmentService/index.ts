@@ -1,5 +1,5 @@
-import { emptySplitApi } from "../EmptySplitService";
 import { BookAppointmentPayload } from "./types";
+import { emptySplitApi } from "../EmptySplitService";
 
 export const appointmentApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({

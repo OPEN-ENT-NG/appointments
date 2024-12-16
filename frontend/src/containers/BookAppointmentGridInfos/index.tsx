@@ -16,9 +16,6 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-import { NoAvatar } from "~/components/SVG/NoAvatar";
-import { useBookAppointmentModal } from "~/providers/BookAppointmentModalProvider";
-import { GREY } from "~/styles/color.constants";
 import {
   bottomUserInfoStyle,
   displayNameStyle,
@@ -31,6 +28,9 @@ import {
   wrapperUserInfoStyle,
 } from "./style";
 import { BookAppointmentGridInfosProps } from "./types";
+import { NoAvatar } from "~/components/SVG/NoAvatar";
+import { useBookAppointmentModal } from "~/providers/BookAppointmentModalProvider";
+import { GREY } from "~/styles/color.constants";
 
 // this container is the first part of BookAppointmentModal
 export const BookAppointmentGridInfos: FC<BookAppointmentGridInfosProps> = ({

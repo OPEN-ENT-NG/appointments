@@ -11,14 +11,14 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
+import { colorStyle, CustomSelect, firstLineStyle, nameStyle } from "./style";
+import { pageGridModalStyle } from "../GridModal/style";
 import { ColorPicker } from "~/components/ColorPicker";
 import { CustomMultiAutocomplete } from "~/components/CustomMultiAutocomplete";
 import { MAX_STRING_LENGTH } from "~/core/constants";
 import { useGlobal } from "~/providers/GlobalProvider";
 import { useGridModal } from "~/providers/GridModalProvider";
 import { flexStartBoxStyle } from "~/styles/boxStyles";
-import { pageGridModalStyle } from "../GridModal/style";
-import { colorStyle, CustomSelect, firstLineStyle, nameStyle } from "./style";
 
 export const FirstPageGridModal: FC = () => {
   const { t } = useTranslation("appointments");

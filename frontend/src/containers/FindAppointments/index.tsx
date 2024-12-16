@@ -4,12 +4,6 @@ import { SearchInput } from "@cgi-learning-hub/ui";
 import { Box, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-import { FindAppointmentsEmptyState } from "~/components/SVG/FindAppointmentsEmptyState";
-import { UserCard } from "~/components/UserCard";
-import { useBookAppointmentModal } from "~/providers/BookAppointmentModalProvider";
-import { useFindAppointments } from "~/providers/FindAppointmentsProvider";
-import { NUMBER_MORE_USERS } from "~/providers/FindAppointmentsProvider/utils";
-import { BookAppointmentModal } from "../BookAppointmentModal";
 import {
   containerStyle,
   emptyStateBoxStyle,
@@ -18,6 +12,12 @@ import {
   listCardStyle,
   searchInputStyle,
 } from "./style";
+import { BookAppointmentModal } from "../BookAppointmentModal";
+import { FindAppointmentsEmptyState } from "~/components/SVG/FindAppointmentsEmptyState";
+import { UserCard } from "~/components/UserCard";
+import { useBookAppointmentModal } from "~/providers/BookAppointmentModalProvider";
+import { useFindAppointments } from "~/providers/FindAppointmentsProvider";
+import { NUMBER_MORE_USERS } from "~/providers/FindAppointmentsProvider/utils";
 
 export const FindAppointments: FC = () => {
   const { users, hasMoreUsers, search, loadMoreUsers, handleSearch } =
