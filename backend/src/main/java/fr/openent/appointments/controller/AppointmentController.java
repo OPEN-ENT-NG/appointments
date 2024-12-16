@@ -17,12 +17,10 @@ import org.entcore.common.controller.ControllerHelper;
 import org.entcore.common.http.filter.ResourceFilter;
 import org.entcore.common.user.UserInfos;
 import org.entcore.common.user.UserUtils;
-import org.joda.time.DateTime;
-
-import java.time.DateTimeException;
 import java.util.Optional;
 
 import static fr.openent.appointments.core.constants.Constants.*;
+import static fr.openent.appointments.core.constants.Fields.ERROR;
 
 public class AppointmentController extends ControllerHelper {
     private final AppointmentService appointmentService;
@@ -104,7 +102,7 @@ public class AppointmentController extends ControllerHelper {
             .onFailure(err -> {
                 String errorMessage = "Failed to create appointment";
                 LogHelper.logError(this, "createAppointment", errorMessage, err.getMessage());
-                if(!request.isEnded()) renderError(request, new JsonObject().put("error", errorMessage));
+                if(!request.isEnded()) renderError(request, new JsonObject().put(ERROR, errorMessage));
             });
     }
 }

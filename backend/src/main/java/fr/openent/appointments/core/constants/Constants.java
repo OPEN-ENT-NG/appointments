@@ -38,6 +38,7 @@ public class Constants {
     public static final String BODY = "body";
     public static final String FUNCTIONS = "functions";
     public static final String FRENCH_NOW = "NOW() AT TIME ZONE 'Europe/Paris'";
+    public static final String FRENCH_TIME_ZONE = "Europe/Paris";
     public static final String HOST = "host";
     public static final String LIMIT = "limit";
     public static final String MODE = "mode";

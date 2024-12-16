@@ -26,7 +26,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static fr.openent.appointments.core.constants.Constants.FRENCH_NOW;
-import static fr.openent.appointments.enums.AppointmentState.ACCEPTED;
+import static fr.openent.appointments.core.constants.Constants.FRENCH_TIME_ZONE;
+import static fr.openent.appointments.core.constants.DateFormat.DATE_TIME_FORMAT_2;
 import static fr.openent.appointments.enums.GridState.CLOSED;
 import static fr.openent.appointments.core.constants.Fields.*;
 import static fr.openent.appointments.core.constants.SqlTables.*;
@@ -241,8 +242,8 @@ public class DefaultGridRepository implements GridRepository {
     private Future<Optional<Grid>> insert(GridPayload grid, String userId) {
         Promise<Optional<Grid>> promise = Promise.promise();
 
-        String frenchNow = ZonedDateTime.now(ZoneId.of("Europe/Paris"))
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String frenchNow = ZonedDateTime.now(ZoneId.of(FRENCH_TIME_ZONE))
+                .format(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT_2));
 
         List<String> sqlColumns = Arrays.asList(
                 NAME,
