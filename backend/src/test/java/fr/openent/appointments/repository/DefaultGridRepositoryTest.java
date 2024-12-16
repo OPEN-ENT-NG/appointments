@@ -24,9 +24,8 @@ import org.junit.runner.RunWith;
 import org.mockito.stubbing.Answer;
 import org.powermock.reflect.Whitebox;
 
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
@@ -194,14 +193,17 @@ public class DefaultGridRepositoryTest {
         String expectedQuery = "INSERT INTO "+ DB_GRID_TABLE + " (" + String.join(", ", sqlColumns) + ") " +
                 "VALUES " + Sql.listPrepared(sqlColumns) + " RETURNING *";
 
+        String frenchNow = ZonedDateTime.now(ZoneId.of("Europe/Paris"))
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
         JsonArray expectedParams = new JsonArray()
                 .add(TEST_GRID_NAME)
                 .add(TEST_USER_ID)
                 .add(TEST_STRUCTURE_ID)
                 .add(DateHelper.formatDate(TEST_BEGIN_DATE))
                 .add(DateHelper.formatDate(TEST_END_DATE))
-                .add("NOW()")
-                .add("NOW()")
+                .add(frenchNow)
+                .add(frenchNow)
                 .add(TEST_COLOR)
                 .add(DateHelper.formatDuration(TEST_DURATION))
                 .add(TEST_PERIODICITY.getValue())
