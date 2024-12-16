@@ -1,9 +1,9 @@
 import { emptySplitApi } from "../EmptySplitService";
-import { TakeAppointmentPayload } from "./types";
+import { BookAppointmentPayload } from "./types";
 
 export const appointmentApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
-    takeAppointment: builder.mutation<void, TakeAppointmentPayload>({
+    bookAppointment: builder.mutation<void, BookAppointmentPayload>({
       query: ({ timeSlotId, isVideoCall }) => ({
         url: `/appointments/${timeSlotId}${
           isVideoCall !== undefined ? `?isVideoCall=${isVideoCall}` : ""
@@ -15,4 +15,4 @@ export const appointmentApi = emptySplitApi.injectEndpoints({
   }),
 });
 
-export const { useTakeAppointmentMutation } = appointmentApi;
+export const { useBookAppointmentMutation } = appointmentApi;

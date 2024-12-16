@@ -7,7 +7,7 @@ import { Slot } from "~/core/types";
 import { UserCardInfos } from "~/services/api/CommunicationService/types";
 import { GridInfos } from "~/services/api/GridService/types";
 
-export interface TakeAppointmentModalProviderContextProps {
+export interface BookAppointmentModalProviderContextProps {
   selectedUser: UserCardInfos | null;
   isModalOpen: boolean;
   grids: GridNameWithId[] | undefined;
@@ -34,7 +34,7 @@ export interface TakeAppointmentModalProviderContextProps {
   handleCloseAlert: () => void;
 }
 
-export interface TakeAppointmentModalProviderProps {
+export interface BookAppointmentModalProviderProps {
   children: ReactNode;
 }
 

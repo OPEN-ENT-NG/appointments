@@ -10,7 +10,7 @@ import {
 import dayjs, { Dayjs } from "dayjs";
 
 import { ALERT } from "~/core/enums";
-import { useTakeAppointmentMutation } from "~/services/api/AppointmentService";
+import { useBookAppointmentMutation } from "~/services/api/AppointmentService";
 import { UserCardInfos } from "~/services/api/CommunicationService/types";
 import {
   useGetAvailableUserMinimalGridsQuery,
@@ -20,10 +20,10 @@ import {
 import { useFindAppointments } from "../FindAppointmentsProvider";
 import {
   Alert,
+  BookAppointmentModalProviderContextProps,
+  BookAppointmentModalProviderProps,
   DaySlots,
   GridNameWithId,
-  TakeAppointmentModalProviderContextProps,
-  TakeAppointmentModalProviderProps,
 } from "./types";
 import {
   loadingDaySlots,
@@ -31,21 +31,21 @@ import {
   transformTimeSlotsToDaySlots,
 } from "./utils";
 
-const TakeAppointmentModalProviderContext =
-  createContext<TakeAppointmentModalProviderContextProps | null>(null);
+const BookAppointmentModalProviderContext =
+  createContext<BookAppointmentModalProviderContextProps | null>(null);
 
-export const useTakeAppointmentModal = () => {
-  const context = useContext(TakeAppointmentModalProviderContext);
+export const useBookAppointmentModal = () => {
+  const context = useContext(BookAppointmentModalProviderContext);
   if (!context) {
     throw new Error(
-      "useTakeAppointmentModal must be used within a TakeAppointmentModalProvider",
+      "useBookAppointmentModal must be used within a BookAppointmentModalProvider",
     );
   }
   return context;
 };
 
-export const TakeAppointmentModalProvider: FC<
-  TakeAppointmentModalProviderProps
+export const BookAppointmentModalProvider: FC<
+  BookAppointmentModalProviderProps
 > = ({ children }) => {
   const [selectedUser, setSelectedUser] = useState<UserCardInfos | null>(null);
   const [selectedGrid, setSelectedGrid] = useState<GridNameWithId | null>(null);
@@ -65,7 +65,7 @@ export const TakeAppointmentModalProvider: FC<
 
   const [alert, setAlert] = useState<Alert>({
     isOpen: false,
-    alert: ALERT.TAKE_APPOINTMENT_SUCCESS,
+    alert: ALERT.BOOK_APPOINTMENT_SUCCESS,
   });
 
   const { data: grids } = useGetAvailableUserMinimalGridsQuery(
@@ -86,7 +86,7 @@ export const TakeAppointmentModalProvider: FC<
       { skip: !selectedGrid },
     );
 
-  const [takeAppointment] = useTakeAppointmentMutation();
+  const [bookAppointment] = useBookAppointmentMutation();
   const { refreshSearch } = useFindAppointments();
 
   const handleOnClickCard = (user: UserCardInfos | null) => {
@@ -130,27 +130,27 @@ export const TakeAppointmentModalProvider: FC<
   const handleSubmitAppointment = async () => {
     if (!selectedSlotId) return;
     try {
-      const takeAppointmentPayload = gridInfos?.videoCallLink.length
+      const bookAppointmentPayload = gridInfos?.videoCallLink.length
         ? { timeSlotId: selectedSlotId, isVideoCall: isVideoCallOptionChecked }
         : { timeSlotId: selectedSlotId };
 
-      await takeAppointment(takeAppointmentPayload).unwrap();
+      await bookAppointment(bookAppointmentPayload).unwrap();
       setAlert({
         isOpen: true,
-        alert: ALERT.TAKE_APPOINTMENT_SUCCESS,
+        alert: ALERT.BOOK_APPOINTMENT_SUCCESS,
       });
     } catch (error: any) {
       if (error && error.status) {
         if (error.status === 409) {
           setAlert({
             isOpen: true,
-            alert: ALERT.TAKE_APPOINTMENT_UNAVAILABLE_ERROR,
+            alert: ALERT.BOOK_APPOINTMENT_UNAVAILABLE_ERROR,
           });
         }
         if (error.status === 500) {
           setAlert({
             isOpen: true,
-            alert: ALERT.TAKE_APPOINTMENT_INTERNAL_ERROR,
+            alert: ALERT.BOOK_APPOINTMENT_INTERNAL_ERROR,
           });
         }
       }
@@ -201,7 +201,7 @@ export const TakeAppointmentModalProvider: FC<
     }
   }, [currentDay]);
 
-  const value = useMemo<TakeAppointmentModalProviderContextProps>(
+  const value = useMemo<BookAppointmentModalProviderContextProps>(
     () => ({
       selectedUser,
       isModalOpen,
@@ -247,8 +247,8 @@ export const TakeAppointmentModalProvider: FC<
     ],
   );
   return (
-    <TakeAppointmentModalProviderContext.Provider value={value}>
+    <BookAppointmentModalProviderContext.Provider value={value}>
       {children}
-    </TakeAppointmentModalProviderContext.Provider>
+    </BookAppointmentModalProviderContext.Provider>
   );
 };

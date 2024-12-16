@@ -64,16 +64,16 @@ export const PERIODICITY_VALUES = {
 export const DISPLAY_DATE_FORMAT = "DD/MM/YYYY";
 
 export const ALERT_VALUES = {
-  [ALERT.TAKE_APPOINTMENT_SUCCESS]: {
-    i18nKey: "appointments.take.appointment.success",
+  [ALERT.BOOK_APPOINTMENT_SUCCESS]: {
+    i18nKey: "appointments.book.appointment.success",
     severity: "success",
   },
-  [ALERT.TAKE_APPOINTMENT_UNAVAILABLE_ERROR]: {
-    i18nKey: "appointments.take.appointment.error.not.available",
+  [ALERT.BOOK_APPOINTMENT_UNAVAILABLE_ERROR]: {
+    i18nKey: "appointments.book.appointment.error.not.available",
     severity: "error",
   },
-  [ALERT.TAKE_APPOINTMENT_INTERNAL_ERROR]: {
-    i18nKey: "appointments.take.appointment.internal.error",
+  [ALERT.BOOK_APPOINTMENT_INTERNAL_ERROR]: {
+    i18nKey: "appointments.book.appointment.internal.error",
     severity: "error",
   },
 };

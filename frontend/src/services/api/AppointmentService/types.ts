@@ -1,4 +1,4 @@
-export interface TakeAppointmentPayload {
+export interface BookAppointmentPayload {
   timeSlotId: number;
   isVideoCall?: boolean;
 }

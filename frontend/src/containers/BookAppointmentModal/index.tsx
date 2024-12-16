@@ -15,6 +15,13 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
+import { BOOK_APPOINTMENT_MODAL_BREAKPOINT } from "~/core/breakpoints";
+import { ALERT_VALUES } from "~/core/constants";
+import { useBookAppointmentModal } from "~/providers/BookAppointmentModalProvider";
+import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
+import { BookAppointmentGridInfos } from "../BookAppointmentGridInfos";
+import { BookAppointmentWeekSlotsDesktop } from "../BookAppointmentWeekSlotsDesktop";
+import { BookAppointmentWeekSlotsMobile } from "../BookAppointmentWeekSlotsMobile";
 import {
   closeIconStyle,
   contentBoxStyle,
@@ -23,16 +30,9 @@ import {
   ModalContainer,
   submitButtonStyle,
 } from "./style";
-import { TakeAppointmentModalProps } from "./types";
-import { TakeAppointmentGridInfos } from "../TakeAppointmentGridInfos";
-import { TakeAppointmentWeekSlotsDesktop } from "../TakeAppointmentWeekSlotsDesktop";
-import { TakeAppointmentWeekSlotsMobile } from "../TakeAppointmentWeekSlotsMobile";
-import { TAKE_APPOINTMENT_MODAL_BREAKPOINT } from "~/core/breakpoints";
-import { ALERT_VALUES } from "~/core/constants";
-import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
-import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
+import { BookAppointmentModalProps } from "./types";
 
-export const TakeAppointmentModal: FC<TakeAppointmentModalProps> = ({
+export const BookAppointmentModal: FC<BookAppointmentModalProps> = ({
   userInfos,
 }) => {
   const {
@@ -42,10 +42,10 @@ export const TakeAppointmentModal: FC<TakeAppointmentModalProps> = ({
     handleSubmitAppointment,
     alert,
     handleCloseAlert,
-  } = useTakeAppointmentModal();
+  } = useBookAppointmentModal();
   const { t } = useTranslation("appointments");
   const isMobile = useMediaQuery(
-    `(max-width: ${TAKE_APPOINTMENT_MODAL_BREAKPOINT}px)`,
+    `(max-width: ${BOOK_APPOINTMENT_MODAL_BREAKPOINT}px)`,
   );
 
   return (
@@ -73,7 +73,7 @@ export const TakeAppointmentModal: FC<TakeAppointmentModalProps> = ({
           <Box sx={contentBoxStyle}>
             <Box sx={spaceBetweenBoxStyle}>
               <Typography variant="h3">
-                {t("appointments.take.appointment.modal.title")}
+                {t("appointments.book.appointment.modal.title")}
               </Typography>
               <IconButton
                 sx={closeIconStyle}
@@ -85,13 +85,13 @@ export const TakeAppointmentModal: FC<TakeAppointmentModalProps> = ({
               </IconButton>
             </Box>
             <ContentWrapper isMobile={isMobile}>
-              <TakeAppointmentGridInfos userInfos={userInfos} />
+              <BookAppointmentGridInfos userInfos={userInfos} />
               {isMobile ? (
-                <TakeAppointmentWeekSlotsMobile />
+                <BookAppointmentWeekSlotsMobile />
               ) : (
                 <>
                   <Divider sx={dividerStyle} orientation="vertical" flexItem />
-                  <TakeAppointmentWeekSlotsDesktop />
+                  <BookAppointmentWeekSlotsDesktop />
                 </>
               )}
             </ContentWrapper>
@@ -102,7 +102,7 @@ export const TakeAppointmentModal: FC<TakeAppointmentModalProps> = ({
                 onClick={handleSubmitAppointment}
                 startIcon={<EventAvailableIcon />}
               >
-                {t("appointments.take.appointment.modal.submit")}
+                {t("appointments.book.appointment.modal.submit")}
               </Button>
             </Box>
           </Box>

@@ -17,7 +17,7 @@ import {
 import { useTranslation } from "react-i18next";
 
 import { NoAvatar } from "~/components/SVG/NoAvatar";
-import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
+import { useBookAppointmentModal } from "~/providers/BookAppointmentModalProvider";
 import { GREY } from "~/styles/color.constants";
 import {
   bottomUserInfoStyle,
@@ -30,16 +30,16 @@ import {
   topUserInfoStyle,
   wrapperUserInfoStyle,
 } from "./style";
-import { TakeAppointmentGridInfosProps } from "./types";
+import { BookAppointmentGridInfosProps } from "./types";
 
-// this container is the first part of TakeAppointmentModal
-export const TakeAppointmentGridInfos: FC<TakeAppointmentGridInfosProps> = ({
+// this container is the first part of BookAppointmentModal
+export const BookAppointmentGridInfos: FC<BookAppointmentGridInfosProps> = ({
   userInfos,
 }) => {
   const { picture, displayName, functions, isAvailable } = userInfos;
   const { t } = useTranslation("appointments");
   const { grids, gridInfos, selectedGrid, handleGridChange } =
-    useTakeAppointmentModal();
+    useBookAppointmentModal();
 
   const { duration, videoCallLink, place, publicComment } = gridInfos || {};
 
@@ -65,7 +65,7 @@ export const TakeAppointmentGridInfos: FC<TakeAppointmentGridInfosProps> = ({
         <Box sx={bottomUserInfoStyle}>
           <FormControl variant="standard">
             <InputLabel>
-              {t("appointments.take.appointment.modal.time.grid")}
+              {t("appointments.book.appointment.modal.time.grid")}
             </InputLabel>
             <Select
               variant="standard"
@@ -83,7 +83,7 @@ export const TakeAppointmentGridInfos: FC<TakeAppointmentGridInfosProps> = ({
             {videoCallLink ? <VideoCameraFrontIcon /> : <VideocamOffIcon />}
             <Typography>
               {t(
-                `appointments.take.appointment.modal.video.call.${
+                `appointments.book.appointment.modal.video.call.${
                   videoCallLink ? "possible" : "impossible"
                 }`,
               )}

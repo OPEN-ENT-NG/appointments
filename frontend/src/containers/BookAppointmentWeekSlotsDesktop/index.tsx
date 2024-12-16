@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { DaySlots } from "~/components/DaySlots";
 import { DAY_VALUES } from "~/core/constants";
-import { useTakeAppointmentModal } from "~/providers/TakeAppointmentModalProvider";
+import { useBookAppointmentModal } from "~/providers/BookAppointmentModalProvider";
 import { flexStartBoxStyle } from "~/styles/boxStyles";
 import {
   ArrowButton,
@@ -33,7 +33,7 @@ import {
 } from "./style";
 import { isToday } from "./utils";
 
-export const TakeAppointmentWeekSlotsDesktop: FC = () => {
+export const BookAppointmentWeekSlotsDesktop: FC = () => {
   const { t } = useTranslation("appointments");
 
   const {
@@ -48,7 +48,7 @@ export const TakeAppointmentWeekSlotsDesktop: FC = () => {
     handleNextWeek,
     handleNextTimeSlot,
     handleVideoCallCheckboxChange,
-  } = useTakeAppointmentModal();
+  } = useBookAppointmentModal();
 
   const isVideoCallOptionVisible = !!gridInfos?.videoCallLink;
 
@@ -95,7 +95,7 @@ export const TakeAppointmentWeekSlotsDesktop: FC = () => {
                   onClick={handleNextTimeSlot}
                 >
                   <Typography variant="body2" color={common.black}>
-                    {t("appointments.take.appointment.modal.next.slot")}&nbsp;
+                    {t("appointments.book.appointment.modal.next.slot")}&nbsp;
                   </Typography>
                   <Typography
                     variant="body2"
@@ -116,7 +116,7 @@ export const TakeAppointmentWeekSlotsDesktop: FC = () => {
                   fontStyle={"italic"}
                   color={common.black}
                 >
-                  {t("appointments.take.appointment.modal.no.slot")}
+                  {t("appointments.book.appointment.modal.no.slot")}
                 </Typography>
               </Box>
             </NoSlots>
@@ -146,7 +146,7 @@ export const TakeAppointmentWeekSlotsDesktop: FC = () => {
               checked={isVideoCallOptionChecked}
             />
             <Typography sx={videoCallOptionStyle}>
-              {t("appointments.take.appointment.modal.video.call.option")}
+              {t("appointments.book.appointment.modal.video.call.option")}
             </Typography>
           </Box>
         )}
