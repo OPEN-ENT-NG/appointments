@@ -4,6 +4,13 @@ import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { ID } from "edifice-ts-client";
 import { useTranslation } from "react-i18next";
 
+import { AppointmentsIcon } from "~/components/SVG/AppointmentsIcon";
+import { FindAppointments } from "~/containers/FindAppointments";
+import { MyAppointments } from "~/containers/MyAppointments";
+import { MyAvailability } from "~/containers/MyAvailability";
+import { useFindAppointments } from "~/providers/FindAppointmentsProvider";
+import { useGlobal } from "~/providers/GlobalProvider";
+import { PURPLE } from "~/styles/color.constants";
 import {
   appointmentsIconStyle,
   contentStyle,
@@ -11,12 +18,6 @@ import {
   tabsStyle,
   titleStyle,
 } from "./style";
-import { AppointmentsIcon } from "~/components/SVG/AppointmentsIcon";
-import { FindAppointments } from "~/containers/FindAppointments";
-import { MyAppointments } from "~/containers/MyAppointments";
-import { MyAvailability } from "~/containers/MyAvailability";
-import { useGlobal } from "~/providers/GlobalProvider";
-import { PURPLE } from "~/styles/color.constants";
 
 export interface AppProps {
   _id: string;
@@ -32,14 +33,20 @@ export interface AppProps {
 
 export const Home: FC = () => {
   const { hasManageRight } = useGlobal();
+  const { resetSearch } = useFindAppointments();
 
+  const initialTabValue = parseInt(sessionStorage.getItem("tabValue") || "0");
   const [tabValue, setTabValue] = useState(
-    parseInt(sessionStorage.getItem("tabValue")!) | 0,
+    hasManageRight && initialTabValue === 2 ? 0 : initialTabValue,
   );
   const { t } = useTranslation("appointments");
 
   const handleChange = (_: SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
+    if (tabValue === 0) {
+      console.log("refreshSearch");
+      resetSearch();
+    }
     sessionStorage.setItem("tabValue", newValue.toString());
   };
 

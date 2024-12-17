@@ -15,6 +15,13 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
+import { BOOK_APPOINTMENT_MODAL_BREAKPOINT } from "~/core/breakpoints";
+import { ALERT_VALUES } from "~/core/constants";
+import { useBookAppointmentModal } from "~/providers/BookAppointmentModalProvider";
+import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
+import { BookAppointmentGridInfos } from "../BookAppointmentGridInfos";
+import { BookAppointmentWeekSlotsDesktop } from "../BookAppointmentWeekSlotsDesktop";
+import { BookAppointmentWeekSlotsMobile } from "../BookAppointmentWeekSlotsMobile";
 import {
   closeIconStyle,
   contentBoxStyle,
@@ -24,24 +31,17 @@ import {
   submitButtonStyle,
 } from "./style";
 import { BookAppointmentModalProps } from "./types";
-import { BookAppointmentGridInfos } from "../BookAppointmentGridInfos";
-import { BookAppointmentWeekSlotsDesktop } from "../BookAppointmentWeekSlotsDesktop";
-import { BookAppointmentWeekSlotsMobile } from "../BookAppointmentWeekSlotsMobile";
-import { BOOK_APPOINTMENT_MODAL_BREAKPOINT } from "~/core/breakpoints";
-import { ALERT_VALUES } from "~/core/constants";
-import { useBookAppointmentModal } from "~/providers/BookAppointmentModalProvider";
-import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
 
 export const BookAppointmentModal: FC<BookAppointmentModalProps> = ({
   userInfos,
 }) => {
   const {
     isModalOpen,
-    setIsModalOpen,
     selectedSlotId,
     handleSubmitAppointment,
     alert,
     handleCloseAlert,
+    handleCloseModal,
   } = useBookAppointmentModal();
   const { t } = useTranslation("appointments");
   const isMobile = useMediaQuery(
@@ -64,23 +64,14 @@ export const BookAppointmentModal: FC<BookAppointmentModalProps> = ({
           {t(ALERT_VALUES[alert.alert].i18nKey)}
         </Alert>
       </Snackbar>
-      <Modal
-        open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        disableAutoFocus
-      >
+      <Modal open={isModalOpen} onClose={handleCloseModal} disableAutoFocus>
         <ModalContainer isMobile={isMobile}>
           <Box sx={contentBoxStyle}>
             <Box sx={spaceBetweenBoxStyle}>
               <Typography variant="h3">
                 {t("appointments.book.appointment.modal.title")}
               </Typography>
-              <IconButton
-                sx={closeIconStyle}
-                onClick={() => {
-                  setIsModalOpen(false);
-                }}
-              >
+              <IconButton sx={closeIconStyle} onClick={handleCloseModal}>
                 <CloseIcon />
               </IconButton>
             </Box>

@@ -9,6 +9,15 @@ import {
 
 import dayjs, { Dayjs } from "dayjs";
 
+import { ALERT } from "~/core/enums";
+import { useBookAppointmentMutation } from "~/services/api/AppointmentService";
+import { UserCardInfos } from "~/services/api/CommunicationService/types";
+import {
+  useGetAvailableUserMinimalGridsQuery,
+  useGetMinimalGridInfosByIdQuery,
+  useGetTimeSlotsByGridIdAndDateQuery,
+} from "~/services/api/GridService";
+import { useFindAppointments } from "../FindAppointmentsProvider";
 import {
   Alert,
   BookAppointmentModalProviderContextProps,
@@ -21,15 +30,6 @@ import {
   transformStringToDayjs,
   transformTimeSlotsToDaySlots,
 } from "./utils";
-import { useFindAppointments } from "../FindAppointmentsProvider";
-import { ALERT } from "~/core/enums";
-import { useBookAppointmentMutation } from "~/services/api/AppointmentService";
-import { UserCardInfos } from "~/services/api/CommunicationService/types";
-import {
-  useGetAvailableUserMinimalGridsQuery,
-  useGetMinimalGridInfosByIdQuery,
-  useGetTimeSlotsByGridIdAndDateQuery,
-} from "~/services/api/GridService";
 
 const BookAppointmentModalProviderContext =
   createContext<BookAppointmentModalProviderContextProps | null>(null);
@@ -155,8 +155,18 @@ export const BookAppointmentModalProvider: FC<
         }
       }
     }
-    setIsModalOpen(false);
+    handleCloseModal();
     refreshSearch();
+  };
+
+  const handleCloseModal = () => {
+    setSelectedUser(null);
+    setSelectedGrid(null);
+    setSelectedSlotId(null);
+    setCurrentDay(dayjs().locale("fr"));
+    setIsVideoCallOptionChecked(false);
+    setIsModalOpen(false);
+    setCurrentSlots(loadingDaySlots(dayjs().locale("fr")));
   };
 
   const handleCloseAlert = () => {
@@ -191,7 +201,7 @@ export const BookAppointmentModalProvider: FC<
     if (grids && !selectedGrid) {
       setSelectedGrid(grids[0]);
     }
-  }, [grids]);
+  }, [grids, selectedGrid]);
 
   useEffect(() => {
     if (currentDay.isSame(dayjs().locale("fr"), "week")) {
@@ -222,7 +232,7 @@ export const BookAppointmentModalProvider: FC<
       handleNextWeek,
       handlePreviousWeek,
       handleNextTimeSlot,
-      setIsModalOpen,
+      handleCloseModal,
       handleOnClickCard,
       handleSubmitAppointment,
       handleVideoCallCheckboxChange,

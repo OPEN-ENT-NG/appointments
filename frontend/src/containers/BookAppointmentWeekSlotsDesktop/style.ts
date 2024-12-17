@@ -2,18 +2,18 @@ import { common, IconButton } from "@cgi-learning-hub/ui";
 import { Box, styled, SxProps } from "@mui/material";
 
 import {
-  ArrowButtonProps,
-  ColumnHeaderProps,
-  ColumnSlotsWrapperProps,
-  NoSlotsProps,
-} from "./types";
-import {
   columnBoxStyle,
   flexStartBoxStyle,
   spaceBetweenBoxStyle,
 } from "~/styles/boxStyles";
 import { LIGHTER_GREY, PURPLE } from "~/styles/color.constants";
 import { BOLD_FONT, ITALIC_FONT } from "~/styles/fontStyle.constants";
+import {
+  ArrowButtonProps,
+  ColumnHeaderProps,
+  ColumnSlotsWrapperProps,
+  NoSlotsProps,
+} from "./types";
 
 export const globalContainerStyle: SxProps = {
   display: "flex",
@@ -151,6 +151,16 @@ export const emptyStateStyle: SxProps = {
 export const noSlotsWrapperStyle: SxProps = {
   ...flexStartBoxStyle,
   ...spaceBetweenBoxStyle,
+  overflowY: "scroll",
+  "&::-webkit-scrollbar": {
+    width: "0.6rem",
+    height: "0.8rem",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    backgroundColor: "divider",
+    borderRadius: "0.3rem",
+  },
+  scrollbarGutter: "stable",
 };
 
 export const noSlotsStyle: SxProps = {
@@ -158,7 +168,7 @@ export const noSlotsStyle: SxProps = {
   opacity: "0.5",
   justifyContent: "center",
   alignItems: "center",
-  width: "6.2rem",
+  width: "7.8rem",
   height: "3.4rem",
   "& > .MuiSvgIcon-root": {
     fontSize: "1.8rem",

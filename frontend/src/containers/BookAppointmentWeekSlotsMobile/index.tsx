@@ -7,6 +7,11 @@ import { Box, Checkbox, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { v4 as uuid4v } from "uuid";
 
+import { DaySlots } from "~/components/DaySlots";
+import { DAY_VALUES } from "~/core/constants";
+import { useBookAppointmentModal } from "~/providers/BookAppointmentModalProvider";
+import { flexStartBoxStyle, spaceBetweenBoxStyle } from "~/styles/boxStyles";
+import { ArrowButton } from "../BookAppointmentWeekSlotsDesktop/style";
 import {
   RowSlotsWrapper,
   containerStyle,
@@ -19,11 +24,6 @@ import {
   weekDayStyle,
   weekSlotsWrapperStyle,
 } from "./style";
-import { ArrowButton } from "../BookAppointmentWeekSlotsDesktop/style";
-import { DaySlots } from "~/components/DaySlots";
-import { DAY_VALUES } from "~/core/constants";
-import { useBookAppointmentModal } from "~/providers/BookAppointmentModalProvider";
-import { flexStartBoxStyle, spaceBetweenBoxStyle } from "~/styles/boxStyles";
 
 export const BookAppointmentWeekSlotsMobile: FC = () => {
   const { t } = useTranslation("appointments");
@@ -69,7 +69,7 @@ export const BookAppointmentWeekSlotsMobile: FC = () => {
                   {t(DAY_VALUES[daySlot.weekDay].i18nKey)}
                 </Typography>
                 <Typography sx={dayStyle}>
-                  {daySlot.day.locale("fr").format("D MMMM")}
+                  {daySlot.day.locale("fr").format("D MMM")}
                 </Typography>
               </Box>
               {canGoNext && (
