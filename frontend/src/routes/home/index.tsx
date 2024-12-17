@@ -43,9 +43,7 @@ export const Home: FC = () => {
 
   const handleChange = (_: SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
-    if (tabValue === 0) {
-      resetSearch();
-    }
+    tabValue === 0 && resetSearch();
     sessionStorage.setItem("tabValue", newValue.toString());
   };
 
