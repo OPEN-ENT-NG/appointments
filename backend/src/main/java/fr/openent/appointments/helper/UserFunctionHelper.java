@@ -13,10 +13,23 @@ public class UserFunctionHelper {
     public static final String DASH = "-";
     public static final String DE = "de ";
     public static final String DOLLAR = "$";
+    public static final String RELATIVE = "Relative";
+    public static final String STUDENT = "Student";
+    public static final String PERSONNEL = "Personnel";
+    public static final String TEACHER = "Teacher";
     public static final List<String> CAPITAL_EXCEPTIONS = Arrays.asList("ce", "cpe");
 
-    public static List<String> format(List<String> neoFunctions) {
-        if (areFullOfDashFunction(neoFunctions)) {
+    public static List<String> format(List<String> neoFunctions, List<String> neoProfiles) {
+        if (neoProfiles.contains(RELATIVE)) {
+            return Collections.singletonList(UserFunction.RELATIVE.getValue());
+        }
+        if (neoProfiles.contains(STUDENT)) {
+            return Collections.singletonList(UserFunction.STUDENT.getValue());
+        }
+        if (neoProfiles.contains(PERSONNEL)) {
+            return Collections.singletonList(UserFunction.PERSONNEL.getValue());
+        }
+        if (neoProfiles.contains(TEACHER)) {
             return Collections.singletonList(UserFunction.NO_OBJECT.getValue());
         }
 
