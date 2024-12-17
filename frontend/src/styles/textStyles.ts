@@ -1,10 +1,10 @@
-export const elipsisWithWrapStyle = {
+export const ellipsisWithWrapStyle = {
   overflow: "hidden",
   textOverflow: "ellipsis",
   whiteSpace: "pre-line",
 };
 
-export const elipsisWithNoWrapStyle = {
+export const ellipsisWithNoWrapStyle = {
   overflow: "hidden",
   textOverflow: "ellipsis",
   whiteSpace: "nowrap",

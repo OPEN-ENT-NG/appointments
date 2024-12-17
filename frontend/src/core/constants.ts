@@ -6,19 +6,19 @@ export const MAX_STRING_LENGTH = 250;
 
 export const DURATION_VALUES = {
   [DURATION.FIFTEEN_MINUTES]: {
-    displayValue: "15mn",
+    displayValue: "15 min",
     numberOfMinutes: 15,
   },
   [DURATION.THIRTY_MINUTES]: {
-    displayValue: "30mn",
+    displayValue: "30 min",
     numberOfMinutes: 30,
   },
   [DURATION.FOURTYFIVE_MINUTES]: {
-    displayValue: "45mn",
+    displayValue: "45 min",
     numberOfMinutes: 45,
   },
   [DURATION.ONE_HOUR]: {
-    displayValue: "1h",
+    displayValue: "1 h",
     numberOfMinutes: 60,
   },
 };
