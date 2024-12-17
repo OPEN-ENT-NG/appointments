@@ -47,8 +47,6 @@ export const BookAppointmentGridInfos: FC<BookAppointmentGridInfosProps> = ({
 
   const { duration, videoCallLink, place, publicComment } = gridInfos || {};
 
-  console.log(publicComment);
-
   return (
     <Box sx={wrapperUserInfoStyle}>
       <Box sx={topUserInfoStyle}>
