@@ -1,5 +1,6 @@
 package fr.openent.appointments.service.impl;
 
+import fr.openent.appointments.exceptions.ErrorCreateAppointmentException;
 import fr.openent.appointments.helper.LogHelper;
 import fr.openent.appointments.model.response.MinimalGrid;
 import fr.openent.appointments.model.response.ListGridsResponse;
@@ -95,6 +96,7 @@ public class DefaultGridService implements GridService {
                 String errorMessage = "Failed to get grid by time slot id";
                 LogHelper.logError(this, "getGridByTimeSlotId", errorMessage, err.getMessage());
                 promise.fail(err);
+//                promise.fail(new ErrorCreateAppointmentException()); // TODO example of CustomException use -> to delete
             });
 
         return promise.future();
