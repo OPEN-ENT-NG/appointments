@@ -15,13 +15,6 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-import { BOOK_APPOINTMENT_MODAL_BREAKPOINT } from "~/core/breakpoints";
-import { ALERT_VALUES } from "~/core/constants";
-import { useBookAppointmentModal } from "~/providers/BookAppointmentModalProvider";
-import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
-import { BookAppointmentGridInfos } from "../BookAppointmentGridInfos";
-import { BookAppointmentWeekSlotsDesktop } from "../BookAppointmentWeekSlotsDesktop";
-import { BookAppointmentWeekSlotsMobile } from "../BookAppointmentWeekSlotsMobile";
 import {
   closeIconStyle,
   contentBoxStyle,
@@ -31,6 +24,13 @@ import {
   submitButtonStyle,
 } from "./style";
 import { BookAppointmentModalProps } from "./types";
+import { BookAppointmentGridInfos } from "../BookAppointmentGridInfos";
+import { BookAppointmentWeekSlotsDesktop } from "../BookAppointmentWeekSlotsDesktop";
+import { BookAppointmentWeekSlotsMobile } from "../BookAppointmentWeekSlotsMobile";
+import { BOOK_APPOINTMENT_MODAL_BREAKPOINT } from "~/core/breakpoints";
+import { ALERT_VALUES } from "~/core/constants";
+import { useBookAppointmentModal } from "~/providers/BookAppointmentModalProvider";
+import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
 
 export const BookAppointmentModal: FC<BookAppointmentModalProps> = ({
   userInfos,

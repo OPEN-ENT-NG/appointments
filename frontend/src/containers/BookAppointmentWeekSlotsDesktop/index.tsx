@@ -8,9 +8,6 @@ import { Box, Checkbox, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { v4 as uuidv4 } from "uuid";
 
-import { DaySlots } from "~/components/DaySlots";
-import { DAY_VALUES } from "~/core/constants";
-import { useBookAppointmentModal } from "~/providers/BookAppointmentModalProvider";
 import {
   ArrowButton,
   ColumnHeader,
@@ -31,6 +28,9 @@ import {
   weekSlotsWrapperStyle,
 } from "./style";
 import { isToday } from "./utils";
+import { DaySlots } from "~/components/DaySlots";
+import { DAY_VALUES } from "~/core/constants";
+import { useBookAppointmentModal } from "~/providers/BookAppointmentModalProvider";
 
 export const BookAppointmentWeekSlotsDesktop: FC = () => {
   const { t } = useTranslation("appointments");

@@ -9,15 +9,6 @@ import {
 
 import dayjs, { Dayjs } from "dayjs";
 
-import { ALERT } from "~/core/enums";
-import { useBookAppointmentMutation } from "~/services/api/AppointmentService";
-import { UserCardInfos } from "~/services/api/CommunicationService/types";
-import {
-  useGetAvailableUserMinimalGridsQuery,
-  useGetMinimalGridInfosByIdQuery,
-  useGetTimeSlotsByGridIdAndDateQuery,
-} from "~/services/api/GridService";
-import { useFindAppointments } from "../FindAppointmentsProvider";
 import {
   Alert,
   BookAppointmentModalProviderContextProps,
@@ -30,6 +21,15 @@ import {
   transformStringToDayjs,
   transformTimeSlotsToDaySlots,
 } from "./utils";
+import { useFindAppointments } from "../FindAppointmentsProvider";
+import { ALERT } from "~/core/enums";
+import { useBookAppointmentMutation } from "~/services/api/AppointmentService";
+import { UserCardInfos } from "~/services/api/CommunicationService/types";
+import {
+  useGetAvailableUserMinimalGridsQuery,
+  useGetMinimalGridInfosByIdQuery,
+  useGetTimeSlotsByGridIdAndDateQuery,
+} from "~/services/api/GridService";
 
 const BookAppointmentModalProviderContext =
   createContext<BookAppointmentModalProviderContextProps | null>(null);
