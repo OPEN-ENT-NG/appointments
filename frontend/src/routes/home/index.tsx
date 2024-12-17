@@ -4,13 +4,6 @@ import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { ID } from "edifice-ts-client";
 import { useTranslation } from "react-i18next";
 
-import {
-  appointmentsIconStyle,
-  contentStyle,
-  homeStyle,
-  tabsStyle,
-  titleStyle,
-} from "./style";
 import { AppointmentsIcon } from "~/components/SVG/AppointmentsIcon";
 import { FindAppointments } from "~/containers/FindAppointments";
 import { MyAppointments } from "~/containers/MyAppointments";
@@ -18,6 +11,13 @@ import { MyAvailability } from "~/containers/MyAvailability";
 import { useFindAppointments } from "~/providers/FindAppointmentsProvider";
 import { useGlobal } from "~/providers/GlobalProvider";
 import { PURPLE } from "~/styles/color.constants";
+import {
+  appointmentsIconStyle,
+  contentStyle,
+  homeStyle,
+  tabsStyle,
+  titleStyle,
+} from "./style";
 
 export interface AppProps {
   _id: string;
@@ -44,7 +44,6 @@ export const Home: FC = () => {
   const handleChange = (_: SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
     if (tabValue === 0) {
-      console.log("refreshSearch");
       resetSearch();
     }
     sessionStorage.setItem("tabValue", newValue.toString());
