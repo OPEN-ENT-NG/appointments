@@ -4,13 +4,6 @@ import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { ID } from "edifice-ts-client";
 import { useTranslation } from "react-i18next";
 
-import { AppointmentsIcon } from "~/components/SVG/AppointmentsIcon";
-import { FindAppointments } from "~/containers/FindAppointments";
-import { MyAppointments } from "~/containers/MyAppointments";
-import { MyAvailability } from "~/containers/MyAvailability";
-import { useFindAppointments } from "~/providers/FindAppointmentsProvider";
-import { useGlobal } from "~/providers/GlobalProvider";
-import { PURPLE } from "~/styles/color.constants";
 import {
   appointmentsIconStyle,
   contentStyle,
@@ -18,6 +11,13 @@ import {
   tabsStyle,
   titleStyle,
 } from "./style";
+import { AppointmentsIcon } from "~/components/SVG/AppointmentsIcon";
+import { FindAppointments } from "~/containers/FindAppointments";
+import { MyAppointments } from "~/containers/MyAppointments";
+import { MyAvailability } from "~/containers/MyAvailability";
+import { useFindAppointments } from "~/providers/FindAppointmentsProvider";
+import { useGlobal } from "~/providers/GlobalProvider";
+import { PURPLE } from "~/styles/color.constants";
 
 export interface AppProps {
   _id: string;
