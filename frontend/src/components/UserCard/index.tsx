@@ -4,9 +4,6 @@ import { Box, Tooltip, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 
-import { useBookAppointmentModal } from "~/providers/BookAppointmentModalProvider";
-import { GREY } from "~/styles/color.constants";
-import { NoAvatar } from "../SVG/NoAvatar";
 import {
   displayNameStyle,
   functionsStyle,
@@ -20,6 +17,9 @@ import {
   WrapperUserCard,
 } from "./style";
 import { UserCardProps } from "./types";
+import { NoAvatar } from "../SVG/NoAvatar";
+import { useBookAppointmentModal } from "~/providers/BookAppointmentModalProvider";
+import { GREY } from "~/styles/color.constants";
 
 export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(
   ({ infos }, ref) => {
