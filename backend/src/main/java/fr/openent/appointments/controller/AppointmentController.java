@@ -1,5 +1,6 @@
 package fr.openent.appointments.controller;
 
+import fr.openent.appointments.helper.ErrorHelper;
 import fr.openent.appointments.helper.LogHelper;
 import fr.openent.appointments.security.ViewRight;
 import fr.openent.appointments.service.AppointmentService;
@@ -103,6 +104,8 @@ public class AppointmentController extends ControllerHelper {
                 String errorMessage = "Failed to create appointment";
                 LogHelper.logError(this, "createAppointment", errorMessage, err.getMessage());
                 if(!request.isEnded()) renderError(request, new JsonObject().put(ERROR, errorMessage));
+
+//                ErrorHelper.respond(request, err); // TODO example of CustomException use -> to delete
             });
     }
 }
