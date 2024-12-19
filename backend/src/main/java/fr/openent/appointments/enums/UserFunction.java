@@ -6,10 +6,9 @@ import java.util.stream.Collectors;
 
 public enum UserFunction {
   NO_OBJECT("SANS OBJET"),
-  RELATIVE("Parent"),
-  STUDENT("Élève"),
-  PERSONNEL("Personnel"),
-  TEACHER("Professeur"),
+  RELATIVE("PARENT"),
+  PERSONNEL("PERSONNEL"),
+  TEACHER("PROFESSEUR"),
   SANS_DISCIPLINE("SANS DISCIPLINE"),
   SANS_SPECIALITE("SANS SPECIALITE"),
   PROFESSEUR("PROFESSEUR"),

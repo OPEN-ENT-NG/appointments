@@ -21,16 +21,16 @@ public class UserFunctionHelper {
 
     public static List<String> format(List<String> neoFunctions, List<String> neoProfiles) {
         if (neoProfiles.contains(RELATIVE)) {
-            return Collections.singletonList(UserFunction.RELATIVE.getValue());
+            return Collections.singletonList(capitalizeFirstLetter(UserFunction.RELATIVE.getValue()));
         }
         if (neoProfiles.contains(STUDENT)) {
-            return Collections.singletonList(UserFunction.STUDENT.getValue());
+            return Collections.singletonList(capitalizeFirstLetter(UserFunction.ELEVE.getValue()));
         }
         if (neoProfiles.contains(PERSONNEL) && areFullOfDashFunction(neoFunctions)) {
-            return Collections.singletonList(UserFunction.PERSONNEL.getValue());
+            return Collections.singletonList(capitalizeFirstLetter(UserFunction.PERSONNEL.getValue()));
         }
         if (neoProfiles.contains(TEACHER) && areFullOfDashFunction(neoFunctions)) {
-            return Collections.singletonList(UserFunction.TEACHER.getValue());
+            return Collections.singletonList(capitalizeFirstLetter(UserFunction.TEACHER.getValue()));
         }
 
         return neoFunctions.stream()
