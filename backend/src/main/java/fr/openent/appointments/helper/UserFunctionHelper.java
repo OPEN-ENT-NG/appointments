@@ -26,11 +26,11 @@ public class UserFunctionHelper {
         if (neoProfiles.contains(STUDENT)) {
             return Collections.singletonList(UserFunction.STUDENT.getValue());
         }
-        if (neoProfiles.contains(PERSONNEL)) {
+        if (neoProfiles.contains(PERSONNEL) && areFullOfDashFunction(neoFunctions)) {
             return Collections.singletonList(UserFunction.PERSONNEL.getValue());
         }
-        if (neoProfiles.contains(TEACHER)) {
-            return Collections.singletonList(UserFunction.NO_OBJECT.getValue());
+        if (neoProfiles.contains(TEACHER) && areFullOfDashFunction(neoFunctions)) {
+            return Collections.singletonList(UserFunction.TEACHER.getValue());
         }
 
         return neoFunctions.stream()
