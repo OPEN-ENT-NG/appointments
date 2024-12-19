@@ -11,6 +11,14 @@ import dayjs, { Dayjs } from "dayjs";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
+import { useBookAppointmentMutation } from "~/services/api/AppointmentService";
+import { UserCardInfos } from "~/services/api/CommunicationService/types";
+import {
+  useGetAvailableUserMinimalGridsQuery,
+  useGetMinimalGridInfosByIdQuery,
+  useGetTimeSlotsByGridIdAndDateQuery,
+} from "~/services/api/GridService";
+import { useFindAppointments } from "../FindAppointmentsProvider";
 import {
   BookAppointmentModalProviderContextProps,
   BookAppointmentModalProviderProps,
@@ -22,14 +30,6 @@ import {
   transformStringToDayjs,
   transformTimeSlotsToDaySlots,
 } from "./utils";
-import { useFindAppointments } from "../FindAppointmentsProvider";
-import { useBookAppointmentMutation } from "~/services/api/AppointmentService";
-import { UserCardInfos } from "~/services/api/CommunicationService/types";
-import {
-  useGetAvailableUserMinimalGridsQuery,
-  useGetMinimalGridInfosByIdQuery,
-  useGetTimeSlotsByGridIdAndDateQuery,
-} from "~/services/api/GridService";
 
 const BookAppointmentModalProviderContext =
   createContext<BookAppointmentModalProviderContextProps | null>(null);
@@ -125,8 +125,12 @@ export const BookAppointmentModalProvider: FC<
   };
 
   const handleSubmitAppointment = async () => {
-    if (!selectedSlotId) return;
+    if (!selectedSlotId) {
+      console.log("no slot selected");
+      return;
+    }
     try {
+      console.log("try");
       const bookAppointmentPayload = gridInfos?.videoCallLink.length
         ? { timeSlotId: selectedSlotId, isVideoCall: isVideoCallOptionChecked }
         : { timeSlotId: selectedSlotId };
