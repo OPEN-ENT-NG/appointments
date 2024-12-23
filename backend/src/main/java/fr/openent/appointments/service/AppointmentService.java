@@ -57,4 +57,27 @@ public interface AppointmentService {
      */
     Future<AppointmentWithInfos> getAppointmentById(Long appointmentId, String userId);
 
+    /**
+     * Accept an appointment
+     * @param appointmentId The appointment id
+     * @param userInfos The user infos
+     * @return The updated appointment
+     */
+    Future<Appointment> acceptAppointment(Long appointmentId, UserInfos userInfos);
+
+    /**
+     * reject an appointment
+     * @param appointmentId The appointment id
+     * @param userInfos The user infos
+     * @return The updated appointment
+     */
+    Future<Appointment> rejectAppointment(Long appointmentId, UserInfos userInfos);
+
+    /**
+     * Cancel an appointment
+     * @param appointmentId The appointment id
+     * @param userInfos The user infos
+     * @return The updated appointment
+     */
+    Future<Appointment> cancelAppointment(Long appointmentId, UserInfos userInfos);
 }
