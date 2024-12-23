@@ -28,6 +28,7 @@ public class AppointmentWithInfos implements IModel<AppointmentWithInfos> {
         this.timeSlotId = appointmentWithInfos.getLong(TIME_SLOT_ID, null);
         this.requesterId = appointmentWithInfos.getString(REQUESTER_ID, null);
         this.state = AppointmentState.getAppointmentState(appointmentWithInfos.getString(STATE, null));
+        this.isVideoCall = appointmentWithInfos.getBoolean(IS_VIDEO_CALL, null);
         this.beginDate = DateHelper.parseDateTime(appointmentWithInfos.getString(BEGIN_DATE, null));
         this.endDate = DateHelper.parseDateTime(appointmentWithInfos.getString(END_DATE, null));
         this.ownerId = appointmentWithInfos.getString(OWNER_ID, null);
