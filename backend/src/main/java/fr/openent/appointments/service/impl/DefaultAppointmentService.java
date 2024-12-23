@@ -224,10 +224,46 @@ public class DefaultAppointmentService implements AppointmentService {
         return promise.future();
     }
 
+    // TODO: Notif
     @Override
     public Future<Appointment> cancelAppointment(Long appointmentId, UserInfos userInfos){
-        // TODO
-        return null;
+        Promise<Appointment> promise = Promise.promise();
+
+        appointmentRepository.get(appointmentId)
+            .compose(appointment -> {
+                if(!appointment.isPresent()){
+                    String errorMessage = "Appointment not found";
+                    LogHelper.logError(this, "cancelAppointment", errorMessage, "");
+                    return Future.failedFuture(errorMessage);
+                }
+                if(!isUserInAppointment(appointment.get(), userInfos)){
+                    String errorMessage = "User is not in the appointment";
+                    LogHelper.logError(this, "cancelAppointment", errorMessage, "");
+                    return Future.failedFuture(errorMessage);
+                }
+                if(!AppointmentState.getAvailableStates().contains(appointment.get().getState().getValue())){
+                    String errorMessage = "Appointment is already canceled or refused";
+                    LogHelper.logError(this, "cancelAppointment", errorMessage, "");
+                    return Future.failedFuture(errorMessage);
+                }
+                return appointmentRepository.updateState(appointmentId, AppointmentState.CANCELED);
+            })
+            .onSuccess(canceledAppointment -> {
+                if (canceledAppointment.isPresent())
+                    promise.complete(canceledAppointment.get());
+                else {
+                    String errorMessage = "Failed to cancel appointment";
+                    LogHelper.logError(this, "cancelAppointment", errorMessage, "");
+                    promise.fail(errorMessage);
+                }
+            })
+            .onFailure(err -> {
+                String errorMessage = "Failed to cancel appointment";
+                LogHelper.logError(this, "cancelAppointment", errorMessage, err.getMessage());
+                promise.fail(err);
+            });
+
+        return promise.future();
     }
 
 }

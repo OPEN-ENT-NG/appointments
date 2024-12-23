@@ -230,4 +230,32 @@ public class AppointmentController extends ControllerHelper {
             });
     }
 
+    // TODO: Notif
+    @Put("appointments/:appointmentId/cancel")
+    @ApiDoc("Cancel an appointment")
+    @ResourceFilter(ViewRight.class)
+    @SecuredAction(value="", type= ActionType.RESOURCE)
+    public void cancelAppointment(final HttpServerRequest request) {
+        Long appointmentId = Optional.ofNullable(request.getParam(CAMEL_APPOINTMENT_ID))
+                .map(Long::parseLong)
+                .orElse(null);
+
+        if (appointmentId == null) {
+            String errorMessage = "Missing appointment id";
+            LogHelper.logError(this, "cancelAppointment", errorMessage);
+            badRequest(request);
+            return;
+        }
+
+        UserUtils.getAuthenticatedUserInfos(eb, request)
+            .compose(user -> appointmentService.cancelAppointment(appointmentId, user))
+            .onSuccess(appointment -> renderJson(request, appointment.toJson()))
+            .onFailure(err -> {
+                String errorMessage = "Failed to cancel appointment";
+                LogHelper.logError(this, "cancelAppointment", errorMessage, err.getMessage());
+                renderError(request);
+            });
+    }
+
+
 }
