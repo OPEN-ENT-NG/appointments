@@ -49,13 +49,17 @@ export const FindAppointmentsProvider: FC<FindAppointmentsProviderProps> = ({
   );
 
   useEffect(() => {
+    setUsersFromNewUsers(newUsers);
+  }, [newUsers]);
+
+  const setUsersFromNewUsers = (newUsers: UserCardInfos[] | undefined) => {
     if (newUsers) setUsers((prev) => [...prev, ...newUsers]);
     if (newUsers && newUsers.length < NUMBER_MORE_USERS) {
       setHasMoreUsers(false);
     } else {
       setHasMoreUsers(true);
     }
-  }, [newUsers]);
+  };
 
   const loadMoreUsers = () => {
     !isFetching && setPage((prev) => prev + 1);
@@ -76,9 +80,11 @@ export const FindAppointmentsProvider: FC<FindAppointmentsProviderProps> = ({
     setHasMoreUsers(true);
   };
 
-  const refetchSearch = () => {
+  const refetchSearch = async () => {
     refreshSearch();
-    refetch();
+    const oldNewUsers = newUsers;
+    const { data } = await refetch();
+    if (oldNewUsers === data) setUsersFromNewUsers(data);
   };
 
   const value = useMemo<FindAppointmentsProviderContextProps>(
