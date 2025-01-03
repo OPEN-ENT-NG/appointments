@@ -1,6 +1,12 @@
 import { MY_APPOINTMENTS_LIST_STATE } from "./enum";
 import { APPOINTMENT_STATE } from "~/core/enums";
 
+export const initialAppointments = {
+  [MY_APPOINTMENTS_LIST_STATE.PENDING]: undefined,
+  [MY_APPOINTMENTS_LIST_STATE.ACCEPTED]: undefined,
+  [MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED]: undefined,
+};
+
 export const initialPages = {
   [MY_APPOINTMENTS_LIST_STATE.PENDING]: 1,
   [MY_APPOINTMENTS_LIST_STATE.ACCEPTED]: 1,
