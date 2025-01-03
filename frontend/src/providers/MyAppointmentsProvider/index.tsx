@@ -1,4 +1,11 @@
-import { createContext, FC, useContext, useMemo, useState } from "react";
+import {
+  createContext,
+  FC,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 import { MY_APPOINTMENTS_LIST_STATE } from "./enum";
 import {
@@ -6,7 +13,12 @@ import {
   MyAppointmentsProviderContextProps,
   MyAppointmentsProviderProps,
 } from "./types";
-import { initialLimits, initialPages, states } from "./utils";
+import {
+  initialAppointments,
+  initialLimits,
+  initialPages,
+  states,
+} from "./utils";
 import {
   useAcceptAppointmentMutation,
   useCancelAppointmentMutation,
@@ -33,6 +45,8 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
 }) => {
   const [pages, setPages] = useState<AppointmentListInfoType>(initialPages);
   const [limits, setLimits] = useState<AppointmentListInfoType>(initialLimits);
+  const [myAppointments, setMyAppointments] =
+    useState<AppointmentsType>(initialAppointments);
   const [selectedAppointmentId, setSelectedAppointmentId] = useState<
     number | null
   >(null);
@@ -113,11 +127,29 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
     setIsAppointmentModalOpen(false);
   };
 
+  useEffect(() => {
+    console.log(myPendingAppointments);
+    console.log(myAcceptedAppointments);
+    console.log(myRejectedOrCanceledAppointments);
+    setMyAppointments((prev) => ({
+      ...prev,
+      [MY_APPOINTMENTS_LIST_STATE.PENDING]:
+        myPendingAppointments || prev[MY_APPOINTMENTS_LIST_STATE.PENDING],
+      [MY_APPOINTMENTS_LIST_STATE.ACCEPTED]:
+        myAcceptedAppointments || prev[MY_APPOINTMENTS_LIST_STATE.ACCEPTED],
+      [MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED]:
+        myRejectedOrCanceledAppointments ||
+        prev[MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED],
+    }));
+  }, [
+    myPendingAppointments,
+    myAcceptedAppointments,
+    myRejectedOrCanceledAppointments,
+  ]);
+
   const value = useMemo<MyAppointmentsProviderContextProps>(
     () => ({
-      myPendingAppointments,
-      myAcceptedAppointments,
-      myRejectedOrCanceledAppointments,
+      myAppointments,
       isAppointmentModalOpen,
       selectedAppointment,
       handleChangePage,
@@ -129,6 +161,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
       handleCloseAppointmentModal,
     }),
     [
+      myAppointments,
       myPendingAppointments,
       myAcceptedAppointments,
       myRejectedOrCanceledAppointments,

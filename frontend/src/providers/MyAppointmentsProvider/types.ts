@@ -7,9 +7,7 @@ import {
 } from "~/services/api/AppointmentService/types";
 
 export interface MyAppointmentsProviderContextProps {
-  myPendingAppointments: MyAppointments | undefined;
-  myAcceptedAppointments: MyAppointments | undefined;
-  myRejectedOrCanceledAppointments: MyAppointments | undefined;
+  myAppointments: AppointmentsType;
   isAppointmentModalOpen: boolean;
   selectedAppointment: Appointment | undefined;
   handleChangePage: (state: MY_APPOINTMENTS_LIST_STATE, page: number) => void;
@@ -29,4 +27,10 @@ export interface AppointmentListInfoType {
   [MY_APPOINTMENTS_LIST_STATE.PENDING]: number;
   [MY_APPOINTMENTS_LIST_STATE.ACCEPTED]: number;
   [MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED]: number;
+}
+
+export interface AppointmentsType {
+  [MY_APPOINTMENTS_LIST_STATE.PENDING]: MyAppointments | undefined;
+  [MY_APPOINTMENTS_LIST_STATE.ACCEPTED]: MyAppointments | undefined;
+  [MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED]: MyAppointments | undefined;
 }

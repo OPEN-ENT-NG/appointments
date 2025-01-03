@@ -71,6 +71,12 @@
   "appointments.book.appointment.error.not.available": "Ce créneau n'est plus disponible. Veuillez en choisir un autre.",
   "appointments.book.appointment.internal.error": "Une erreur est survenue lors de la réservation. Veuillez réessayer.",
 
+  "appointments.my.appointments.pending": "Demandes en attente",
+  "appointments.my.appointments.pending.empty.state": "Vous n’avez aucune demande en attente.",
+  "appointments.my.appointments.accepted": "Mes rendez-vous",
+  "appointments.my.appointments.accepted.empty.state": "Vous n’avez aucun rendez-vous planifié. Utilisez l’onglet Trouver un rendez-vous pour en programmer un.",
+  "appointments.my.appointments.rejected.or.canceled": "Rendez-vous annulés/refusés",
+
   "appointments.cancel.request": "Annuler la demande",
 
   "appointments.cancel": "Annuler",
