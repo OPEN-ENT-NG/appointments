@@ -1,6 +1,5 @@
 package fr.openent.appointments.service.impl;
 
-import fr.openent.appointments.exceptions.ErrorCreateAppointmentException;
 import fr.openent.appointments.helper.LogHelper;
 import fr.openent.appointments.model.response.MinimalGrid;
 import fr.openent.appointments.model.response.ListGridsResponse;
@@ -23,8 +22,6 @@ import fr.openent.appointments.service.ServiceFactory;
 import fr.openent.appointments.enums.GridState;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 

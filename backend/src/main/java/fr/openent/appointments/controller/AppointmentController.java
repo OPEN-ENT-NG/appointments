@@ -1,6 +1,5 @@
 package fr.openent.appointments.controller;
 
-import fr.openent.appointments.helper.ErrorHelper;
 import fr.openent.appointments.helper.LogHelper;
 import fr.openent.appointments.security.ViewRight;
 import fr.openent.appointments.service.AppointmentService;
