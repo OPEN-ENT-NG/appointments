@@ -96,7 +96,6 @@ public class DefaultGridService implements GridService {
                 String errorMessage = "Failed to get grid by time slot id";
                 LogHelper.logError(this, "getGridByTimeSlotId", errorMessage, err.getMessage());
                 promise.fail(err);
-//                promise.fail(new ErrorCreateAppointmentException()); // TODO example of CustomException use -> to delete
             });
 
         return promise.future();
