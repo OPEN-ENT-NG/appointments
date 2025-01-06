@@ -119,14 +119,14 @@ public class AppointmentController extends ControllerHelper {
     @SecuredAction(value="", type= ActionType.RESOURCE)
     public void getMyAppointments(final HttpServerRequest request) {
         Long page = Optional.ofNullable(request.params().get(PAGE))
-                .map(Long::parseLong)
-                .orElse(null);
+            .map(Long::parseLong)
+            .orElse(null);
 
         Long limit = Optional.ofNullable(request.params().get(LIMIT))
-                .map(Long::parseLong)
-                .orElse(null);
+            .map(Long::parseLong)
+            .orElse(null);
 
-        List<AppointmentState> states = new ArrayList<>();
+        List<AppointmentState> states;
         String statesParam = request.params().get(STATES);
         if (statesParam != null && !statesParam.isEmpty()) {
             states = new JsonArray(statesParam).stream()
@@ -134,15 +134,17 @@ public class AppointmentController extends ControllerHelper {
                     .map(String.class::cast)
                     .map(AppointmentState::getAppointmentState)
                     .collect(Collectors.toList());
+        } else {
+            states = new ArrayList<>();
         }
 
         UserUtils.getAuthenticatedUserInfos(eb, request)
-                .compose(user-> appointmentService.getMyAppointments(user, states, page, limit))
-                .onSuccess(appointments -> renderJson(request, appointments.toJson()))
-                .onFailure(err -> {
-                    String errorMessage = "Failed to get my appointments";
-                    LogHelper.logError(this, "getMyAppointments", errorMessage, err.getMessage());
-                    renderError(request);
-                });
+            .compose(user-> appointmentService.getMyAppointments(user, states, page, limit))
+            .onSuccess(appointments -> renderJson(request, appointments.toJson()))
+            .onFailure(err -> {
+                String errorMessage = "Failed to get my appointments";
+                LogHelper.logError(this, "getMyAppointments", errorMessage, err.getMessage());
+                renderError(request);
+            });
     }
 }
