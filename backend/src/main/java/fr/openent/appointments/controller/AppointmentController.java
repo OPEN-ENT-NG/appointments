@@ -1,9 +1,6 @@
 package fr.openent.appointments.controller;
 
 import fr.openent.appointments.enums.AppointmentState;
-import fr.openent.appointments.enums.GridState;
-import fr.openent.appointments.helper.IModelHelper;
-import fr.openent.appointments.helper.ErrorHelper;
 import fr.openent.appointments.helper.LogHelper;
 import fr.openent.appointments.security.ViewRight;
 import fr.openent.appointments.service.AppointmentService;
@@ -129,7 +126,7 @@ public class AppointmentController extends ControllerHelper {
                 .map(Long::parseLong)
                 .orElse(null);
 
-        List<AppointmentState> states;
+        List<AppointmentState> states = new ArrayList<>();
         String statesParam = request.params().get(STATES);
         if (statesParam != null && !statesParam.isEmpty()) {
             states = new JsonArray(statesParam).stream()
@@ -137,8 +134,6 @@ public class AppointmentController extends ControllerHelper {
                     .map(String.class::cast)
                     .map(AppointmentState::getAppointmentState)
                     .collect(Collectors.toList());
-        } else {
-            states = new ArrayList<>();
         }
 
         UserUtils.getAuthenticatedUserInfos(eb, request)

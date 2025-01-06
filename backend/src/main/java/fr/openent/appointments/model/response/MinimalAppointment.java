@@ -34,7 +34,9 @@ public class MinimalAppointment implements IModel<MinimalAppointment> {
         this.state = appointmentWithInfos.getState();
         this.isRequester = isRequester;
     }
-                              // Getters
+
+    // Getters
+
     public Long getId() {
         return id;
     }

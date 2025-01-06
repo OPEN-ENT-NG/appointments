@@ -39,6 +39,7 @@ public interface CommunicationRepository {
      * Retrieves NeoUser from its ID.
      *
      * @param userId The ID of the user we want to retrieve.
+     * @param structuresIds The {@link List} of ID of structure externalID the user belongs to.
      * @return A Future containing a {@link NeoUser}.
      */
     Future<Optional<NeoUser>> getUserFromId(String userId, List<String> structuresIds);

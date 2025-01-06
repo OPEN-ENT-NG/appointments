@@ -98,6 +98,26 @@ public class DefaultAppointmentService implements AppointmentService {
         return promise.future();
     }
 
+    private ListAppointmentsResponse buildListAppointmentsResponse(CompositeFuture minimalAppointments, Long total) {
+        List<MinimalAppointment> minimalAppointmentsList = minimalAppointments.list();
+        List<MinimalAppointment> filteredAppointments = minimalAppointmentsList.stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        return new ListAppointmentsResponse(total, filteredAppointments);
+    }
+
+    private void composeAllAppointmentsFuture(List<AppointmentWithInfos> appointments, UserInfos userInfos, Promise<ListAppointmentsResponse> promise, Long total) {
+        Future.all(appointments.stream()
+                .map(appointment -> buildMinimalAppointment(appointment, userInfos))
+                .collect(Collectors.toList()))
+                .onSuccess(minimalAppointments -> promise.complete(buildListAppointmentsResponse(minimalAppointments, total)))
+                .onFailure(err -> {
+                    String errorMessage = "Failed to get my appointments";
+                    LogHelper.logError(this, "getMyAppointments", errorMessage, err.getMessage());
+                    promise.fail(err);
+                });
+    }
+
     @Override
     public Future<ListAppointmentsResponse> getMyAppointments(UserInfos userInfos, List<AppointmentState> states, Long page, Long limit){
 
@@ -113,22 +133,7 @@ public class DefaultAppointmentService implements AppointmentService {
                             .collect(Collectors.toList());
                 }
 
-                Future.all(appointments.stream()
-                        .map(appointment -> buildMinimalAppointment(appointment, userInfos))
-                        .collect(Collectors.toList()))
-                        .onSuccess(minimalAppointments -> {
-                            List<MinimalAppointment> minimalAppointmentsList = minimalAppointments.list();
-                            List<MinimalAppointment> filteredAppointments = minimalAppointmentsList.stream()
-                                    .filter(Objects::nonNull)
-                                    .collect(Collectors.toList());
-                            ListAppointmentsResponse response = new ListAppointmentsResponse(total, filteredAppointments);
-                            promise.complete(response);
-                        })
-                        .onFailure(err -> {
-                            String errorMessage = "Failed to get my appointments";
-                            LogHelper.logError(this, "getMyAppointments", errorMessage, err.getMessage());
-                            promise.fail(err);
-                        });
+                composeAllAppointmentsFuture(appointments, userInfos, promise, total);
             })
             .onFailure(err -> {
                 String errorMessage = "Failed to get my appointments";
