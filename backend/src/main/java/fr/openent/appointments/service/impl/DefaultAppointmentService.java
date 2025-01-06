@@ -144,8 +144,8 @@ public class DefaultAppointmentService implements AppointmentService {
         return appointment.getRequesterId().equals(userId) || appointment.getOwnerId().equals(userId);
     }
 
-    private Boolean isOwnerOfAppointment(AppointmentWithInfos appointment, UserInfos userInfos) {
-        return appointment.getOwnerId().equals(userInfos.getUserId());
+    private Boolean isOwnerOfAppointment(AppointmentWithInfos appointment, String userId) {
+        return appointment.getOwnerId().equals(userId);
     }
 
     @Override
@@ -177,16 +177,16 @@ public class DefaultAppointmentService implements AppointmentService {
     }
 
     @Override
-    public Future<Appointment> acceptAppointment(Long appointmentId, UserInfos userInfos) {
-        return handleAppointmentStateChange(appointmentId, userInfos, AppointmentState.ACCEPTED, "acceptAppointment");
+    public Future<Appointment> acceptAppointment(Long appointmentId, String userId) {
+        return handleAppointmentStateChange(appointmentId, userId, AppointmentState.ACCEPTED, "acceptAppointment");
     }
 
     @Override
-    public Future<Appointment> rejectAppointment(Long appointmentId, UserInfos userInfos) {
-        return handleAppointmentStateChange(appointmentId, userInfos, AppointmentState.REFUSED, "rejectAppointment");
+    public Future<Appointment> rejectAppointment(Long appointmentId, String userId) {
+        return handleAppointmentStateChange(appointmentId, userId, AppointmentState.REFUSED, "rejectAppointment");
     }
 
-    private Future<Appointment> handleAppointmentStateChange(Long appointmentId, UserInfos userInfos, AppointmentState targetState, String functionName) {
+    private Future<Appointment> handleAppointmentStateChange(Long appointmentId, String userId, AppointmentState targetState, String functionName) {
         Promise<Appointment> promise = Promise.promise();
 
         appointmentRepository.get(appointmentId)
@@ -196,7 +196,7 @@ public class DefaultAppointmentService implements AppointmentService {
                         return Future.failedFuture("Appointment not found");
                     }
 
-                    if (!isOwnerOfAppointment(appointment.get(), userInfos)) {
+                    if (!isOwnerOfAppointment(appointment.get(), userId)) {
                         LogHelper.logError(this, functionName, "User is not the owner of the appointment", "");
                         return Future.failedFuture("User is not the owner of the appointment");
                     }

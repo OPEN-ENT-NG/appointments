@@ -194,7 +194,7 @@ public class AppointmentController extends ControllerHelper {
         }
 
         UserUtils.getAuthenticatedUserInfos(eb, request)
-            .compose(user -> appointmentService.acceptAppointment(appointmentId, user))
+            .compose(user -> appointmentService.acceptAppointment(appointmentId, user.getUserId()))
             .onSuccess(appointment -> renderJson(request, appointment.toJson()))
             .onFailure(err -> {
                 String errorMessage = "Failed to accept appointment";
@@ -221,7 +221,7 @@ public class AppointmentController extends ControllerHelper {
         }
 
         UserUtils.getAuthenticatedUserInfos(eb, request)
-            .compose(user -> appointmentService.rejectAppointment(appointmentId, user))
+            .compose(user -> appointmentService.rejectAppointment(appointmentId, user.getUserId()))
             .onSuccess(appointment -> renderJson(request, appointment.toJson()))
             .onFailure(err -> {
                 String errorMessage = "Failed to reject appointment";
