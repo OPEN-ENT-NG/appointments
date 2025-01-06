@@ -8,8 +8,8 @@ import {
 
 export interface MyAppointmentsProviderContextProps {
   myAppointments: AppointmentsType;
-  limits: LimitsType;
-  pages: PagesType;
+  limits: AppointmentListInfoType;
+  pages: AppointmentListInfoType;
   isAppointmentModalOpen: boolean;
   selectedAppointment: Appointment | undefined;
   handleChangePage: (state: MY_APPOINTMENTS_LIST_STATE, page: number) => void;
