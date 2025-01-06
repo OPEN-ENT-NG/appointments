@@ -6,6 +6,9 @@ import VideoCameraFrontIcon from "@mui/icons-material/VideoCameraFront";
 import { Box, Divider, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
+import { APPOINTMENT_STATE_VALUES } from "~/core/constants";
+import { APPOINTMENT_STATE } from "~/core/enums";
+import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 import {
   bottomRightBoxStyle,
   bottomWrapperBoxStyle,
@@ -20,11 +23,15 @@ import {
 } from "./style";
 import { AppointmentCardProps } from "./types";
 import { AppointmentStateIcon } from "./utils";
-import { APPOINTMENT_STATE_VALUES } from "~/core/constants";
-import { APPOINTMENT_STATE } from "~/core/enums";
 
 export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
   const { t } = useTranslation("appointments");
+
+  const {
+    handleAcceptAppointment,
+    handleCancelAppointment,
+    handleRejectAppointment,
+  } = useMyAppointments();
 
   return (
     <Box sx={cardWrapperStyle}>
@@ -84,15 +91,30 @@ export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
       </Box>
       {appointment.state === APPOINTMENT_STATE.CREATED &&
         (appointment.isRequester ? (
-          <Button variant="outlined" color="error" fullWidth>
+          <Button
+            variant="outlined"
+            color="error"
+            fullWidth
+            onClick={() => handleCancelAppointment(appointment.id)}
+          >
             {t("appointments.cancel.request")}
           </Button>
         ) : (
           <Box sx={twoButtonsBoxStyle}>
-            <Button variant="outlined" sx={twoButtonsStyle} color="success">
+            <Button
+              variant="outlined"
+              sx={twoButtonsStyle}
+              color="success"
+              onClick={() => handleAcceptAppointment(appointment.id)}
+            >
               {t("appointments.accept")}
             </Button>
-            <Button variant="outlined" sx={twoButtonsStyle} color="error">
+            <Button
+              variant="outlined"
+              sx={twoButtonsStyle}
+              color="error"
+              onClick={() => handleRejectAppointment(appointment.id)}
+            >
               {t("appointments.refuse")}
             </Button>
           </Box>

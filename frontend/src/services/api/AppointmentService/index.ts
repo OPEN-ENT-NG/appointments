@@ -1,3 +1,4 @@
+import { emptySplitApi } from "../EmptySplitService";
 import {
   Appointment,
   BookAppointmentPayload,
@@ -8,7 +9,6 @@ import {
   transformResponseToAppointment,
   transformResponseToMyAppointments,
 } from "./utils";
-import { emptySplitApi } from "../EmptySplitService";
 
 export const appointmentApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -33,6 +33,7 @@ export const appointmentApi = emptySplitApi.injectEndpoints({
         };
       },
       transformResponse: transformResponseToMyAppointments,
+      providesTags: ["MyAppointments"],
     }),
     getAppointment: builder.query<Appointment, number>({
       query: (appointmentId) => `/appointments/${appointmentId}`,
@@ -43,18 +44,21 @@ export const appointmentApi = emptySplitApi.injectEndpoints({
         url: `/appointments/${appointmentId}/accept`,
         method: "PUT",
       }),
+      invalidatesTags: ["MyAppointments"],
     }),
     rejectAppointment: builder.mutation<void, number>({
       query: (appointmentId) => ({
         url: `/appointments/${appointmentId}/reject`,
         method: "PUT",
       }),
+      invalidatesTags: ["MyAppointments"],
     }),
     cancelAppointment: builder.mutation<void, number>({
       query: (appointmentId) => ({
         url: `/appointments/${appointmentId}/cancel`,
         method: "PUT",
       }),
+      invalidatesTags: ["MyAppointments"],
     }),
   }),
 });

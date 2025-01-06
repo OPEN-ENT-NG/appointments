@@ -1,8 +1,8 @@
 import { SvgIconProps } from "@mui/material";
 import { Theme, ToastPosition } from "react-toastify";
 
-import { APPOINTMENT_STATE, DAY, DURATION, PERIODICITY } from "./enums";
 import { MY_APPOINTMENTS_LIST_STATE } from "~/providers/MyAppointmentsProvider/enum";
+import { APPOINTMENT_STATE, DAY, DURATION, PERIODICITY } from "./enums";
 
 export const GRID_PER_PAGE = 5;
 
@@ -82,7 +82,7 @@ export const APPOINTMENT_STATE_VALUES = {
     i18nKey: "appointments.accepted",
     color: "success" as SvgIconProps["color"],
   },
-  [APPOINTMENT_STATE.REJECTED]: {
+  [APPOINTMENT_STATE.REFUSED]: {
     i18nKey: "appointments.refused",
     color: "error" as SvgIconProps["color"],
   },
