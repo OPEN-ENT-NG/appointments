@@ -1,4 +1,3 @@
-import { emptySplitApi } from "../EmptySplitService";
 import {
   Appointment,
   BookAppointmentPayload,
@@ -9,6 +8,7 @@ import {
   transformResponseToAppointment,
   transformResponseToMyAppointments,
 } from "./utils";
+import { emptySplitApi } from "../EmptySplitService";
 
 export const appointmentApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({

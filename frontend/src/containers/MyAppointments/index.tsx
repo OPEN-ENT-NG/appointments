@@ -1,8 +1,8 @@
 import { FC } from "react";
 
+import { AppointmentCardList } from "../AppointmentCardList";
 import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 import { MY_APPOINTMENTS_LIST_STATE } from "~/providers/MyAppointmentsProvider/enum";
-import { AppointmentCardList } from "../AppointmentCardList";
 
 export const MyAppointments: FC = () => {
   const { myAppointments } = useMyAppointments();

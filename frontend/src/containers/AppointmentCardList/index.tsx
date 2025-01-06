@@ -3,11 +3,11 @@ import { FC, useEffect, useRef, useState } from "react";
 import { Box, Pagination, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
+import { containerStyle, paginationBoxStyle, wrapperListBox } from "./style";
+import { AppointmentCardListProps } from "./types";
 import { AppointmentCard } from "~/components/AppointmentCard";
 import { MY_APPOINTMENTS_LIST_STATE_VALUES } from "~/core/constants";
 import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
-import { containerStyle, paginationBoxStyle, wrapperListBox } from "./style";
-import { AppointmentCardListProps } from "./types";
 
 export const AppointmentCardList: FC<AppointmentCardListProps> = ({
   appointmentsType,

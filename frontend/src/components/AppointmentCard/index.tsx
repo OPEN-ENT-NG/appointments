@@ -6,9 +6,6 @@ import VideoCameraFrontIcon from "@mui/icons-material/VideoCameraFront";
 import { Box, Divider, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-import { APPOINTMENT_STATE_VALUES } from "~/core/constants";
-import { APPOINTMENT_STATE } from "~/core/enums";
-import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 import {
   bottomRightBoxStyle,
   bottomWrapperBoxStyle,
@@ -23,6 +20,9 @@ import {
 } from "./style";
 import { AppointmentCardProps } from "./types";
 import { AppointmentStateIcon } from "./utils";
+import { APPOINTMENT_STATE_VALUES } from "~/core/constants";
+import { APPOINTMENT_STATE } from "~/core/enums";
+import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 
 export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
   const { t } = useTranslation("appointments");

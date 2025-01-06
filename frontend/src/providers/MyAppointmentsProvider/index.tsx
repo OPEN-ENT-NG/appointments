@@ -7,16 +7,10 @@ import {
   useState,
 } from "react";
 
-import {
-  useAcceptAppointmentMutation,
-  useCancelAppointmentMutation,
-  useGetAppointmentQuery,
-  useGetMyAppointmentsQuery,
-  useRejectAppointmentMutation,
-} from "~/services/api/AppointmentService";
 import { MY_APPOINTMENTS_LIST_STATE } from "./enum";
 import {
   AppointmentListInfoType,
+  AppointmentsType,
   MyAppointmentsProviderContextProps,
   MyAppointmentsProviderProps,
 } from "./types";
@@ -26,6 +20,13 @@ import {
   initialPages,
   states,
 } from "./utils";
+import {
+  useAcceptAppointmentMutation,
+  useCancelAppointmentMutation,
+  useGetAppointmentQuery,
+  useGetMyAppointmentsQuery,
+  useRejectAppointmentMutation,
+} from "~/services/api/AppointmentService";
 
 const MyAppointmentsProviderContext =
   createContext<MyAppointmentsProviderContextProps | null>(null);

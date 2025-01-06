@@ -1,8 +1,8 @@
 import { SvgIconProps } from "@mui/material";
 import { Theme, ToastPosition } from "react-toastify";
 
-import { MY_APPOINTMENTS_LIST_STATE } from "~/providers/MyAppointmentsProvider/enum";
 import { APPOINTMENT_STATE, DAY, DURATION, PERIODICITY } from "./enums";
+import { MY_APPOINTMENTS_LIST_STATE } from "~/providers/MyAppointmentsProvider/enum";
 
 export const GRID_PER_PAGE = 5;
 

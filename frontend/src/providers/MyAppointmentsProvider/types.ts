@@ -1,10 +1,10 @@
 import { ReactNode } from "react";
 
+import { MY_APPOINTMENTS_LIST_STATE } from "./enum";
 import {
   Appointment,
   MyAppointments,
 } from "~/services/api/AppointmentService/types";
-import { MY_APPOINTMENTS_LIST_STATE } from "./enum";
 
 export interface MyAppointmentsProviderContextProps {
   myAppointments: AppointmentsType;
