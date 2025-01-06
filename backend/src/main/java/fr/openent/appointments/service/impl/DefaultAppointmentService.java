@@ -13,6 +13,7 @@ import fr.openent.appointments.repository.RepositoryFactory;
 import fr.openent.appointments.service.AppointmentService;
 import fr.openent.appointments.service.ServiceFactory;
 import fr.openent.appointments.service.TimeSlotService;
+import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import org.entcore.common.user.UserInfos;
@@ -139,17 +140,17 @@ public class DefaultAppointmentService implements AppointmentService {
         return promise.future();
     }
     
-    private Boolean isUserInAppointment(AppointmentWithInfos appointment, UserInfos userInfos) {
-        return appointment.getRequesterId().equals(userInfos.getUserId()) || appointment.getOwnerId().equals(userInfos.getUserId());
+    private Boolean isUserInAppointment(AppointmentWithInfos appointment, String userId) {
+        return appointment.getRequesterId().equals(userId) || appointment.getOwnerId().equals(userId);
     }
 
     @Override
-    public Future<AppointmentWithInfos> getAppointmentById(Long appointmentId, UserInfos userInfos){
+    public Future<AppointmentWithInfos> getAppointmentById(Long appointmentId, String userId){
         Promise<AppointmentWithInfos> promise = Promise.promise();
         appointmentRepository.get(appointmentId)
             .onSuccess(appointmentWithInfos -> {
                 if (appointmentWithInfos.isPresent())
-                    if (isUserInAppointment(appointmentWithInfos.get(), userInfos))
+                    if (isUserInAppointment(appointmentWithInfos.get(), userId))
                         promise.complete(appointmentWithInfos.get());
                     else {
                         String errorMessage = "User is not in appointment";

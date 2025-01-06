@@ -52,9 +52,9 @@ public interface AppointmentService {
     /**
      * Get appointment by its id
      * @param appointmentId The appointment id
-     * @param userInfos The user infos
+     * @param userId The user id
      * @return The appointment
      */
-    Future<AppointmentWithInfos> getAppointmentById(Long appointmentId, UserInfos userInfos);
+    Future<AppointmentWithInfos> getAppointmentById(Long appointmentId, String userId);
 
 }
