@@ -1,14 +1,16 @@
 import { FC } from "react";
 
-import { AppointmentCardList } from "../AppointmentCardList";
+import { CustomDateCalendar } from "~/components/CustomDateCalendar";
 import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 import { MY_APPOINTMENTS_LIST_STATE } from "~/providers/MyAppointmentsProvider/enum";
+import { AppointmentCardList } from "../AppointmentCardList";
 
 export const MyAppointments: FC = () => {
   const { myAppointments } = useMyAppointments();
 
   return (
     <>
+      <CustomDateCalendar />
       {myAppointments[MY_APPOINTMENTS_LIST_STATE.PENDING] ? (
         <AppointmentCardList
           appointmentsType={MY_APPOINTMENTS_LIST_STATE.PENDING}
