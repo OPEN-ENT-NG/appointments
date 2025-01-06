@@ -150,6 +150,8 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
   const value = useMemo<MyAppointmentsProviderContextProps>(
     () => ({
       myAppointments,
+      limits,
+      pages,
       isAppointmentModalOpen,
       selectedAppointment,
       handleChangePage,
