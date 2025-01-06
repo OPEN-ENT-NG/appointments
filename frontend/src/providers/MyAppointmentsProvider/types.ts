@@ -25,13 +25,7 @@ export interface MyAppointmentsProviderProps {
   children: ReactNode;
 }
 
-export interface PagesType {
-  [MY_APPOINTMENTS_LIST_STATE.PENDING]: number;
-  [MY_APPOINTMENTS_LIST_STATE.ACCEPTED]: number;
-  [MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED]: number;
-}
-
-export interface LimitsType {
+export interface AppointmentListInfoType {
   [MY_APPOINTMENTS_LIST_STATE.PENDING]: number;
   [MY_APPOINTMENTS_LIST_STATE.ACCEPTED]: number;
   [MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED]: number;

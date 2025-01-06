@@ -2,10 +2,9 @@ import { createContext, FC, useContext, useMemo, useState } from "react";
 
 import { MY_APPOINTMENTS_LIST_STATE } from "./enum";
 import {
-  LimitsType,
+  AppointmentListInfoType,
   MyAppointmentsProviderContextProps,
   MyAppointmentsProviderProps,
-  PagesType,
 } from "./types";
 import { initialLimits, initialPages, states } from "./utils";
 import {
@@ -32,8 +31,8 @@ export const useMyAppointments = () => {
 export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
   children,
 }) => {
-  const [pages, setPages] = useState<PagesType>(initialPages);
-  const [limits, setLimits] = useState<LimitsType>(initialLimits);
+  const [pages, setPages] = useState<AppointmentListInfoType>(initialPages);
+  const [limits, setLimits] = useState<AppointmentListInfoType>(initialLimits);
   const [selectedAppointmentId, setSelectedAppointmentId] = useState<
     number | null
   >(null);
