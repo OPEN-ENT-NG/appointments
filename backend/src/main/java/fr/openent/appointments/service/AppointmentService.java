@@ -3,7 +3,6 @@ package fr.openent.appointments.service;
 import fr.openent.appointments.enums.AppointmentState;
 import fr.openent.appointments.model.database.Appointment;
 import fr.openent.appointments.model.database.AppointmentWithInfos;
-import fr.openent.appointments.model.response.DateListResponse;
 import fr.openent.appointments.model.response.ListAppointmentsResponse;
 import io.vertx.core.Future;
 import org.entcore.common.user.UserInfos;
@@ -55,7 +54,7 @@ public interface AppointmentService {
      * @param userId The user id
      * @param states The states of the appointments
      */
-    Future<DateListResponse> getAppointmentsDates(String userId, List<AppointmentState> states);
+    Future<List<LocalDate>> getAppointmentsDates(String userId, List<AppointmentState> states);
 
     /**
      * Get appointment by its id

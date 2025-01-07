@@ -5,7 +5,6 @@ import fr.openent.appointments.helper.LogHelper;
 import fr.openent.appointments.model.database.Appointment;
 import fr.openent.appointments.model.database.AppointmentWithInfos;
 import fr.openent.appointments.model.database.NeoUser;
-import fr.openent.appointments.model.response.DateListResponse;
 import fr.openent.appointments.model.response.ListAppointmentsResponse;
 import fr.openent.appointments.model.response.MinimalAppointment;
 import fr.openent.appointments.repository.AppointmentRepository;
@@ -179,27 +178,23 @@ public class DefaultAppointmentService implements AppointmentService {
         return promise.future();                
     }
 
-    private DateListResponse buildAppointmentsDates(List<AppointmentWithInfos> appointments) {
-        List<LocalDate> dates = appointments.stream()
+    private List<LocalDate> buildAppointmentsDates(List<AppointmentWithInfos> appointments) {
+        return appointments.stream()
             .map(AppointmentWithInfos::getBeginDate)
             .map(LocalDateTime::toLocalDate)
             .distinct()
             .collect(Collectors.toList());
-
-        return new DateListResponse(dates);
     }
 
     @Override
-    public Future<DateListResponse> getAppointmentsDates(String userId, List<AppointmentState> states) {
-        Promise<DateListResponse> promise = Promise.promise();
+    public Future<List<LocalDate>> getAppointmentsDates(String userId, List<AppointmentState> states) {
+        Promise<List<LocalDate>> promise = Promise.promise();
 
         appointmentRepository.getAppointments(userId, states, true)
-            .onSuccess(
-                appointments -> promise.complete(buildAppointmentsDates(appointments))
-            )
+            .onSuccess(appointments -> promise.complete(buildAppointmentsDates(appointments)))
             .onFailure(err -> {
-                String errorMessage = "Failed to get accepted appointments dates";
-                LogHelper.logError(this, "getAcceptedAppointmentsDates", errorMessage, err.getMessage());
+                String errorMessage = "Failed to get appointments dates";
+                LogHelper.logError(this, "getAppointmentsDates", errorMessage, err.getMessage());
                 promise.fail(err);
             });
 

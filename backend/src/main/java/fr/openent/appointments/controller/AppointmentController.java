@@ -1,6 +1,7 @@
 package fr.openent.appointments.controller;
 
 import fr.openent.appointments.enums.AppointmentState;
+import fr.openent.appointments.helper.DateHelper;
 import fr.openent.appointments.helper.LogHelper;
 import fr.openent.appointments.model.database.Appointment;
 import fr.openent.appointments.security.ManageRight;
@@ -230,17 +231,29 @@ public class AppointmentController extends ControllerHelper {
         handleAppointmentAction(request, "cancel", appointmentService::cancelAppointment);
     }
 
-    @Get("appointments/accepted/dates")
+    @Get("appointments/dates")
     @ApiDoc("Get accepted appointments dates")
     @ResourceFilter(ViewRight.class)
     @SecuredAction(value = "", type = ActionType.RESOURCE)
-    public void getAcceptedAppointmentsDates(final HttpServerRequest request) {
+    public void getAppointmentsDates(final HttpServerRequest request) {
+        List<AppointmentState> states;
+        String statesParam = request.params().get(STATES);
+        if (statesParam != null && !statesParam.isEmpty()) {
+            states = new JsonArray(statesParam).stream()
+                .filter(String.class::isInstance)
+                .map(String.class::cast)
+                .map(AppointmentState::getAppointmentState)
+                .collect(Collectors.toList());
+        } else {
+            states = new ArrayList<>();
+        }
+
         UserUtils.getAuthenticatedUserInfos(eb, request)
-            .compose(user ->appointmentService.getAppointmentsDates(user.getUserId(), Collections.singletonList(AppointmentState.ACCEPTED)))
-            .onSuccess(dates -> renderJson(request, dates.toJson()))
+            .compose(user ->appointmentService.getAppointmentsDates(user.getUserId(), states))
+            .onSuccess(dates -> renderJson(request, new JsonArray(dates.stream().map(DateHelper::formatDate).collect(Collectors.toList()))))
             .onFailure(err -> {
-                String errorMessage = "Failed to get accepted appointments dates";
-                LogHelper.logError(this, "getAcceptedAppointmentsDates", errorMessage, err.getMessage());
+                String errorMessage = "Failed to get appointments dates";
+                LogHelper.logError(this, "getAppointmentsDates", errorMessage, err.getMessage());
                 renderError(request);
             });
     }
