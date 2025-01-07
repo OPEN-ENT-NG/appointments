@@ -232,7 +232,7 @@ public class AppointmentController extends ControllerHelper {
     }
 
     @Get("appointments/dates")
-    @ApiDoc("Get accepted appointments dates")
+    @ApiDoc("Get appointments dates")
     @ResourceFilter(ViewRight.class)
     @SecuredAction(value = "", type = ActionType.RESOURCE)
     public void getAppointmentsDates(final HttpServerRequest request) {
