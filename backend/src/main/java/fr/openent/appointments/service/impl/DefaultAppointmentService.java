@@ -5,6 +5,7 @@ import fr.openent.appointments.helper.LogHelper;
 import fr.openent.appointments.model.database.Appointment;
 import fr.openent.appointments.model.database.AppointmentWithInfos;
 import fr.openent.appointments.model.database.NeoUser;
+import fr.openent.appointments.model.response.DateListResponse;
 import fr.openent.appointments.model.response.ListAppointmentsResponse;
 import fr.openent.appointments.model.response.MinimalAppointment;
 import fr.openent.appointments.repository.AppointmentRepository;
@@ -18,6 +19,8 @@ import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import org.entcore.common.user.UserInfos;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -174,6 +177,33 @@ public class DefaultAppointmentService implements AppointmentService {
             });
 
         return promise.future();                
+    }
+
+    private DateListResponse buildAppointmentsDates(List<AppointmentWithInfos> appointments) {
+        List<LocalDate> dates = appointments.stream()
+            .map(AppointmentWithInfos::getBeginDate)
+            .map(LocalDateTime::toLocalDate)
+            .distinct()
+            .collect(Collectors.toList());
+
+        return new DateListResponse(dates);
+    }
+
+    @Override
+    public Future<DateListResponse> getAppointmentsDates(String userId, List<AppointmentState> states) {
+        Promise<DateListResponse> promise = Promise.promise();
+
+        appointmentRepository.getAppointments(userId, states, true)
+            .onSuccess(
+                appointments -> promise.complete(buildAppointmentsDates(appointments))
+            )
+            .onFailure(err -> {
+                String errorMessage = "Failed to get accepted appointments dates";
+                LogHelper.logError(this, "getAcceptedAppointmentsDates", errorMessage, err.getMessage());
+                promise.fail(err);
+            });
+
+        return promise.future();
     }
 
     private Future<Appointment> handleAppointmentStateChange(Long appointmentId, String userId, AppointmentState targetState, String functionName) {

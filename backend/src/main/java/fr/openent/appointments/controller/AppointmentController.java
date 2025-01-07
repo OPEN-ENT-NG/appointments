@@ -24,9 +24,7 @@ import org.entcore.common.http.filter.ResourceFilter;
 import org.entcore.common.user.UserInfos;
 import org.entcore.common.user.UserUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static fr.openent.appointments.core.constants.Constants.*;
@@ -230,6 +228,21 @@ public class AppointmentController extends ControllerHelper {
     @SecuredAction(value="", type= ActionType.RESOURCE)
     public void cancelAppointment(final HttpServerRequest request) {
         handleAppointmentAction(request, "cancel", appointmentService::cancelAppointment);
+    }
+
+    @Get("appointments/accepted/dates")
+    @ApiDoc("Get accepted appointments dates")
+    @ResourceFilter(ViewRight.class)
+    @SecuredAction(value = "", type = ActionType.RESOURCE)
+    public void getAcceptedAppointmentsDates(final HttpServerRequest request) {
+        UserUtils.getAuthenticatedUserInfos(eb, request)
+            .compose(user ->appointmentService.getAppointmentsDates(user.getUserId(), Collections.singletonList(AppointmentState.ACCEPTED)))
+            .onSuccess(dates -> renderJson(request, dates.toJson()))
+            .onFailure(err -> {
+                String errorMessage = "Failed to get accepted appointments dates";
+                LogHelper.logError(this, "getAcceptedAppointmentsDates", errorMessage, err.getMessage());
+                renderError(request);
+            });
     }
 
 
