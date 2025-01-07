@@ -1,16 +1,20 @@
 import { FC } from "react";
 
+import { Dayjs } from "dayjs";
+
+import { AppointmentCardList } from "../AppointmentCardList";
 import { CustomDateCalendar } from "~/components/CustomDateCalendar";
 import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 import { MY_APPOINTMENTS_LIST_STATE } from "~/providers/MyAppointmentsProvider/enum";
-import { AppointmentCardList } from "../AppointmentCardList";
 
 export const MyAppointments: FC = () => {
   const { myAppointments } = useMyAppointments();
 
+  const mockedDates: Dayjs[] = [];
+
   return (
     <>
-      <CustomDateCalendar />
+      <CustomDateCalendar acceptedAppointmentsDates={mockedDates} />
       {myAppointments[MY_APPOINTMENTS_LIST_STATE.PENDING] ? (
         <AppointmentCardList
           appointmentsType={MY_APPOINTMENTS_LIST_STATE.PENDING}

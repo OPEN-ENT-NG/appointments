@@ -1,20 +1,31 @@
-import { styled } from "@mui/material";
+import { Box, styled } from "@mui/material";
 
-export const StyledDay = styled("div")<{ selected: boolean }>(
-  ({ theme, selected }) => ({
-    backgroundColor: selected ? theme.palette.primary.main : "transparent",
-    color: selected ? theme.palette.primary.contrastText : "inherit",
+import { StyledDayProps } from "./types";
+
+export const StyledDay = styled(Box)<StyledDayProps>(
+  ({ theme, isWithAcceptedAppointment, isToday }) => ({
+    backgroundColor: isWithAcceptedAppointment
+      ? theme.palette.success.light
+      : "transparent",
+    border: isToday ? `1px solid ${theme.palette.common.black}` : "none",
     borderRadius: "50%",
-    width: "36px",
-    height: "36px",
+    width: "3.6rem",
+    height: "3.6rem",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    cursor: "pointer",
-    "&:hover": {
-      backgroundColor: selected
-        ? theme.palette.primary.dark
-        : theme.palette.action.hover,
-    },
+    position: "relative",
+
+    ...(isWithAcceptedAppointment && {
+      "::after": {
+        content: '""',
+        position: "absolute",
+        bottom: "-2px",
+        width: ".8rem",
+        height: ".8rem",
+        backgroundColor: theme.palette.success.main,
+        borderRadius: "50%",
+      },
+    }),
   }),
 );
