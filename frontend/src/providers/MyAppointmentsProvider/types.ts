@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
 
+import { Dayjs } from "dayjs";
+
 import { MY_APPOINTMENTS_LIST_STATE } from "./enum";
 import {
   Appointment,
@@ -12,6 +14,7 @@ export interface MyAppointmentsProviderContextProps {
   pages: AppointmentListInfoType;
   isAppointmentModalOpen: boolean;
   selectedAppointment: Appointment | undefined;
+  myAppointmentsDates: Dayjs[] | undefined;
   handleChangePage: (state: MY_APPOINTMENTS_LIST_STATE, page: number) => void;
   handleChangeLimit: (state: MY_APPOINTMENTS_LIST_STATE, limit: number) => void;
   handleAcceptAppointment: (id: number) => void;

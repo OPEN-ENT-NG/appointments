@@ -2,7 +2,7 @@ import { FC } from "react";
 
 import { DateCalendar } from "@mui/x-date-pickers";
 
-import { StyledDay } from "./style";
+import { calandarStyle, StyledDay } from "./style";
 import { CustomDateCalendarProps } from "./types";
 import { isWithAcceptedAppointment } from "./utils";
 import { isToday } from "~/core/utils";
@@ -28,6 +28,7 @@ export const CustomDateCalendar: FC<CustomDateCalendarProps> = ({
           );
         },
       }}
+      sx={calandarStyle}
     />
   );
 };

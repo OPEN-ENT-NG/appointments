@@ -1,11 +1,15 @@
+import { Dayjs } from "dayjs";
+
 import {
   Appointment,
   BookAppointmentPayload,
+  GetAppointmentsDatesPayload,
   GetMyAppointmentsPayload,
   MyAppointments,
 } from "./types";
 import {
   transformResponseToAppointment,
+  transformResponseToDayjsArray,
   transformResponseToMyAppointments,
 } from "./utils";
 import { emptySplitApi } from "../EmptySplitService";
@@ -39,6 +43,20 @@ export const appointmentApi = emptySplitApi.injectEndpoints({
       query: (appointmentId) => `/appointments/${appointmentId}`,
       transformResponse: transformResponseToAppointment,
     }),
+    getAppointmentsDates: builder.query<Dayjs[], GetAppointmentsDatesPayload>({
+      query: (body) => {
+        const statesString = JSON.stringify(body.states);
+        return {
+          url: "/appointments/dates",
+          params: {
+            ...body,
+            states: statesString,
+          },
+        };
+      },
+      transformResponse: transformResponseToDayjsArray,
+      providesTags: ["MyAppointments"],
+    }),
     acceptAppointment: builder.mutation<void, number>({
       query: (appointmentId) => ({
         url: `/appointments/${appointmentId}/accept`,
@@ -67,6 +85,7 @@ export const {
   useBookAppointmentMutation,
   useGetMyAppointmentsQuery,
   useGetAppointmentQuery,
+  useGetAppointmentsDatesQuery,
   useAcceptAppointmentMutation,
   useRejectAppointmentMutation,
   useCancelAppointmentMutation,

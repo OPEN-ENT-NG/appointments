@@ -1,26 +1,35 @@
 import { FC } from "react";
 
-import { Dayjs } from "dayjs";
+import { Box } from "@mui/material";
 
+import {
+  customCalendarBoxStyle,
+  fisrtContainerStyle,
+  mainContainerStyle,
+} from "./style";
 import { AppointmentCardList } from "../AppointmentCardList";
 import { CustomDateCalendar } from "~/components/CustomDateCalendar";
 import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 import { MY_APPOINTMENTS_LIST_STATE } from "~/providers/MyAppointmentsProvider/enum";
 
 export const MyAppointments: FC = () => {
-  const { myAppointments } = useMyAppointments();
-
-  const mockedDates: Dayjs[] = [];
+  const { myAppointments, myAppointmentsDates } = useMyAppointments();
 
   return (
-    <>
-      <CustomDateCalendar acceptedAppointmentsDates={mockedDates} />
-      {myAppointments[MY_APPOINTMENTS_LIST_STATE.PENDING] ? (
-        <AppointmentCardList
-          appointmentsType={MY_APPOINTMENTS_LIST_STATE.PENDING}
-          myAppointments={myAppointments[MY_APPOINTMENTS_LIST_STATE.PENDING]}
-        />
-      ) : null}
+    <Box sx={mainContainerStyle}>
+      <Box sx={fisrtContainerStyle}>
+        {myAppointments[MY_APPOINTMENTS_LIST_STATE.PENDING] ? (
+          <AppointmentCardList
+            appointmentsType={MY_APPOINTMENTS_LIST_STATE.PENDING}
+            myAppointments={myAppointments[MY_APPOINTMENTS_LIST_STATE.PENDING]}
+          />
+        ) : null}
+        <Box sx={customCalendarBoxStyle}>
+          <CustomDateCalendar
+            acceptedAppointmentsDates={myAppointmentsDates ?? []}
+          />
+        </Box>
+      </Box>
       {myAppointments[MY_APPOINTMENTS_LIST_STATE.ACCEPTED] ? (
         <AppointmentCardList
           appointmentsType={MY_APPOINTMENTS_LIST_STATE.ACCEPTED}
@@ -35,6 +44,6 @@ export const MyAppointments: FC = () => {
           }
         />
       ) : null}
-    </>
+    </Box>
   );
 };
