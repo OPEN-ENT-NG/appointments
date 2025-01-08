@@ -8,6 +8,8 @@ export const GRID_PER_PAGE = 5;
 
 export const MAX_STRING_LENGTH = 250;
 
+export const APPOINTMENT_CARDS_GAP = 40;
+
 export const APPOINTMENT_CARD_WIDTH = 270; // 230 width + 40 gap
 
 export const DURATION_VALUES = {
@@ -105,5 +107,6 @@ export const MY_APPOINTMENTS_LIST_STATE_VALUES = {
   },
   [MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED]: {
     i18nTitleKey: "appointments.my.appointments.rejected.or.canceled",
+    i18nEmptyStateKey: "",
   },
 };

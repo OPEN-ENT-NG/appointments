@@ -1,7 +1,8 @@
 import { FC } from "react";
 
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { DateCalendar } from "@mui/x-date-pickers";
+import { useTranslation } from "react-i18next";
 
 import {
   appointmentsLegendStyle,
@@ -19,6 +20,7 @@ import { isToday } from "~/core/utils";
 export const CustomDateCalendar: FC<CustomDateCalendarProps> = ({
   acceptedAppointmentsDates,
 }) => {
+  const { t } = useTranslation("appointments");
   return (
     <Box sx={containerStyle}>
       <DateCalendar
@@ -43,11 +45,13 @@ export const CustomDateCalendar: FC<CustomDateCalendarProps> = ({
       <Box sx={legendStyle}>
         <Box sx={legendRowStyle}>
           <Box sx={todayLegendStyle}></Box>
-          <Box>Aujourd'hui</Box>
+          <Typography variant="body1">{t("appointments.today")}</Typography>
         </Box>
         <Box sx={legendRowStyle}>
           <Box sx={appointmentsLegendStyle}></Box>
-          <Box>Rendez-vous</Box>
+          <Typography variant="body1">
+            {t("appointments.appointments")}
+          </Typography>
         </Box>
       </Box>
     </Box>

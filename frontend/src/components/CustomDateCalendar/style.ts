@@ -6,6 +6,7 @@ export const containerStyle = {
   display: "flex",
   flexDirection: "column",
   gap: "1.6rem",
+  marginLeft: "4rem",
 };
 
 export const calandarStyle = (theme: Theme) => ({
@@ -51,6 +52,7 @@ export const StyledDay = styled(Box)<StyledDayProps>(
     position: "relative",
     margin: "0.4rem",
     fontSize: "1.4rem",
+    lineHeight: "0",
 
     ...(isWithAcceptedAppointment && {
       "::after": {
@@ -74,6 +76,7 @@ export const legendStyle = {
 
 export const legendRowStyle = {
   display: "flex",
+  alignItems: "center",
   gap: ".5rem",
 };
 

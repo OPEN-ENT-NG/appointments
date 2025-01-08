@@ -79,6 +79,7 @@
 
   "appointments.cancel.request": "Annuler la demande",
 
+  "appointments.appointments": "Rendez-vous",
   "appointments.cancel": "Annuler",
   "appointments.canceled": "Annulé",
   "appointments.save": "Enregistrer",
@@ -112,6 +113,8 @@
   "appointments.to": "À",
 
   "appointments.everyone": "Tout le monde",
+
+  "appointments.today": "Aujourd’hui",
 
   "appointments.error.same.grid.already.exists": "Ce nom est déjà utilisé.",
   "appointments.error.field.required": "Ce champ est obligatoire.",

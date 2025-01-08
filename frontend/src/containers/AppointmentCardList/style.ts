@@ -19,3 +19,11 @@ export const paginationBoxStyle: SxProps = {
   justifyContent: "center",
   minHeight: "3.2rem",
 };
+
+export const paginationStyle: SxProps = {
+  marginBottom: "1.6rem",
+
+  "& .MuiPaginationItem-root": {
+    margin: "0",
+  },
+};

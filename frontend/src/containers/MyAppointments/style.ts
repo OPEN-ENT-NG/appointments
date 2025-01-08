@@ -1,5 +1,9 @@
 import { SxProps } from "@mui/material";
 
+export const loaderBoxStyle: SxProps = {
+  marginTop: "4rem",
+};
+
 export const mainContainerStyle: SxProps = {
   marginTop: "4rem",
   display: "flex",

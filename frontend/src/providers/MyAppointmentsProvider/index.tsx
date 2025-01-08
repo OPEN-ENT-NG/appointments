@@ -182,6 +182,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
       myPendingAppointments,
       myAcceptedAppointments,
       myRejectedOrCanceledAppointments,
+      myAppointmentsDates,
       isAppointmentModalOpen,
       selectedAppointment,
       pages,
