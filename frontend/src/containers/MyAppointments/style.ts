@@ -2,6 +2,8 @@ import { SxProps } from "@mui/material";
 
 export const mainContainerStyle: SxProps = {
   marginTop: "4rem",
+  display: "flex",
+  flexDirection: "column",
 };
 
 export const fisrtContainerStyle: SxProps = {
@@ -12,5 +14,6 @@ export const fisrtContainerStyle: SxProps = {
 export const customCalendarBoxStyle: SxProps = {
   marginTop: "4rem",
   display: "flex",
-  flex: 0,
+  flexShrink: 0,
+  width: "fit-content",
 };

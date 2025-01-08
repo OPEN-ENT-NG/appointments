@@ -10,6 +10,11 @@ export const cardWrapperStyle: SxProps = {
   minWidth: "23rem",
   maxWidth: "23rem",
   gap: ".4rem",
+  transition: "all 0.2s",
+  cursor: "pointer",
+  "&:hover": {
+    boxShadow: "0px 2px 8px 0px rgba(176, 176, 176, 0.75)",
+  },
 };
 
 export const pictureStyle: SxProps = {

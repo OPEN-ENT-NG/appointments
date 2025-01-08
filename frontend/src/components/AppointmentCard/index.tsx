@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { Button } from "@cgi-learning-hub/ui";
+import { Button, EllipsisWithTooltip } from "@cgi-learning-hub/ui";
 import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import VideoCameraFrontIcon from "@mui/icons-material/VideoCameraFront";
 import { Box, Divider, Typography } from "@mui/material";
@@ -41,12 +41,14 @@ export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
         alt={appointment.displayName}
         sx={pictureStyle}
       />
-      <Typography variant="h5" fontWeight={"bold"}>
+      <EllipsisWithTooltip
+        typographyProps={{ variant: "h5", fontWeight: "bold" }}
+      >
         {appointment.displayName}
-      </Typography>
-      <Typography variant="body1">
+      </EllipsisWithTooltip>
+      <EllipsisWithTooltip typographyProps={{ variant: "body1" }}>
         {appointment.functions.join(", ")}
-      </Typography>
+      </EllipsisWithTooltip>
       <Box sx={bottomWrapperBoxStyle}>
         <Box sx={dateBoxStyle}>
           <Typography fontSize={"3.6rem"} lineHeight={"1.2"}>

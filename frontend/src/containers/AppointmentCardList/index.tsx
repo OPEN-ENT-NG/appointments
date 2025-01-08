@@ -6,7 +6,10 @@ import { useTranslation } from "react-i18next";
 import { containerStyle, paginationBoxStyle, wrapperListBox } from "./style";
 import { AppointmentCardListProps } from "./types";
 import { AppointmentCard } from "~/components/AppointmentCard";
-import { MY_APPOINTMENTS_LIST_STATE_VALUES } from "~/core/constants";
+import {
+  APPOINTMENT_CARD_WIDTH,
+  MY_APPOINTMENTS_LIST_STATE_VALUES,
+} from "~/core/constants";
 import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 
 export const AppointmentCardList: FC<AppointmentCardListProps> = ({
@@ -36,7 +39,10 @@ export const AppointmentCardList: FC<AppointmentCardListProps> = ({
 
   useEffect(() => {
     if (containerWidth)
-      handleChangeLimit(appointmentsType, Math.floor(containerWidth / 250));
+      handleChangeLimit(
+        appointmentsType,
+        Math.floor(containerWidth / APPOINTMENT_CARD_WIDTH),
+      );
   }, [containerWidth]);
 
   return (
@@ -62,6 +68,7 @@ export const AppointmentCardList: FC<AppointmentCardListProps> = ({
             siblingCount={1}
             boundaryCount={1}
             variant="text"
+            sx={{ marginBottom: "1.6rem" }}
           />
         )}
       </Box>
