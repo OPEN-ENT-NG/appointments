@@ -5,7 +5,6 @@ export const loaderBoxStyle: SxProps = {
 };
 
 export const mainContainerStyle: SxProps = {
-  marginTop: "4rem",
   display: "flex",
   flexDirection: "column",
 };
@@ -20,4 +19,15 @@ export const customCalendarBoxStyle: SxProps = {
   display: "flex",
   flexShrink: 0,
   width: "fit-content",
+};
+
+export const emptyStateSVGStyle: SxProps = {
+  maxWidth: "37rem",
+  maxHeight: "30rem",
+};
+
+export const emptyStateLeftBoxStyle: SxProps = {
+  display: "flex",
+  flexDirection: "column",
+  gap: "3rem",
 };

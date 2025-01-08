@@ -23,7 +23,7 @@ export const appointmentApi = emptySplitApi.injectEndpoints({
         }`,
         method: "POST",
       }),
-      invalidatesTags: ["Availability"],
+      invalidatesTags: ["Availability", "MyAppointments"],
     }),
     getMyAppointments: builder.query<MyAppointments, GetMyAppointmentsPayload>({
       query: (body) => {

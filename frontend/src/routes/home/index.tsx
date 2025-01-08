@@ -8,6 +8,7 @@ import {
   appointmentsIconStyle,
   contentStyle,
   homeStyle,
+  tabItemStyle,
   tabsStyle,
   titleStyle,
 } from "./style";
@@ -68,13 +69,15 @@ export const Home: FC = () => {
           <Tab label={t("appointments.my.appointments")} />
           {hasManageRight && <Tab label={t("appointments.my.availability")} />}
         </Tabs>
-        {tabValue === 0 && <FindAppointments />}
-        {tabValue === 1 && (
-          <MyAppointmentsProvider>
-            <MyAppointments />
-          </MyAppointmentsProvider>
-        )}
-        {tabValue === 2 && hasManageRight && <MyAvailability />}
+        <Box sx={tabItemStyle}>
+          {tabValue === 0 && <FindAppointments />}
+          {tabValue === 1 && (
+            <MyAppointmentsProvider>
+              <MyAppointments />
+            </MyAppointmentsProvider>
+          )}
+          {tabValue === 2 && hasManageRight && <MyAvailability />}
+        </Box>
       </Box>
     </Box>
   );

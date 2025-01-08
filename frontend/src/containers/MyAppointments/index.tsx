@@ -1,21 +1,29 @@
 import { FC } from "react";
 
 import { Loader } from "@cgi-learning-hub/ui";
-import { Box } from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 import {
   customCalendarBoxStyle,
+  emptyStateLeftBoxStyle,
+  emptyStateSVGStyle,
   fisrtContainerStyle,
   loaderBoxStyle,
   mainContainerStyle,
 } from "./style";
 import { AppointmentCardList } from "../AppointmentCardList";
 import { CustomDateCalendar } from "~/components/CustomDateCalendar";
+import { AppointmentsEmptyState } from "~/components/SVG/AppointmentsEmptyState";
 import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 import { MY_APPOINTMENTS_LIST_STATE } from "~/providers/MyAppointmentsProvider/enum";
+import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
 
 export const MyAppointments: FC = () => {
   const { myAppointments, myAppointmentsDates } = useMyAppointments();
+  const isMobile = useMediaQuery("(max-width:620px)");
+  const { t } = useTranslation("appointments");
+  const theme = useTheme();
 
   const myPendingAppointments =
     myAppointments[MY_APPOINTMENTS_LIST_STATE.PENDING];
@@ -24,23 +32,68 @@ export const MyAppointments: FC = () => {
   const myRejectedOrCanceledAppointments =
     myAppointments[MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED];
 
-  return !myPendingAppointments ||
+  const isLoading =
+    !myPendingAppointments ||
     !myAcceptedAppointments ||
     !myRejectedOrCanceledAppointments ||
-    !myAppointmentsDates ? (
-    <Box sx={loaderBoxStyle}>
-      <Loader />
-    </Box>
-  ) : (
+    !myAppointmentsDates;
+
+  const isMyPendingAppointmentsEmpty =
+    myPendingAppointments && myPendingAppointments.total === 0;
+  const isMyAcceptedAppointmentsEmpty =
+    myAcceptedAppointments && myAcceptedAppointments.total === 0;
+  const isMyRejectedOrCanceledAppointmentsEmpty =
+    myRejectedOrCanceledAppointments &&
+    myRejectedOrCanceledAppointments.total === 0;
+
+  const isAllAppointmentsEmpty =
+    isMyPendingAppointmentsEmpty &&
+    isMyAcceptedAppointmentsEmpty &&
+    isMyRejectedOrCanceledAppointmentsEmpty;
+
+  if (isLoading) {
+    return (
+      <Box sx={loaderBoxStyle}>
+        <Loader />
+      </Box>
+    );
+  }
+
+  if (isAllAppointmentsEmpty) {
+    return (
+      <Box sx={spaceBetweenBoxStyle}>
+        <Box sx={emptyStateLeftBoxStyle}>
+          <Typography variant="h3" color="primary" fontWeight="bold">
+            {t("appointments.my.appointments")}
+          </Typography>
+          <Typography fontStyle={"italic"} variant="h3">
+            {t("appointments.my.appointments.accepted.empty.state")}
+          </Typography>
+          <Box sx={emptyStateSVGStyle}>
+            <AppointmentsEmptyState fill={theme.palette.primary.main} />
+          </Box>
+        </Box>
+        <Box sx={customCalendarBoxStyle}>
+          <CustomDateCalendar acceptedAppointmentsDates={myAppointmentsDates} />
+        </Box>
+      </Box>
+    );
+  }
+
+  return (
     <Box sx={mainContainerStyle}>
       <Box sx={fisrtContainerStyle}>
         <AppointmentCardList
           appointmentsType={MY_APPOINTMENTS_LIST_STATE.PENDING}
           myAppointments={myPendingAppointments}
         />
-        <Box sx={customCalendarBoxStyle}>
-          <CustomDateCalendar acceptedAppointmentsDates={myAppointmentsDates} />
-        </Box>
+        {!isMobile && (
+          <Box sx={customCalendarBoxStyle}>
+            <CustomDateCalendar
+              acceptedAppointmentsDates={myAppointmentsDates}
+            />
+          </Box>
+        )}
       </Box>
       <AppointmentCardList
         appointmentsType={MY_APPOINTMENTS_LIST_STATE.ACCEPTED}
