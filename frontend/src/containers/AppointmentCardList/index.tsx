@@ -26,9 +26,9 @@ export const AppointmentCardList: FC<AppointmentCardListProps> = ({
   const { handleChangeLimit, handleChangePage, limits, pages } =
     useMyAppointments();
 
-  const containerRef = useRef<HTMLDivElement | null>(null);
-
   const [containerWidth, setContainerWidth] = useState<number | undefined>();
+
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const updateWidth = () => {

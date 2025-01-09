@@ -25,8 +25,7 @@ export const CustomDateCalendar: FC<CustomDateCalendarProps> = ({
     <Box sx={containerStyle}>
       <DateCalendar
         slots={{
-          day: (props) => {
-            const { day } = props;
+          day: ({ day }) => {
             return (
               <StyledDay
                 isWithAcceptedAppointment={isWithAcceptedAppointment(
