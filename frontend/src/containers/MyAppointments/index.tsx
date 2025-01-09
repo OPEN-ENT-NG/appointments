@@ -66,16 +66,20 @@ export const MyAppointments: FC = () => {
           <Typography variant="h3" color="primary" fontWeight="bold">
             {t("appointments.my.appointments")}
           </Typography>
-          <Typography fontStyle={"italic"} variant="h3">
+          <Typography fontStyle={"italic"} variant="h5">
             {t("appointments.my.appointments.accepted.empty.state")}
           </Typography>
           <Box sx={emptyStateSVGStyle}>
             <AppointmentsEmptyState fill={theme.palette.primary.main} />
           </Box>
         </Box>
-        <Box sx={customCalendarBoxStyle}>
-          <CustomDateCalendar acceptedAppointmentsDates={myAppointmentsDates} />
-        </Box>
+        {!isMobile && (
+          <Box sx={customCalendarBoxStyle}>
+            <CustomDateCalendar
+              acceptedAppointmentsDates={myAppointmentsDates}
+            />
+          </Box>
+        )}
       </Box>
     );
   }
