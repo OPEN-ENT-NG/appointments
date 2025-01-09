@@ -162,6 +162,11 @@ public class DefaultAppointmentService implements AppointmentService {
                         NeoUser otherUser = user.get();
                         promise.complete(new AppointmentResponse(appointment, isRequester, otherUser.getDisplayName(), otherUser.getFunctions(), otherUser.getPicture()));
                     }
+                    else {
+                        String errorMessage = "User not found";
+                        LogHelper.logError(this, "buildAppointmentResponse", errorMessage, "");
+                        promise.fail(errorMessage);
+                    }
                 })
                 .onFailure(err -> {
                     String errorMessage = "Failed to build appointment response";
