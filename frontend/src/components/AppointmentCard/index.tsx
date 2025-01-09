@@ -20,7 +20,7 @@ import {
 } from "./style";
 import { AppointmentCardProps } from "./types";
 import { AppointmentStateIcon } from "./utils";
-import { APPOINTMENT_STATE_VALUES } from "~/core/constants";
+import { APPOINTMENT_STATE_VALUES, TIME_FORMAT } from "~/core/constants";
 import { APPOINTMENT_STATE } from "~/core/enums";
 import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 
@@ -31,10 +31,14 @@ export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
     handleAcceptAppointment,
     handleCancelAppointment,
     handleRejectAppointment,
+    handleClickAppointment,
   } = useMyAppointments();
 
   return (
-    <Box sx={cardWrapperStyle}>
+    <Box
+      sx={cardWrapperStyle}
+      onClick={() => handleClickAppointment(appointment.id)}
+    >
       <Box
         component="img"
         src={appointment.picture}
@@ -68,14 +72,14 @@ export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
           <Box sx={rowBoxStyle}>
             <AccessTimeFilledIcon sx={iconsStyle} />
             <Typography variant="body1">
-              {appointment.beginDate.format("HH:mm")} -{" "}
-              {appointment.endDate.format("HH:mm")}
+              {appointment.beginDate.format(TIME_FORMAT)} -{" "}
+              {appointment.endDate.format(TIME_FORMAT)}
             </Typography>
           </Box>
           <Box sx={rowBoxStyle}>
             <AppointmentStateIcon
               state={appointment.state}
-              isRequester={true}
+              isRequester={appointment.isRequester}
             />
             <Typography variant="body1">
               {t(APPOINTMENT_STATE_VALUES[appointment.state].i18nKey)}
