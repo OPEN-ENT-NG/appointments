@@ -16,9 +16,20 @@ import PlaceIcon from "@mui/icons-material/Place";
 import VideoCameraFrontIcon from "@mui/icons-material/VideoCameraFront";
 import { useTranslation } from "react-i18next";
 
+import { AppointmentStateIcon } from "~/components/AppointmentCard/utils";
+import { UserPicture } from "~/components/UserPicture";
+import {
+  APPOINTMENT_STATE_VALUES,
+  TEXT_DATE_FORMAT,
+  TIME_FORMAT,
+} from "~/core/constants";
+import { APPOINTMENT_STATE } from "~/core/enums";
+import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 import {
   bottomContainerStyle,
   dialogContentStyle,
+  greyIconStyle,
+  iconStyle,
   modalStyle,
   oneButtonBoxStyle,
   oneButtonStyle,
@@ -27,16 +38,9 @@ import {
   topContainerStyle,
   twoButtonsBoxStyle,
   twoButtonsStyle,
+  userInfosBoxStyle,
 } from "./style";
 import { AppointmentInfosModalProps } from "./types";
-import { AppointmentStateIcon } from "~/components/AppointmentCard/utils";
-import {
-  APPOINTMENT_STATE_VALUES,
-  TEXT_DATE_FORMAT,
-  TIME_FORMAT,
-} from "~/core/constants";
-import { APPOINTMENT_STATE } from "~/core/enums";
-import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 
 export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
   appointment,
@@ -57,17 +61,16 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
         </DialogTitle>
         <DialogContent sx={dialogContentStyle}>
           <Box sx={topContainerStyle}>
-            <Box
-              component="img"
-              src={appointment.picture}
-              alt={appointment.displayName}
-              sx={pictureStyle}
-            ></Box>
-            <Box>
-              <EllipsisWithTooltip>
+            <Box sx={pictureStyle}>
+              <UserPicture picture={appointment.picture} />
+            </Box>
+            <Box sx={userInfosBoxStyle}>
+              <EllipsisWithTooltip
+                typographyProps={{ variant: "h3", fontWeight: "bold" }}
+              >
                 {appointment.displayName}
               </EllipsisWithTooltip>
-              <EllipsisWithTooltip>
+              <EllipsisWithTooltip typographyProps={{ variant: "h5" }}>
                 {appointment.functions?.join(", ")}
               </EllipsisWithTooltip>
             </Box>
@@ -78,14 +81,14 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
                 state={appointment.state}
                 isRequester={appointment.isRequester}
               />
-              <Typography variant="body1">
+              <Typography variant="h5">
                 {t(APPOINTMENT_STATE_VALUES[appointment.state].i18nKey)}
               </Typography>
             </Box>
             <Box sx={rowInfoStyle}>
-              <VideoCameraFrontIcon sx={{}} color="primary" />
+              <VideoCameraFrontIcon sx={iconStyle} color="primary" />
               <Box>
-                <Typography variant="body1">
+                <Typography variant="h5">
                   {t("appointments.my.appointment.infos.modal.video.call")}
                 </Typography>
                 <Link href={appointment.videoCallLink} color={"primary"}>
@@ -94,8 +97,8 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
               </Box>
             </Box>
             <Box sx={rowInfoStyle}>
-              <EventIcon sx={{}} />
-              <Typography variant="body1">
+              <EventIcon sx={greyIconStyle} />
+              <Typography variant="h5">
                 {t("appointments.my.appointment.infos.modal.date", {
                   date: appointment.beginDate
                     .locale("fr")
@@ -106,26 +109,26 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
               </Typography>
             </Box>
             <Box sx={rowInfoStyle}>
-              <PlaceIcon sx={{}} />
-              <Typography variant="body1">{appointment.place}</Typography>
+              <PlaceIcon sx={greyIconStyle} />
+              <Typography variant="h5">{appointment.place}</Typography>
             </Box>
             <Box sx={rowInfoStyle}>
-              <CommentIcon />
-              <Typography variant="body1">
-                {appointment.publicComment}
-              </Typography>
+              <CommentIcon sx={greyIconStyle} />
+              <Typography variant="h5">{appointment.publicComment}</Typography>
             </Box>
           </Box>
           {appointment.state === APPOINTMENT_STATE.CREATED &&
             (appointment.isRequester ? (
-              <Button
-                variant="outlined"
-                color="error"
-                sx={oneButtonStyle}
-                onClick={() => handleCancelAppointment(appointment.id)}
-              >
-                {t("appointments.cancel.request")}
-              </Button>
+              <Box sx={oneButtonBoxStyle}>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  sx={oneButtonStyle}
+                  onClick={() => handleCancelAppointment(appointment.id)}
+                >
+                  {t("appointments.cancel.request")}
+                </Button>
+              </Box>
             ) : (
               <Box sx={twoButtonsBoxStyle}>
                 <Button

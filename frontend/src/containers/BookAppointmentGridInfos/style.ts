@@ -1,6 +1,5 @@
 import { Box, styled, SxProps } from "@mui/material";
 
-import { StatusCircleProps } from "./types";
 import { columnBoxStyle, flexStartBoxStyle } from "~/styles/boxStyles";
 import {
   BLACK,
@@ -9,6 +8,7 @@ import {
   USER_STATUS_AVAILABLE_COLOR,
   USER_STATUS_UNAVAILABLE_COLOR,
 } from "~/styles/color.constants";
+import { StatusCircleProps } from "./types";
 
 export const wrapperUserInfoStyle: SxProps = {
   ...columnBoxStyle,
@@ -60,6 +60,8 @@ export const pictureStyle: SxProps = {
   overflow: "hidden",
   borderRadius: "50%",
   display: "flex",
+  width: "100%",
+  height: "100%",
 };
 
 export const pictureBoxStyle: SxProps = {

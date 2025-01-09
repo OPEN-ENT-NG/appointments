@@ -49,6 +49,7 @@ export interface MyMinimalAppointment {
   picture: string;
   beginDate: Dayjs;
   endDate: Dayjs;
+  isVideoCall: boolean;
   videoCallLink: string;
   state: APPOINTMENT_STATE;
   isRequester: boolean;

@@ -6,6 +6,10 @@ import VideoCameraFrontIcon from "@mui/icons-material/VideoCameraFront";
 import { Box, Divider, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
+import { APPOINTMENT_STATE_VALUES, TIME_FORMAT } from "~/core/constants";
+import { APPOINTMENT_STATE } from "~/core/enums";
+import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
+import { UserPicture } from "../UserPicture";
 import {
   bottomRightBoxStyle,
   bottomWrapperBoxStyle,
@@ -20,9 +24,6 @@ import {
 } from "./style";
 import { AppointmentCardProps } from "./types";
 import { AppointmentStateIcon } from "./utils";
-import { APPOINTMENT_STATE_VALUES, TIME_FORMAT } from "~/core/constants";
-import { APPOINTMENT_STATE } from "~/core/enums";
-import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 
 export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
   const { t } = useTranslation("appointments");
@@ -39,12 +40,9 @@ export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
       sx={cardWrapperStyle}
       onClick={() => handleClickAppointment(appointment.id)}
     >
-      <Box
-        component="img"
-        src={appointment.picture}
-        alt={appointment.displayName}
-        sx={pictureStyle}
-      />
+      <Box sx={pictureStyle}>
+        <UserPicture picture={appointment.picture} />
+      </Box>
       <EllipsisWithTooltip
         typographyProps={{ variant: "h5", fontWeight: "bold" }}
       >
@@ -85,7 +83,7 @@ export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
               {t(APPOINTMENT_STATE_VALUES[appointment.state].i18nKey)}
             </Typography>
           </Box>
-          {appointment.videoCallLink && (
+          {appointment.isVideoCall && appointment.videoCallLink && (
             <Box sx={rowBoxStyle}>
               <VideoCameraFrontIcon sx={iconsStyle} color="primary" />
               <Typography variant="body1">

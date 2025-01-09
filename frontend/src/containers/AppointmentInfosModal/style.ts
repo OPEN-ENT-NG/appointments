@@ -61,3 +61,19 @@ export const oneButtonBoxStyle: SxProps = {
 export const oneButtonStyle = {
   width: "20rem",
 };
+
+export const userInfosBoxStyle: SxProps = {
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-around",
+};
+
+export const iconStyle: SxProps = {
+  width: "2rem",
+  height: "2rem",
+};
+
+export const greyIconStyle: SxProps<Theme> = (theme: Theme) => ({
+  ...iconStyle,
+  color: theme.palette.grey[700],
+});
