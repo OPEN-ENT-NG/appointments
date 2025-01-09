@@ -2,9 +2,9 @@ import { FC } from "react";
 
 import { Box } from "@mui/material";
 
-import { GREY } from "~/styles/color.constants";
-import { NoAvatar } from "../SVG/NoAvatar";
 import { UserPictureProps } from "./types";
+import { NoAvatar } from "../SVG/NoAvatar";
+import { GREY } from "~/styles/color.constants";
 
 export const UserPicture: FC<UserPictureProps> = ({ picture }) => {
   const isPictureValid = !!picture && picture.startsWith("/userbook/avatar/");

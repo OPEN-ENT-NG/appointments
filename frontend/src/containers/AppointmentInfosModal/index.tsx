@@ -16,20 +16,10 @@ import PlaceIcon from "@mui/icons-material/Place";
 import VideoCameraFrontIcon from "@mui/icons-material/VideoCameraFront";
 import { useTranslation } from "react-i18next";
 
-import { AppointmentStateIcon } from "~/components/AppointmentCard/utils";
-import { UserPicture } from "~/components/UserPicture";
-import {
-  APPOINTMENT_STATE_VALUES,
-  TEXT_DATE_FORMAT,
-  TIME_FORMAT,
-} from "~/core/constants";
-import { APPOINTMENT_STATE } from "~/core/enums";
-import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 import {
   bottomContainerStyle,
   dialogContentStyle,
   greyIconStyle,
-  iconStyle,
   modalStyle,
   oneButtonBoxStyle,
   oneButtonStyle,
@@ -41,6 +31,15 @@ import {
   userInfosBoxStyle,
 } from "./style";
 import { AppointmentInfosModalProps } from "./types";
+import { AppointmentStateIcon } from "~/components/AppointmentCard/utils";
+import { UserPicture } from "~/components/UserPicture";
+import {
+  APPOINTMENT_STATE_VALUES,
+  TEXT_DATE_FORMAT,
+  TIME_FORMAT,
+} from "~/core/constants";
+import { APPOINTMENT_STATE } from "~/core/enums";
+import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 
 export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
   appointment,
@@ -53,6 +52,7 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
     handleRejectAppointment,
   } = useMyAppointments();
   const { t } = useTranslation("appointments");
+
   return (
     <Dialog open={isAppointmentModalOpen} onClose={handleCloseAppointmentModal}>
       <Box sx={modalStyle}>
@@ -86,7 +86,7 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
               </Typography>
             </Box>
             <Box sx={rowInfoStyle}>
-              <VideoCameraFrontIcon sx={iconStyle} color="primary" />
+              <VideoCameraFrontIcon color="primary" />
               <Box>
                 <Typography variant="h5">
                   {t("appointments.my.appointment.infos.modal.video.call")}

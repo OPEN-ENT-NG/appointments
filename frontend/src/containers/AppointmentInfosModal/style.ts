@@ -6,6 +6,18 @@ export const modalStyle: SxProps = {
   minWidth: "44rem",
   maxHeight: "80vh",
   height: "fit-content",
+
+  "& .MuiDialogTitle-root": {
+    padding: "2rem",
+    fontSize: "2rem",
+    fontWeight: "bold",
+    color: "primary.main",
+  },
+
+  "& .MuiSvgIcon-root": {
+    width: "2rem",
+    height: "2rem",
+  },
 };
 
 export const topContainerStyle: SxProps<Theme> = (theme: Theme) => ({
@@ -68,12 +80,6 @@ export const userInfosBoxStyle: SxProps = {
   justifyContent: "space-around",
 };
 
-export const iconStyle: SxProps = {
-  width: "2rem",
-  height: "2rem",
-};
-
 export const greyIconStyle: SxProps<Theme> = (theme: Theme) => ({
-  ...iconStyle,
   color: theme.palette.grey[700],
 });
