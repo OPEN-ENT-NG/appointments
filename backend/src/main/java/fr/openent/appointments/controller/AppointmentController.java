@@ -204,7 +204,6 @@ public class AppointmentController extends ControllerHelper {
         Future<Appointment> handle(final HttpServerRequest request, Long appointmentId, UserInfos userInfos);
     }
 
-    // TODO: Notif
     @Put("appointments/:appointmentId/accept")
     @ApiDoc("Accept an appointment")
     @ResourceFilter(ManageRight.class)
@@ -213,7 +212,6 @@ public class AppointmentController extends ControllerHelper {
         handleAppointmentAction(request, "accept", appointmentService::acceptAppointment);
     }
 
-    // TODO: Notif
     @Put("appointments/:appointmentId/reject")
     @ApiDoc("Reject an appointment")
     @ResourceFilter(ManageRight.class)
@@ -222,7 +220,6 @@ public class AppointmentController extends ControllerHelper {
         handleAppointmentAction(request, "reject", appointmentService::rejectAppointment);
     }
 
-    // TODO: Notif
     @Put("appointments/:appointmentId/cancel")
     @ApiDoc("Cancel an appointment")
     @ResourceFilter(ViewRight.class)
