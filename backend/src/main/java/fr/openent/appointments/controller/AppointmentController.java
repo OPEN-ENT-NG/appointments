@@ -191,17 +191,17 @@ public class AppointmentController extends ControllerHelper {
         }
 
         UserUtils.getAuthenticatedUserInfos(eb, request)
-                .compose(user -> actionHandler.handle(appointmentId, user.getUserId()))
-                .onSuccess(appointment -> renderJson(request, appointment.toJson()))
-                .onFailure(err -> {
-                    String errorMessage = "Failed to " + action + " appointment";
-                    LogHelper.logError(this, action+"Appointment", errorMessage, err.getMessage());
-                    renderError(request);
-                });
+            .compose(user -> actionHandler.handle(request, appointmentId, user))
+            .onSuccess(appointment -> renderJson(request, appointment.toJson()))
+            .onFailure(err -> {
+                String errorMessage = "Failed to " + action + " appointment";
+                LogHelper.logError(this, action+"Appointment", errorMessage, err.getMessage());
+                renderError(request);
+            });
     }
 
     interface AppointmentActionHandler {
-        Future<Appointment> handle(Long appointmentId, String userId);
+        Future<Appointment> handle(final HttpServerRequest request, Long appointmentId, UserInfos userInfos);
     }
 
     // TODO: Notif
