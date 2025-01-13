@@ -64,3 +64,9 @@ export interface MyAppointments {
   total: number;
   appointments: MyMinimalAppointment[];
 }
+
+export interface SpecialAppointmentInfos {
+  id: number;
+  index: number;
+  state: APPOINTMENT_STATE;
+}

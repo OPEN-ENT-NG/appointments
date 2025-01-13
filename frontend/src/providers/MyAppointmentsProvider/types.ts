@@ -8,6 +8,7 @@ import { CONFIRM_MODAL_TYPE } from "~/core/enums";
 import {
   Appointment,
   MyAppointments,
+  SpecialAppointmentInfos,
 } from "~/services/api/AppointmentService/types";
 
 export interface MyAppointmentsProviderContextProps {
@@ -18,6 +19,7 @@ export interface MyAppointmentsProviderContextProps {
   selectedAppointment: Appointment | undefined;
   myAppointmentsDates: Dayjs[] | undefined;
   dialogModalProps: DialogModalProps;
+  specialAppointmentInfosFromNotify: SpecialAppointmentInfos | undefined;
   handleChangePage: (state: MY_APPOINTMENTS_LIST_STATE, page: number) => void;
   handleChangeLimit: (state: MY_APPOINTMENTS_LIST_STATE, limit: number) => void;
   handleAcceptAppointment: (id: number) => void;

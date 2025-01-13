@@ -1,21 +1,42 @@
-import { SxProps } from "@mui/material";
+import { useEffect, useState } from "react";
 
+import { Box, styled, SxProps } from "@mui/material";
+
+import { StyledCardProps } from "./types";
 import { columnBoxStyle, flexStartBoxStyle } from "~/styles/boxStyles";
 
-export const cardWrapperStyle: SxProps = {
-  ...columnBoxStyle,
-  padding: "2.4rem",
-  borderRadius: "1rem",
-  boxShadow: "0px 2px 8px 0px rgba(176, 176, 176, 0.25)",
-  minWidth: "23rem",
-  maxWidth: "23rem",
-  gap: ".4rem",
-  transition: "all 0.2s",
-  cursor: "pointer",
-  "&:hover": {
-    boxShadow: "0px 2px 8px 0px rgba(176, 176, 176, 0.75)",
-  },
-};
+export const StyledCard = styled(Box)<StyledCardProps>(({
+  isAppointmentFromNotif,
+  setAppointmentIdFromNotify,
+}) => {
+  const [isAnimated, setIsAnimated] = useState(false);
+
+  useEffect(() => {
+    if (isAppointmentFromNotif) {
+      setIsAnimated(true);
+      setTimeout(() => {
+        setIsAnimated(false);
+        setAppointmentIdFromNotify(null);
+      }, 1000);
+    }
+  }, [isAppointmentFromNotif]);
+
+  return {
+    ...columnBoxStyle,
+    padding: "2.4rem",
+    borderRadius: "1rem",
+    boxShadow: "0px 2px 8px 0px rgba(176, 176, 176, 0.25)",
+    transition: "background-color 1s ease-in-out",
+    backgroundColor: isAnimated && isAppointmentFromNotif ? "red" : "white",
+    minWidth: "23rem",
+    maxWidth: "23rem",
+    gap: ".4rem",
+    cursor: "pointer",
+    "&:hover": {
+      boxShadow: "0px 2px 8px 0px rgba(176, 176, 176, 0.75)",
+    },
+  };
+});
 
 export const pictureStyle: SxProps = {
   minWidth: "6rem",

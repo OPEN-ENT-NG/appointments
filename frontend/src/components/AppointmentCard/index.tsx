@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useMemo, useRef } from "react";
 
 import { Button, EllipsisWithTooltip } from "@cgi-learning-hub/ui";
 import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
@@ -6,15 +6,20 @@ import VideoCameraFrontIcon from "@mui/icons-material/VideoCameraFront";
 import { Box, Divider, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
+import { APPOINTMENT_STATE_VALUES, TIME_FORMAT } from "~/core/constants";
+import { APPOINTMENT_STATE } from "~/core/enums";
+import { useGlobal } from "~/providers/GlobalProvider";
+import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
+import { UserPicture } from "../UserPicture";
 import {
   bottomRightBoxStyle,
   bottomWrapperBoxStyle,
-  cardWrapperStyle,
   dateBoxStyle,
   dividerStyle,
   iconsStyle,
   pictureStyle,
   rowBoxStyle,
+  StyledCard,
   twoButtonsBoxStyle,
   twoButtonsStyle,
 } from "./style";
@@ -27,6 +32,7 @@ import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 
 export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
   const { t } = useTranslation("appointments");
+  const { appointmentIdFromNotify, setAppointmentIdFromNotify } = useGlobal();
 
   const {
     handleAcceptAppointment,
@@ -34,9 +40,26 @@ export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
     handleOpenDialogModal,
   } = useMyAppointments();
 
+  const isAppointmentFromNotif = useMemo(
+    () => appointmentIdFromNotify === appointment.id,
+    [appointmentIdFromNotify, appointment.id],
+  );
+
+  const appointmentCardRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (isAppointmentFromNotif && appointmentCardRef.current) {
+      appointmentCardRef.current.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  }, [isAppointmentFromNotif]);
+
   return (
-    <Box
-      sx={cardWrapperStyle}
+    <StyledCard
+      ref={appointmentCardRef}
+      isAppointmentFromNotif={isAppointmentFromNotif}
+      setAppointmentIdFromNotify={setAppointmentIdFromNotify}
       onClick={() => handleClickAppointment(appointment.id)}
     >
       <Box sx={pictureStyle}>
@@ -137,6 +160,6 @@ export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
             </Button>
           </Box>
         ))}
-    </Box>
+    </StyledCard>
   );
 };
