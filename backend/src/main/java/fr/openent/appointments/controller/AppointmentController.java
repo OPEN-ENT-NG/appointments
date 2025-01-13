@@ -290,7 +290,7 @@ public class AppointmentController extends ControllerHelper {
                     : Collections.singletonList(appointmentState);
                 return appointmentService.getMyAppointments(user, states, null, null);
             })
-            .compose(listAppointments -> {
+            .onSuccess(listAppointments -> {
                 List<MinimalAppointment> appointments = listAppointments.getAppointments();
                 int index = IntStream.range(0, appointments.size())
                     .filter(i -> appointments.get(i).getId().equals(appointmentId))
@@ -300,12 +300,12 @@ public class AppointmentController extends ControllerHelper {
                 if (index == -1) {
                     String errorMessage = "Appointment not found in list";
                     LogHelper.logError(this, "getSpecialAppointmentInfosById", errorMessage);
-                    return Future.failedFuture(errorMessage);
+                    renderError(request);
                 }
-
-                return Future.succeededFuture(new JsonObject().put(INDEX, index));
+                else {
+                    renderJson(request, new JsonObject().put(INDEX, index));
+                }
             })
-            .onSuccess(jsonIndex -> renderJson(request, jsonIndex))
             .onFailure(err -> {
                 String errorMessage = "Failed to get special appointment infos";
                 LogHelper.logError(this, "getSpecialAppointmentInfosById", errorMessage, err.getMessage());
