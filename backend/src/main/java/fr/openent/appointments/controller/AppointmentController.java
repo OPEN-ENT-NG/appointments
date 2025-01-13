@@ -95,6 +95,7 @@ public class AppointmentController extends ControllerHelper {
                 return Future.failedFuture(errorMessage);
             })
             .compose(appointment -> {
+                composeInfo.put(CAMEL_APPOINTMENT_ID, appointment.getId());
                 renderJson(request, appointment.toJson());
                 return gridService.getGridByTimeSlotId(timeSlotId);
             })
@@ -106,7 +107,8 @@ public class AppointmentController extends ControllerHelper {
             .onSuccess(grid -> {
                 UserInfos user = (UserInfos) composeInfo.getValue(CAMEL_USER_INFO);
                 String targetUserId = grid.getOwnerId();
-                notifyService.notifyNewAppointment(request, user, targetUserId);
+                Long appointmentId = composeInfo.getLong(CAMEL_APPOINTMENT_ID, null);
+                notifyService.notifyNewAppointment(request, user, targetUserId, appointmentId);
             })
             .onFailure(err -> {
                 String errorMessage = "Failed to create appointment";

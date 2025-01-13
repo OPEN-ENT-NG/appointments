@@ -13,8 +13,9 @@ public interface NotifyService {
      * @param request         Http server request
      * @param requesterUser   Requester user
      * @param targetUserId    Target user id
+     * @param appointmentId   Appointment id
      */
-    void notifyNewAppointment(HttpServerRequest request, UserInfos requesterUser, String targetUserId);
+    void notifyNewAppointment(HttpServerRequest request, UserInfos requesterUser, String targetUserId, Long appointmentId);
 
     /**
      * Notify appointment update
