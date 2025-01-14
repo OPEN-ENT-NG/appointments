@@ -302,9 +302,7 @@ public class AppointmentController extends ControllerHelper {
                     LogHelper.logError(this, "getSpecialAppointmentInfosById", errorMessage);
                     renderError(request);
                 }
-                else {
-                    renderJson(request, new JsonObject().put(INDEX, index));
-                }
+                else renderJson(request, new JsonObject().put(INDEX, index));
             })
             .onFailure(err -> {
                 String errorMessage = "Failed to get special appointment infos";
