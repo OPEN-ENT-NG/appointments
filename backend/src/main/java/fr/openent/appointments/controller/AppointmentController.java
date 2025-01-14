@@ -259,11 +259,11 @@ public class AppointmentController extends ControllerHelper {
             });
     }
 
-    @Get("appointments/:appointmentId/notify")
-    @ApiDoc("Get state of an appointment and its index in the list for front when user click on uri present in notification")
+    @Get("appointments/:appointmentId/index")
+    @ApiDoc("Get appointment index in front list in order to make front animation when user click on url present in notification")
     @ResourceFilter(ViewRight.class)
     @SecuredAction(value="", type= ActionType.RESOURCE)
-    public void getSpecialAppointmentInfosById(final HttpServerRequest request) {
+    public void getAppointmentIndexInFrontList(final HttpServerRequest request) {
         Long appointmentId = Optional.ofNullable(request.getParam(CAMEL_APPOINTMENT_ID))
                 .map(Long::parseLong)
                 .orElse(null);
@@ -276,7 +276,6 @@ public class AppointmentController extends ControllerHelper {
         }
 
         JsonObject composeInfo = new JsonObject();
-        JsonObject specialInfos = new JsonObject().put(ID, appointmentId);
 
         UserUtils.getAuthenticatedUserInfos(eb, request)
             .compose(user -> {
@@ -286,7 +285,6 @@ public class AppointmentController extends ControllerHelper {
             .compose(appointmentResponse -> {
                 UserInfos user = (UserInfos) composeInfo.getValue(CAMEL_USER_INFO);
                 AppointmentState appointmentState = appointmentResponse.getState();
-                specialInfos.put(STATE, appointmentState);
                 List<AppointmentState> states = appointmentState == AppointmentState.CANCELED || appointmentState == AppointmentState.REFUSED
                     ? Arrays.asList(AppointmentState.CANCELED, AppointmentState.REFUSED)
                     : Collections.singletonList(appointmentState);
@@ -305,10 +303,9 @@ public class AppointmentController extends ControllerHelper {
                     return Future.failedFuture(errorMessage);
                 }
 
-                specialInfos.put(INDEX, index);
-                return Future.succeededFuture(specialInfos);
+                return Future.succeededFuture(new JsonObject().put(INDEX, index));
             })
-            .onSuccess(specialInfosResponse -> renderJson(request, specialInfosResponse))
+            .onSuccess(jsonIndex -> renderJson(request, jsonIndex))
             .onFailure(err -> {
                 String errorMessage = "Failed to get special appointment infos";
                 LogHelper.logError(this, "getSpecialAppointmentInfosById", errorMessage, err.getMessage());
