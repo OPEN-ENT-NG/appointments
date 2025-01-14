@@ -225,7 +225,6 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
           break;
         case APPOINTMENT_STATE.ACCEPTED:
           const acceptedLimit = limits[MY_APPOINTMENTS_LIST_STATE.ACCEPTED];
-          console.log("acceptedLimit", acceptedLimit);
           const newAcceptedPage = Math.floor(
             appointmentIndexFromNotif / acceptedLimit,
           );
