@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useRef } from "react";
+import { FC, useEffect, useMemo, useRef, useState } from "react";
 
 import { Button, EllipsisWithTooltip } from "@cgi-learning-hub/ui";
 import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
@@ -47,10 +47,40 @@ export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
 
   const appointmentCardRef = useRef<HTMLDivElement | null>(null);
 
+  const [isAnimated, setIsAnimated] = useState(false);
+
+  useEffect(() => {
+    if (!appointmentCardRef.current || !isAppointmentFromNotif) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsAnimated(true);
+          setTimeout(() => {
+            // setIsAnimated(false);
+            setAppointmentIdFromNotify(null);
+          }, 1000);
+        }
+      },
+      {
+        threshold: 1.0, // set to 1.0 to trigger when the element is fully visible
+      },
+    );
+
+    observer.observe(appointmentCardRef.current);
+
+    return () => {
+      if (appointmentCardRef.current) {
+        observer.unobserve(appointmentCardRef.current);
+      }
+    };
+  }, [isAppointmentFromNotif]);
+
   useEffect(() => {
     if (isAppointmentFromNotif && appointmentCardRef.current) {
       appointmentCardRef.current.scrollIntoView({
         behavior: "smooth",
+        block: "center",
       });
     }
   }, [isAppointmentFromNotif]);
@@ -58,8 +88,7 @@ export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
   return (
     <StyledCard
       ref={appointmentCardRef}
-      isAppointmentFromNotif={isAppointmentFromNotif}
-      setAppointmentIdFromNotify={setAppointmentIdFromNotify}
+      isAnimated={isAnimated}
       onClick={() => handleClickAppointment(appointment.id)}
     >
       <Box sx={pictureStyle}>

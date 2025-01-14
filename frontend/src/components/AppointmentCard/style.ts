@@ -1,40 +1,38 @@
-import { useEffect, useState } from "react";
-
 import { Box, styled, SxProps } from "@mui/material";
 
-import { StyledCardProps } from "./types";
 import { columnBoxStyle, flexStartBoxStyle } from "~/styles/boxStyles";
+import { StyledCardProps } from "./types";
 
-export const StyledCard = styled(Box)<StyledCardProps>(({
-  isAppointmentFromNotif,
-  setAppointmentIdFromNotify,
-}) => {
-  const [isAnimated, setIsAnimated] = useState(false);
-
-  useEffect(() => {
-    if (isAppointmentFromNotif) {
-      setIsAnimated(true);
-      setTimeout(() => {
-        setIsAnimated(false);
-        setAppointmentIdFromNotify(null);
-      }, 1000);
-    }
-  }, [isAppointmentFromNotif]);
-
+export const StyledCard = styled(Box)<StyledCardProps>(({ isAnimated }) => {
   return {
     ...columnBoxStyle,
     padding: "2.4rem",
     borderRadius: "1rem",
-    boxShadow: "0px 2px 8px 0px rgba(176, 176, 176, 0.25)",
-    transition: "background-color 1s ease-in-out",
-    backgroundColor: isAnimated && isAppointmentFromNotif ? "red" : "white",
+    boxShadow: isAnimated
+      ? "0px 2px 8px 4px rgba(176, 176, 176, 0.25)"
+      : "0px 2px 8px 0px rgba(176, 176, 176, 0.25)",
     minWidth: "23rem",
     maxWidth: "23rem",
     gap: ".4rem",
     cursor: "pointer",
     "&:hover": {
-      boxShadow: "0px 2px 8px 0px rgba(176, 176, 176, 0.75)",
+      boxShadow: "0px 2px 16px 4px rgba(176, 176, 176, 0.25)",
     },
+    "@keyframes flash": {
+      "0%": {
+        backgroundColor: "white",
+        boxShadow: "0px 2px 8px 4px rgba(176, 176, 176, 0.25)",
+      },
+      "50%": {
+        // backgroundColor: "#F5F7F9",
+        boxShadow: "0px 2px 16px 8px rgba(82, 54, 171, 0.25)",
+      },
+      "100%": {
+        backgroundColor: "white",
+        boxShadow: "0px 2px 8px 4px rgba(176, 176, 176, 0.25)",
+      },
+    },
+    animation: isAnimated ? "flash 1s ease-in-out" : "none",
   };
 });
 
