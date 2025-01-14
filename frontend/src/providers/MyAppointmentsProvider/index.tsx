@@ -11,8 +11,6 @@ import {
 
 import { useTranslation } from "react-i18next";
 
-import { APPOINTMENT_STATE } from "~/core/enums";
-import { useGlobal } from "../GlobalProvider";
 import { MY_APPOINTMENTS_LIST_STATE } from "./enum";
 import {
   AppointmentListInfoType,
@@ -27,16 +25,17 @@ import {
   initialPages,
   states,
 } from "./utils";
+import { useGlobal } from "../GlobalProvider";
 import { DialogModalProps } from "~/components/DialogModal/types";
 import { CONFIRM_MODAL_VALUES } from "~/core/constants";
 import { APPOINTMENT_STATE, CONFIRM_MODAL_TYPE } from "~/core/enums";
 import {
   useAcceptAppointmentMutation,
   useCancelAppointmentMutation,
+  useGetAppointmentIndexQuery,
   useGetAppointmentQuery,
   useGetAppointmentsDatesQuery,
   useGetMyAppointmentsQuery,
-  useGetSpecialAppointmentInfosQuery,
   useRejectAppointmentMutation,
 } from "~/services/api/AppointmentService";
 
@@ -93,10 +92,19 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
     { skip: !selectedAppointmentId },
   );
 
-  const { data: specialAppointmentInfosFromNotify } =
-    useGetSpecialAppointmentInfosQuery(appointmentIdFromNotify as number, {
+  const { data: appointmentIndexFromNotif } = useGetAppointmentIndexQuery(
+    appointmentIdFromNotify as number,
+    {
       skip: !appointmentIdFromNotify,
-    });
+    },
+  );
+
+  const { data: appointmentFromNotif } = useGetAppointmentQuery(
+    appointmentIdFromNotify as number,
+    {
+      skip: !appointmentIdFromNotify,
+    },
+  );
 
   const { data: myAppointmentsDates } = useGetAppointmentsDatesQuery({
     states: [APPOINTMENT_STATE.ACCEPTED],
@@ -202,14 +210,14 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
   );
 
   useEffect(() => {
-    if (specialAppointmentInfosFromNotify) {
-      console.log("salut", specialAppointmentInfosFromNotify);
-      const { state, index } = specialAppointmentInfosFromNotify;
-
+    if (appointmentIndexFromNotif && appointmentFromNotif) {
+      const { state } = appointmentFromNotif;
       switch (state) {
         case APPOINTMENT_STATE.CREATED:
           const createdLimit = limits[MY_APPOINTMENTS_LIST_STATE.PENDING];
-          const newCreatedPage = Math.floor(index / createdLimit);
+          const newCreatedPage = Math.floor(
+            appointmentIndexFromNotif / createdLimit,
+          );
           setPages((prev) => ({
             ...prev,
             [MY_APPOINTMENTS_LIST_STATE.PENDING]: newCreatedPage + 1,
@@ -218,7 +226,9 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
         case APPOINTMENT_STATE.ACCEPTED:
           const acceptedLimit = limits[MY_APPOINTMENTS_LIST_STATE.ACCEPTED];
           console.log("acceptedLimit", acceptedLimit);
-          const newAcceptedPage = Math.floor(index / acceptedLimit);
+          const newAcceptedPage = Math.floor(
+            appointmentIndexFromNotif / acceptedLimit,
+          );
           setPages((prev) => ({
             ...prev,
             [MY_APPOINTMENTS_LIST_STATE.ACCEPTED]: newAcceptedPage + 1,
@@ -229,7 +239,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
           const rejectedOrCanceledLimit =
             limits[MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED];
           const newRejectedOrCanceledPage = Math.floor(
-            index / rejectedOrCanceledLimit,
+            appointmentIndexFromNotif / rejectedOrCanceledLimit,
           );
           setPages((prev) => ({
             ...prev,
@@ -241,7 +251,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
           break;
       }
     }
-  }, [specialAppointmentInfosFromNotify, limits]);
+  }, [appointmentIndexFromNotif, appointmentFromNotif, limits]);
 
   useEffect(() => {
     setMyAppointments((prev) => ({
@@ -269,7 +279,6 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
       selectedAppointment,
       myAppointmentsDates,
       dialogModalProps,
-      specialAppointmentInfosFromNotify,
       handleChangePage,
       handleChangeLimit,
       handleAcceptAppointment,
@@ -288,7 +297,6 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
       selectedAppointment,
       pages,
       limits,
-      specialAppointmentInfosFromNotify,
       dialogModalProps,
     ],
   );

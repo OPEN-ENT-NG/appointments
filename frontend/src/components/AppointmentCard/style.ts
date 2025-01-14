@@ -1,15 +1,18 @@
 import { Box, styled, SxProps } from "@mui/material";
 
-import { columnBoxStyle, flexStartBoxStyle } from "~/styles/boxStyles";
 import { StyledCardProps } from "./types";
+import { columnBoxStyle, flexStartBoxStyle } from "~/styles/boxStyles";
 
-export const StyledCard = styled(Box)<StyledCardProps>(({ isAnimated }) => {
+export const StyledCard = styled(Box)<StyledCardProps>(({
+  isAnimated,
+  theme,
+}) => {
   return {
     ...columnBoxStyle,
     padding: "2.4rem",
     borderRadius: "1rem",
     boxShadow: isAnimated
-      ? "0px 2px 8px 4px rgba(176, 176, 176, 0.25)"
+      ? `0px 2px 8px 4px ${theme.palette.primary.light}`
       : "0px 2px 8px 0px rgba(176, 176, 176, 0.25)",
     minWidth: "23rem",
     maxWidth: "23rem",
@@ -20,16 +23,13 @@ export const StyledCard = styled(Box)<StyledCardProps>(({ isAnimated }) => {
     },
     "@keyframes flash": {
       "0%": {
-        backgroundColor: "white",
-        boxShadow: "0px 2px 8px 4px rgba(176, 176, 176, 0.25)",
+        boxShadow: `0px 2px 8px 4px ${theme.palette.primary.light}`,
       },
       "50%": {
-        // backgroundColor: "#F5F7F9",
-        boxShadow: "0px 2px 16px 8px rgba(82, 54, 171, 0.25)",
+        boxShadow: `0px 2px 16px 8px ${theme.palette.primary.light}`,
       },
       "100%": {
-        backgroundColor: "white",
-        boxShadow: "0px 2px 8px 4px rgba(176, 176, 176, 0.25)",
+        boxShadow: `0px 2px 8px 4px ${theme.palette.primary.light}`,
       },
     },
     animation: isAnimated ? "flash 1s ease-in-out" : "none",

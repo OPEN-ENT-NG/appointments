@@ -66,7 +66,5 @@ export interface MyAppointments {
 }
 
 export interface SpecialAppointmentInfos {
-  id: number;
   index: number;
-  state: APPOINTMENT_STATE;
 }

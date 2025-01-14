@@ -6,12 +6,12 @@ import {
   GetAppointmentsDatesPayload,
   GetMyAppointmentsPayload,
   MyAppointments,
-  SpecialAppointmentInfos,
 } from "./types";
 import {
   transformResponseToAppointment,
   transformResponseToDayjsArray,
   transformResponseToMyAppointments,
+  transformResponseToNumber,
 } from "./utils";
 import { emptySplitApi } from "../EmptySplitService";
 
@@ -44,8 +44,9 @@ export const appointmentApi = emptySplitApi.injectEndpoints({
       query: (appointmentId) => `/appointments/${appointmentId}`,
       transformResponse: transformResponseToAppointment,
     }),
-    getSpecialAppointmentInfos: builder.query<SpecialAppointmentInfos, number>({
-      query: (appointmentId) => `/appointments/${appointmentId}/notify`,
+    getAppointmentIndex: builder.query<number, number>({
+      query: (appointmentId) => `/appointments/${appointmentId}/index`,
+      transformResponse: transformResponseToNumber,
     }),
     getAppointmentsDates: builder.query<Dayjs[], GetAppointmentsDatesPayload>({
       query: (body) => {
@@ -89,7 +90,7 @@ export const {
   useBookAppointmentMutation,
   useGetMyAppointmentsQuery,
   useGetAppointmentQuery,
-  useGetSpecialAppointmentInfosQuery,
+  useGetAppointmentIndexQuery,
   useGetAppointmentsDatesQuery,
   useAcceptAppointmentMutation,
   useRejectAppointmentMutation,
