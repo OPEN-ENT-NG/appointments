@@ -31,7 +31,6 @@ import {
   twoButtonsStyle,
   userInfosBoxStyle,
 } from "./style";
-import { AppointmentInfosModalProps } from "./types";
 import { AppointmentStateIcon } from "~/components/AppointmentCard/utils";
 import { UserPicture } from "~/components/UserPicture";
 import {
@@ -42,19 +41,19 @@ import {
 import { APPOINTMENT_STATE, CONFIRM_MODAL_TYPE } from "~/core/enums";
 import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 
-export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
-  appointment,
-}) => {
+export const AppointmentInfosModal: FC = () => {
   const {
-    isAppointmentModalOpen,
+    selectedAppointment: appointment,
     handleCloseAppointmentModal,
     handleAcceptAppointment,
     handleOpenDialogModal,
   } = useMyAppointments();
   const { t } = useTranslation("appointments");
 
+  if (!appointment) return null;
+
   return (
-    <Dialog open={isAppointmentModalOpen} onClose={handleCloseAppointmentModal}>
+    <Dialog open onClose={handleCloseAppointmentModal}>
       <Box sx={modalStyle}>
         <DialogTitle>
           {t("appointments.my.appointment.infos.modal.title")}
@@ -121,7 +120,7 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
             {appointment.publicComment && (
               <Box sx={rowInfoStyle}>
                 <CommentIcon sx={greyIconStyle} />
-                <Typography variant="h5">
+                <Typography variant="h5" whiteSpace={"pre-line"}>
                   {appointment.publicComment}
                 </Typography>
               </Box>

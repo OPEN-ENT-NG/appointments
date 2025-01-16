@@ -66,7 +66,7 @@ export const bottomRightBoxStyle: SxProps = {
 
 export const dividerStyle: SxProps = {
   borderColor: "divider",
-  borderWidth: "0 0 0 2px",
+  borderWidth: "0 0 0 1px",
 };
 
 export const iconsStyle: SxProps = {
