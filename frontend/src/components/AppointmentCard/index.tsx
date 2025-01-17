@@ -7,11 +7,18 @@ import {
   Box,
   ClickAwayListener,
   Divider,
+  Tooltip,
   Typography,
   useTheme,
 } from "@mui/material";
+import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 
+import { APPOINTMENT_STATE_VALUES, TIME_FORMAT } from "~/core/constants";
+import { APPOINTMENT_STATE, CONFIRM_MODAL_TYPE } from "~/core/enums";
+import { useGlobal } from "~/providers/GlobalProvider";
+import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
+import { UserPicture } from "../UserPicture";
 import {
   bottomRightBoxStyle,
   bottomWrapperBoxStyle,
@@ -26,11 +33,6 @@ import {
 } from "./style";
 import { AppointmentCardProps } from "./types";
 import { AppointmentStateIcon } from "./utils";
-import { UserPicture } from "../UserPicture";
-import { APPOINTMENT_STATE_VALUES, TIME_FORMAT } from "~/core/constants";
-import { APPOINTMENT_STATE, CONFIRM_MODAL_TYPE } from "~/core/enums";
-import { useGlobal } from "~/providers/GlobalProvider";
-import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 
 export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
   const { t } = useTranslation("appointments");
@@ -46,6 +48,11 @@ export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
   const isAppointmentFromNotif = useMemo(
     () => appointmentIdFromNotify === appointment.id,
     [appointmentIdFromNotify, appointment.id],
+  );
+
+  const canCancelRequest = useMemo(
+    () => dayjs().add(24, "hour").isBefore(appointment.beginDate),
+    [appointment.beginDate],
   );
 
   const appointmentCardRef = useRef<HTMLDivElement | null>(null);
@@ -150,20 +157,40 @@ export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
         </Box>
         {appointment.state === APPOINTMENT_STATE.CREATED &&
           (appointment.isRequester ? (
-            <Button
-              variant="outlined"
-              color="error"
-              fullWidth
-              onClick={(event) => {
-                event?.stopPropagation();
-                handleOpenDialogModal(
-                  CONFIRM_MODAL_TYPE.CANCEL_REQUEST,
-                  appointment.id,
-                );
+            <Tooltip
+              title={
+                canCancelRequest
+                  ? ""
+                  : t("appointments.cannot.cancel.request.tooltip")
+              }
+              placement="bottom"
+              arrow
+              componentsProps={{
+                tooltip: {
+                  style: {
+                    width: "210px", // Largeur fixe (facultatif)
+                  },
+                },
               }}
             >
-              {t("appointments.cancel.request")}
-            </Button>
+              <Box>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  fullWidth
+                  disabled={!canCancelRequest}
+                  onClick={(event) => {
+                    event?.stopPropagation();
+                    handleOpenDialogModal(
+                      CONFIRM_MODAL_TYPE.CANCEL_REQUEST,
+                      appointment.id,
+                    );
+                  }}
+                >
+                  {t("appointments.cancel.request")}
+                </Button>
+              </Box>
+            </Tooltip>
           ) : (
             <Box sx={twoButtonsBoxStyle}>
               <Button
