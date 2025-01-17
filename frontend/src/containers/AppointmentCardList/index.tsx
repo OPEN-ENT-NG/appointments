@@ -3,13 +3,6 @@ import { FC, useEffect, useRef, useState } from "react";
 import { Box, Pagination, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-import { AppointmentCard } from "~/components/AppointmentCard";
-import {
-  APPOINTMENT_CARD_WIDTH,
-  APPOINTMENT_CARDS_GAP,
-  MY_APPOINTMENTS_LIST_STATE_VALUES,
-} from "~/core/constants";
-import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 import {
   containerStyle,
   paginationBoxStyle,
@@ -17,6 +10,13 @@ import {
   wrapperListBox,
 } from "./style";
 import { AppointmentCardListProps } from "./types";
+import { AppointmentCard } from "~/components/AppointmentCard";
+import {
+  APPOINTMENT_CARD_WIDTH,
+  APPOINTMENT_CARDS_GAP,
+  MY_APPOINTMENTS_LIST_STATE_VALUES,
+} from "~/core/constants";
+import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 
 export const AppointmentCardList: FC<AppointmentCardListProps> = ({
   appointmentsType,

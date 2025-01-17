@@ -12,6 +12,21 @@ import {
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
+import { MY_APPOINTMENTS_LIST_STATE } from "./enum";
+import {
+  AppointmentListInfoType,
+  AppointmentsType,
+  MyAppointmentsProviderContextProps,
+  MyAppointmentsProviderProps,
+} from "./types";
+import {
+  initialAppointments,
+  initialDialogModalProps,
+  initialLimits,
+  initialPages,
+  states,
+} from "./utils";
+import { useGlobal } from "../GlobalProvider";
 import { DialogModalProps } from "~/components/DialogModal/types";
 import { CONFIRM_MODAL_VALUES, TOAST_VALUES } from "~/core/constants";
 import {
@@ -29,21 +44,6 @@ import {
   useRejectAppointmentMutation,
 } from "~/services/api/AppointmentService";
 import { Appointment } from "~/services/api/AppointmentService/types";
-import { useGlobal } from "../GlobalProvider";
-import { MY_APPOINTMENTS_LIST_STATE } from "./enum";
-import {
-  AppointmentListInfoType,
-  AppointmentsType,
-  MyAppointmentsProviderContextProps,
-  MyAppointmentsProviderProps,
-} from "./types";
-import {
-  initialAppointments,
-  initialDialogModalProps,
-  initialLimits,
-  initialPages,
-  states,
-} from "./utils";
 
 const MyAppointmentsProviderContext =
   createContext<MyAppointmentsProviderContextProps | null>(null);
@@ -96,7 +96,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
     limit: limits[MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED],
   });
 
-  const { data: selectedAppointmentData } = useGetAppointmentQuery(
+  const { data: selectedAppointmentData, isFetching } = useGetAppointmentQuery(
     selectedAppointmentId as number,
     { skip: !selectedAppointmentId },
   );
@@ -181,6 +181,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
   }, []);
 
   const handleCloseAppointmentModal = useCallback(() => {
+    setSelectedAppointmentId(null);
     setSelectedAppointment(null);
   }, []);
 
@@ -223,10 +224,10 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
   );
 
   useEffect(() => {
-    if (selectedAppointmentData) {
+    if (selectedAppointmentData && selectedAppointmentId && !isFetching) {
       setSelectedAppointment(selectedAppointmentData);
     }
-  }, [selectedAppointmentData]);
+  }, [selectedAppointmentData, selectedAppointmentId, isFetching]);
 
   useEffect(() => {
     if (appointmentIndexFromNotif && appointmentFromNotif) {

@@ -14,14 +14,10 @@ import {
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 
-import { APPOINTMENT_STATE_VALUES, TIME_FORMAT } from "~/core/constants";
-import { APPOINTMENT_STATE, CONFIRM_MODAL_TYPE } from "~/core/enums";
-import { useGlobal } from "~/providers/GlobalProvider";
-import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
-import { UserPicture } from "../UserPicture";
 import {
   bottomRightBoxStyle,
   bottomWrapperBoxStyle,
+  CancelButtonBox,
   dateBoxStyle,
   dividerStyle,
   iconsStyle,
@@ -33,6 +29,11 @@ import {
 } from "./style";
 import { AppointmentCardProps } from "./types";
 import { AppointmentStateIcon } from "./utils";
+import { UserPicture } from "../UserPicture";
+import { APPOINTMENT_STATE_VALUES, TIME_FORMAT } from "~/core/constants";
+import { APPOINTMENT_STATE, CONFIRM_MODAL_TYPE } from "~/core/enums";
+import { useGlobal } from "~/providers/GlobalProvider";
+import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 
 export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
   const { t } = useTranslation("appointments");
@@ -168,12 +169,15 @@ export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
               componentsProps={{
                 tooltip: {
                   style: {
-                    width: "210px", // Largeur fixe (facultatif)
+                    width: "210px",
                   },
                 },
               }}
             >
-              <Box>
+              <CancelButtonBox
+                onClick={(event) => event.stopPropagation()}
+                canCancelRequest={canCancelRequest}
+              >
                 <Button
                   variant="outlined"
                   color="error"
@@ -189,7 +193,7 @@ export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
                 >
                   {t("appointments.cancel.request")}
                 </Button>
-              </Box>
+              </CancelButtonBox>
             </Tooltip>
           ) : (
             <Box sx={twoButtonsBoxStyle}>

@@ -1,6 +1,6 @@
 import { Box, styled, SxProps } from "@mui/material";
 
-import { StyledCardProps } from "./types";
+import { CancelButtonBoxProps, StyledCardProps } from "./types";
 import { columnBoxStyle, flexStartBoxStyle } from "~/styles/boxStyles";
 
 export const StyledCard = styled(Box)<StyledCardProps>(({
@@ -87,3 +87,9 @@ export const twoButtonsBoxStyle: SxProps = {
 export const twoButtonsStyle = {
   width: "50%",
 };
+
+export const CancelButtonBox = styled(Box)<CancelButtonBoxProps>(
+  (canCancelRequest) => ({
+    cursor: canCancelRequest ? "default" : "pointer",
+  }),
+);
