@@ -22,8 +22,12 @@ import { MY_APPOINTMENTS_LIST_STATE } from "~/providers/MyAppointmentsProvider/e
 import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
 
 export const MyAppointments: FC = () => {
-  const { myAppointments, myAppointmentsDates, dialogModalProps } =
-    useMyAppointments();
+  const {
+    myAppointments,
+    myAppointmentsDates,
+    dialogModalProps,
+    selectedAppointment,
+  } = useMyAppointments();
   const isMobile = useMediaQuery("(max-width:620px)");
   const { t } = useTranslation("appointments");
   const theme = useTheme();
@@ -89,7 +93,9 @@ export const MyAppointments: FC = () => {
 
   return (
     <>
-      <AppointmentInfosModal />
+      {selectedAppointment && (
+        <AppointmentInfosModal appointment={selectedAppointment} />
+      )}
       <DialogModal {...dialogModalProps} />
       <Box sx={mainContainerStyle}>
         <Box sx={fisrtContainerStyle}>

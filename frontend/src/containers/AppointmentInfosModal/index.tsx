@@ -33,6 +33,7 @@ import {
   twoButtonsStyle,
   userInfosBoxStyle,
 } from "./style";
+import { AppointmentInfosModalProps } from "./types";
 import { AppointmentStateIcon } from "~/components/AppointmentCard/utils";
 import { UserPicture } from "~/components/UserPicture";
 import {
@@ -43,9 +44,10 @@ import {
 import { APPOINTMENT_STATE, CONFIRM_MODAL_TYPE } from "~/core/enums";
 import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 
-export const AppointmentInfosModal: FC = () => {
+export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
+  appointment,
+}) => {
   const {
-    selectedAppointment: appointment,
     handleCloseAppointmentModal,
     handleAcceptAppointment,
     handleOpenDialogModal,
@@ -53,12 +55,9 @@ export const AppointmentInfosModal: FC = () => {
   const { t } = useTranslation("appointments");
 
   const canCancelRequest = useMemo(
-    () =>
-      appointment && dayjs().add(24, "hour").isBefore(appointment.beginDate),
+    () => dayjs().add(24, "hour").isBefore(appointment.beginDate),
     [appointment],
   );
-
-  if (!appointment) return null;
 
   return (
     <Dialog open onClose={handleCloseAppointmentModal}>

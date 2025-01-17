@@ -95,13 +95,34 @@ export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
     }
   }, [isAppointmentFromNotif]);
 
+  // Event Handlers
+
+  const handleCardClick = () => {
+    handleClickAppointment(appointment.id);
+  };
+
+  const handleCancelRequestClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    handleOpenDialogModal(CONFIRM_MODAL_TYPE.CANCEL_REQUEST, appointment.id);
+  };
+
+  const handleAcceptClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    handleAcceptAppointment(appointment.id);
+  };
+
+  const handleRejectClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    handleOpenDialogModal(CONFIRM_MODAL_TYPE.REJECT_REQUEST, appointment.id);
+  };
+
   return (
     <ClickAwayListener onClickAway={() => setIsAnimated(false)}>
       <StyledCard
         ref={appointmentCardRef}
         theme={theme}
         isAnimated={isAnimated}
-        onClick={() => handleClickAppointment(appointment.id)}
+        onClick={handleCardClick}
       >
         <Box sx={pictureStyle}>
           <UserPicture picture={appointment.picture} />
@@ -183,13 +204,7 @@ export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
                   color="error"
                   fullWidth
                   disabled={!canCancelRequest}
-                  onClick={(event) => {
-                    event?.stopPropagation();
-                    handleOpenDialogModal(
-                      CONFIRM_MODAL_TYPE.CANCEL_REQUEST,
-                      appointment.id,
-                    );
-                  }}
+                  onClick={handleCancelRequestClick}
                 >
                   {t("appointments.cancel.request")}
                 </Button>
@@ -201,10 +216,7 @@ export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
                 variant="outlined"
                 sx={twoButtonsStyle}
                 color="success"
-                onClick={(event) => {
-                  event?.stopPropagation();
-                  handleAcceptAppointment(appointment.id);
-                }}
+                onClick={handleAcceptClick}
               >
                 {t("appointments.accept")}
               </Button>
@@ -212,13 +224,7 @@ export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
                 variant="outlined"
                 sx={twoButtonsStyle}
                 color="error"
-                onClick={(event) => {
-                  event?.stopPropagation();
-                  handleOpenDialogModal(
-                    CONFIRM_MODAL_TYPE.REJECT_REQUEST,
-                    appointment.id,
-                  );
-                }}
+                onClick={handleRejectClick}
               >
                 {t("appointments.refuse")}
               </Button>
