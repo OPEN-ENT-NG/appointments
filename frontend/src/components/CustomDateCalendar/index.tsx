@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
 import { useTranslation } from "react-i18next";
 
+import { isToday } from "~/core/utils";
 import {
   appointmentsLegendStyle,
   calandarStyle,
@@ -17,7 +18,6 @@ import {
 } from "./style";
 import { CustomDateCalendarProps } from "./types";
 import { isWithAcceptedAppointment } from "./utils";
-import { isToday } from "~/core/utils";
 
 dayjs.extend(isoWeek);
 
@@ -59,6 +59,7 @@ export const CustomDateCalendar: FC<CustomDateCalendarProps> = ({
           },
         }}
         onMonthChange={(month) => setCurrentMonth(month)}
+        onYearChange={(year) => setCurrentMonth(year)}
         sx={calandarStyle}
       />
       <Box sx={legendStyle}>
