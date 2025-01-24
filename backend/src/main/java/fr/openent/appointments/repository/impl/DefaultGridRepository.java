@@ -238,8 +238,8 @@ public class DefaultGridRepository implements GridRepository {
     }
 
     @Override
-    public Future<Grid> updateFields(Long gridId, GridPayload grid){
-        Promise<Grid> promise = Promise.promise();
+    public Future<Optional<Grid>> updateFields(Long gridId, GridPayload grid){
+        Promise<Optional<Grid>> promise = Promise.promise();
 
         String name = grid.getGridName();
         String color = grid.getColor();

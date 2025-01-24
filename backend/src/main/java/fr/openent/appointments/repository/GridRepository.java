@@ -117,5 +117,5 @@ public interface GridRepository {
      *        This object may include the updated grid's details or an error message
      *        if the operation fails.
      */
-    Future<Grid> updateFields(Long gridId, GridPayload grid);
+    Future<Optional<Grid>> updateFields(Long gridId, GridPayload grid);
 }

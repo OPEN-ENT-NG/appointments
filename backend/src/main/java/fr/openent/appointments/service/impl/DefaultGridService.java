@@ -219,7 +219,14 @@ public class DefaultGridService implements GridService {
         Promise<Grid> promise = Promise.promise();
 
         gridRepository.updateFields(gridId, grid)
-            .onSuccess(promise::complete)
+            .onSuccess(updatedGrid -> {
+                if (updatedGrid.isPresent()) promise.complete(updatedGrid.get());
+                else{
+                    String errorMessage = "Failed to update grid";
+                    LogHelper.logError(this, "updateGrid", errorMessage, "Grid not found");
+                    promise.fail(errorMessage);
+                }
+            })
             .onFailure(err -> {
                 String errorMessage = "Failed to update grid";
                 LogHelper.logError(this, "updateGrid", errorMessage, err.getMessage());
