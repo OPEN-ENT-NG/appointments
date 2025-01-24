@@ -214,7 +214,7 @@ public class GridController extends ControllerHelper {
                 .onFailure(error -> {
                     String errorMessage = "Failed to update grid with id " + gridId;
                     LogHelper.logError(this, "updateGrid", errorMessage, error.getMessage());
-                    if (!request.isEnded()) renderError(request);
+                    if (!request.response().ended()) renderError(request);
                 });
         });
     }
