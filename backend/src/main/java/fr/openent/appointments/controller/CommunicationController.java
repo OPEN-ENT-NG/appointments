@@ -2,6 +2,7 @@ package fr.openent.appointments.controller;
 
 import fr.openent.appointments.helper.IModelHelper;
 import fr.openent.appointments.helper.LogHelper;
+import fr.openent.appointments.helper.ParamHelper;
 import fr.openent.appointments.security.ViewRight;
 import fr.openent.appointments.service.CommunicationService;
 import fr.openent.appointments.service.ServiceFactory;
@@ -33,11 +34,8 @@ public class CommunicationController extends BaseController {
     @ResourceFilter(ManageRight.class)
     @SecuredAction(value = "", type = ActionType.RESOURCE)
     public void getGroupsCanCommunicateWithMe(final HttpServerRequest request) {
-        String structureId = request.getParam(CAMEL_STRUCTURE_ID);
-        if (structureId == null || structureId.isEmpty()) {
-            badRequest(request);
-            return;
-        }
+        String structureId = ParamHelper.getParam(CAMEL_STRUCTURE_ID, request, String.class, true, "getGroupsCanCommunicateWithMe");
+        if (request.response().ended()) return;
 
         UserUtils.getAuthenticatedUserInfos(eb, request)
             .compose(user -> {
@@ -65,12 +63,10 @@ public class CommunicationController extends BaseController {
     @SecuredAction(value = "", type = ActionType.RESOURCE)
     public void getUsersICanCommunicateWith(final HttpServerRequest request) {
         String search = request.getParam(SEARCH);
-        Long page = Optional.ofNullable(request.params().get(PAGE))
-                .map(Long::parseLong)
-                .orElse(null);
-        Long limit = Optional.ofNullable(request.params().get(LIMIT))
-                .map(Long::parseLong)
-                .orElse(null);
+        Long page = ParamHelper.getParam(PAGE, request, Long.class, false, "getUsersICanCommunicateWith");
+        if (request.response().ended()) return;
+        Long limit = ParamHelper.getParam(LIMIT, request, Long.class, false, "getUsersICanCommunicateWith");
+        if (request.response().ended()) return;
 
         UserUtils.getAuthenticatedUserInfos(eb, request)
             .compose(user -> communicationService.getUsersICanCommunicateWith(user, search, page, limit))

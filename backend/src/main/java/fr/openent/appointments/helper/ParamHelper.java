@@ -11,8 +11,8 @@ public class ParamHelper {
         throw new IllegalStateException("Utility class");
     }
 
-    public <T> T getParam(String key, HttpServerRequest request, Class<T> type, boolean required, String functionName) {
-        T param = null;
+    public static <T> T getParam(String key, HttpServerRequest request, Class<T> type, boolean required, String functionName) {
+        T param;
 
         try {
             if (type == String.class) {
@@ -25,19 +25,23 @@ public class ParamHelper {
                 param = type.cast(Optional.ofNullable(request.getParam(key))
                         .map(Long::parseLong)
                         .orElse(null));
+            } else if (type == Boolean.class) {
+                param = type.cast(Optional.ofNullable(request.getParam(key))
+                        .map(Boolean::parseBoolean)
+                        .orElse(false));
             } else {
                 throw new IllegalArgumentException("Unsupported type: " + type.getName());
             }
         } catch (NumberFormatException e) {
             String errorMessage = String.format("Invalid format for parameter '%s' in function '%s'", key, functionName);
-            LogHelper.logError(this, functionName, errorMessage);
+            LogHelper.logError(ParamHelper.class, functionName, errorMessage);
             badRequest(request);
             return null;
         }
 
         if (required && param == null) {
             String errorMessage = String.format("Parameter '%s' is required but missing or invalid in function '%s'", key, functionName);
-            LogHelper.logError(this, functionName, errorMessage);
+            LogHelper.logError(ParamHelper.class, functionName, errorMessage);
             badRequest(request);
             return null;
         }
