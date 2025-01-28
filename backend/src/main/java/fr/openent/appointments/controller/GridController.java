@@ -8,7 +8,6 @@ import fr.wseduc.rs.ApiDoc;
 import fr.wseduc.rs.Get;
 import fr.wseduc.rs.Post;
 import fr.wseduc.rs.Put;
-import fr.wseduc.rs.Delete;
 import fr.wseduc.webutils.request.RequestUtils;
 import fr.wseduc.security.ActionType;
 import fr.wseduc.security.SecuredAction;
@@ -29,7 +28,6 @@ import fr.openent.appointments.security.ViewRight;
 import org.entcore.common.user.UserUtils;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static fr.openent.appointments.core.constants.Constants.*;
