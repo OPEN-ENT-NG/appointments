@@ -307,7 +307,7 @@ public class DefaultGridRepository implements GridRepository {
             .onSuccess(result -> {
                 List<Appointment> appointments = transactionElements.stream()
                         .flatMap(element -> element.getResult().stream())
-                        .map(appointment -> (Appointment) appointment)
+                        .map(appointmentJson -> new Appointment((JsonObject) appointmentJson))
                         .collect(Collectors.toList());
                 promise.complete(appointments);
             })
