@@ -17,6 +17,9 @@ import io.vertx.core.http.HttpServerRequest;
 import fr.openent.appointments.security.ManageRight;
 import org.entcore.common.user.UserUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import static fr.openent.appointments.core.constants.Constants.*;
@@ -62,11 +65,17 @@ public class CommunicationController extends BaseController {
     @ResourceFilter(ViewRight.class)
     @SecuredAction(value = "", type = ActionType.RESOURCE)
     public void getUsersICanCommunicateWith(final HttpServerRequest request) {
-        String search = request.getParam(SEARCH);
-        Long page = ParamHelper.getParam(PAGE, request, Long.class, false, "getUsersICanCommunicateWith");
+        Map<String, Class<?>> requestParams = new HashMap<>();
+        requestParams.put(SEARCH, String.class);
+        requestParams.put(PAGE, Long.class);
+        requestParams.put(LIMIT, Long.class);
+
+        Map<String, Object> paramValues = ParamHelper.getParams(requestParams, request, new String[0], "getUsersICanCommunicateWith");
         if (request.response().ended()) return;
-        Long limit = ParamHelper.getParam(LIMIT, request, Long.class, false, "getUsersICanCommunicateWith");
-        if (request.response().ended()) return;
+
+        String search = (String) paramValues.get(SEARCH);
+        Long page = (Long) paramValues.get(PAGE);
+        Long limit = (Long) paramValues.get(LIMIT);
 
         UserUtils.getAuthenticatedUserInfos(eb, request)
             .compose(user -> communicationService.getUsersICanCommunicateWith(user, search, page, limit))

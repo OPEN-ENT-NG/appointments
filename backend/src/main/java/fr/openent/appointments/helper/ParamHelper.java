@@ -2,7 +2,7 @@ package fr.openent.appointments.helper;
 
 import io.vertx.core.http.HttpServerRequest;
 
-import java.util.Optional;
+import java.util.*;
 
 import static fr.wseduc.webutils.http.Renders.badRequest;
 
@@ -48,5 +48,23 @@ public class ParamHelper {
 
         return param;
     }
+
+    public static Map<String, Object> getParams(Map<String, Class<?>> params, HttpServerRequest request,
+                                                String[] requiredKeys, String functionName) {
+        Map<String, Object> result = new HashMap<>();
+        List<String> requiredValues = Arrays.asList(requiredKeys);
+
+        params.forEach((key, type) -> {
+                boolean required = requiredValues.contains(key);
+                Object value = getParam(key, request, type, required, functionName);
+                if (request.response().ended()) return;
+
+                result.put(key, value);
+            }
+        );
+
+        return result;
+    }
+
 
 }

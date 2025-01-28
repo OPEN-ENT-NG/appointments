@@ -167,6 +167,7 @@ public class AppointmentController extends ControllerHelper {
                                          String action,
                                          AppointmentActionHandler actionHandler) {
         Long appointmentId = ParamHelper.getParam(CAMEL_APPOINTMENT_ID, request, Long.class, true, action + "Appointment");
+        if(request.response().ended()) return;
 
         UserUtils.getAuthenticatedUserInfos(eb, request)
             .compose(user -> actionHandler.handle(request, appointmentId, user))
@@ -239,6 +240,7 @@ public class AppointmentController extends ControllerHelper {
     @SecuredAction(value="", type= ActionType.RESOURCE)
     public void getAppointmentIndexInFrontList(final HttpServerRequest request) {
         Long appointmentId = ParamHelper.getParam(CAMEL_APPOINTMENT_ID, request, Long.class, true, "getAppointmentIndexInFrontList");
+        if(request.response().ended()) return;
 
         JsonObject composeInfo = new JsonObject();
 
