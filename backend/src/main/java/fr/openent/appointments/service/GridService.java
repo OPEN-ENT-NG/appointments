@@ -103,7 +103,7 @@ public interface GridService {
     /**
      * Suspends a specific grid by its ID.
      *
-     * @param gridId The ID of the grid to delete.
+     * @param gridId The ID of the grid to suspend.
      * @param deleteAppointments A boolean indicating whether the appointments associated with the grid should be deleted.
      * @return A Future that will complete when the grid has been suspended.
      */
@@ -112,7 +112,7 @@ public interface GridService {
     /**
      * Restores a suspended grid by its ID.
      *
-     * @param gridId The ID of the grid to delete.
+     * @param gridId The ID of the grid to restore.
      * @return A Future that will complete when the grid has been restored.
      */
     Future<List<String>> restoreGrid(Long gridId);

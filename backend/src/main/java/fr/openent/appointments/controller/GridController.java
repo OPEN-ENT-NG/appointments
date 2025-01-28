@@ -267,6 +267,4 @@ public class GridController extends ControllerHelper {
         // For restoreGrid, deleteAppointments is irrelevant, so we use a lambda that ignores it.
         handleGridOperation(request, (gridId, deleteAppointments) -> gridService.restoreGrid(gridId), "restoreGrid");
     }
-
-
 }
