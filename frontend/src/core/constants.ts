@@ -1,6 +1,7 @@
 import { SvgIconProps } from "@mui/material";
 import { Theme, ToastPosition } from "react-toastify";
 
+import { MY_APPOINTMENTS_LIST_STATE } from "~/providers/MyAppointmentsProvider/enum";
 import {
   APPOINTMENT_STATE,
   CONFIRM_MODAL_TYPE,
@@ -9,7 +10,6 @@ import {
   PERIODICITY,
   TOAST_TYPE,
 } from "./enums";
-import { MY_APPOINTMENTS_LIST_STATE } from "~/providers/MyAppointmentsProvider/enum";
 
 export const GRID_PER_PAGE = 5;
 
@@ -131,14 +131,32 @@ export const CONFIRM_MODAL_VALUES = {
   [CONFIRM_MODAL_TYPE.REJECT_REQUEST]: {
     titleKey: "appointments.confirm.modal.reject.request.title",
     descriptionKey: "appointments.confirm.modal.reject.request.description",
+    questionKey: "",
   },
   [CONFIRM_MODAL_TYPE.CANCEL_REQUEST]: {
     titleKey: "appointments.confirm.modal.cancel.request.title",
     descriptionKey: "appointments.confirm.modal.cancel.request.description",
+    questionKey: "",
   },
   [CONFIRM_MODAL_TYPE.CANCEL_APPOINTMENT]: {
     titleKey: "appointments.confirm.modal.cancel.appointment.title",
     descriptionKey: "appointments.confirm.modal.cancel.appointment.description",
+    questionKey: "",
+  },
+  [CONFIRM_MODAL_TYPE.DELETE_GRID]: {
+    titleKey: "appointments.delete.grid.confirm.title",
+    descriptionKey: "appointments.delete.grid.confirm.description",
+    questionKey: "appointments.delete.grid.confirm.question",
+  },
+  [CONFIRM_MODAL_TYPE.SUSPEND_GRID]: {
+    titleKey: "appointments.suspend.grid.confirm.title",
+    descriptionKey: "appointments.suspend.grid.confirm.description",
+    questionKey: "appointments.suspend.grid.confirm.question",
+  },
+  [CONFIRM_MODAL_TYPE.RESTORE_GRID]: {
+    titleKey: "appointments.restore.grid.confirm.title",
+    descriptionKey: "appointments.restore.grid.confirm.description",
+    questionKey: "",
   },
 };
 
@@ -162,5 +180,17 @@ export const TOAST_VALUES = {
   [TOAST_TYPE.CANCEL_REQUEST]: {
     i18nKeySuccess: "appointments.toast.cancel.appointment.request.success",
     i18nKeyError: "appointments.toast.cancel.appointment.request.error",
+  },
+  [TOAST_TYPE.DELETE_GRID]: {
+    i18nKeySuccess: "appointments.toast.delete.grid.success",
+    i18nKeyError: "appointments.toast.delete.grid.error",
+  },
+  [TOAST_TYPE.SUSPEND_GRID]: {
+    i18nKeySuccess: "appointments.toast.suspend.grid.success",
+    i18nKeyError: "appointments.toast.suspend.grid.error",
+  },
+  [TOAST_TYPE.RESTORE_GRID]: {
+    i18nKeySuccess: "appointments.toast.restore.grid.success",
+    i18nKeyError: "appointments.toast.restore.grid.error",
   },
 };

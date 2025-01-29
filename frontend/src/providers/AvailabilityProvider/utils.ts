@@ -15,3 +15,11 @@ export const initialPages: GridPages = {
   [GRID_TYPE.IN_PROGRESS]: 1,
   [GRID_TYPE.CLOSED]: 1,
 };
+
+export const initialDialogModalProps = {
+  open: false,
+  title: "",
+  description: "",
+  handleCancel: () => {},
+  handleConfirm: () => {},
+};

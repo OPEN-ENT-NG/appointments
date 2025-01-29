@@ -1,5 +1,6 @@
 import { Dayjs } from "dayjs";
 
+import { emptySplitApi } from "../EmptySplitService";
 import {
   Appointment,
   BookAppointmentPayload,
@@ -13,7 +14,6 @@ import {
   transformResponseToMyAppointments,
   transformResponseToNumber,
 } from "./utils";
-import { emptySplitApi } from "../EmptySplitService";
 
 export const appointmentApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -62,6 +62,9 @@ export const appointmentApi = emptySplitApi.injectEndpoints({
       transformResponse: transformResponseToDayjsArray,
       providesTags: ["MyAppointments"],
     }),
+    getAvailableAppointments: builder.query<Appointment[], number>({
+      query: (gridId) => `/appointments/available/grids/${gridId}`,
+    }),
     acceptAppointment: builder.mutation<void, number>({
       query: (appointmentId) => ({
         url: `/appointments/${appointmentId}/accept`,
@@ -92,6 +95,7 @@ export const {
   useGetAppointmentQuery,
   useGetAppointmentIndexQuery,
   useGetAppointmentsDatesQuery,
+  useGetAvailableAppointmentsQuery,
   useAcceptAppointmentMutation,
   useRejectAppointmentMutation,
   useCancelAppointmentMutation,

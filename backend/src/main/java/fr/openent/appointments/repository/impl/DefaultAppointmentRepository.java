@@ -169,7 +169,7 @@ public class DefaultAppointmentRepository implements AppointmentRepository {
                 "JOIN " + DB_TIME_SLOT_TABLE + " ts ON a.time_slot_id = ts.id " +
                 "WHERE ts.grid_id = ?";
 
-        JsonArray params = new JsonArray().add(gridId).add(AppointmentState.ACCEPTED.getValue());
+        JsonArray params = new JsonArray().add(gridId);
 
         // Filter by states
         if (states != null && !states.isEmpty()) {

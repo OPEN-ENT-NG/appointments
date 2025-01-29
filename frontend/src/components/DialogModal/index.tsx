@@ -29,7 +29,9 @@ export const DialogModal: FC<DialogModalProps> = ({
   question,
   options,
   selectedOption,
+  handleOptionChange,
 }) => {
+  console.log("selectedOption", selectedOption);
   const { t } = useTranslation("appointments");
   return (
     <Modal open={open}>
@@ -37,15 +39,20 @@ export const DialogModal: FC<DialogModalProps> = ({
         <Box sx={contentBoxStyle}>
           <Typography variant="h3">{title}</Typography>
           <Typography variant="h5">{description}</Typography>
-          {question && <Typography variant="body1">{question}</Typography>}
-          {options && (
-            <FormControl>
-              <RadioGroup value={selectedOption}>
-                {options.map((option) => (
-                  <Radio value={option} key={option} />
-                ))}
-              </RadioGroup>
-            </FormControl>
+          {question && options && handleOptionChange && selectedOption && (
+            <>
+              <Typography variant="body1">{question}</Typography>
+              <FormControl>
+                <RadioGroup
+                  value={selectedOption}
+                  onChange={(e) => handleOptionChange(e.target.value)}
+                >
+                  {options.map((option) => (
+                    <Radio value={option} key={option} />
+                  ))}
+                </RadioGroup>
+              </FormControl>
+            </>
           )}
           <Box sx={buttonsBoxStyle}>
             <Button onClick={handleCancel} sx={cancelButtonStyle}>

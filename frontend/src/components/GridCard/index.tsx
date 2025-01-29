@@ -19,7 +19,7 @@ import {
 import { useTranslation } from "react-i18next";
 
 import { DISPLAY_DATE_FORMAT } from "~/core/constants";
-import { GRID_STATE } from "~/core/enums";
+import { CONFIRM_MODAL_TYPE, GRID_STATE } from "~/core/enums";
 import { useAvailability } from "~/providers/AvailabilityProvider";
 import { GRID_CARD_SIZE } from "~/providers/AvailabilityProvider/enum";
 import { useGlobal } from "~/providers/GlobalProvider";
@@ -44,8 +44,7 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
   const { t } = useTranslation("appointments");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { isMultiStructure, getStructureNameById } = useGlobal();
-  const { handleDeleteGrid, handleSuspendGrid, handleRestoreGrid } =
-    useAvailability();
+  const { handleOpenDialogModal } = useAvailability();
 
   const handleClickedMoreButton = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -53,6 +52,21 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
+  };
+
+  const handleOpenDeleteConfirmModal = () => {
+    handleOpenDialogModal(grid.id, CONFIRM_MODAL_TYPE.DELETE_GRID);
+    handleCloseMenu();
+  };
+
+  const handleOpenSuspendConfirmModal = () => {
+    handleOpenDialogModal(grid.id, CONFIRM_MODAL_TYPE.SUSPEND_GRID);
+    handleCloseMenu();
+  };
+
+  const handleOpenResumeConfirmModal = () => {
+    handleOpenDialogModal(grid.id, CONFIRM_MODAL_TYPE.RESTORE_GRID);
+    handleCloseMenu();
   };
 
   return (
@@ -100,7 +114,7 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
               <Button
                 variant="outlined"
                 startIcon={<PauseRoundedIcon />}
-                onClick={() => handleSuspendGrid(grid.id)}
+                onClick={handleOpenSuspendConfirmModal}
               >
                 {t("appointments.suspend")}
               </Button>
@@ -108,7 +122,7 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
               <Button
                 variant="outlined"
                 startIcon={<PlayArrowRoundedIcon />}
-                onClick={() => handleRestoreGrid(grid.id)}
+                onClick={handleOpenResumeConfirmModal}
               >
                 {t("appointments.resume")}
               </Button>
@@ -116,7 +130,7 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
             <Button
               variant="outlined"
               startIcon={<DeleteRoundedIcon />}
-              onClick={() => handleDeleteGrid(grid.id)}
+              onClick={handleOpenDeleteConfirmModal}
             >
               {t("appointments.delete")}
             </Button>
@@ -150,17 +164,17 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
                   {t("appointments.edit")}
                 </MenuItem>
                 {grid.state === GRID_STATE.OPEN ? (
-                  <MenuItem onClick={() => handleSuspendGrid(grid.id)}>
+                  <MenuItem onClick={handleOpenSuspendConfirmModal}>
                     <PauseRoundedIcon />
                     {t("appointments.suspend")}
                   </MenuItem>
                 ) : (
-                  <MenuItem onClick={() => handleRestoreGrid(grid.id)}>
+                  <MenuItem onClick={handleOpenResumeConfirmModal}>
                     <PlayArrowRoundedIcon />
                     {t("appointments.resume")}
                   </MenuItem>
                 )}
-                <MenuItem onClick={() => handleDeleteGrid(grid.id)}>
+                <MenuItem onClick={handleOpenDeleteConfirmModal}>
                   <DeleteRoundedIcon />
                   {t("appointments.delete")}
                 </MenuItem>

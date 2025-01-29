@@ -8,8 +8,16 @@ import {
   useState,
 } from "react";
 
-import { GRID_PER_PAGE } from "~/core/constants";
-import { GRID_STATE } from "~/core/enums";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
+import { DialogModalProps } from "~/components/DialogModal/types";
+import {
+  CONFIRM_MODAL_VALUES,
+  GRID_PER_PAGE,
+  TOAST_VALUES,
+} from "~/core/constants";
+import { CONFIRM_MODAL_TYPE, GRID_STATE } from "~/core/enums";
+import { useGetAvailableAppointmentsQuery } from "~/services/api/AppointmentService";
 import {
   useDeleteGridMutation,
   useGetMyGridsQuery,
@@ -25,7 +33,12 @@ import {
   GridPages,
   GridTypeLength,
 } from "./types";
-import { initialGrids, initialGridsLength, initialPages } from "./utils";
+import {
+  initialDialogModalProps,
+  initialGrids,
+  initialGridsLength,
+  initialPages,
+} from "./utils";
 
 const AvailabilityProviderContext =
   createContext<AvailabilityProviderContextProps | null>(null);
@@ -44,10 +57,16 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
   children,
 }) => {
   const { hasManageRight } = useGlobal();
+  const { t } = useTranslation("appointments");
   const [gridPages, setGridPages] = useState<GridPages>(initialPages);
   const [grids, setGrids] = useState<GridList>(initialGrids);
   const [gridsLength, setGridsLength] =
     useState<GridTypeLength>(initialGridsLength);
+  const [selectedGridId, setSelectedGridId] = useState<number | null>(null);
+  const [dialogModalProps, setDialogModalProps] = useState<DialogModalProps>(
+    initialDialogModalProps,
+  );
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   const { data: myInProgressData, isLoading: isLoadingInProgress } =
     useGetMyGridsQuery(
@@ -68,6 +87,11 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
     { skip: !hasManageRight },
   );
 
+  const { data: availableAppointments } = useGetAvailableAppointmentsQuery(
+    selectedGridId as number,
+    { skip: !selectedGridId },
+  );
+
   const [deleteGrid] = useDeleteGridMutation();
   const [suspendGrid] = useSuspendGridMutation();
   const [restoreGrid] = useRestoreGridMutation();
@@ -83,25 +107,106 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
   );
 
   const handleDeleteGrid = useCallback(
-    (gridId: number) => {
-      deleteGrid({ gridId, deleteAppointments: false });
+    async (gridId: number, deleteAppointments: boolean) => {
+      try {
+        await deleteGrid({ gridId, deleteAppointments }).unwrap();
+        toast.success(t(TOAST_VALUES.DELETE_GRID.i18nKeySuccess));
+      } catch (error) {
+        console.error(error);
+        toast.error(t(TOAST_VALUES.DELETE_GRID.i18nKeyError));
+      }
     },
-    [deleteGrid],
+    [deleteGrid, t],
   );
 
   const handleSuspendGrid = useCallback(
-    (gridId: number) => {
-      suspendGrid({ gridId, deleteAppointments: false });
+    async (gridId: number, deleteAppointments: boolean) => {
+      try {
+        await suspendGrid({ gridId, deleteAppointments }).unwrap();
+        toast.success(t(TOAST_VALUES.SUSPEND_GRID.i18nKeySuccess));
+      } catch (error) {
+        console.error(error);
+        toast.error(t(TOAST_VALUES.SUSPEND_GRID.i18nKeyError));
+      }
     },
-    [suspendGrid],
+    [suspendGrid, t],
   );
 
   const handleRestoreGrid = useCallback(
-    (gridId: number) => {
-      restoreGrid({ gridId });
+    async (gridId: number) => {
+      try {
+        await restoreGrid({ gridId }).unwrap();
+        toast.success(t(TOAST_VALUES.RESTORE_GRID.i18nKeySuccess));
+      } catch (error) {
+        console.error(error);
+        toast.error(t(TOAST_VALUES.RESTORE_GRID.i18nKeyError));
+      }
     },
-    [restoreGrid],
+    [restoreGrid, t],
   );
+
+  const handleOpenDialogModal = useCallback(
+    (gridId: number, type: CONFIRM_MODAL_TYPE) => {
+      setSelectedGridId(gridId);
+      setDialogModalProps({
+        open: false,
+        title: t(CONFIRM_MODAL_VALUES[type].titleKey),
+        description: t(CONFIRM_MODAL_VALUES[type].descriptionKey),
+        question: t(CONFIRM_MODAL_VALUES[type].questionKey),
+        options: [
+          t("appointments.confirm.modal.option.preserve.them"),
+          t("appointments.confirm.modal.option.cancel.them"),
+        ],
+        selectedOption: selectedOption,
+        handleOptionChange: (option: string) => {
+          // setSelectedOption(option);
+        },
+        handleCancel: async () => {
+          setSelectedGridId(null);
+          setDialogModalProps(initialDialogModalProps);
+        },
+        handleConfirm: async () => {
+          if (type === CONFIRM_MODAL_TYPE.DELETE_GRID) {
+            handleDeleteGrid(
+              gridId,
+              selectedOption ===
+                t("appointments.confirm.modal.option.preserve.them"),
+            );
+          } else if (type === CONFIRM_MODAL_TYPE.SUSPEND_GRID) {
+            handleSuspendGrid(
+              gridId,
+              selectedOption ===
+                t("appointments.confirm.modal.option.preserve.them"),
+            );
+          } else if (type === CONFIRM_MODAL_TYPE.RESTORE_GRID) {
+            handleRestoreGrid(gridId);
+          }
+          setSelectedGridId(null);
+          setDialogModalProps(initialDialogModalProps);
+        },
+      });
+    },
+    [handleDeleteGrid, handleRestoreGrid, handleSuspendGrid, selectedOption, t],
+  );
+
+  useEffect(() => {
+    if (availableAppointments && selectedGridId) {
+      if (availableAppointments.length) {
+        const newSelectedOption = t(
+          "appointments.confirm.modal.option.preserve.them",
+        );
+        console.log("newSelectedOption", newSelectedOption);
+        setSelectedOption(newSelectedOption);
+      }
+      // setDialogModalProps((prevDialogModalProps) => ({
+      //   ...prevDialogModalProps,
+      //   open: true,
+      // }));
+    }
+    // else {
+    //   setSelectedOption(null);
+    // }
+  }, [availableAppointments, selectedGridId, t]);
 
   useEffect(() => {
     const myInProgressGrids = myInProgressData?.grids;
@@ -149,20 +254,18 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
       gridTypeLengths: gridsLength,
       currentGridList: grids,
       isLoading,
+      dialogModalProps,
       handleChangePage,
-      handleDeleteGrid,
-      handleSuspendGrid,
-      handleRestoreGrid,
+      handleOpenDialogModal,
     }),
     [
       gridPages,
       gridsLength,
       grids,
       isLoading,
+      dialogModalProps,
       handleChangePage,
-      handleDeleteGrid,
-      handleSuspendGrid,
-      handleRestoreGrid,
+      handleOpenDialogModal,
     ],
   );
 

@@ -6,5 +6,6 @@ export interface DialogModalProps {
   handleConfirm?: () => void;
   question?: string;
   options?: string[];
-  selectedOption?: string;
+  selectedOption?: string | null;
+  handleOptionChange?: (option: string) => void;
 }
