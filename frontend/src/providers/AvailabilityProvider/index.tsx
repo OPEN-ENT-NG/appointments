@@ -11,11 +11,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { DialogModalProps } from "~/components/DialogModal/types";
-import {
-  CONFIRM_MODAL_VALUES,
-  GRID_PER_PAGE,
-  TOAST_VALUES,
-} from "~/core/constants";
+import { GRID_PER_PAGE, TOAST_VALUES } from "~/core/constants";
 import { CONFIRM_MODAL_TYPE, GRID_STATE } from "~/core/enums";
 import { useGetAvailableAppointmentsQuery } from "~/services/api/AppointmentService";
 import {
@@ -66,7 +62,6 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
   const [dialogModalProps, setDialogModalProps] = useState<DialogModalProps>(
     initialDialogModalProps,
   );
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   const { data: myInProgressData, isLoading: isLoadingInProgress } =
     useGetMyGridsQuery(
@@ -87,10 +82,12 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
     { skip: !hasManageRight },
   );
 
-  const { data: availableAppointments } = useGetAvailableAppointmentsQuery(
-    selectedGridId as number,
-    { skip: !selectedGridId },
-  );
+  const {
+    data: availableAppointments,
+    isFetching: isAvailableAppointmentsFetching,
+  } = useGetAvailableAppointmentsQuery(selectedGridId as number, {
+    skip: !selectedGridId,
+  });
 
   const [deleteGrid] = useDeleteGridMutation();
   const [suspendGrid] = useSuspendGridMutation();
@@ -145,68 +142,61 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
     [restoreGrid, t],
   );
 
+  const handleCancelDialogModal = useCallback(() => {
+    setSelectedGridId(null);
+    setDialogModalProps(initialDialogModalProps);
+  }, []);
+
+  const handleConfirmDialogModal = useCallback(
+    (gridId: number, type: CONFIRM_MODAL_TYPE, selectedOption: string) => {
+      const deleteAppointments =
+        selectedOption === t("appointments.confirm.modal.option.cancel.them");
+      if (type === CONFIRM_MODAL_TYPE.DELETE_GRID) {
+        handleDeleteGrid(gridId, deleteAppointments);
+      } else if (type === CONFIRM_MODAL_TYPE.SUSPEND_GRID) {
+        handleSuspendGrid(gridId, deleteAppointments);
+      } else if (type === CONFIRM_MODAL_TYPE.RESTORE_GRID) {
+        handleRestoreGrid(gridId);
+      }
+      setSelectedGridId(null);
+      setDialogModalProps(initialDialogModalProps);
+    },
+    [handleDeleteGrid, handleRestoreGrid, handleSuspendGrid, t],
+  );
+
   const handleOpenDialogModal = useCallback(
     (gridId: number, type: CONFIRM_MODAL_TYPE) => {
       setSelectedGridId(gridId);
       setDialogModalProps({
         open: false,
-        title: t(CONFIRM_MODAL_VALUES[type].titleKey),
-        description: t(CONFIRM_MODAL_VALUES[type].descriptionKey),
-        question: t(CONFIRM_MODAL_VALUES[type].questionKey),
-        options: [
-          t("appointments.confirm.modal.option.preserve.them"),
-          t("appointments.confirm.modal.option.cancel.them"),
-        ],
-        selectedOption: selectedOption,
-        handleOptionChange: (option: string) => {
-          // setSelectedOption(option);
-        },
-        handleCancel: async () => {
-          setSelectedGridId(null);
-          setDialogModalProps(initialDialogModalProps);
-        },
-        handleConfirm: async () => {
-          if (type === CONFIRM_MODAL_TYPE.DELETE_GRID) {
-            handleDeleteGrid(
-              gridId,
-              selectedOption ===
-                t("appointments.confirm.modal.option.preserve.them"),
-            );
-          } else if (type === CONFIRM_MODAL_TYPE.SUSPEND_GRID) {
-            handleSuspendGrid(
-              gridId,
-              selectedOption ===
-                t("appointments.confirm.modal.option.preserve.them"),
-            );
-          } else if (type === CONFIRM_MODAL_TYPE.RESTORE_GRID) {
-            handleRestoreGrid(gridId);
-          }
-          setSelectedGridId(null);
-          setDialogModalProps(initialDialogModalProps);
-        },
+        type,
+        showOptions: true,
+        handleCancel: handleCancelDialogModal,
+        handleConfirm: (selectedOption) =>
+          handleConfirmDialogModal(gridId, type, selectedOption as string),
       });
     },
-    [handleDeleteGrid, handleRestoreGrid, handleSuspendGrid, selectedOption, t],
+    [handleCancelDialogModal, handleConfirmDialogModal],
   );
 
   useEffect(() => {
-    if (availableAppointments && selectedGridId) {
-      if (availableAppointments.length) {
-        const newSelectedOption = t(
-          "appointments.confirm.modal.option.preserve.them",
-        );
-        console.log("newSelectedOption", newSelectedOption);
-        setSelectedOption(newSelectedOption);
-      }
-      // setDialogModalProps((prevDialogModalProps) => ({
-      //   ...prevDialogModalProps,
-      //   open: true,
-      // }));
+    if (
+      !isAvailableAppointmentsFetching &&
+      selectedGridId &&
+      availableAppointments
+    ) {
+      setDialogModalProps((prevDialogModalProps) => ({
+        ...prevDialogModalProps,
+        open: true,
+        showOptions: !!availableAppointments.length,
+      }));
     }
-    // else {
-    //   setSelectedOption(null);
-    // }
-  }, [availableAppointments, selectedGridId, t]);
+  }, [
+    availableAppointments,
+    selectedGridId,
+    t,
+    isAvailableAppointmentsFetching,
+  ]);
 
   useEffect(() => {
     const myInProgressGrids = myInProgressData?.grids;

@@ -1,3 +1,4 @@
+import { CONFIRM_MODAL_TYPE } from "~/core/enums";
 import { GRID_TYPE } from "./enum";
 import { GridList, GridPages, GridTypeLength } from "./types";
 
@@ -18,8 +19,7 @@ export const initialPages: GridPages = {
 
 export const initialDialogModalProps = {
   open: false,
-  title: "",
-  description: "",
+  type: CONFIRM_MODAL_TYPE.DELETE_GRID,
   handleCancel: () => {},
   handleConfirm: () => {},
 };
