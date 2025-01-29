@@ -19,10 +19,9 @@ export const appointmentApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     bookAppointment: builder.mutation<void, BookAppointmentPayload>({
       query: ({ timeSlotId, isVideoCall }) => ({
-        url: `/appointments/${timeSlotId}${
-          isVideoCall !== undefined ? `?isVideoCall=${isVideoCall}` : ""
-        }`,
+        url: `/appointments/${timeSlotId}`,
         method: "POST",
+        params: isVideoCall !== undefined ? { isVideoCall } : undefined,
       }),
       invalidatesTags: ["Availability", "MyAppointments"],
     }),

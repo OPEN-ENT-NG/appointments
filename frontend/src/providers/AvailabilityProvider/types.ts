@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
-import { GRID_TYPE } from "./enum";
 import { MinimalGrid } from "~/services/api/GridService/types";
+import { GRID_TYPE } from "./enum";
 
 export interface AvailabilityProviderContextProps {
   gridPages: GridPages;
@@ -9,6 +9,9 @@ export interface AvailabilityProviderContextProps {
   currentGridList: GridList;
   isLoading: boolean;
   handleChangePage: (gridType: GRID_TYPE, newPage: number) => void;
+  handleDeleteGrid: (gridId: number) => void;
+  handleSuspendGrid: (gridId: number) => void;
+  handleRestoreGrid: (gridId: number) => void;
 }
 
 export interface AvailabilityProviderProps {

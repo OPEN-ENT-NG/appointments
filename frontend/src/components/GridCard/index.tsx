@@ -18,6 +18,11 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
+import { DISPLAY_DATE_FORMAT } from "~/core/constants";
+import { GRID_STATE } from "~/core/enums";
+import { useAvailability } from "~/providers/AvailabilityProvider";
+import { GRID_CARD_SIZE } from "~/providers/AvailabilityProvider/enum";
+import { useGlobal } from "~/providers/GlobalProvider";
 import {
   buttonsBoxStyle,
   cardWrapperStyle,
@@ -34,15 +39,13 @@ import {
   structureIconStyle,
 } from "./style";
 import { GridCardProps } from "./types";
-import { DISPLAY_DATE_FORMAT } from "~/core/constants";
-import { GRID_STATE } from "~/core/enums";
-import { GRID_CARD_SIZE } from "~/providers/AvailabilityProvider/enum";
-import { useGlobal } from "~/providers/GlobalProvider";
 
 export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
   const { t } = useTranslation("appointments");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { isMultiStructure, getStructureNameById } = useGlobal();
+  const { handleDeleteGrid, handleSuspendGrid, handleRestoreGrid } =
+    useAvailability();
 
   const handleClickedMoreButton = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -94,15 +97,27 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
               {t("appointments.edit")}
             </Button>
             {grid.state === GRID_STATE.OPEN ? (
-              <Button variant="outlined" startIcon={<PauseRoundedIcon />}>
+              <Button
+                variant="outlined"
+                startIcon={<PauseRoundedIcon />}
+                onClick={() => handleSuspendGrid(grid.id)}
+              >
                 {t("appointments.suspend")}
               </Button>
             ) : (
-              <Button variant="outlined" startIcon={<PlayArrowRoundedIcon />}>
+              <Button
+                variant="outlined"
+                startIcon={<PlayArrowRoundedIcon />}
+                onClick={() => handleRestoreGrid(grid.id)}
+              >
                 {t("appointments.resume")}
               </Button>
             )}
-            <Button variant="outlined" startIcon={<DeleteRoundedIcon />}>
+            <Button
+              variant="outlined"
+              startIcon={<DeleteRoundedIcon />}
+              onClick={() => handleDeleteGrid(grid.id)}
+            >
               {t("appointments.delete")}
             </Button>
           </Box>
@@ -134,17 +149,18 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
                   <EditIcon />
                   {t("appointments.edit")}
                 </MenuItem>
-                <MenuItem>
-                  {grid.state === GRID_STATE.OPEN ? (
+                {grid.state === GRID_STATE.OPEN ? (
+                  <MenuItem onClick={() => handleSuspendGrid(grid.id)}>
                     <PauseRoundedIcon />
-                  ) : (
+                    {t("appointments.suspend")}
+                  </MenuItem>
+                ) : (
+                  <MenuItem onClick={() => handleRestoreGrid(grid.id)}>
                     <PlayArrowRoundedIcon />
-                  )}
-                  {grid.state === GRID_STATE.OPEN
-                    ? t("appointments.suspend")
-                    : t("appointments.resume")}
-                </MenuItem>
-                <MenuItem>
+                    {t("appointments.resume")}
+                  </MenuItem>
+                )}
+                <MenuItem onClick={() => handleDeleteGrid(grid.id)}>
                   <DeleteRoundedIcon />
                   {t("appointments.delete")}
                 </MenuItem>

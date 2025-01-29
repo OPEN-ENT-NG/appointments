@@ -10,7 +10,12 @@ import {
 
 import { GRID_PER_PAGE } from "~/core/constants";
 import { GRID_STATE } from "~/core/enums";
-import { useGetMyGridsQuery } from "~/services/api/GridService";
+import {
+  useDeleteGridMutation,
+  useGetMyGridsQuery,
+  useRestoreGridMutation,
+  useSuspendGridMutation,
+} from "~/services/api/GridService";
 import { useGlobal } from "../GlobalProvider";
 import { GRID_TYPE } from "./enum";
 import {
@@ -63,6 +68,10 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
     { skip: !hasManageRight },
   );
 
+  const [deleteGrid] = useDeleteGridMutation();
+  const [suspendGrid] = useSuspendGridMutation();
+  const [restoreGrid] = useRestoreGridMutation();
+
   const handleChangePage = useCallback(
     (gridType: GRID_TYPE, newPage: number) => {
       setGridPages((prevGridPages) => ({
@@ -71,6 +80,27 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
       }));
     },
     [],
+  );
+
+  const handleDeleteGrid = useCallback(
+    (gridId: number) => {
+      deleteGrid({ gridId, deleteAppointments: false });
+    },
+    [deleteGrid],
+  );
+
+  const handleSuspendGrid = useCallback(
+    (gridId: number) => {
+      suspendGrid({ gridId, deleteAppointments: false });
+    },
+    [suspendGrid],
+  );
+
+  const handleRestoreGrid = useCallback(
+    (gridId: number) => {
+      restoreGrid({ gridId });
+    },
+    [restoreGrid],
   );
 
   useEffect(() => {
@@ -120,8 +150,20 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
       currentGridList: grids,
       isLoading,
       handleChangePage,
+      handleDeleteGrid,
+      handleSuspendGrid,
+      handleRestoreGrid,
     }),
-    [gridPages, gridsLength, grids, isLoading, handleChangePage],
+    [
+      gridPages,
+      gridsLength,
+      grids,
+      isLoading,
+      handleChangePage,
+      handleDeleteGrid,
+      handleSuspendGrid,
+      handleRestoreGrid,
+    ],
   );
 
   return (
