@@ -40,12 +40,11 @@ public interface GridRepository {
      * Retrieves all grids associated to a list of a specific user.
      *
      * @param usersIds list of unique identifier of the users whose grids are to be retrieved.
-     * @param gridStates the states of the grids the user wants to retrieve.
      * @return a {@link Future} representing the asynchronous operation, which will
      *         return a {@link List<Grid>} containing the details of the grids associated
      *         with the specified users.
      */
-    Future<List<Grid>> getGridsByUserIds(List<String> usersIds, List<GridState> gridStates);
+    Future<List<Grid>> getGridsByUserIds(List<String> usersIds);
 
     /**
      * Retrieves all grids a list of groups can access.

@@ -134,7 +134,7 @@ public class DefaultCommunicationService implements CommunicationService {
         Promise<List<UserAppointment>> promise = Promise.promise();
 
         List<String> otherUsersIds = users.stream().map(NeoUser::getId).collect(Collectors.toList());
-        gridRepository.getGridsByUserIds(otherUsersIds, Collections.singletonList(GridState.OPEN))
+        gridRepository.getGridsByUserIds(otherUsersIds)
             .compose(grids -> {
                 // Filter grids in order to keep only grids that the user can access
                 List<Grid> filteredGrids = grids.stream().filter(grid -> grid.getTargetPublicListId()

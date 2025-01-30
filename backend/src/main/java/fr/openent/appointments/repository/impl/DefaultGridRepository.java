@@ -94,7 +94,7 @@ public class DefaultGridRepository implements GridRepository {
     }
 
     @Override
-    public Future<List<Grid>> getGridsByUserIds(List<String> usersIds, List<GridState> gridStates) {
+    public Future<List<Grid>> getGridsByUserIds(List<String> usersIds) {
         Promise<List<Grid>> promise = Promise.promise();
 
         if (usersIds == null || usersIds.isEmpty()) {
@@ -104,12 +104,6 @@ public class DefaultGridRepository implements GridRepository {
 
         String query = "SELECT * FROM " + DB_GRID_TABLE + " WHERE " + OWNER_ID + " IN " + Sql.listPrepared(usersIds);
         JsonArray params = new JsonArray(usersIds);
-
-        // Filtering by states
-        if (gridStates != null && !gridStates.isEmpty()) {
-            query += " AND " + STATE + " IN " + Sql.listPrepared(gridStates);
-            params.addAll(new JsonArray(gridStates.stream().map(GridState::getValue).collect(Collectors.toList())));
-        }
 
         String errorMessage = String.format("[Appointments@DefaultGridRepository::getGridsByUserIds] Fail to get grids for usersIds %s : ", usersIds);
         sql.prepared(query, params, SqlResult.validResultHandler(IModelHelper.sqlResultToIModel(promise, Grid.class, errorMessage)));
