@@ -62,7 +62,7 @@ export const gridApi = emptySplitApi.injectEndpoints({
         method: "PUT",
         params: { deleteAppointments },
       }),
-      invalidatesTags: ["MyGrids", "Availability"],
+      invalidatesTags: ["MyGrids", "Availability", "MyAppointments"],
     }),
     suspendGrid: builder.mutation<void, UpdateGridStatePayload>({
       query: ({ gridId, deleteAppointments }) => ({
@@ -70,7 +70,7 @@ export const gridApi = emptySplitApi.injectEndpoints({
         method: "PUT",
         params: { deleteAppointments },
       }),
-      invalidatesTags: ["MyGrids", "Availability"],
+      invalidatesTags: ["MyGrids", "Availability", "MyAppointments"],
     }),
     restoreGrid: builder.mutation({
       query: ({ gridId }) => ({

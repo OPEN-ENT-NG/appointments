@@ -209,7 +209,7 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
       }));
     }
 
-    if (myInProgressGridsLength) {
+    if (myInProgressGridsLength !== undefined) {
       setGridsLength((prevGridsLength) => ({
         ...prevGridsLength,
         [GRID_TYPE.IN_PROGRESS]: myInProgressGridsLength,
@@ -228,7 +228,7 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
       }));
     }
 
-    if (myClosedGridsLength) {
+    if (myClosedGridsLength !== undefined) {
       setGridsLength((prevGridsLength) => ({
         ...prevGridsLength,
         [GRID_TYPE.CLOSED]: myClosedGridsLength,
