@@ -23,7 +23,11 @@ export const appointmentApi = emptySplitApi.injectEndpoints({
         method: "POST",
         params: isVideoCall !== undefined ? { isVideoCall } : undefined,
       }),
-      invalidatesTags: ["Availability", "MyAppointments"],
+      invalidatesTags: [
+        "Availability",
+        "MyAppointments",
+        "AppointmentsLinkedToGrid",
+      ],
     }),
     getMyAppointments: builder.query<MyAppointments, GetMyAppointmentsPayload>({
       query: (body) => {
@@ -64,6 +68,7 @@ export const appointmentApi = emptySplitApi.injectEndpoints({
     }),
     getAvailableAppointments: builder.query<Appointment[], number>({
       query: (gridId) => `/appointments/available/grids/${gridId}`,
+      providesTags: ["AppointmentsLinkedToGrid"],
     }),
     acceptAppointment: builder.mutation<void, number>({
       query: (appointmentId) => ({
@@ -77,14 +82,14 @@ export const appointmentApi = emptySplitApi.injectEndpoints({
         url: `/appointments/${appointmentId}/reject`,
         method: "PUT",
       }),
-      invalidatesTags: ["MyAppointments"],
+      invalidatesTags: ["MyAppointments", "AppointmentsLinkedToGrid"],
     }),
     cancelAppointment: builder.mutation<void, number>({
       query: (appointmentId) => ({
         url: `/appointments/${appointmentId}/cancel`,
         method: "PUT",
       }),
-      invalidatesTags: ["MyAppointments"],
+      invalidatesTags: ["MyAppointments", "AppointmentsLinkedToGrid"],
     }),
   }),
 });

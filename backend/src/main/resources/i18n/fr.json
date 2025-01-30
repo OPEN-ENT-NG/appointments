@@ -151,6 +151,12 @@
   "appointments.toast.cancel.appointment.error": "Une erreur est survenue lors de l’annulation du rendez-vous. Veuillez réessayer.",
   "appointments.toast.cancel.appointment.request.success": "La demande de rendez-vous a bien été annulée.",
   "appointments.toast.cancel.appointment.request.error": "Une erreur est survenue lors de l’annulation de la demande de rendez-vous. Veuillez réessayer.",
+  "appointments.toast.delete.grid.success": "Votre grille a bien été supprimée.",
+  "appointments.toast.delete.grid.error": "Une erreur est survenue lors de la suppression de la grille. Veuillez réessayer.",
+  "appointments.toast.suspend.grid.success": "Votre grille a bien été suspendue.",
+  "appointments.toast.suspend.grid.error": "Une erreur est survenue lors de la suspension de la grille. Veuillez réessayer.",
+  "appointments.toast.restore.grid.success": "Votre grille est à nouveau ouverte.",
+  "appointments.toast.restore.grid.error": "Une erreur est survenue lors de la remise en service de la grille. Veuillez réessayer.",
 
   "group.HeadTeacher": "Professeurs principaux de {0}",
   "group.Direction": "Directeurs de {0}",
