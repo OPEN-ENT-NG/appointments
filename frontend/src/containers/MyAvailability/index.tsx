@@ -12,7 +12,6 @@ import {
   GRID_CARD_SIZE,
   GRID_TYPE,
 } from "~/providers/AvailabilityProvider/enum";
-import { useGlobal } from "~/providers/GlobalProvider";
 import { MODAL_TYPE } from "~/providers/GlobalProvider/enum";
 import { PURPLE } from "~/styles/color.constants";
 import { GridList } from "../GridList";
@@ -27,7 +26,6 @@ import {
 
 export const MyAvailability: FC = () => {
   const { t } = useTranslation("appointments");
-  const { handleDisplayModal } = useGlobal();
 
   const [gridModalType] = useState<GRID_MODAL_TYPE>(GRID_MODAL_TYPE.CREATION);
   const [gridCardSize, setGridCardSize] = useState<GRID_CARD_SIZE>(

@@ -1,3 +1,4 @@
+import { GridModalInputs } from "~/providers/GridModalProvider/types";
 import { emptySplitApi } from "../EmptySplitService";
 import {
   CreateGridPayload,
@@ -21,6 +22,10 @@ export const gridApi = emptySplitApi.injectEndpoints({
       }),
       invalidatesTags: ["MyGrids", "Availability"],
     }),
+    getGridById: builder.query<GridModalInputs, number>({
+      query: (gridId) => `/grids/${gridId}`,
+      providesTags: ["MyGrids"],
+    }),
     getMyGrids: builder.query<MyGrids, GetMyGridsPayload>({
       query: (body) => {
         const statesString = JSON.stringify(body.states);
@@ -37,6 +42,7 @@ export const gridApi = emptySplitApi.injectEndpoints({
     }),
     getMyGridsName: builder.query<string[], void>({
       query: () => "/grids/names",
+      providesTags: ["MyGrids"],
     }),
     getAvailableUserMinimalGrids: builder.query<NameWithId[], string>({
       query: (userId) => `/users/${userId}/grids/minimal`,

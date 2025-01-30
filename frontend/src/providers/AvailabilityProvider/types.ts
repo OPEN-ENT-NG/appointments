@@ -10,7 +10,9 @@ export interface AvailabilityProviderContextProps {
   gridTypeLengths: GridTypeLength;
   currentGridList: GridList;
   isLoading: boolean;
+  gridModalType: GRID_TYPE | null;
   dialogModalProps: DialogModalProps;
+  handleOpenGridModal: (type: GRID_TYPE, gridId?: number) => void;
   handleChangePage: (gridType: GRID_TYPE, newPage: number) => void;
   handleOpenDialogModal: (gridId: number, type: CONFIRM_MODAL_TYPE) => void;
 }
