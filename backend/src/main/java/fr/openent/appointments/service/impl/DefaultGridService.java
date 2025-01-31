@@ -1,12 +1,12 @@
 package fr.openent.appointments.service.impl;
 
 import fr.openent.appointments.helper.LogHelper;
-import fr.openent.appointments.model.database.Appointment;
+import fr.openent.appointments.model.database.*;
+import fr.openent.appointments.model.response.GridWithDailySlots;
 import fr.openent.appointments.model.response.MinimalGrid;
 import fr.openent.appointments.model.response.ListGridsResponse;
-import fr.openent.appointments.model.database.Grid;
 import fr.openent.appointments.model.response.MinimalGridInfos;
-import fr.openent.appointments.repository.TimeSlotRepository;
+import fr.openent.appointments.repository.*;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
@@ -16,8 +16,6 @@ import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import fr.openent.appointments.model.payload.GridPayload;
-import fr.openent.appointments.repository.GridRepository;
-import fr.openent.appointments.repository.RepositoryFactory;
 import fr.openent.appointments.service.GridService;
 import fr.openent.appointments.service.ServiceFactory;
 import fr.openent.appointments.enums.GridState;
@@ -29,6 +27,8 @@ import java.util.stream.Collectors;
 import org.entcore.common.user.UserInfos;
 import org.entcore.common.user.UserUtils;
 
+import static fr.openent.appointments.core.constants.Constants.*;
+
 /**
  * Default implementation of the GridService interface.
  */
@@ -38,11 +38,15 @@ public class DefaultGridService implements GridService {
     private final EventBus eb;
     private final GridRepository gridRepository;
     private final TimeSlotRepository timeSlotRepository;
+    private final DailySlotRepository dailySlotRepository;
+    private final CommunicationRepository communicationRepository;
 
     public DefaultGridService(ServiceFactory serviceFactory, RepositoryFactory repositoryFactory) {
         this.eb = serviceFactory.eventBus();
         this.gridRepository = repositoryFactory.gridRepository();
         this.timeSlotRepository = repositoryFactory.timeSlotRepository();
+        this.dailySlotRepository = repositoryFactory.dailySlotRepository();
+        this.communicationRepository = repositoryFactory.communicationRepository();
     }
 
     @Override
@@ -72,13 +76,35 @@ public class DefaultGridService implements GridService {
 
 
     @Override
-    public Future<Grid> getGridById(Long gridId) {
-        Promise<Grid> promise = Promise.promise();
+    public Future<GridWithDailySlots> getGridById(Long gridId) {
+        Promise<GridWithDailySlots> promise = Promise.promise();
+        
+        JsonObject composeInfos = new JsonObject();
 
         gridRepository.get(gridId)
-            .onSuccess(grid -> {
-                if (grid.isPresent()) promise.complete(grid.get());
-                else promise.fail("Grid not found");
+            .compose(grid -> {
+                if (!grid.isPresent()) return Future.failedFuture("Grid not found");
+                Grid gridFetched = grid.get();
+                composeInfos.put(GRID, gridFetched);
+                return communicationRepository.getGroups(gridFetched.getTargetPublicListId());
+            })
+            .compose(groups -> {
+                composeInfos.put(GROUPS, groups);
+                Grid grid = composeInfos.getJsonObject(GRID).mapTo(Grid.class);
+                return communicationRepository.getStructure(grid.getStructureId());
+            })
+            .compose(neoStructure -> {
+                composeInfos.put(STRUCTURE, neoStructure);
+                return dailySlotRepository.getByGridId(gridId);
+            })
+            .onSuccess(dailySlots -> {
+                composeInfos.put(DAILY_SLOTS, dailySlots);
+                Grid grid = composeInfos.getJsonObject(GRID).mapTo(Grid.class);
+                NeoStructure structure = composeInfos.getJsonObject(STRUCTURE).mapTo(NeoStructure.class);
+                List<NeoGroup> groups = composeInfos.getJsonArray(GROUPS).stream()
+                        .map(json -> ((JsonObject) json).mapTo(NeoGroup.class))
+                        .collect(Collectors.toList());
+                promise.complete(new GridWithDailySlots(grid, structure, groups, dailySlots));
             })
             .onFailure(err -> {
                 String errorMessage = "Failed to get grid by id";

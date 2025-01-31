@@ -2,6 +2,7 @@ package fr.openent.appointments.repository.impl;
 
 import fr.openent.appointments.helper.IModelHelper;
 import fr.openent.appointments.model.database.NeoGroup;
+import fr.openent.appointments.model.database.NeoStructure;
 import fr.openent.appointments.model.database.NeoUser;
 import fr.openent.appointments.repository.CommunicationRepository;
 import fr.openent.appointments.repository.RepositoryFactory;
@@ -140,5 +141,35 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
                 "RETURN DISTINCT " +
                 "   g.id as id, " +
                 "   g.name as name;";
+    }
+
+    @Override
+    public Future<Optional<NeoStructure>> getStructure(String structureId){
+        Promise<Optional<NeoStructure>> promise = Promise.promise();
+
+        String query = "MATCH (s:Structure {id: {structureId}}) " +
+                "RETURN s.id as id, s.name as name;";
+
+        JsonObject params = new JsonObject().put(CAMEL_STRUCTURE_ID, structureId);
+
+        String errorMessage = String.format("[Appointments@DefaultCommunicationRepository::getStructure] Fail to retrieve structure with id %s : ", structureId);
+        neo4j.execute(query, params, Neo4jResult.validUniqueResultHandler(IModelHelper.sqlUniqueResultToIModel(promise, NeoStructure.class, errorMessage)));
+
+        return promise.future();
+    }
+
+    @Override
+    public Future<List<NeoGroup>> getGroups(List<String> groupIds){
+        Promise<List<NeoGroup>> promise = Promise.promise();
+
+        String query = "MATCH (g:Group) " +
+                "WHERE g.id IN {groupIds} " +
+                "RETURN g.id as id, g.name as name;";
+        JsonObject params = new JsonObject().put(CAMEL_GROUPS_IDS, new JsonArray(groupIds));
+
+        String errorMessage = "[Appointments@DefaultCommunicationRepository::getGroup] Fail to retrieve groups with ids : ";
+        neo4j.execute(query, params, Neo4jResult.validResultHandler(IModelHelper.sqlResultToIModel(promise, NeoGroup.class, errorMessage)));
+
+        return promise.future();
     }
 }
