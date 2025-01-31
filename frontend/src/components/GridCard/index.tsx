@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 import BusinessIcon from "@mui/icons-material/Business";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
@@ -54,20 +54,14 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
     setAnchorEl(null);
   };
 
-  const handleOpenDeleteConfirmModal = () => {
-    handleOpenDialogModal(grid.id, CONFIRM_MODAL_TYPE.DELETE_GRID);
+  const handleOpenConfirmModal = (type: CONFIRM_MODAL_TYPE) => {
+    handleOpenDialogModal(grid.id, type);
     handleCloseMenu();
   };
 
-  const handleOpenSuspendConfirmModal = () => {
-    handleOpenDialogModal(grid.id, CONFIRM_MODAL_TYPE.SUSPEND_GRID);
-    handleCloseMenu();
-  };
-
-  const handleOpenResumeConfirmModal = () => {
-    handleOpenDialogModal(grid.id, CONFIRM_MODAL_TYPE.RESTORE_GRID);
-    handleCloseMenu();
-  };
+  useEffect(() => {
+    if (size === GRID_CARD_SIZE.LARGE) handleCloseMenu();
+  }, [size]);
 
   return (
     <Box sx={cardWrapperStyle}>
@@ -114,7 +108,9 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
               <Button
                 variant="outlined"
                 startIcon={<PauseRoundedIcon />}
-                onClick={handleOpenSuspendConfirmModal}
+                onClick={() =>
+                  handleOpenConfirmModal(CONFIRM_MODAL_TYPE.SUSPEND_GRID)
+                }
               >
                 {t("appointments.suspend")}
               </Button>
@@ -122,7 +118,9 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
               <Button
                 variant="outlined"
                 startIcon={<PlayArrowRoundedIcon />}
-                onClick={handleOpenResumeConfirmModal}
+                onClick={() =>
+                  handleOpenConfirmModal(CONFIRM_MODAL_TYPE.RESTORE_GRID)
+                }
               >
                 {t("appointments.resume")}
               </Button>
@@ -130,7 +128,9 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
             <Button
               variant="outlined"
               startIcon={<DeleteRoundedIcon />}
-              onClick={handleOpenDeleteConfirmModal}
+              onClick={() =>
+                handleOpenConfirmModal(CONFIRM_MODAL_TYPE.DELETE_GRID)
+              }
             >
               {t("appointments.delete")}
             </Button>
@@ -164,17 +164,29 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
                   {t("appointments.edit")}
                 </MenuItem>
                 {grid.state === GRID_STATE.OPEN ? (
-                  <MenuItem onClick={handleOpenSuspendConfirmModal}>
+                  <MenuItem
+                    onClick={() =>
+                      handleOpenConfirmModal(CONFIRM_MODAL_TYPE.SUSPEND_GRID)
+                    }
+                  >
                     <PauseRoundedIcon />
                     {t("appointments.suspend")}
                   </MenuItem>
                 ) : (
-                  <MenuItem onClick={handleOpenResumeConfirmModal}>
+                  <MenuItem
+                    onClick={() =>
+                      handleOpenConfirmModal(CONFIRM_MODAL_TYPE.RESTORE_GRID)
+                    }
+                  >
                     <PlayArrowRoundedIcon />
                     {t("appointments.resume")}
                   </MenuItem>
                 )}
-                <MenuItem onClick={handleOpenDeleteConfirmModal}>
+                <MenuItem
+                  onClick={() =>
+                    handleOpenConfirmModal(CONFIRM_MODAL_TYPE.DELETE_GRID)
+                  }
+                >
                   <DeleteRoundedIcon />
                   {t("appointments.delete")}
                 </MenuItem>
