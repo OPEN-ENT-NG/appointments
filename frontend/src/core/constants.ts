@@ -135,6 +135,12 @@ export const CONFIRM_MODAL_VALUES = {
     questionKey: "",
     options: [],
   },
+  [CONFIRM_MODAL_TYPE.CANCEL_GRID_EDIT]: {
+    titleKey: "appointments.modify.grid.abandon.title",
+    descriptionKey: "appointments.modify.grid.abandon.message",
+    questionKey: "",
+    options: [],
+  },
   [CONFIRM_MODAL_TYPE.REJECT_REQUEST]: {
     titleKey: "appointments.confirm.modal.reject.request.title",
     descriptionKey: "appointments.confirm.modal.reject.request.description",

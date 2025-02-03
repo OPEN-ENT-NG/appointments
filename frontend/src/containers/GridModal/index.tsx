@@ -4,11 +4,13 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Box, IconButton, Modal, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
+import { Button } from "@cgi-learning-hub/ui";
 import { CustomStepper } from "~/components/CustomStepper";
 import { DialogModal } from "~/components/DialogModal";
 import { GRID_MODAL_VALUES } from "~/core/constants";
 import { CONFIRM_MODAL_TYPE } from "~/core/enums";
 import { useGridModal } from "~/providers/GridModalProvider";
+import { GRID_MODAL_TYPE } from "~/providers/GridModalProvider/enum";
 import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
 import { FirstPageGridModal } from "../FirstPageGridModal";
 import { SecondPageGridModal } from "../SecondPageGridModal";
@@ -56,13 +58,23 @@ export const GridModal: FC = () => {
             </Typography>
             {isDisplayFirstPage && <FirstPageGridModal />}
             {isDisplaySecondPage && <SecondPageGridModal />}
-            <CustomStepper
-              page={page}
-              handleCancel={handleCancel}
-              handlePrev={handlePrev}
-              handleNext={handleNext}
-              handleSubmit={handleSubmit}
-            />
+            {modalType === GRID_MODAL_TYPE.CREATION && (
+              <CustomStepper
+                page={page}
+                handleCancel={handleCancel}
+                handlePrev={handlePrev}
+                handleNext={handleNext}
+                handleSubmit={handleSubmit}
+              />
+            )}
+            {modalType === GRID_MODAL_TYPE.EDIT && (
+              <>
+                <Button onClick={handleClose}>{t("appointments.close")}</Button>
+                <Button onClick={handleCancel}>
+                  {t("appointments.cancel")}
+                </Button>
+              </>
+            )}
           </Box>
         </Box>
       </Modal>

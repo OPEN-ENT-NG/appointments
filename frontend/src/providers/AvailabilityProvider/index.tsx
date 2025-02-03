@@ -98,9 +98,12 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
     skip: !selectedGridIdUpdateState,
   });
 
-  const { data: grid } = useGetGridByIdQuery(selectedGridIdUpdateFields ?? 0, {
-    skip: !selectedGridIdUpdateFields,
-  });
+  const { data: grid, isFetching: gridIsLoading } = useGetGridByIdQuery(
+    selectedGridIdUpdateFields ?? 0,
+    {
+      skip: !selectedGridIdUpdateFields,
+    },
+  );
 
   const [deleteGrid] = useDeleteGridMutation();
   const [suspendGrid] = useSuspendGridMutation();
@@ -108,8 +111,8 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
 
   const handleOpenGridModal = useCallback(
     (type: GRID_MODAL_TYPE, gridId?: number) => {
-      setSelectedGridIdUpdateFields(gridId ?? null);
-      handleDisplayGridModal(type);
+      if (type === GRID_MODAL_TYPE.CREATION) handleDisplayGridModal(type);
+      else setSelectedGridIdUpdateFields(gridId ?? null);
     },
     [handleDisplayGridModal],
   );
@@ -201,11 +204,18 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
   );
 
   useEffect(() => {
-    if (grid) {
-      console.log(grid);
+    if (!gridIsLoading && selectedGridIdUpdateFields && grid) {
       setInputs(grid);
+      handleDisplayGridModal(GRID_MODAL_TYPE.EDIT);
+      setSelectedGridIdUpdateFields(null);
     }
-  }, [grid, setInputs]);
+  }, [
+    grid,
+    handleDisplayGridModal,
+    setInputs,
+    selectedGridIdUpdateFields,
+    gridIsLoading,
+  ]);
 
   useEffect(() => {
     if (
