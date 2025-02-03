@@ -163,7 +163,7 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
         Promise<List<NeoGroup>> promise = Promise.promise();
 
         String query = "MATCH (g:Group) " +
-                "WHERE g.id IN {groupIds} " +
+                "WHERE g.id IN {groupsIds} " +
                 "RETURN g.id as id, g.name as name;";
         JsonObject params = new JsonObject().put(CAMEL_GROUPS_IDS, new JsonArray(groupIds));
 

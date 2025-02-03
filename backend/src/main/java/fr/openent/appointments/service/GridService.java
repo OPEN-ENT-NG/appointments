@@ -48,7 +48,15 @@ public interface GridService {
      * @param gridId The ID of the grid to retrieve.
      * @return A Future containing a JsonArray with the grid data.
      */
-    Future<GridWithDailySlots> getGridById(Long gridId);
+    Future<Grid> getGridById(Long gridId);
+
+    /**
+     * Retrieves a specific grid with its dailySlots by its ID.
+     *
+     * @param gridId The ID of the grid to retrieve.
+     * @return A Future containing a JsonArray with the grid data.
+     */
+    Future<GridWithDailySlots> getGridWithDailySlots(Long gridId);
 
     /**
      * Retrieves a specific grid by timeSlotId.

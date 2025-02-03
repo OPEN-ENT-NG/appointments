@@ -74,9 +74,26 @@ public class DefaultGridService implements GridService {
         return gridRepository.getGridsName(userId);
     }
 
+    @Override
+    public Future<Grid> getGridById(Long gridId) {
+        Promise<Grid> promise = Promise.promise();
+
+        gridRepository.get(gridId)
+                .onSuccess(grid -> {
+                    if (grid.isPresent()) promise.complete(grid.get());
+                    else promise.fail("Grid not found");
+                })
+                .onFailure(err -> {
+                    String errorMessage = "Failed to get grid by id";
+                    LogHelper.logError(this, "getGridById", errorMessage, err.getMessage());
+                    promise.fail(err);
+                });
+
+        return promise.future();
+    }
 
     @Override
-    public Future<GridWithDailySlots> getGridById(Long gridId) {
+    public Future<GridWithDailySlots> getGridWithDailySlots(Long gridId) {
         Promise<GridWithDailySlots> promise = Promise.promise();
         
         JsonObject composeInfos = new JsonObject();
@@ -90,25 +107,26 @@ public class DefaultGridService implements GridService {
             })
             .compose(groups -> {
                 composeInfos.put(GROUPS, groups);
-                Grid grid = composeInfos.getJsonObject(GRID).mapTo(Grid.class);
+                Grid grid = (Grid) composeInfos.getValue(GRID);
                 return communicationRepository.getStructure(grid.getStructureId());
             })
             .compose(neoStructure -> {
-                composeInfos.put(STRUCTURE, neoStructure);
+                if(!neoStructure.isPresent()) return Future.failedFuture("Structure not found");
+                composeInfos.put(STRUCTURE, neoStructure.get());
                 return dailySlotRepository.getByGridId(gridId);
             })
             .onSuccess(dailySlots -> {
                 composeInfos.put(DAILY_SLOTS, dailySlots);
-                Grid grid = composeInfos.getJsonObject(GRID).mapTo(Grid.class);
-                NeoStructure structure = composeInfos.getJsonObject(STRUCTURE).mapTo(NeoStructure.class);
+                Grid grid = (Grid) composeInfos.getValue(GRID);
+                NeoStructure structure = (NeoStructure) composeInfos.getValue(STRUCTURE);
                 List<NeoGroup> groups = composeInfos.getJsonArray(GROUPS).stream()
-                        .map(json -> ((JsonObject) json).mapTo(NeoGroup.class))
+                        .map(group -> (NeoGroup) group)
                         .collect(Collectors.toList());
                 promise.complete(new GridWithDailySlots(grid, structure, groups, dailySlots));
             })
             .onFailure(err -> {
                 String errorMessage = "Failed to get grid by id";
-                LogHelper.logError(this, "getGridById", errorMessage, err.getMessage());
+                LogHelper.logError(this, "getGridWithDailySlots", errorMessage, err.getMessage());
                 promise.fail(err);
             });
 

@@ -29,6 +29,7 @@ public class GridWithDailySlots implements IModel<GridWithDailySlots> {
     private String documentId;
     private String publicComment;
     private List<DailySlot> dailySlots;
+    private String ownerId;
 
     // Constructor
     public GridWithDailySlots(Grid grid, NeoStructure structure, List<NeoGroup> groups, List<DailySlot> dailySlots) {
@@ -46,6 +47,7 @@ public class GridWithDailySlots implements IModel<GridWithDailySlots> {
         this.documentId = grid.getDocumentId();
         this.publicComment = grid.getPublicComment();
         this.dailySlots = dailySlots;
+        this.ownerId = grid.getOwnerId();
     }
 
     // Getters
@@ -103,6 +105,10 @@ public class GridWithDailySlots implements IModel<GridWithDailySlots> {
 
     public List<DailySlot> getDailySlots() {
         return dailySlots;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
     }
 
     // Setters
@@ -174,6 +180,11 @@ public class GridWithDailySlots implements IModel<GridWithDailySlots> {
 
     public GridWithDailySlots setDailySlots(List<DailySlot> dailySlots) {
         this.dailySlots = dailySlots;
+        return this;
+    }
+
+    public GridWithDailySlots setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
         return this;
     }
 
