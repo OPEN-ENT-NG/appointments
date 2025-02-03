@@ -28,7 +28,10 @@ export const transformResponseToCompleteGridResponse = (
     color: response.color,
     structure: response.structure,
     location: response.place,
-    public: response.public,
+    public: response.groups.map((group) => ({
+      groupId: group.id,
+      groupName: group.name,
+    })),
     isVideoCall: !!response.videoCallLink,
     videoCallLink: response.videoCallLink,
     publicComment: response.publicComment,
@@ -44,8 +47,14 @@ export const transformResponseToCompleteGridResponse = (
           ...(acc[dailySlot.day] || []),
           {
             id: dailySlot.id,
-            begin: new Time(dailySlot.beginTime),
-            end: new Time(dailySlot.endTime),
+            begin: new Time({
+              hour: parseInt(dailySlot.beginTime.split(":")[0], 0),
+              minute: parseInt(dailySlot.beginTime.split(":")[1], 0),
+            }),
+            end: new Time({
+              hour: parseInt(dailySlot.endTime.split(":")[0], 0),
+              minute: parseInt(dailySlot.endTime.split(":")[1], 0),
+            }),
           },
         ];
         return acc;

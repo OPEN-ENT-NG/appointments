@@ -16,11 +16,14 @@ import { CONFIRM_MODAL_TYPE, GRID_STATE } from "~/core/enums";
 import { useGetAvailableAppointmentsQuery } from "~/services/api/AppointmentService";
 import {
   useDeleteGridMutation,
+  useGetGridByIdQuery,
   useGetMyGridsQuery,
   useRestoreGridMutation,
   useSuspendGridMutation,
 } from "~/services/api/GridService";
 import { useGlobal } from "../GlobalProvider";
+import { useGridModal } from "../GridModalProvider";
+import { GRID_MODAL_TYPE } from "../GridModalProvider/enum";
 import { GRID_TYPE } from "./enum";
 import {
   AvailabilityProviderContextProps,
@@ -53,6 +56,7 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
   children,
 }) => {
   const { hasManageRight } = useGlobal();
+  const { setInputs, handleDisplayGridModal } = useGridModal();
   const { t } = useTranslation("appointments");
   const [gridPages, setGridPages] = useState<GridPages>(initialPages);
   const [grids, setGrids] = useState<GridList>(initialGrids);
@@ -64,7 +68,6 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
   const [selectedGridIdUpdateFields, setSelectedGridIdUpdateFields] = useState<
     number | null
   >(null);
-  const [gridModalType, setGridModalType] = useState<GRID_TYPE | null>(null);
   const [dialogModalProps, setDialogModalProps] = useState<DialogModalProps>(
     initialDialogModalProps,
   );
@@ -95,18 +98,20 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
     skip: !selectedGridIdUpdateState,
   });
 
-  const { data: grid } = useGet;
+  const { data: grid } = useGetGridByIdQuery(selectedGridIdUpdateFields ?? 0, {
+    skip: !selectedGridIdUpdateFields,
+  });
 
   const [deleteGrid] = useDeleteGridMutation();
   const [suspendGrid] = useSuspendGridMutation();
   const [restoreGrid] = useRestoreGridMutation();
 
   const handleOpenGridModal = useCallback(
-    (gridType: GRID_TYPE, gridId?: number) => {
+    (type: GRID_MODAL_TYPE, gridId?: number) => {
       setSelectedGridIdUpdateFields(gridId ?? null);
-      setGridModalType(gridType);
+      handleDisplayGridModal(type);
     },
-    [],
+    [handleDisplayGridModal],
   );
 
   const handleChangePage = useCallback(
@@ -196,6 +201,13 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
   );
 
   useEffect(() => {
+    if (grid) {
+      console.log(grid);
+      setInputs(grid);
+    }
+  }, [grid, setInputs]);
+
+  useEffect(() => {
     if (
       !isAvailableAppointmentsFetching &&
       selectedGridIdUpdateState &&
@@ -260,7 +272,6 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
       gridTypeLengths: gridsLength,
       currentGridList: grids,
       isLoading,
-      gridModalType,
       dialogModalProps,
       handleOpenGridModal,
       handleChangePage,
@@ -271,7 +282,6 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
       gridsLength,
       grids,
       isLoading,
-      gridModalType,
       dialogModalProps,
       handleOpenGridModal,
       handleChangePage,

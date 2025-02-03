@@ -8,6 +8,9 @@ import {
   useState,
 } from "react";
 
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
+import { TOAST_VALUES } from "~/core/constants";
 import {
   useBlurGridInputsReturnType,
   useUpdateGridInputsReturnType,
@@ -15,8 +18,13 @@ import {
 import { useBlurGridInputs } from "~/hooks/useBlurGridInputs";
 import { useUpdateGridInputs } from "~/hooks/useUpdateGridInputs";
 import { useGetCommunicationGroupsQuery } from "~/services/api/CommunicationService";
-import { useGetMyGridsNameQuery } from "~/services/api/GridService";
+import {
+  useCreateGridMutation,
+  useGetMyGridsNameQuery,
+} from "~/services/api/GridService";
+import { CreateGridPayload } from "~/services/api/GridService/types";
 import { useGlobal } from "../GlobalProvider";
+import { GRID_MODAL_TYPE, PAGE_TYPE } from "./enum";
 import {
   GridModalInputs,
   GridModalProviderContextProps,
@@ -25,6 +33,7 @@ import {
 } from "./types";
 import {
   durationOptions,
+  gridInputsToGridPayload,
   initialErrorInputs,
   initialGridModalInputs,
   periodicityOptions,
@@ -43,10 +52,24 @@ export const useGridModal = () => {
 
 export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
   const { structures, hasManageRight } = useGlobal();
+  const [createGrid] = useCreateGridMutation();
+  const { t } = useTranslation("appointments");
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const [modalType, setModalType] = useState<GRID_MODAL_TYPE>(
+    GRID_MODAL_TYPE.CREATION,
+  );
+
+  const [page, setPage] = useState<PAGE_TYPE>(PAGE_TYPE.FIRST);
 
   const [inputs, setInputs] = useState<GridModalInputs>(
     initialGridModalInputs(structures),
   );
+
+  const [errorInputs, setErrorInputs] =
+    useState<InputsErrors>(initialErrorInputs);
 
   useEffect(() => {
     if (structures.length)
@@ -64,9 +87,6 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
   const { data: existingGridsNames } = useGetMyGridsNameQuery(undefined, {
     skip: !hasManageRight,
   });
-
-  const [errorInputs, setErrorInputs] =
-    useState<InputsErrors>(initialErrorInputs);
 
   const updateGridModalInputs: useUpdateGridInputsReturnType =
     useUpdateGridInputs(
@@ -93,6 +113,112 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
     setErrorInputs(initialErrorInputs);
   }, [structures]);
 
+  const handleSubmit = useCallback(async () => {
+    const newErrors = {
+      name: blurGridModalInputs.newNameError,
+      videoCallLink: blurGridModalInputs.newVideoCallLinkError,
+      validityPeriod: blurGridModalInputs.newValidityPeriodError,
+      weekSlots: blurGridModalInputs.newWeekSlotsError,
+      slots: blurGridModalInputs.newSlotsError,
+    };
+    setErrorInputs(newErrors);
+    if (
+      newErrors.name ||
+      newErrors.videoCallLink ||
+      newErrors.validityPeriod ||
+      newErrors.weekSlots ||
+      newErrors.slots.ids.length
+    )
+      return;
+
+    const payload: CreateGridPayload = gridInputsToGridPayload(
+      inputs,
+      groups ?? [],
+    );
+    try {
+      await createGrid(payload).unwrap();
+      toast.success(t(TOAST_VALUES.CREATE_GRID.i18nKeySuccess));
+      resetInputs();
+      setPage(PAGE_TYPE.FIRST);
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error(error);
+      toast.error(t(TOAST_VALUES.CREATE_GRID.i18nKeyError));
+    }
+  }, [
+    blurGridModalInputs,
+    createGrid,
+    groups,
+    inputs,
+    resetInputs,
+    setPage,
+    setIsModalOpen,
+    t,
+  ]);
+
+  const handlePrev = () => {
+    setPage(PAGE_TYPE.FIRST);
+  };
+
+  const handleNext = useCallback(() => {
+    const newErrors = {
+      name: blurGridModalInputs.newNameError,
+      videoCallLink: blurGridModalInputs.newVideoCallLinkError,
+      validityPeriod: "",
+      weekSlots: "",
+      slots: {
+        ids: [],
+        error: "",
+      },
+    };
+    setErrorInputs(newErrors);
+    if (newErrors.name || newErrors.videoCallLink) return;
+    setPage(PAGE_TYPE.SECOND);
+  }, [blurGridModalInputs]);
+
+  const handleCancel = () => {
+    setIsDialogOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsDialogOpen(true);
+  };
+
+  const handleCancelDialog = () => {
+    setIsDialogOpen(false);
+  };
+
+  const handleConfirmDialog = useCallback(() => {
+    setIsDialogOpen(false);
+    resetInputs();
+    setPage(PAGE_TYPE.FIRST);
+    setIsModalOpen(false);
+  }, [resetInputs]);
+
+  const handleDisplayGridModal = useCallback(
+    (type: GRID_MODAL_TYPE) => {
+      setModalType(type);
+      setIsModalOpen(true);
+    },
+    [setIsModalOpen],
+  );
+
+  const isDisplayFirstPage = useMemo(
+    () =>
+      modalType === GRID_MODAL_TYPE.EDIT ||
+      modalType === GRID_MODAL_TYPE.CONSULTATION ||
+      page === PAGE_TYPE.FIRST,
+    [modalType, page],
+  );
+
+  const isDisplaySecondPage = useMemo(
+    () =>
+      modalType === GRID_MODAL_TYPE.EDIT ||
+      modalType === GRID_MODAL_TYPE.CONSULTATION ||
+      page === PAGE_TYPE.SECOND,
+    [modalType, page],
+  );
+
   useEffect(() => {
     if (inputs.structure.id && hasManageRight) refetchGroups();
   }, [hasManageRight, inputs.structure, refetchGroups]);
@@ -112,6 +238,19 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       blurGridModalInputs,
       updateFirstPageErrors,
       resetInputs,
+      isDisplayFirstPage,
+      isDisplaySecondPage,
+      handlePrev,
+      handleNext,
+      handleSubmit,
+      isModalOpen,
+      handleCancel,
+      handleClose,
+      isDialogOpen,
+      handleCancelDialog,
+      handleConfirmDialog,
+      handleDisplayGridModal,
+      page,
     }),
     [
       inputs,
@@ -123,6 +262,15 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       blurGridModalInputs,
       updateFirstPageErrors,
       resetInputs,
+      isDisplayFirstPage,
+      isDisplaySecondPage,
+      handleNext,
+      handleSubmit,
+      isModalOpen,
+      isDialogOpen,
+      handleConfirmDialog,
+      handleDisplayGridModal,
+      page,
     ],
   );
 

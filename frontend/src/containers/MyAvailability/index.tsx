@@ -12,11 +12,11 @@ import {
   GRID_CARD_SIZE,
   GRID_TYPE,
 } from "~/providers/AvailabilityProvider/enum";
-import { MODAL_TYPE } from "~/providers/GlobalProvider/enum";
+import { useGridModal } from "~/providers/GridModalProvider";
+import { GRID_MODAL_TYPE } from "~/providers/GridModalProvider/enum";
 import { PURPLE } from "~/styles/color.constants";
 import { GridList } from "../GridList";
 import { GridModal } from "../GridModal";
-import { GRID_MODAL_TYPE } from "../GridModal/enum";
 import {
   availabilityContainerStyle,
   emptyStateStyle,
@@ -27,12 +27,12 @@ import {
 export const MyAvailability: FC = () => {
   const { t } = useTranslation("appointments");
 
-  const [gridModalType] = useState<GRID_MODAL_TYPE>(GRID_MODAL_TYPE.CREATION);
   const [gridCardSize, setGridCardSize] = useState<GRID_CARD_SIZE>(
     GRID_CARD_SIZE.LARGE,
   );
 
   const { gridTypeLengths, isLoading, dialogModalProps } = useAvailability();
+  const { handleDisplayGridModal } = useGridModal();
 
   const isAllGridListEmpty = useMemo(
     () =>
@@ -70,7 +70,7 @@ export const MyAvailability: FC = () => {
   return (
     <>
       <DialogModal {...dialogModalProps} />
-      <GridModal gridModalType={gridModalType} />
+      <GridModal />
       <Box ref={boxRef} sx={availabilityContainerStyle}>
         <Box sx={headerStyle}>
           <Typography variant="h2">
@@ -79,7 +79,7 @@ export const MyAvailability: FC = () => {
           <Button
             variant="contained"
             startIcon={<AddCircleIcon />}
-            onClick={() => handleDisplayModal(MODAL_TYPE.GRID)}
+            onClick={() => handleDisplayGridModal(GRID_MODAL_TYPE.CREATION)}
           >
             {t("appointments.create.grid")}
           </Button>

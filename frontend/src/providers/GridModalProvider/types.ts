@@ -11,6 +11,7 @@ import {
   useUpdateGridInputsReturnType,
 } from "~/hooks/types";
 import { Public } from "~/services/api/CommunicationService/types";
+import { GRID_MODAL_TYPE, PAGE_TYPE } from "./enum";
 
 export interface GridModalProviderContextProps {
   inputs: GridModalInputs;
@@ -26,6 +27,19 @@ export interface GridModalProviderContextProps {
   blurGridModalInputs: useBlurGridInputsReturnType;
   updateFirstPageErrors: () => void;
   resetInputs: () => void;
+  isDisplayFirstPage: boolean;
+  isDisplaySecondPage: boolean;
+  handlePrev: () => void;
+  handleNext: () => void;
+  handleSubmit: () => void;
+  isModalOpen: boolean;
+  handleCancel: () => void;
+  handleClose: () => void;
+  isDialogOpen: boolean;
+  handleCancelDialog: () => void;
+  handleConfirmDialog: () => void;
+  handleDisplayGridModal: (type: GRID_MODAL_TYPE) => void;
+  page: PAGE_TYPE;
 }
 
 export interface GridModalProviderProps {

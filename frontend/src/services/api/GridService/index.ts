@@ -10,7 +10,10 @@ import {
   TimeSlots,
   UpdateGridStatePayload,
 } from "./types";
-import { transformResponseToMyGridsResponse } from "./utils";
+import {
+  transformResponseToCompleteGridResponse,
+  transformResponseToMyGridsResponse,
+} from "./utils";
 
 export const gridApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -24,6 +27,7 @@ export const gridApi = emptySplitApi.injectEndpoints({
     }),
     getGridById: builder.query<GridModalInputs, number>({
       query: (gridId) => `/grids/${gridId}`,
+      transformResponse: transformResponseToCompleteGridResponse,
       providesTags: ["MyGrids"],
     }),
     getMyGrids: builder.query<MyGrids, GetMyGridsPayload>({
@@ -90,6 +94,7 @@ export const gridApi = emptySplitApi.injectEndpoints({
 
 export const {
   useCreateGridMutation,
+  useGetGridByIdQuery,
   useGetMyGridsQuery,
   useGetMyGridsNameQuery,
   useGetAvailableUserMinimalGridsQuery,

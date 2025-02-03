@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { DialogModalProps } from "~/components/DialogModal/types";
 import { CONFIRM_MODAL_TYPE } from "~/core/enums";
 import { MinimalGrid } from "~/services/api/GridService/types";
+import { GRID_MODAL_TYPE } from "../GridModalProvider/enum";
 import { GRID_TYPE } from "./enum";
 
 export interface AvailabilityProviderContextProps {
@@ -10,9 +11,8 @@ export interface AvailabilityProviderContextProps {
   gridTypeLengths: GridTypeLength;
   currentGridList: GridList;
   isLoading: boolean;
-  gridModalType: GRID_TYPE | null;
   dialogModalProps: DialogModalProps;
-  handleOpenGridModal: (type: GRID_TYPE, gridId?: number) => void;
+  handleOpenGridModal: (type: GRID_MODAL_TYPE, gridId?: number) => void;
   handleChangePage: (gridType: GRID_TYPE, newPage: number) => void;
   handleOpenDialogModal: (gridId: number, type: CONFIRM_MODAL_TYPE) => void;
 }

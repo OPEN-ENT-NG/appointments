@@ -13,6 +13,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { v4 as uuidv4 } from "uuid";
 
+import { useGridModal } from "~/providers/GridModalProvider";
 import {
   beginAndEndBoxStyle,
   beginAndEndWrapperStyle,
@@ -26,7 +27,6 @@ import {
 } from "./style";
 import { DailySlotProps } from "./types";
 import { getEndOptions, getStartOptions } from "./utils";
-import { useGridModal } from "~/providers/GridModalProvider";
 
 export const DailySlot: FC<DailySlotProps> = ({ day, slot }) => {
   const { t } = useTranslation("appointments");
@@ -39,6 +39,8 @@ export const DailySlot: FC<DailySlotProps> = ({ day, slot }) => {
   const isSlotError =
     slots.ids.some((item) => item === slot.id) &&
     (!slot.begin.time || !slot.end.time);
+
+  console.log("DailySlot -> slot", slot);
 
   return (
     <StyledDailySlotBox isSlotError={isSlotError}>
