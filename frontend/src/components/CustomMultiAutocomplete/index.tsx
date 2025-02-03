@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { v4 as uuidv4 } from "uuid";
 
 import { useGridModal } from "~/providers/GridModalProvider";
+import { GRID_MODAL_TYPE } from "~/providers/GridModalProvider/enum";
 import { chipStyle, TextFieldStyle } from "./style";
 
 export const CustomMultiAutocomplete: FC = () => {
@@ -14,18 +15,17 @@ export const CustomMultiAutocomplete: FC = () => {
     publicOptions,
     inputs,
     updateGridModalInputs: { handlePublicChange },
+    modalType,
   } = useGridModal();
 
   const selectedPublic = inputs.public;
   const { t } = useTranslation("appointments");
 
-  console.log("CustomMultiAutocomplete -> publicOptions", publicOptions);
-  console.log("CustomMultiAutocomplete -> selectedPublic", selectedPublic);
-
   return (
     <Autocomplete
       multiple
       options={publicOptions}
+      disabled={modalType !== GRID_MODAL_TYPE.CREATION}
       disableCloseOnSelect
       getOptionLabel={(option) => option.groupName}
       isOptionEqualToValue={(option, value) => option.groupId === value.groupId}

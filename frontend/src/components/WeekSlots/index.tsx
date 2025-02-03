@@ -14,6 +14,7 @@ import { DAY_VALUES } from "~/core/constants";
 import { DAY } from "~/core/enums";
 import { Slot } from "~/core/types";
 import { useGridModal } from "~/providers/GridModalProvider";
+import { GRID_MODAL_TYPE } from "~/providers/GridModalProvider/enum";
 import { DailySlot } from "../DailySlot";
 import {
   dayBoxStyle,
@@ -30,6 +31,7 @@ export const WeekSlots: FC = () => {
     inputs,
     errorInputs: { slots },
     updateGridModalInputs: { handleAddSlot },
+    modalType,
   } = useGridModal();
 
   const entries = Object.entries(inputs.weekSlots) as [DAY, Slot[]][];
@@ -60,9 +62,11 @@ export const WeekSlots: FC = () => {
                   {timeSlots.map((slot) => (
                     <DailySlot key={slot.id} day={day} slot={slot} />
                   ))}
-                  <IconButton onClick={() => handleAddSlot(day)}>
-                    <AddCircleIcon sx={iconStyle} />
-                  </IconButton>
+                  {modalType === GRID_MODAL_TYPE.CREATION && (
+                    <IconButton onClick={() => handleAddSlot(day)}>
+                      <AddCircleIcon sx={iconStyle} />
+                    </IconButton>
+                  )}
                 </Box>
                 {dayErrors[day] && (
                   <FormHelperText sx={errorStyle} error>

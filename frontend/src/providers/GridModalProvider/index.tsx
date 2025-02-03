@@ -251,6 +251,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       handleConfirmDialog,
       handleDisplayGridModal,
       page,
+      modalType,
     }),
     [
       inputs,
@@ -271,6 +272,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       handleConfirmDialog,
       handleDisplayGridModal,
       page,
+      modalType,
     ],
   );
 

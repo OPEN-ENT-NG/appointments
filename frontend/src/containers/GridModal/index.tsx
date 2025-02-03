@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 
 import { CustomStepper } from "~/components/CustomStepper";
 import { DialogModal } from "~/components/DialogModal";
+import { GRID_MODAL_VALUES } from "~/core/constants";
 import { CONFIRM_MODAL_TYPE } from "~/core/enums";
 import { useGridModal } from "~/providers/GridModalProvider";
 import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
@@ -34,6 +35,7 @@ export const GridModal: FC = () => {
     handleConfirmDialog,
     handleCancelDialog,
     page,
+    modalType,
   } = useGridModal();
 
   return (
@@ -43,14 +45,14 @@ export const GridModal: FC = () => {
           <Box sx={contentBoxStyle}>
             <Box sx={spaceBetweenBoxStyle}>
               <Typography variant="h3">
-                {t("appointments.create.grid.title")}
+                {t(GRID_MODAL_VALUES[modalType].titleKey)}
               </Typography>
               <IconButton sx={closeIconStyle} onClick={handleClose}>
                 <CloseIcon />
               </IconButton>
             </Box>
             <Typography sx={instructionStyle}>
-              {t("appointments.grid.required")}
+              {t(GRID_MODAL_VALUES[modalType].instructionKey)}
             </Typography>
             {isDisplayFirstPage && <FirstPageGridModal />}
             {isDisplaySecondPage && <SecondPageGridModal />}

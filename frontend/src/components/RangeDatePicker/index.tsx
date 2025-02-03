@@ -5,9 +5,10 @@ import { Box } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { useTranslation } from "react-i18next";
 
+import { useGridModal } from "~/providers/GridModalProvider";
+import { GRID_MODAL_TYPE } from "~/providers/GridModalProvider/enum";
 import { boxStyle, datePickerStyle, removeIconStyle } from "./style";
 import { shouldDisableEndDate, shouldDisableStartDate } from "./utils";
-import { useGridModal } from "~/providers/GridModalProvider";
 
 export const RangeDatePicker: FC = () => {
   const { t } = useTranslation("appointments");
@@ -18,6 +19,7 @@ export const RangeDatePicker: FC = () => {
     },
     errorInputs: { validityPeriod: validityPeriodError },
     updateGridModalInputs: { handleStartDateChange, handleEndDateChange },
+    modalType,
   } = useGridModal();
 
   const isStartError = !!validityPeriodError && !startDate;
@@ -31,6 +33,7 @@ export const RangeDatePicker: FC = () => {
           value={startDate}
           onChange={handleStartDateChange}
           shouldDisableDate={shouldDisableStartDate}
+          disabled={modalType !== GRID_MODAL_TYPE.CREATION}
           slotProps={{
             day: { sx: { fontSize: "1.2rem" } },
             textField: {
@@ -51,6 +54,7 @@ export const RangeDatePicker: FC = () => {
           onChange={handleEndDateChange}
           minDate={startDate}
           shouldDisableDate={shouldDisableEndDate}
+          disabled={modalType !== GRID_MODAL_TYPE.CREATION}
           slotProps={{
             day: { sx: { fontSize: "1.2rem" } },
             textField: {

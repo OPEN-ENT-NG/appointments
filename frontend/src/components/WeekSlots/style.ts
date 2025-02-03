@@ -17,6 +17,7 @@ export const dayLabelStyle = {
 
 export const slotsBoxStyle = {
   ...flexStartBoxStyle,
+  minHeight: "3.6rem",
   flexWrap: "wrap",
 };
 

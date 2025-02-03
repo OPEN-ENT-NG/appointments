@@ -164,7 +164,11 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
               </MenuItem>
             ) : (
               <>
-                <MenuItem>
+                <MenuItem
+                  onClick={() =>
+                    handleOpenGridModal(GRID_MODAL_TYPE.EDIT, grid.id)
+                  }
+                >
                   <EditIcon />
                   {t("appointments.edit")}
                 </MenuItem>

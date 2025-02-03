@@ -1,6 +1,7 @@
 import { SvgIconProps } from "@mui/material";
 import { Theme, ToastPosition } from "react-toastify";
 
+import { GRID_MODAL_TYPE } from "~/providers/GridModalProvider/enum";
 import { MY_APPOINTMENTS_LIST_STATE } from "~/providers/MyAppointmentsProvider/enum";
 import {
   APPOINTMENT_STATE,
@@ -210,5 +211,20 @@ export const TOAST_VALUES = {
   [TOAST_TYPE.RESTORE_GRID]: {
     i18nKeySuccess: "appointments.toast.restore.grid.success",
     i18nKeyError: "appointments.toast.restore.grid.error",
+  },
+};
+
+export const GRID_MODAL_VALUES = {
+  [GRID_MODAL_TYPE.CREATION]: {
+    titleKey: "appointments.create.grid.title",
+    instructionKey: "appointments.grid.required",
+  },
+  [GRID_MODAL_TYPE.EDIT]: {
+    titleKey: "appointments.modify.grid.title",
+    instructionKey: "appointments.grid.required",
+  },
+  [GRID_MODAL_TYPE.CONSULTATION]: {
+    titleKey: "appointments.consultation.grid.title",
+    instructionKey: "appointments.grid.required",
   },
 };

@@ -40,6 +40,7 @@ export interface GridModalProviderContextProps {
   handleConfirmDialog: () => void;
   handleDisplayGridModal: (type: GRID_MODAL_TYPE) => void;
   page: PAGE_TYPE;
+  modalType: GRID_MODAL_TYPE;
 }
 
 export interface GridModalProviderProps {
