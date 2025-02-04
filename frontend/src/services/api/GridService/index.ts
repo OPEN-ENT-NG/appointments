@@ -2,6 +2,7 @@ import { GridModalInputs } from "~/providers/GridModalProvider/types";
 import { emptySplitApi } from "../EmptySplitService";
 import {
   CreateGridPayload,
+  EditGridPayload,
   GetMyGridsPayload,
   GetTimeSlotsPayload,
   GridInfos,
@@ -89,6 +90,14 @@ export const gridApi = emptySplitApi.injectEndpoints({
       }),
       invalidatesTags: ["MyGrids", "Availability"],
     }),
+    editGrid: builder.mutation<void, EditGridPayload>({
+      query: ({ gridId, body }) => ({
+        url: `/grids/${gridId}`,
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: ["MyGrids", "Availability"],
+    }),
   }),
 });
 
@@ -103,4 +112,5 @@ export const {
   useDeleteGridMutation,
   useSuspendGridMutation,
   useRestoreGridMutation,
+  useEditGridMutation,
 } = gridApi;

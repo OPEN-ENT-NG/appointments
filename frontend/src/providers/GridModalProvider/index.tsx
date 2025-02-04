@@ -11,6 +11,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { TOAST_VALUES } from "~/core/constants";
+import { CONFIRM_MODAL_TYPE } from "~/core/enums";
 import {
   useBlurGridInputsReturnType,
   useUpdateGridInputsReturnType,
@@ -20,6 +21,7 @@ import { useUpdateGridInputs } from "~/hooks/useUpdateGridInputs";
 import { useGetCommunicationGroupsQuery } from "~/services/api/CommunicationService";
 import {
   useCreateGridMutation,
+  useEditGridMutation,
   useGetMyGridsNameQuery,
 } from "~/services/api/GridService";
 import { CreateGridPayload } from "~/services/api/GridService/types";
@@ -33,7 +35,7 @@ import {
 } from "./types";
 import {
   durationOptions,
-  gridInputsToGridPayload,
+  gridInputsToCreateGridPayload,
   initialErrorInputs,
   initialGridModalInputs,
   periodicityOptions,
@@ -53,6 +55,7 @@ export const useGridModal = () => {
 export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
   const { structures, hasManageRight } = useGlobal();
   const [createGrid] = useCreateGridMutation();
+  const [editGrid] = useEditGridMutation();
   const { t } = useTranslation("appointments");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -60,6 +63,10 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
 
   const [modalType, setModalType] = useState<GRID_MODAL_TYPE>(
     GRID_MODAL_TYPE.CREATION,
+  );
+
+  const [confirmModalType, setConfirmModalType] = useState<CONFIRM_MODAL_TYPE>(
+    CONFIRM_MODAL_TYPE.CANCEL_GRID_CREATION,
   );
 
   const [page, setPage] = useState<PAGE_TYPE>(PAGE_TYPE.FIRST);
@@ -131,7 +138,13 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
     )
       return;
 
-    const payload: CreateGridPayload = gridInputsToGridPayload(
+    if (modalType === GRID_MODAL_TYPE.EDIT) {
+      setConfirmModalType(CONFIRM_MODAL_TYPE.CONFIRM_GRID_EDIT);
+      setIsDialogOpen(true);
+      return;
+    }
+
+    const payload: CreateGridPayload = gridInputsToCreateGridPayload(
       inputs,
       groups ?? [],
     );
@@ -146,14 +159,17 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       toast.error(t(TOAST_VALUES.CREATE_GRID.i18nKeyError));
     }
   }, [
-    blurGridModalInputs,
-    createGrid,
-    groups,
+    blurGridModalInputs.newNameError,
+    blurGridModalInputs.newVideoCallLinkError,
+    blurGridModalInputs.newValidityPeriodError,
+    blurGridModalInputs.newWeekSlotsError,
+    blurGridModalInputs.newSlotsError,
+    modalType,
     inputs,
-    resetInputs,
-    setPage,
-    setIsModalOpen,
+    groups,
+    createGrid,
     t,
+    resetInputs,
   ]);
 
   const handlePrev = () => {
@@ -176,9 +192,20 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
     setPage(PAGE_TYPE.SECOND);
   }, [blurGridModalInputs]);
 
-  const handleCancel = () => {
-    setIsDialogOpen(true);
-  };
+  const handleCancel = useCallback(() => {
+    switch (modalType) {
+      case GRID_MODAL_TYPE.CREATION:
+        setConfirmModalType(CONFIRM_MODAL_TYPE.CANCEL_GRID_CREATION);
+        setIsDialogOpen(true);
+        break;
+      case GRID_MODAL_TYPE.EDIT:
+        setConfirmModalType(CONFIRM_MODAL_TYPE.CANCEL_GRID_EDIT);
+        setIsDialogOpen(true);
+        break;
+      default:
+        break;
+    }
+  }, [modalType]);
 
   const handleClose = () => {
     setIsDialogOpen(true);
@@ -189,6 +216,9 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
   };
 
   const handleConfirmDialog = useCallback(() => {
+    // if (modalType === GRID_MODAL_TYPE.EDIT) {
+    //   const payload: EditGridBody = gridInputsToEditGridPayload(gridId, inputs);
+    // }
     setIsDialogOpen(false);
     resetInputs();
     setPage(PAGE_TYPE.FIRST);
@@ -252,6 +282,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       handleDisplayGridModal,
       page,
       modalType,
+      confirmModalType,
     }),
     [
       inputs,
@@ -268,11 +299,13 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       handleNext,
       handleSubmit,
       isModalOpen,
+      handleCancel,
       isDialogOpen,
       handleConfirmDialog,
       handleDisplayGridModal,
       page,
       modalType,
+      confirmModalType,
     ],
   );
 

@@ -8,13 +8,13 @@ import { Button } from "@cgi-learning-hub/ui";
 import { CustomStepper } from "~/components/CustomStepper";
 import { DialogModal } from "~/components/DialogModal";
 import { GRID_MODAL_VALUES } from "~/core/constants";
-import { CONFIRM_MODAL_TYPE } from "~/core/enums";
 import { useGridModal } from "~/providers/GridModalProvider";
 import { GRID_MODAL_TYPE } from "~/providers/GridModalProvider/enum";
 import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
 import { FirstPageGridModal } from "../FirstPageGridModal";
 import { SecondPageGridModal } from "../SecondPageGridModal";
 import {
+  bottomButtonBoxStyle,
   closeIconStyle,
   contentBoxStyle,
   instructionStyle,
@@ -38,6 +38,7 @@ export const GridModal: FC = () => {
     handleCancelDialog,
     page,
     modalType,
+    confirmModalType,
   } = useGridModal();
 
   return (
@@ -68,19 +69,21 @@ export const GridModal: FC = () => {
               />
             )}
             {modalType === GRID_MODAL_TYPE.EDIT && (
-              <>
-                <Button onClick={handleClose}>{t("appointments.close")}</Button>
-                <Button onClick={handleCancel}>
+              <Box sx={bottomButtonBoxStyle}>
+                <Button onClick={handleCancel} variant="text">
                   {t("appointments.cancel")}
                 </Button>
-              </>
+                <Button onClick={handleSubmit} variant="contained">
+                  {t("appointments.save")}
+                </Button>
+              </Box>
             )}
           </Box>
         </Box>
       </Modal>
       <DialogModal
         open={isDialogOpen}
-        type={CONFIRM_MODAL_TYPE.CANCEL_GRID_CREATION}
+        type={confirmModalType}
         handleCancel={handleCancelDialog}
         handleConfirm={handleConfirmDialog}
       />

@@ -3,7 +3,7 @@ import { Dispatch, ReactNode, SetStateAction } from "react";
 import { Dayjs } from "dayjs";
 
 import { HexaColor } from "~/components/ColorPicker/types";
-import { DURATION, PERIODICITY } from "~/core/enums";
+import { CONFIRM_MODAL_TYPE, DURATION, PERIODICITY } from "~/core/enums";
 import { WeekSlotsModel } from "~/core/types";
 import {
   Structure,
@@ -41,6 +41,7 @@ export interface GridModalProviderContextProps {
   handleDisplayGridModal: (type: GRID_MODAL_TYPE) => void;
   page: PAGE_TYPE;
   modalType: GRID_MODAL_TYPE;
+  confirmModalType: CONFIRM_MODAL_TYPE;
 }
 
 export interface GridModalProviderProps {

@@ -117,3 +117,17 @@ export interface GetGridByIdResponse {
   publicComment: string;
   dailySlots: DailySlot[];
 }
+
+export interface EditGridBody {
+  name: string;
+  color: string;
+  videoCallLink: string;
+  place: string;
+  documentId: string;
+  publicComment: string;
+}
+
+export interface EditGridPayload {
+  gridId: number;
+  body: EditGridBody;
+}

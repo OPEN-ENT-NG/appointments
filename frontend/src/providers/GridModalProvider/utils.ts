@@ -1,11 +1,15 @@
-import { GridModalInputs, InputsErrors } from "./types";
 import { PERIODICITY_VALUES } from "~/core/constants";
 import { DAY, DURATION, PERIODICITY } from "~/core/enums";
 import { INVALID_SLOT_ERROR } from "~/core/i18nKeys";
 import { WeekSlotsModel } from "~/core/types";
 import { Structure } from "~/hooks/types";
 import { Public } from "~/services/api/CommunicationService/types";
-import { CreateGridPayload } from "~/services/api/GridService/types";
+import {
+  CreateGridPayload,
+  EditGridBody,
+  EditGridPayload,
+} from "~/services/api/GridService/types";
+import { GridModalInputs, InputsErrors } from "./types";
 
 export const initialPublic: Public[] = [];
 export const initialWeekSlots: WeekSlotsModel = {
@@ -56,7 +60,7 @@ export const periodicityOptions: PERIODICITY[] = Object.values(
   PERIODICITY,
 ) as PERIODICITY[];
 
-export const gridInputsToGridPayload = (
+export const gridInputsToCreateGridPayload = (
   inputs: GridModalInputs,
   publicOptions: Public[],
 ): CreateGridPayload => {
@@ -88,5 +92,24 @@ export const gridInputsToGridPayload = (
     place: inputs.location,
     documentId: "",
     publicComment: inputs.publicComment,
+  };
+};
+
+export const gridInputsToEditGridPayload = (
+  gridId: number,
+  inputs: GridModalInputs,
+): EditGridPayload => {
+  const body: EditGridBody = {
+    name: inputs.name.trimEnd(),
+    color: inputs.color,
+    videoCallLink: inputs.isVideoCall ? inputs.videoCallLink : "",
+    place: inputs.location,
+    documentId: "",
+    publicComment: inputs.publicComment,
+  };
+
+  return {
+    gridId,
+    body,
   };
 };
