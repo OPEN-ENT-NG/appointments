@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 
 import RemoveIcon from "@mui/icons-material/Remove";
 import { Box } from "@mui/material";
@@ -25,6 +25,11 @@ export const RangeDatePicker: FC = () => {
   const isStartError = !!validityPeriodError && !startDate;
   const isEndError = !!validityPeriodError && !endDate;
 
+  const disabled = useMemo(
+    () => modalType !== GRID_MODAL_TYPE.CREATION,
+    [modalType],
+  );
+
   return (
     <Box sx={boxStyle}>
       <Box sx={datePickerStyle}>
@@ -33,7 +38,7 @@ export const RangeDatePicker: FC = () => {
           value={startDate}
           onChange={handleStartDateChange}
           shouldDisableDate={shouldDisableStartDate}
-          disabled={modalType !== GRID_MODAL_TYPE.CREATION}
+          disabled={disabled}
           slotProps={{
             day: { sx: { fontSize: "1.2rem" } },
             textField: {
@@ -54,7 +59,7 @@ export const RangeDatePicker: FC = () => {
           onChange={handleEndDateChange}
           minDate={startDate}
           shouldDisableDate={shouldDisableEndDate}
-          disabled={modalType !== GRID_MODAL_TYPE.CREATION}
+          disabled={disabled}
           slotProps={{
             day: { sx: { fontSize: "1.2rem" } },
             textField: {

@@ -45,7 +45,6 @@ export const FirstPageGridModal: FC = () => {
     <Box sx={pageGridModalStyle}>
       <Box sx={firstLineStyle}>
         <TextField
-          id="grid-name"
           label={
             t("appointments.grid.name") +
             " * " +
@@ -66,12 +65,10 @@ export const FirstPageGridModal: FC = () => {
         </Box>
       </Box>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label" sx={{ width: "fit-content" }}>
+        <InputLabel sx={{ width: "fit-content" }}>
           {t("appointments.grid.structure") + " * "}
         </InputLabel>
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
           label={t("appointments.grid.structure") + " * "}
           value={inputs.structure.id}
           onChange={handleStructureChange}
@@ -86,7 +83,6 @@ export const FirstPageGridModal: FC = () => {
         </Select>
       </FormControl>
       <TextField
-        id="grid-location"
         label={t("appointments.grid.location")}
         variant="outlined"
         value={inputs.location}
@@ -104,7 +100,6 @@ export const FirstPageGridModal: FC = () => {
       </Box>
       {inputs.isVideoCall && (
         <TextField
-          id="grid-video-call-link"
           label={t("appointments.grid.videoconference.link") + " *"}
           variant="outlined"
           value={inputs.videoCallLink}
@@ -116,7 +111,6 @@ export const FirstPageGridModal: FC = () => {
         />
       )}
       <TextField
-        id="grid-public-comment"
         label={
           t("appointments.grid.comment") +
           " " +

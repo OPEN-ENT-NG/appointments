@@ -60,6 +60,11 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
     handleCloseMenu();
   };
 
+  const handleOpenEditModal = () => {
+    handleOpenGridModal(GRID_MODAL_TYPE.EDIT, grid.id);
+    handleCloseMenu();
+  };
+
   useEffect(() => {
     if (size === GRID_CARD_SIZE.LARGE) handleCloseMenu();
   }, [size]);
@@ -164,12 +169,7 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
               </MenuItem>
             ) : (
               <>
-                <MenuItem
-                  onClick={() => {
-                    handleCloseMenu();
-                    handleOpenGridModal(GRID_MODAL_TYPE.EDIT, grid.id);
-                  }}
-                >
+                <MenuItem onClick={handleOpenEditModal}>
                   <EditIcon />
                   {t("appointments.edit")}
                 </MenuItem>

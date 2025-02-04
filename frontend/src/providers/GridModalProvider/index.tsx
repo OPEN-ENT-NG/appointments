@@ -42,6 +42,8 @@ import {
   gridInputsToEditGridPayload,
   initialErrorInputs,
   initialGridModalInputs,
+  isErrorsEmpty,
+  newErrorInputs,
   periodicityOptions,
 } from "./utils";
 
@@ -62,8 +64,8 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
   const [editGrid] = useEditGridMutation();
   const { t } = useTranslation("appointments");
 
-  const [selectedGridId, setSelectedGridId] = useState<number | null>(null);
-  const [selectedGridName, setSelectedGridName] = useState<string | null>(null);
+  const [selectedGridId, setSelectedGridId] = useState<number>(-1);
+  const [selectedGridName, setSelectedGridName] = useState<string>("");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -128,22 +130,9 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
   }, [structures]);
 
   const handleSubmit = useCallback(async () => {
-    const newErrors = {
-      name: blurGridModalInputs.newNameError,
-      videoCallLink: blurGridModalInputs.newVideoCallLinkError,
-      validityPeriod: blurGridModalInputs.newValidityPeriodError,
-      weekSlots: blurGridModalInputs.newWeekSlotsError,
-      slots: blurGridModalInputs.newSlotsError,
-    };
+    const newErrors = newErrorInputs(blurGridModalInputs);
     setErrorInputs(newErrors);
-    if (
-      newErrors.name ||
-      newErrors.videoCallLink ||
-      newErrors.validityPeriod ||
-      newErrors.weekSlots ||
-      newErrors.slots.ids.length
-    )
-      return;
+    if (!isErrorsEmpty(newErrors)) return;
 
     if (modalType === GRID_MODAL_TYPE.EDIT) {
       setConfirmModalType(CONFIRM_MODAL_TYPE.CONFIRM_GRID_EDIT);
@@ -166,11 +155,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       toast.error(t(TOAST_VALUES.CREATE_GRID.i18nKeyError));
     }
   }, [
-    blurGridModalInputs.newNameError,
-    blurGridModalInputs.newVideoCallLinkError,
-    blurGridModalInputs.newValidityPeriodError,
-    blurGridModalInputs.newWeekSlotsError,
-    blurGridModalInputs.newSlotsError,
+    blurGridModalInputs,
     modalType,
     inputs,
     groups,
@@ -242,8 +227,8 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
     (type: GRID_MODAL_TYPE, gridId?: number, gridName?: string) => {
       setModalType(type);
       if (type === GRID_MODAL_TYPE.EDIT) {
-        setSelectedGridId(gridId ?? null);
-        setSelectedGridName(gridName ?? null);
+        setSelectedGridId(gridId ?? -1);
+        setSelectedGridName(gridName ?? "");
       }
       setIsModalOpen(true);
     },

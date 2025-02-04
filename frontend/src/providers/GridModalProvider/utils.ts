@@ -2,7 +2,7 @@ import { PERIODICITY_VALUES } from "~/core/constants";
 import { DAY, DURATION, PERIODICITY } from "~/core/enums";
 import { INVALID_SLOT_ERROR } from "~/core/i18nKeys";
 import { WeekSlotsModel } from "~/core/types";
-import { Structure } from "~/hooks/types";
+import { Structure, useBlurGridInputsReturnType } from "~/hooks/types";
 import { Public } from "~/services/api/CommunicationService/types";
 import {
   CreateGridPayload,
@@ -113,3 +113,22 @@ export const gridInputsToEditGridPayload = (
     body,
   };
 };
+
+export const newErrorInputs = (
+  blurGridModalInputs: useBlurGridInputsReturnType,
+): InputsErrors => ({
+  name: blurGridModalInputs.newNameError,
+  videoCallLink: blurGridModalInputs.newVideoCallLinkError,
+  validityPeriod: blurGridModalInputs.newValidityPeriodError,
+  weekSlots: blurGridModalInputs.newWeekSlotsError,
+  slots: blurGridModalInputs.newSlotsError,
+});
+
+export const isErrorsEmpty = (errors: InputsErrors) =>
+  !(
+    errors.name ||
+    errors.videoCallLink ||
+    errors.validityPeriod ||
+    errors.weekSlots ||
+    errors.slots.ids.length
+  );

@@ -111,8 +111,9 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
 
   const handleOpenGridModal = useCallback(
     (type: GRID_MODAL_TYPE, gridId?: number) => {
-      if (type === GRID_MODAL_TYPE.CREATION) handleDisplayGridModal(type);
-      else setSelectedGridIdUpdateFields(gridId ?? null);
+      if (type === GRID_MODAL_TYPE.CREATION)
+        return handleDisplayGridModal(type);
+      return setSelectedGridIdUpdateFields(gridId ?? null);
     },
     [handleDisplayGridModal],
   );
@@ -175,12 +176,18 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
     (gridId: number, type: CONFIRM_MODAL_TYPE, selectedOption: string) => {
       const deleteAppointments =
         selectedOption === t("appointments.confirm.modal.option.cancel.them");
-      if (type === CONFIRM_MODAL_TYPE.DELETE_GRID) {
-        handleDeleteGrid(gridId, deleteAppointments);
-      } else if (type === CONFIRM_MODAL_TYPE.SUSPEND_GRID) {
-        handleSuspendGrid(gridId, deleteAppointments);
-      } else if (type === CONFIRM_MODAL_TYPE.RESTORE_GRID) {
-        handleRestoreGrid(gridId);
+      switch (type) {
+        case CONFIRM_MODAL_TYPE.DELETE_GRID:
+          handleDeleteGrid(gridId, deleteAppointments);
+          break;
+        case CONFIRM_MODAL_TYPE.SUSPEND_GRID:
+          handleSuspendGrid(gridId, deleteAppointments);
+          break;
+        case CONFIRM_MODAL_TYPE.RESTORE_GRID:
+          handleRestoreGrid(gridId);
+          break;
+        default:
+          break;
       }
       setSelectedGridIdUpdateState(null);
       setDialogModalProps(initialDialogModalProps);
