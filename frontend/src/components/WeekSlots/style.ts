@@ -29,3 +29,7 @@ export const iconStyle = {
 export const errorStyle = {
   marginLeft: "1rem",
 };
+
+export const noSlotStyle = {
+  marginLeft: "1.5rem",
+};

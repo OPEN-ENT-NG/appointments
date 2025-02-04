@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { DAY_VALUES } from "~/core/constants";
 import { DAY } from "~/core/enums";
 import { Slot } from "~/core/types";
@@ -21,6 +22,7 @@ import {
   dayLabelStyle,
   errorStyle,
   iconStyle,
+  noSlotStyle,
   slotsBoxStyle,
   weekBoxStyle,
 } from "./style";
@@ -67,6 +69,12 @@ export const WeekSlots: FC = () => {
                       <AddCircleIcon sx={iconStyle} />
                     </IconButton>
                   )}
+                  {modalType === GRID_MODAL_TYPE.EDIT &&
+                    timeSlots.length === 0 && (
+                      <Box sx={noSlotStyle}>
+                        <CloseRoundedIcon />
+                      </Box>
+                    )}
                 </Box>
                 {dayErrors[day] && (
                   <FormHelperText sx={errorStyle} error>
