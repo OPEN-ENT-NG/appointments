@@ -33,7 +33,6 @@ export const GridModal: FC = () => {
     isModalOpen,
     isDialogOpen,
     handleCancel,
-    handleClose,
     handleConfirmDialog,
     handleCancelDialog,
     page,
@@ -50,7 +49,7 @@ export const GridModal: FC = () => {
               <Typography variant="h3">
                 {t(GRID_MODAL_VALUES[modalType].titleKey)}
               </Typography>
-              <IconButton sx={closeIconStyle} onClick={handleClose}>
+              <IconButton sx={closeIconStyle} onClick={handleCancel}>
                 <CloseIcon />
               </IconButton>
             </Box>

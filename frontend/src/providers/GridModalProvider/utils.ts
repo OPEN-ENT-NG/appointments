@@ -96,8 +96,8 @@ export const gridInputsToCreateGridPayload = (
 };
 
 export const gridInputsToEditGridPayload = (
-  gridId: number,
   inputs: GridModalInputs,
+  gridId: number,
 ): EditGridPayload => {
   const body: EditGridBody = {
     name: inputs.name.trimEnd(),

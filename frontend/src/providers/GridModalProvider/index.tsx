@@ -24,7 +24,10 @@ import {
   useEditGridMutation,
   useGetMyGridsNameQuery,
 } from "~/services/api/GridService";
-import { CreateGridPayload } from "~/services/api/GridService/types";
+import {
+  CreateGridPayload,
+  EditGridPayload,
+} from "~/services/api/GridService/types";
 import { useGlobal } from "../GlobalProvider";
 import { GRID_MODAL_TYPE, PAGE_TYPE } from "./enum";
 import {
@@ -36,6 +39,7 @@ import {
 import {
   durationOptions,
   gridInputsToCreateGridPayload,
+  gridInputsToEditGridPayload,
   initialErrorInputs,
   initialGridModalInputs,
   periodicityOptions,
@@ -57,6 +61,9 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
   const [createGrid] = useCreateGridMutation();
   const [editGrid] = useEditGridMutation();
   const { t } = useTranslation("appointments");
+
+  const [selectedGridId, setSelectedGridId] = useState<number | null>(null);
+  const [selectedGridName, setSelectedGridName] = useState<string | null>(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -101,13 +108,13 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       setInputs,
       setErrorInputs,
       structures,
-      existingGridsNames ?? [],
+      existingGridsNames?.filter((name) => name !== selectedGridName) ?? [],
     );
 
   const blurGridModalInputs: useBlurGridInputsReturnType = useBlurGridInputs(
     inputs,
     setErrorInputs,
-    existingGridsNames ?? [],
+    existingGridsNames?.filter((name) => name !== selectedGridName) ?? [],
   );
 
   const updateFirstPageErrors = useCallback(() => {
@@ -207,27 +214,37 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
     }
   }, [modalType]);
 
-  const handleClose = () => {
-    setIsDialogOpen(true);
-  };
-
   const handleCancelDialog = () => {
     setIsDialogOpen(false);
   };
 
-  const handleConfirmDialog = useCallback(() => {
-    // if (modalType === GRID_MODAL_TYPE.EDIT) {
-    //   const payload: EditGridBody = gridInputsToEditGridPayload(gridId, inputs);
-    // }
+  const handleConfirmDialog = useCallback(async () => {
+    if (confirmModalType === CONFIRM_MODAL_TYPE.CONFIRM_GRID_EDIT) {
+      const payload: EditGridPayload = gridInputsToEditGridPayload(
+        inputs,
+        selectedGridId ?? 0,
+      );
+      try {
+        await editGrid(payload).unwrap();
+        toast.success(t(TOAST_VALUES.EDIT_GRID.i18nKeySuccess));
+      } catch (error) {
+        console.error(error);
+        toast.error(t(TOAST_VALUES.EDIT_GRID.i18nKeyError));
+      }
+    }
     setIsDialogOpen(false);
     resetInputs();
     setPage(PAGE_TYPE.FIRST);
     setIsModalOpen(false);
-  }, [resetInputs]);
+  }, [confirmModalType, editGrid, inputs, resetInputs, selectedGridId, t]);
 
   const handleDisplayGridModal = useCallback(
-    (type: GRID_MODAL_TYPE) => {
+    (type: GRID_MODAL_TYPE, gridId?: number, gridName?: string) => {
       setModalType(type);
+      if (type === GRID_MODAL_TYPE.EDIT) {
+        setSelectedGridId(gridId ?? null);
+        setSelectedGridName(gridName ?? null);
+      }
       setIsModalOpen(true);
     },
     [setIsModalOpen],
@@ -259,7 +276,6 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       setInputs,
       errorInputs,
       setErrorInputs,
-      existingGridsNames: existingGridsNames ?? [],
       structureOptions: structures,
       publicOptions: groups ?? [],
       durationOptions,
@@ -275,7 +291,6 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       handleSubmit,
       isModalOpen,
       handleCancel,
-      handleClose,
       isDialogOpen,
       handleCancelDialog,
       handleConfirmDialog,
@@ -287,7 +302,6 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
     [
       inputs,
       errorInputs,
-      existingGridsNames,
       structures,
       groups,
       updateGridModalInputs,

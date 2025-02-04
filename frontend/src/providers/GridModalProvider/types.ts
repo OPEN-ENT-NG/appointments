@@ -18,7 +18,6 @@ export interface GridModalProviderContextProps {
   setInputs: Dispatch<SetStateAction<GridModalInputs>>;
   errorInputs: InputsErrors;
   setErrorInputs: Dispatch<SetStateAction<InputsErrors>>;
-  existingGridsNames: string[];
   structureOptions: Structure[];
   publicOptions: Public[];
   durationOptions: DURATION[];
@@ -34,11 +33,10 @@ export interface GridModalProviderContextProps {
   handleSubmit: () => void;
   isModalOpen: boolean;
   handleCancel: () => void;
-  handleClose: () => void;
   isDialogOpen: boolean;
   handleCancelDialog: () => void;
   handleConfirmDialog: () => void;
-  handleDisplayGridModal: (type: GRID_MODAL_TYPE) => void;
+  handleDisplayGridModal: (type: GRID_MODAL_TYPE, gridId?: number) => void;
   page: PAGE_TYPE;
   modalType: GRID_MODAL_TYPE;
   confirmModalType: CONFIRM_MODAL_TYPE;

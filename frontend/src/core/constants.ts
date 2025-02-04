@@ -196,6 +196,10 @@ export const TOAST_VALUES = {
     i18nKeySuccess: "appointments.toast.create.grid.success",
     i18nKeyError: "appointments.toast.create.grid.error",
   },
+  [TOAST_TYPE.EDIT_GRID]: {
+    i18nKeySuccess: "appointments.toast.edit.grid.success",
+    i18nKeyError: "appointments.toast.edit.grid.error",
+  },
   [TOAST_TYPE.ACCEPT_APPOINTMENT]: {
     i18nKeySuccess: "appointments.toast.accept.appointment.success",
     i18nKeyError: "appointments.toast.accept.appointment.error",
