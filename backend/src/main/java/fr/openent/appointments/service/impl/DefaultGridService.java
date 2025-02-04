@@ -116,7 +116,6 @@ public class DefaultGridService implements GridService {
                 return dailySlotRepository.getByGridId(gridId);
             })
             .onSuccess(dailySlots -> {
-                composeInfos.put(DAILY_SLOTS, dailySlots);
                 Grid grid = (Grid) composeInfos.getValue(GRID);
                 NeoStructure structure = (NeoStructure) composeInfos.getValue(STRUCTURE);
                 List<NeoGroup> groups = composeInfos.getJsonArray(GROUPS).stream()

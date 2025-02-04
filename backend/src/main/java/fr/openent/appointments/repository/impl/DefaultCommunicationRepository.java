@@ -39,7 +39,7 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
                 .put(CAMEL_STRUCTURE_ID, structureId);
 
         String errorMessage = "[Appointments@DefaultCommunicationRepository::getGroupsCanCommunicateWithMe] Fail to retrieve visible groups : ";
-        neo4j.execute(query, params, Neo4jResult.validResultHandler(IModelHelper.sqlResultToIModel(promise, NeoGroup.class, errorMessage)));
+        neo4j.execute(query, params, Neo4jResult.validResultHandler(IModelHelper.resultToIModel(promise, NeoGroup.class, errorMessage)));
 
         return promise.future();
     }
@@ -52,7 +52,7 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
         JsonObject params = new JsonObject().put(CAMEL_USER_ID, userId);
 
         String errorMessage = "[Appointments@DefaultCommunicationRepository::getGroupsICanCommunicateWith] Fail to retrieve groups : ";
-        neo4j.execute(query, params, Neo4jResult.validResultHandler(IModelHelper.sqlResultToIModel(promise, NeoGroup.class, errorMessage)));
+        neo4j.execute(query, params, Neo4jResult.validResultHandler(IModelHelper.resultToIModel(promise, NeoGroup.class, errorMessage)));
 
         return promise.future();
     }
@@ -74,7 +74,7 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
         JsonObject params = new JsonObject().put(CAMEL_GROUPS_IDS, groupsIds).put(CAMEL_STRUCTURES_IDS, structuresIds);
 
         String errorMessage = "[Appointments@DefaultCommunicationRepository::getUsersFromGroupsIds] Fail to retrieve users infos from groups ids : ";
-        neo4j.execute(query, params, Neo4jResult.validResultHandler(IModelHelper.sqlResultToIModel(promise, NeoUser.class, errorMessage)));
+        neo4j.execute(query, params, Neo4jResult.validResultHandler(IModelHelper.resultToIModel(promise, NeoUser.class, errorMessage)));
 
         return promise.future();
     }
@@ -95,7 +95,7 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
         JsonObject params = new JsonObject().put(CAMEL_USER_ID, userId).put(CAMEL_STRUCTURES_IDS, structuresIds);
 
         String errorMessage = String.format("[Appointments@DefaultCommunicationRepository::getUserFromId] Fail to retrieve user with id %s : ", userId);
-        neo4j.execute(query, params, Neo4jResult.validUniqueResultHandler(IModelHelper.sqlUniqueResultToIModel(promise, NeoUser.class, errorMessage)));
+        neo4j.execute(query, params, Neo4jResult.validUniqueResultHandler(IModelHelper.uniqueResultToIModel(promise, NeoUser.class, errorMessage)));
 
         return promise.future();
     }
@@ -153,7 +153,7 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
         JsonObject params = new JsonObject().put(CAMEL_STRUCTURE_ID, structureId);
 
         String errorMessage = String.format("[Appointments@DefaultCommunicationRepository::getStructure] Fail to retrieve structure with id %s : ", structureId);
-        neo4j.execute(query, params, Neo4jResult.validUniqueResultHandler(IModelHelper.sqlUniqueResultToIModel(promise, NeoStructure.class, errorMessage)));
+        neo4j.execute(query, params, Neo4jResult.validUniqueResultHandler(IModelHelper.uniqueResultToIModel(promise, NeoStructure.class, errorMessage)));
 
         return promise.future();
     }
@@ -168,7 +168,7 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
         JsonObject params = new JsonObject().put(CAMEL_GROUPS_IDS, new JsonArray(groupIds));
 
         String errorMessage = "[Appointments@DefaultCommunicationRepository::getGroup] Fail to retrieve groups with ids : ";
-        neo4j.execute(query, params, Neo4jResult.validResultHandler(IModelHelper.sqlResultToIModel(promise, NeoGroup.class, errorMessage)));
+        neo4j.execute(query, params, Neo4jResult.validResultHandler(IModelHelper.resultToIModel(promise, NeoGroup.class, errorMessage)));
 
         return promise.future();
     }

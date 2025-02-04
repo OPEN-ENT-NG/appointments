@@ -43,7 +43,6 @@ public class Constants {
     public static final String APPOINTMENTS_ADDRESS = "fr.openent.appointments";
     public static final String BODY = "body";
     public static final String CODE = "code";
-    public static final String DAILY_SLOTS = "dailySlots";
     public static final String FUNCTIONS = "functions";
     public static final String FRENCH_NOW = "NOW() AT TIME ZONE 'Europe/Paris'";
     public static final String FRENCH_TIME_ZONE = "Europe/Paris";

@@ -74,7 +74,7 @@ public class DefaultDailySlotRepository implements DailySlotRepository {
         JsonArray params = new JsonArray().add(gridId);
 
         String errorMessage = "[Appointments@DefaultDailySlotRepository::getByGridId] Fail to get daily slots by grid id : ";
-        sql.prepared(query, params, SqlResult.validResultHandler(IModelHelper.sqlResultToIModel(promise, DailySlot.class, errorMessage)));
+        sql.prepared(query, params, SqlResult.validResultHandler(IModelHelper.resultToIModel(promise, DailySlot.class, errorMessage)));
 
         return promise.future();
     }
