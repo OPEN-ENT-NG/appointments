@@ -60,7 +60,7 @@ root.render(
     <Provider store={store}>
       <EdificeClientProvider
         params={{
-          app: "appointments",
+          app: "Rendez-vous",
         }}
       >
         <EdificeThemeProvider>
