@@ -25,7 +25,7 @@ export const ColorPicker: FC = () => {
 
   const handlePickerToggle = () => {
     if (disabled) return;
-    setIsCirclePickerVisible((prev) => !prev);
+    return setIsCirclePickerVisible((prev) => !prev);
   };
 
   const handleClose = () => {
