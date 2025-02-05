@@ -1,10 +1,10 @@
 import dayjs, { Dayjs } from "dayjs";
 
-import { DaySlots } from "./types";
 import { DAY_VALUES } from "~/core/constants";
 import { DAY } from "~/core/enums";
 import { Time } from "~/core/models/Time";
 import { TimeSlots } from "~/services/api/GridService/types";
+import { DaySlots } from "./types";
 
 const transformStringToTime = (time: string): Time => {
   const [hour, minute] = time.split(":").map(Number);
@@ -17,8 +17,7 @@ export const transformStringToDayjs = (date: string): Dayjs => {
   return dayjs()
     .year(year)
     .month(month - 1)
-    .date(day)
-    .locale("fr");
+    .date(day);
 };
 
 const getDayOfWeek = (date: Dayjs): DAY => {
