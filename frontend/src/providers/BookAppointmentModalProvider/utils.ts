@@ -6,6 +6,8 @@ import { Time } from "~/core/models/Time";
 import { TimeSlots } from "~/services/api/GridService/types";
 import { DaySlots } from "./types";
 
+import "dayjs/locale/en";
+
 const transformStringToTime = (time: string): Time => {
   const [hour, minute] = time.split(":").map(Number);
   return new Time({ hour, minute });
@@ -21,7 +23,7 @@ export const transformStringToDayjs = (date: string): Dayjs => {
 };
 
 const getDayOfWeek = (date: Dayjs): DAY => {
-  return date.format("dddd").toUpperCase() as DAY;
+  return date.locale("en").format("dddd").toUpperCase() as DAY;
 };
 
 export const transformTimeSlotsToDaySlots = (
