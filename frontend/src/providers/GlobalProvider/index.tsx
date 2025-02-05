@@ -10,7 +10,10 @@ import {
 import { isActionAvailable } from "@edifice.io/client";
 
 import { useTranslation } from "react-i18next";
-import { APPOINTMENTS, defaultMinHoursBeforeCancellation } from "~/core/constants";
+import {
+  APPOINTMENTS,
+  defaultMinHoursBeforeCancellation,
+} from "~/core/constants";
 import { useStructure } from "~/hooks/useStructure";
 import { useActions } from "~/services/queries";
 import { MODAL_TYPE } from "./enum";
@@ -66,10 +69,10 @@ export const GlobalProvider: FC<GlobalProviderProps> = ({ children }) => {
     return () => clearInterval(intervalId);
   }, [t]);
 
-    useEffect(() => {
-        if (window?.config?.minHoursBeforeCancellation)
-            setMinHoursBeforeCancellation(window?.config?.minHoursBeforeCancellation);
-    }, []);
+  useEffect(() => {
+    if (window?.config?.minHoursBeforeCancellation)
+      setMinHoursBeforeCancellation(window?.config?.minHoursBeforeCancellation);
+  }, []);
 
   const value = useMemo<GlobalProviderContextProps>(
     () => ({
