@@ -1,4 +1,5 @@
 import {
+  ChangeEvent,
   createContext,
   FC,
   useCallback,
@@ -69,6 +70,8 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const [files, setFiles] = useState<File[]>([]);
 
   const [modalType, setModalType] = useState<GRID_MODAL_TYPE>(
     GRID_MODAL_TYPE.CREATION,
@@ -239,6 +242,12 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
     [setIsModalOpen],
   );
 
+  const handleAddFile = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setFiles((prev) => [...prev, ...Array.from(event.target.files ?? [])]);
+    }
+  };
+
   const isDisplayFirstPage = useMemo(
     () =>
       modalType === GRID_MODAL_TYPE.EDIT ||
@@ -287,6 +296,8 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       page,
       modalType,
       confirmModalType,
+      files,
+      handleAddFile,
     }),
     [
       inputs,
@@ -309,6 +320,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       page,
       modalType,
       confirmModalType,
+      files,
     ],
   );
 

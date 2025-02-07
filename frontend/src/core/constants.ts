@@ -10,6 +10,7 @@ import {
   DURATION,
   PERIODICITY,
   TOAST_TYPE,
+  UNIT_FILE_SIZE,
 } from "./enums";
 
 export const APPOINTMENTS = "appointments";
@@ -21,6 +22,24 @@ export const MAX_STRING_LENGTH = 250;
 export const APPOINTMENT_CARDS_GAP = 40;
 
 export const APPOINTMENT_CARD_WIDTH = 270; // 230 width + 40 gap
+
+export const ALLOWED_DOCUMENT_EXTENSIONS = [
+  ".pdf",
+  ".csv",
+  ".ods",
+  ".xls",
+  ".xlsx",
+  ".doc",
+  ".docx",
+  ".odt",
+  ".jpg",
+  ".jpeg",
+  ".png",
+  ".svg",
+  ".odp",
+  ".ppt",
+  ".pptx",
+];
 
 export const DURATION_VALUES = {
   [DURATION.FIFTEEN_MINUTES]: {
@@ -248,3 +267,10 @@ export const GRID_MODAL_VALUES = {
 };
 
 export const defaultMinHoursBeforeCancellation = 24;
+
+export const UNIT_DISPLAY_VALUES = {
+  [UNIT_FILE_SIZE.OCTET]: "o",
+  [UNIT_FILE_SIZE.KILO_OCTET]: "ko",
+  [UNIT_FILE_SIZE.MEGA_OCTET]: "Mo",
+  [UNIT_FILE_SIZE.GIGA_OCTET]: "Go",
+};

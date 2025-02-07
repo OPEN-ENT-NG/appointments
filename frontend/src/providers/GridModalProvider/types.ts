@@ -44,6 +44,8 @@ export interface GridModalProviderContextProps {
   page: PAGE_TYPE;
   modalType: GRID_MODAL_TYPE;
   confirmModalType: CONFIRM_MODAL_TYPE;
+  files: File[];
+  handleAddFile: (event: ChangeEvent<HTMLInputElement>)
 }
 
 export interface GridModalProviderProps {

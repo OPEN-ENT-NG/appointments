@@ -1,4 +1,4 @@
-import { SxProps } from "@mui/material";
+import { styled, SxProps } from "@mui/material";
 
 import { flexEndBoxStyle, spaceBetweenBoxStyle } from "~/styles/boxStyles";
 
@@ -24,4 +24,26 @@ export const selectStyle: SxProps = {
       display: "none",
     },
   },
+};
+
+export const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
+
+export const addDocumentStyle: SxProps = {
+  minWidth: "fit-content",
+};
+
+export const docsInfosStyle: SxProps = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "flex-end",
 };

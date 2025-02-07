@@ -2,6 +2,7 @@ import { FC } from "react";
 
 import {
   Box,
+  Button,
   FormControl,
   InputLabel,
   MenuItem,
@@ -14,13 +15,31 @@ import { useTranslation } from "react-i18next";
 
 import { ColorPicker } from "~/components/ColorPicker";
 import { CustomMultiAutocomplete } from "~/components/CustomMultiAutocomplete";
-import { APPOINTMENTS, MAX_STRING_LENGTH } from "~/core/constants";
+import {
+  ALLOWED_DOCUMENT_EXTENSIONS,
+  APPOINTMENTS,
+  MAX_STRING_LENGTH,
+} from "~/core/constants";
 import { useGlobal } from "~/providers/GlobalProvider";
 import { useGridModal } from "~/providers/GridModalProvider";
 import { GRID_MODAL_TYPE } from "~/providers/GridModalProvider/enum";
-import { flexStartBoxStyle } from "~/styles/boxStyles";
+import { flexStartBoxStyle, spaceBetweenBoxStyle } from "~/styles/boxStyles";
 import { pageGridModalStyle } from "../GridModal/style";
-import { colorStyle, firstLineStyle, nameStyle, selectStyle } from "./style";
+import {
+  addDocumentStyle,
+  colorStyle,
+  docsInfosStyle,
+  firstLineStyle,
+  nameStyle,
+  selectStyle,
+  VisuallyHiddenInput,
+} from "./style";
+
+import { FileList } from "@cgi-learning-hub/ui";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import { UNIT_FILE_SIZE } from "~/core/enums";
+import { convertFileSize } from "~/core/utils";
+import { useFiles } from "~/providers/GridModalProvider/useFiles";
 
 export const FirstPageGridModal: FC = () => {
   const { t } = useTranslation(APPOINTMENTS);
@@ -40,6 +59,8 @@ export const FirstPageGridModal: FC = () => {
     blurGridModalInputs: { handleNameBlur, handleVideoCallLinkBlur },
     modalType,
   } = useGridModal();
+
+  const { files, totalFilesSize, handleAddFile, handleDeleteFile } = useFiles();
 
   return (
     <Box sx={pageGridModalStyle}>
@@ -128,6 +149,38 @@ export const FirstPageGridModal: FC = () => {
         error={inputs.publicComment.length === MAX_STRING_LENGTH}
         disabled={modalType === GRID_MODAL_TYPE.CONSULTATION}
       />
+      <Box sx={spaceBetweenBoxStyle}>
+        <Button
+          component="label"
+          variant="outlined"
+          color="secondary"
+          tabIndex={-1}
+          startIcon={<UploadFileIcon />}
+          sx={addDocumentStyle}
+        >
+          {t("appointments.grid.add.document")}
+          <VisuallyHiddenInput
+            type="file"
+            accept={ALLOWED_DOCUMENT_EXTENSIONS.join(",")}
+            onChange={handleAddFile}
+          />
+        </Button>
+        <Box sx={docsInfosStyle}>
+          <Typography>{"5 fichiers max"}</Typography>
+          <Typography>
+            {"Taille totale des fichiers : " +
+              parseFloat(
+                convertFileSize(
+                  totalFilesSize,
+                  UNIT_FILE_SIZE.OCTET,
+                  UNIT_FILE_SIZE.MEGA_OCTET,
+                ).toFixed(2),
+              ) +
+              "/100Mo"}
+          </Typography>
+        </Box>
+      </Box>
+      <FileList files={files} onDelete={handleDeleteFile} />
     </Box>
   );
 };
