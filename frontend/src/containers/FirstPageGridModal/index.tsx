@@ -37,7 +37,6 @@ import {
 
 import { FileList } from "@cgi-learning-hub/ui";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
-import { useFiles } from "~/providers/GridModalProvider/useFiles";
 
 export const FirstPageGridModal: FC = () => {
   const { t } = useTranslation(APPOINTMENTS);
@@ -56,9 +55,11 @@ export const FirstPageGridModal: FC = () => {
     },
     blurGridModalInputs: { handleNameBlur, handleVideoCallLinkBlur },
     modalType,
+    files,
+    totalFilesSize,
+    handleAddFile,
+    handleDeleteFile,
   } = useGridModal();
-
-  const { files, totalFilesSize, handleAddFile, handleDeleteFile } = useFiles();
 
   return (
     <Box sx={pageGridModalStyle}>

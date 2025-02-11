@@ -45,8 +45,10 @@ export interface GridModalProviderContextProps {
   page: PAGE_TYPE;
   modalType: GRID_MODAL_TYPE;
   confirmModalType: CONFIRM_MODAL_TYPE;
-  files: File[];
+  files: MyCustomFile[];
+  totalFilesSize: number;
   handleAddFile: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleDeleteFile: (file: MyCustomFile) => void;
 }
 
 export interface GridModalProviderProps {
@@ -84,4 +86,6 @@ export interface InputsErrors {
 
 export interface MyCustomFile extends CustomFile {
   id: string;
+  file: File;
+  workspaceId: string;
 }

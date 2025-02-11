@@ -1,10 +1,13 @@
+import { useWorkspaceFile } from "@edifice.io/react";
 import { ChangeEvent, useState } from "react";
+import { APPOINTMENTS } from "~/core/constants";
 import { MyCustomFile } from "./types";
 import { createMyCustomFile } from "./utils";
 
 export const useFiles = () => {
   const [files, setFiles] = useState<MyCustomFile[]>([]);
   const [totalFilesSize, setTotalFilesSize] = useState<number>(0);
+  const { create } = useWorkspaceFile();
 
   const handleAddFile = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
@@ -21,5 +24,25 @@ export const useFiles = () => {
     setFiles((prev) => prev.filter((f) => f.id !== file.id));
   };
 
-  return { files, totalFilesSize, handleAddFile, handleDeleteFile };
+  const saveInWorkspace = async () => {
+    const updatedFiles = await Promise.all(
+      files.map(async (file) => {
+        if (file.workspaceId) return file;
+        const workspaceDocument = await create(file.file, {
+          visibility: "protected",
+          application: APPOINTMENTS,
+        });
+        return { ...file, workspaceId: workspaceDocument._id ?? "" };
+      }),
+    );
+    return updatedFiles;
+  };
+
+  return {
+    files,
+    totalFilesSize,
+    handleAddFile,
+    handleDeleteFile,
+    saveInWorkspace,
+  };
 };

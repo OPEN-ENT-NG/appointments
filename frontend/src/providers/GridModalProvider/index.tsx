@@ -1,5 +1,4 @@
 import {
-  ChangeEvent,
   createContext,
   FC,
   useCallback,
@@ -37,6 +36,7 @@ import {
   GridModalProviderProps,
   InputsErrors,
 } from "./types";
+import { useFiles } from "./useFiles";
 import {
   durationOptions,
   gridInputsToCreateGridPayload,
@@ -65,13 +65,19 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
   const [editGrid] = useEditGridMutation();
   const { t } = useTranslation(APPOINTMENTS);
 
+  const {
+    files,
+    totalFilesSize,
+    handleAddFile,
+    handleDeleteFile,
+    saveInWorkspace,
+  } = useFiles();
+
   const [selectedGridId, setSelectedGridId] = useState<number>(-1);
   const [selectedGridName, setSelectedGridName] = useState<string>("");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  const [files, setFiles] = useState<File[]>([]);
 
   const [modalType, setModalType] = useState<GRID_MODAL_TYPE>(
     GRID_MODAL_TYPE.CREATION,
@@ -143,10 +149,14 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       return;
     }
 
+    const savingFiles = await saveInWorkspace();
+
     const payload: CreateGridPayload = gridInputsToCreateGridPayload(
       inputs,
       groups ?? [],
+      savingFiles,
     );
+    console.log(payload);
     try {
       await createGrid(payload).unwrap();
       toast.success(t(TOAST_VALUES.CREATE_GRID.i18nKeySuccess));
@@ -160,6 +170,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
   }, [
     blurGridModalInputs,
     modalType,
+    saveInWorkspace,
     inputs,
     groups,
     createGrid,
@@ -242,12 +253,6 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
     [setIsModalOpen],
   );
 
-  const handleAddFile = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setFiles((prev) => [...prev, ...Array.from(event.target.files ?? [])]);
-    }
-  };
-
   const isDisplayFirstPage = useMemo(
     () =>
       modalType === GRID_MODAL_TYPE.EDIT ||
@@ -297,7 +302,9 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       modalType,
       confirmModalType,
       files,
+      totalFilesSize,
       handleAddFile,
+      handleDeleteFile,
     }),
     [
       inputs,
@@ -321,6 +328,9 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       modalType,
       confirmModalType,
       files,
+      totalFilesSize,
+      handleAddFile,
+      handleDeleteFile,
     ],
   );
 

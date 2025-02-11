@@ -63,6 +63,7 @@ export const periodicityOptions: PERIODICITY[] = Object.values(
 export const gridInputsToCreateGridPayload = (
   inputs: GridModalInputs,
   publicOptions: Public[],
+  files: MyCustomFile[],
 ): CreateGridPayload => {
   return {
     name: inputs.name.trimEnd(),
@@ -90,7 +91,7 @@ export const gridInputsToCreateGridPayload = (
     ),
     videoCallLink: inputs.isVideoCall ? inputs.videoCallLink : "",
     place: inputs.location,
-    documentsIds: [],
+    documentsIds: files.map((file) => file.workspaceId),
     publicComment: inputs.publicComment,
   };
 };
@@ -136,6 +137,8 @@ export const isErrorsEmpty = (errors: InputsErrors) =>
 export const createMyCustomFile = (file: File): MyCustomFile => {
   return {
     id: crypto.randomUUID(),
+    workspaceId: "",
+    file: file,
     name: file.name,
     size: file.size,
     isDeletable: true,
