@@ -19,13 +19,13 @@ export interface GetAppointmentsDatesPayload {
 
 export interface AppointmentResponse extends MyMinimalAppointmentResponse {
   place: string;
-  documentId: string;
+  documentsIds: string[];
   publicComment: string;
 }
 
 export interface Appointment extends MyMinimalAppointment {
   place: string;
-  documentId: string;
+  documentsIds: string[];
   publicComment: string;
 }
 

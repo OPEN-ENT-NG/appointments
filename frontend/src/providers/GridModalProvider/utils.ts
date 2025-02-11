@@ -9,7 +9,7 @@ import {
   EditGridBody,
   EditGridPayload,
 } from "~/services/api/GridService/types";
-import { GridModalInputs, InputsErrors } from "./types";
+import { GridModalInputs, InputsErrors, MyCustomFile } from "./types";
 
 export const initialPublic: Public[] = [];
 export const initialWeekSlots: WeekSlotsModel = {
@@ -90,7 +90,7 @@ export const gridInputsToCreateGridPayload = (
     ),
     videoCallLink: inputs.isVideoCall ? inputs.videoCallLink : "",
     place: inputs.location,
-    documentId: "",
+    documentsIds: [],
     publicComment: inputs.publicComment,
   };
 };
@@ -104,7 +104,7 @@ export const gridInputsToEditGridPayload = (
     color: inputs.color,
     videoCallLink: inputs.isVideoCall ? inputs.videoCallLink : "",
     place: inputs.location,
-    documentId: "",
+    documentsIds: [],
     publicComment: inputs.publicComment,
   };
 
@@ -132,3 +132,12 @@ export const isErrorsEmpty = (errors: InputsErrors) =>
     errors.weekSlots ||
     errors.slots.ids.length
   );
+
+export const createMyCustomFile = (file: File): MyCustomFile => {
+  return {
+    id: crypto.randomUUID(),
+    name: file.name,
+    size: file.size,
+    isDeletable: true,
+  };
+};

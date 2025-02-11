@@ -1,21 +1,15 @@
 import { ChangeEvent, useState } from "react";
-
-interface CustomFile extends File {
-  id: string;
-}
-
-const createCustomFile = (file: File, id: string): CustomFile => {
-  return Object.assign(file, { id });
-};
+import { MyCustomFile } from "./types";
+import { createMyCustomFile } from "./utils";
 
 export const useFiles = () => {
-  const [files, setFiles] = useState<CustomFile[]>([]);
+  const [files, setFiles] = useState<MyCustomFile[]>([]);
   const [totalFilesSize, setTotalFilesSize] = useState<number>(0);
 
   const handleAddFile = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
     const newFiles = Array.from(event.target.files).map((file) =>
-      createCustomFile(file, crypto.randomUUID()),
+      createMyCustomFile(file),
     );
     setFiles((prev) => [...prev, ...newFiles]);
     setTotalFilesSize(
@@ -23,7 +17,7 @@ export const useFiles = () => {
     );
   };
 
-  const handleDeleteFile = (file: CustomFile) => {
+  const handleDeleteFile = (file: MyCustomFile) => {
     setFiles((prev) => prev.filter((f) => f.id !== file.id));
   };
 

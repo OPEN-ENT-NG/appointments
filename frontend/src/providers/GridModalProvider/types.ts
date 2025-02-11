@@ -1,7 +1,8 @@
-import { Dispatch, ReactNode, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, ReactNode, SetStateAction } from "react";
 
 import { Dayjs } from "dayjs";
 
+import { CustomFile } from "@cgi-learning-hub/ui";
 import { HexaColor } from "~/components/ColorPicker/types";
 import { CONFIRM_MODAL_TYPE, DURATION, PERIODICITY } from "~/core/enums";
 import { WeekSlotsModel } from "~/core/types";
@@ -45,7 +46,7 @@ export interface GridModalProviderContextProps {
   modalType: GRID_MODAL_TYPE;
   confirmModalType: CONFIRM_MODAL_TYPE;
   files: File[];
-  handleAddFile: (event: ChangeEvent<HTMLInputElement>)
+  handleAddFile: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export interface GridModalProviderProps {
@@ -79,4 +80,8 @@ export interface InputsErrors {
     ids: number[];
     error: string;
   };
+}
+
+export interface MyCustomFile extends CustomFile {
+  id: string;
 }
