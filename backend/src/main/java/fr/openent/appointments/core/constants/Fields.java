@@ -8,7 +8,7 @@ public class Fields {
     public static final String COLOR = "color";
     public static final String CREATION_DATE = "creation_date";
     public static final String DAY = "day";
-    public static final String DOCUMENT_ID = "document_id";
+    public static final String DOCUMENTS_IDS = "documents_ids";
     public static final String DURATION = "duration";
     public static final String END = "end";
     public static final String END_DATE = "end_date";

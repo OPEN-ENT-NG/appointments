@@ -7,6 +7,8 @@ import fr.openent.appointments.model.IModel;
 import io.vertx.core.json.JsonObject;
 import static fr.openent.appointments.core.constants.Fields.*;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AppointmentWithInfos implements IModel<AppointmentWithInfos> {
 
@@ -20,7 +22,7 @@ public class AppointmentWithInfos implements IModel<AppointmentWithInfos> {
     private String ownerId;
     private String videoCallLink;
     private String place;
-    private String documentId;
+    private List<String> documentsIds;
     private String publicComment;
 
     public AppointmentWithInfos(JsonObject appointmentWithInfos) {
@@ -34,7 +36,7 @@ public class AppointmentWithInfos implements IModel<AppointmentWithInfos> {
         this.ownerId = appointmentWithInfos.getString(OWNER_ID, null);
         this.videoCallLink = appointmentWithInfos.getString(VIDEO_CALL_LINK, null);
         this.place = appointmentWithInfos.getString(PLACE, null);
-        this.documentId = appointmentWithInfos.getString(DOCUMENT_ID, null);
+        this.documentsIds = appointmentWithInfos.getJsonArray(DOCUMENTS_IDS).stream().map(Object::toString).collect(Collectors.toList());
         this.publicComment = appointmentWithInfos.getString(PUBLIC_COMMENT, null);
     }
 
@@ -80,8 +82,8 @@ public class AppointmentWithInfos implements IModel<AppointmentWithInfos> {
         return this.place;
     }
 
-    public String getDocumentId() {
-        return this.documentId;
+    public List<String> getDocumentsIds() {
+        return this.documentsIds;
     }
 
     public String getPublicComment() {
@@ -140,8 +142,8 @@ public class AppointmentWithInfos implements IModel<AppointmentWithInfos> {
         return this;
     }
 
-    public AppointmentWithInfos setDocumentId(String documentId) {
-        this.documentId = documentId;
+    public AppointmentWithInfos setDocumentsIds(List<String> documentsIds) {
+        this.documentsIds = documentsIds;
         return this;
     }
 

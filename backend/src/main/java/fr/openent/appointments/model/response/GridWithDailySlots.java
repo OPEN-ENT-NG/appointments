@@ -26,7 +26,7 @@ public class GridWithDailySlots implements IModel<GridWithDailySlots> {
     private List<NeoGroup> groups;
     private String videoCallLink;
     private String place;
-    private String documentId;
+    private List<String> documentsIds;
     private String publicComment;
     private List<DailySlot> dailySlots;
     private String ownerId;
@@ -44,7 +44,7 @@ public class GridWithDailySlots implements IModel<GridWithDailySlots> {
         this.groups = groups;
         this.videoCallLink = grid.getVideoCallLink();
         this.place = grid.getPlace();
-        this.documentId = grid.getDocumentId();
+        this.documentsIds = grid.getDocumentsIds();
         this.publicComment = grid.getPublicComment();
         this.dailySlots = dailySlots;
         this.ownerId = grid.getOwnerId();
@@ -95,8 +95,8 @@ public class GridWithDailySlots implements IModel<GridWithDailySlots> {
         return place;
     }
 
-    public String getDocumentId() {
-        return documentId;
+    public List<String> getDocumentsIds() {
+        return documentsIds;
     }
 
     public String getPublicComment() {
@@ -168,8 +168,8 @@ public class GridWithDailySlots implements IModel<GridWithDailySlots> {
         return this;
     }
 
-    public GridWithDailySlots setDocumentId(String documentId) {
-        this.documentId = documentId;
+    public GridWithDailySlots setDocumentsIds(List<String> documentsIds) {
+        this.documentsIds = documentsIds;
         return this;
     }
 

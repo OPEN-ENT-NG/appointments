@@ -7,16 +7,15 @@ import fr.openent.appointments.model.database.Grid;
 import io.vertx.core.json.JsonObject;
 
 import java.time.Duration;
-
-import static fr.openent.appointments.core.constants.Constants.CAMEL_DOCUMENT_ID;
-import static fr.openent.appointments.core.constants.Constants.CAMEL_PUBLIC_COMMENT;
+import java.util.List;
+import java.util.stream.Collectors;
 import static fr.openent.appointments.core.constants.Fields.*;
 
 public class MinimalGridInfos extends BaseMinimalGrid implements IModel<MinimalGridInfos> {
     private Duration duration;
     private String videoCallLink;
     private String place;
-    private String documentId;
+    private List<String> documentsIds;
     private String publicComment;
 
     // Constructor
@@ -24,10 +23,10 @@ public class MinimalGridInfos extends BaseMinimalGrid implements IModel<MinimalG
     public MinimalGridInfos(JsonObject grid) {
         super(grid);
         this.duration = DateHelper.parseDuration(grid.getString(DURATION,null));
-        this.videoCallLink = grid.getString(CAMEL_DOCUMENT_ID, null);
+        this.videoCallLink = grid.getString(VIDEO_CALL_LINK, null);
         this.place = grid.getString(PLACE, null);
-        this.documentId = grid.getString(CAMEL_DOCUMENT_ID, null);
-        this.publicComment = grid.getString(CAMEL_PUBLIC_COMMENT, null);
+        this.documentsIds = grid.getJsonArray(DOCUMENTS_IDS).stream().map(Object::toString).collect(Collectors.toList());
+        this.publicComment = grid.getString(PUBLIC_COMMENT, null);
     }
 
     public MinimalGridInfos(Grid grid) {
@@ -35,7 +34,7 @@ public class MinimalGridInfos extends BaseMinimalGrid implements IModel<MinimalG
         this.setDuration(grid.getDuration());
         this.setVideoCallLink(grid.getVideoCallLink());
         this.setPlace(grid.getPlace());
-        this.setDocumentId(grid.getDocumentId());
+        this.setDocumentsIds(grid.getDocumentsIds());
         this.setPublicComment(grid.getPublicComment());
     }
 
@@ -53,8 +52,8 @@ public class MinimalGridInfos extends BaseMinimalGrid implements IModel<MinimalG
         return place;
     }
 
-    public String getDocumentId() {
-        return documentId;
+    public List<String> getDocumentsIds() {
+        return documentsIds;
     }
 
     public String getPublicComment() {
@@ -78,8 +77,8 @@ public class MinimalGridInfos extends BaseMinimalGrid implements IModel<MinimalG
         return this;
     }
 
-    public MinimalGridInfos setDocumentId(String documentId) {
-        this.documentId = documentId;
+    public MinimalGridInfos setDocumentsIds(List<String> documentsIds) {
+        this.documentsIds = documentsIds;
         return this;
     }
 

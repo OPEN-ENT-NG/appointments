@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.time.LocalDate;
 import java.time.Duration;
+import java.util.stream.Collectors;
 
 import fr.openent.appointments.enums.GridState;
 import fr.openent.appointments.enums.Periodicity;
@@ -31,7 +32,7 @@ public class Grid implements IModel<Grid> {
     private List<String> targetPublicListId;
     private String videoCallLink;
     private String place;
-    private String documentId;
+    private List<String> documentsIds;
     private String publicComment;
     private GridState state;
 
@@ -51,7 +52,7 @@ public class Grid implements IModel<Grid> {
         this.periodicity = Periodicity.getPeriodicity(grid.getInteger(PERIODICITY,0));
         this.videoCallLink = grid.getString(VIDEO_CALL_LINK, null);
         this.place = grid.getString(PLACE, null);
-        this.documentId = grid.getString(DOCUMENT_ID, null);
+        this.documentsIds = grid.getJsonArray(DOCUMENTS_IDS).stream().map(Object::toString).collect(Collectors.toList());
         this.publicComment = grid.getString(PUBLIC_COMMENT, null);
         this.state = GridState.getGridState(grid.getString(STATE, null));
 
@@ -118,8 +119,8 @@ public class Grid implements IModel<Grid> {
         return place;
     }
 
-    public String getDocumentId() {
-        return documentId;
+    public List<String> getDocumentsIds() {
+        return documentsIds;
     }
 
     public String getPublicComment() {
@@ -202,8 +203,8 @@ public class Grid implements IModel<Grid> {
         return this;
     }
 
-    public Grid setDocumentId(String documentId) {
-        this.documentId = documentId;
+    public Grid setDocumentsIds(List<String> documentsIds) {
+        this.documentsIds = documentsIds;
         return this;
     }
 
