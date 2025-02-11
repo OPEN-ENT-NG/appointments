@@ -10,7 +10,6 @@ import {
   DURATION,
   PERIODICITY,
   TOAST_TYPE,
-  UNIT_FILE_SIZE,
 } from "./enums";
 
 export const APPOINTMENTS = "appointments";
@@ -267,10 +266,3 @@ export const GRID_MODAL_VALUES = {
 };
 
 export const defaultMinHoursBeforeCancellation = 24;
-
-export const UNIT_DISPLAY_VALUES = {
-  [UNIT_FILE_SIZE.OCTET]: "o",
-  [UNIT_FILE_SIZE.KILO_OCTET]: "ko",
-  [UNIT_FILE_SIZE.MEGA_OCTET]: "Mo",
-  [UNIT_FILE_SIZE.GIGA_OCTET]: "Go",
-};

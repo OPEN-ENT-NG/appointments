@@ -37,8 +37,6 @@ import {
 
 import { FileList } from "@cgi-learning-hub/ui";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
-import { UNIT_FILE_SIZE } from "~/core/enums";
-import { convertFileSize } from "~/core/utils";
 import { useFiles } from "~/providers/GridModalProvider/useFiles";
 
 export const FirstPageGridModal: FC = () => {
@@ -168,15 +166,7 @@ export const FirstPageGridModal: FC = () => {
         <Box sx={docsInfosStyle}>
           <Typography>{"5 fichiers max"}</Typography>
           <Typography>
-            {"Taille totale des fichiers : " +
-              parseFloat(
-                convertFileSize(
-                  totalFilesSize,
-                  UNIT_FILE_SIZE.OCTET,
-                  UNIT_FILE_SIZE.MEGA_OCTET,
-                ).toFixed(2),
-              ) +
-              "/100Mo"}
+            {"Taille totale des fichiers : " + totalFilesSize + "/100Mo"}
           </Typography>
         </Box>
       </Box>
