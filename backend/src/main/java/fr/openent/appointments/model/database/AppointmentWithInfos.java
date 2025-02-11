@@ -7,6 +7,7 @@ import fr.openent.appointments.model.IModel;
 import io.vertx.core.json.JsonObject;
 import static fr.openent.appointments.core.constants.Fields.*;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,8 +37,11 @@ public class AppointmentWithInfos implements IModel<AppointmentWithInfos> {
         this.ownerId = appointmentWithInfos.getString(OWNER_ID, null);
         this.videoCallLink = appointmentWithInfos.getString(VIDEO_CALL_LINK, null);
         this.place = appointmentWithInfos.getString(PLACE, null);
-        this.documentsIds = appointmentWithInfos.getJsonArray(DOCUMENTS_IDS).stream().map(Object::toString).collect(Collectors.toList());
         this.publicComment = appointmentWithInfos.getString(PUBLIC_COMMENT, null);
+
+        String stringDocumentsIds = appointmentWithInfos.getString(DOCUMENTS_IDS, "");
+        String cleanedDocumentsIds = stringDocumentsIds.substring(1, stringDocumentsIds.length() - 1);
+        this.documentsIds = Arrays.asList(cleanedDocumentsIds.split(",\\s*"));
     }
 
     // Getters

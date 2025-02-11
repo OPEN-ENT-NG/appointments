@@ -52,13 +52,16 @@ public class Grid implements IModel<Grid> {
         this.periodicity = Periodicity.getPeriodicity(grid.getInteger(PERIODICITY,0));
         this.videoCallLink = grid.getString(VIDEO_CALL_LINK, null);
         this.place = grid.getString(PLACE, null);
-        this.documentsIds = grid.getJsonArray(DOCUMENTS_IDS).stream().map(Object::toString).collect(Collectors.toList());
         this.publicComment = grid.getString(PUBLIC_COMMENT, null);
         this.state = GridState.getGridState(grid.getString(STATE, null));
 
         String stringTargetPublicListId = grid.getString(TARGET_PUBLIC_LIST_ID, "");
         String cleanedTargetPublicListId = stringTargetPublicListId.substring(1, stringTargetPublicListId.length() - 1);
         this.targetPublicListId = Arrays.asList(cleanedTargetPublicListId.split(",\\s*"));
+
+        String stringDocumentsIds = grid.getString(DOCUMENTS_IDS, "");
+        String cleanedDocumentsIds = stringDocumentsIds.substring(1, stringDocumentsIds.length() - 1);
+        this.documentsIds = Arrays.asList(cleanedDocumentsIds.split(",\\s*"));
     }
 
     // Getter
