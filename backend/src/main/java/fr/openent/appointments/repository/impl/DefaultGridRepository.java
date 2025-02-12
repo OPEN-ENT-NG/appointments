@@ -364,7 +364,7 @@ public class DefaultGridRepository implements GridRepository {
                 .add(grid.getTargetPublicIds().toString())
                 .add(grid.getVideoCallLink())
                 .add(grid.getPlace())
-                .add(grid.getDocumentsIds())
+                .add(grid.getDocumentsIds().toString())
                 .add(grid.getPublicComment())
                 .add(GridState.OPEN.getValue());
 
