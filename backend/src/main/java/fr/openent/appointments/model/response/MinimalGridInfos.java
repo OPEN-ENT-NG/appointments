@@ -15,26 +15,17 @@ public class MinimalGridInfos extends BaseMinimalGrid implements IModel<MinimalG
     private Duration duration;
     private String videoCallLink;
     private String place;
-    private List<String> documentsIds;
+    private List<DocumentResponse> documents;
     private String publicComment;
 
     // Constructor
 
-    public MinimalGridInfos(JsonObject grid) {
-        super(grid);
-        this.duration = DateHelper.parseDuration(grid.getString(DURATION,null));
-        this.videoCallLink = grid.getString(VIDEO_CALL_LINK, null);
-        this.place = grid.getString(PLACE, null);
-        this.documentsIds = grid.getJsonArray(DOCUMENTS_IDS).stream().map(Object::toString).collect(Collectors.toList());
-        this.publicComment = grid.getString(PUBLIC_COMMENT, null);
-    }
-
-    public MinimalGridInfos(Grid grid) {
+    public MinimalGridInfos(Grid grid, List<DocumentResponse> documents) {
         super(grid);
         this.setDuration(grid.getDuration());
         this.setVideoCallLink(grid.getVideoCallLink());
         this.setPlace(grid.getPlace());
-        this.setDocumentsIds(grid.getDocumentsIds());
+        this.setDocuments(documents);
         this.setPublicComment(grid.getPublicComment());
     }
 
@@ -52,8 +43,8 @@ public class MinimalGridInfos extends BaseMinimalGrid implements IModel<MinimalG
         return place;
     }
 
-    public List<String> getDocumentsIds() {
-        return documentsIds;
+    public List<String> getDocuments() {
+        return documents;
     }
 
     public String getPublicComment() {
@@ -77,8 +68,8 @@ public class MinimalGridInfos extends BaseMinimalGrid implements IModel<MinimalG
         return this;
     }
 
-    public MinimalGridInfos setDocumentsIds(List<String> documentsIds) {
-        this.documentsIds = documentsIds;
+    public MinimalGridInfos setDocuments(List<DocumentResponse> documents) {
+        this.documents = documents;
         return this;
     }
 

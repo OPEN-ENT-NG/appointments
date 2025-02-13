@@ -1,11 +1,13 @@
 package fr.openent.appointments.service.impl;
 
+import fr.openent.appointments.helper.EventBusHelper;
 import fr.openent.appointments.helper.LogHelper;
 import fr.openent.appointments.model.database.*;
 import fr.openent.appointments.model.response.GridWithDailySlots;
 import fr.openent.appointments.model.response.MinimalGrid;
 import fr.openent.appointments.model.response.ListGridsResponse;
 import fr.openent.appointments.model.response.MinimalGridInfos;
+import fr.openent.appointments.model.workspace.CompleteDocument;
 import fr.openent.appointments.repository.*;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.Future;
@@ -183,17 +185,20 @@ public class DefaultGridService implements GridService {
                     String errorMessage = String.format("The grid with id %s is not shared to the connected user", gridId);
                     return Future.failedFuture(errorMessage);
                 }
-
                 return gridRepository.get(gridId);
             })
-            .onSuccess(optionalGrid -> {
+            .compose(optionalGrid -> {
                 if (!optionalGrid.isPresent()) {
                     String errorMessage = "No grid found for id " + gridId;
-                    promise.fail(errorMessage);
+                    return Future.failedFuture(errorMessage);
                 }
-                else {
+                return Future.succeededFuture(optionalGrid.get());
+                /*else {
                     promise.complete(new MinimalGridInfos(optionalGrid.get()));
-                }
+                }*/
+            })
+            .compose(grid -> {
+                EventBusHelper.requestJsonArray()
             })
             .onFailure(err -> {
                 String errorMessage = "Failed to get grid with id " + gridId;

@@ -18,8 +18,10 @@ public class Constants {
     public static final String CAMEL_GROUPS_IDS = "groupsIds";
     public static final String CAMEL_HTTP_STATUS = "httpStatus";
     public static final String CAMEL_IS_REQUESTER = "isRequester";
+    public static final String CAMEL_IS_SHARED = "isShared";
     public static final String CAMEL_IS_VIDEO_CALL = "isVideoCall";
     public static final String CAMEL_MIN_HOURS_BEFORE_CANCELLATION = "minHoursBeforeCancellation";
+    public static final String CAMEL_OWNER_NAME = "ownerName";
     public static final String CAMEL_PUBLIC_COMMENT = "publicComment";
     public static final String CAMEL_PUSH_NOTIF = "pushNotif";
     public static final String CAMEL_STRUCTURE_ID = "structureId";
