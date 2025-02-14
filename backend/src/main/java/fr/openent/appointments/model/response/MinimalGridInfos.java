@@ -43,7 +43,7 @@ public class MinimalGridInfos extends BaseMinimalGrid implements IModel<MinimalG
         return place;
     }
 
-    public List<String> getDocuments() {
+    public List<DocumentResponse> getDocuments() {
         return documents;
     }
 

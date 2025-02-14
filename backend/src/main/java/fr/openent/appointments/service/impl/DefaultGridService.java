@@ -3,12 +3,10 @@ package fr.openent.appointments.service.impl;
 import fr.openent.appointments.helper.EventBusHelper;
 import fr.openent.appointments.helper.LogHelper;
 import fr.openent.appointments.model.database.*;
-import fr.openent.appointments.model.response.GridWithDailySlots;
-import fr.openent.appointments.model.response.MinimalGrid;
-import fr.openent.appointments.model.response.ListGridsResponse;
-import fr.openent.appointments.model.response.MinimalGridInfos;
+import fr.openent.appointments.model.response.*;
 import fr.openent.appointments.model.workspace.CompleteDocument;
 import fr.openent.appointments.repository.*;
+import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
@@ -30,6 +28,8 @@ import org.entcore.common.user.UserInfos;
 import org.entcore.common.user.UserUtils;
 
 import static fr.openent.appointments.core.constants.Constants.*;
+import static fr.openent.appointments.core.constants.EbFields.*;
+import static fr.openent.appointments.helper.JsonHelper.jsonArrayToList;
 
 /**
  * Default implementation of the GridService interface.
@@ -175,9 +175,19 @@ public class DefaultGridService implements GridService {
         return promise.future();
     }
 
+    private List<DocumentResponse> buildDocumentResponse(List<CompleteDocument> documents, List<String> documentIds) {
+        List<CompleteDocument> filteredDocuments = documents.stream()
+            .filter(document -> documentIds.contains(document.getId()))
+            .collect(Collectors.toList());
+
+        return filteredDocuments.stream().map(DocumentResponse::new).collect(Collectors.toList());
+    }
+
     @Override
     public Future<MinimalGridInfos> getMinimalGridInfosById(UserInfos user, Long gridId) {
         Promise<MinimalGridInfos> promise = Promise.promise();
+
+        JsonObject composeInfos = new JsonObject();
 
         gridRepository.getGridsGroupsCanAccess(user.getGroupsIds())
             .compose(userGrids -> {
@@ -193,12 +203,23 @@ public class DefaultGridService implements GridService {
                     return Future.failedFuture(errorMessage);
                 }
                 return Future.succeededFuture(optionalGrid.get());
-                /*else {
-                    promise.complete(new MinimalGridInfos(optionalGrid.get()));
-                }*/
             })
             .compose(grid -> {
-                EventBusHelper.requestJsonArray()
+                composeInfos.put(GRID, grid);
+                JsonObject ebMessage = new JsonObject()
+                        .put(ACTION, LIST)
+                        .put(CAMEL_USER_ID, user.getUserId());
+                return EventBusHelper.requestJsonArray(WORKSPACE_EB_ADDRESS, eb, ebMessage);
+            })
+            .recover(err -> {
+                String errorMessage = "Failed to get minimal grid infos by id";
+                LogHelper.logError(this, "getMinimalGridInfosById", errorMessage, err.getMessage());
+                return Future.succeededFuture(new JsonArray());
+            })
+            .onSuccess(documents -> {
+                Grid grid = (Grid) composeInfos.getValue(GRID);
+                List<CompleteDocument> completeDocuments = jsonArrayToList(documents, CompleteDocument.class);
+                promise.complete(new MinimalGridInfos(grid, buildDocumentResponse(completeDocuments, grid.getDocumentsIds())));
             })
             .onFailure(err -> {
                 String errorMessage = "Failed to get grid with id " + gridId;
