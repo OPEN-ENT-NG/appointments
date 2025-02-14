@@ -26,13 +26,13 @@ public class GridWithDailySlots implements IModel<GridWithDailySlots> {
     private List<NeoGroup> groups;
     private String videoCallLink;
     private String place;
-    private List<String> documentsIds;
+    private List<DocumentResponse> documents;
     private String publicComment;
     private List<DailySlot> dailySlots;
     private String ownerId;
 
     // Constructor
-    public GridWithDailySlots(Grid grid, NeoStructure structure, List<NeoGroup> groups, List<DailySlot> dailySlots) {
+    public GridWithDailySlots(Grid grid, NeoStructure structure, List<NeoGroup> groups, List<DailySlot> dailySlots, List<DocumentResponse> documents) {
         this.id = grid.getId();
         this.name = grid.getName();
         this.color = grid.getColor();
@@ -44,7 +44,7 @@ public class GridWithDailySlots implements IModel<GridWithDailySlots> {
         this.groups = groups;
         this.videoCallLink = grid.getVideoCallLink();
         this.place = grid.getPlace();
-        this.documentsIds = grid.getDocumentsIds();
+        this.documents = documents;
         this.publicComment = grid.getPublicComment();
         this.dailySlots = dailySlots;
         this.ownerId = grid.getOwnerId();
@@ -95,8 +95,8 @@ public class GridWithDailySlots implements IModel<GridWithDailySlots> {
         return place;
     }
 
-    public List<String> getDocumentsIds() {
-        return documentsIds;
+    public List<DocumentResponse> getDocuments() {
+        return documents;
     }
 
     public String getPublicComment() {
@@ -168,8 +168,8 @@ public class GridWithDailySlots implements IModel<GridWithDailySlots> {
         return this;
     }
 
-    public GridWithDailySlots setDocumentsIds(List<String> documentsIds) {
-        this.documentsIds = documentsIds;
+    public GridWithDailySlots setDocuments(List<DocumentResponse> documents) {
+        this.documents = documents;
         return this;
     }
 

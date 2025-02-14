@@ -95,7 +95,7 @@ public class DefaultGridService implements GridService {
     }
 
     @Override
-    public Future<GridWithDailySlots> getGridWithDailySlots(Long gridId) {
+    public Future<GridWithDailySlots> getGridWithDailySlots(Long gridId, String userId) {
         Promise<GridWithDailySlots> promise = Promise.promise();
         
         JsonObject composeInfos = new JsonObject();
@@ -117,13 +117,20 @@ public class DefaultGridService implements GridService {
                 composeInfos.put(STRUCTURE, neoStructure.get());
                 return dailySlotRepository.getByGridId(gridId);
             })
-            .onSuccess(dailySlots -> {
+            .compose(dailySlots -> {
+                composeInfos.put(CAMEL_DAILY_SLOTS, dailySlots);
+                return getDocumentResponseFromGrid(userId, (Grid) composeInfos.getValue(GRID));
+            })
+            .onSuccess(documents -> {
                 Grid grid = (Grid) composeInfos.getValue(GRID);
                 NeoStructure structure = (NeoStructure) composeInfos.getValue(STRUCTURE);
                 List<NeoGroup> groups = composeInfos.getJsonArray(GROUPS).stream()
                         .map(group -> (NeoGroup) group)
                         .collect(Collectors.toList());
-                promise.complete(new GridWithDailySlots(grid, structure, groups, dailySlots));
+                List<DailySlot> dailySlots = composeInfos.getJsonArray(CAMEL_DAILY_SLOTS).stream()
+                        .map(dailySlot -> (DailySlot) dailySlot)
+                        .collect(Collectors.toList());
+                promise.complete(new GridWithDailySlots(grid, structure, groups, dailySlots, documents));
             })
             .onFailure(err -> {
                 String errorMessage = "Failed to get grid by id";
@@ -175,12 +182,39 @@ public class DefaultGridService implements GridService {
         return promise.future();
     }
 
-    private List<DocumentResponse> buildDocumentResponse(List<CompleteDocument> documents, List<String> documentIds) {
-        List<CompleteDocument> filteredDocuments = documents.stream()
-            .filter(document -> documentIds.contains(document.getId()))
-            .collect(Collectors.toList());
+    private Future<List<DocumentResponse>> getDocumentResponseFromGrid(String userId, Grid grid) {
+        Promise<List<DocumentResponse>> promise = Promise.promise();
 
-        return filteredDocuments.stream().map(DocumentResponse::new).collect(Collectors.toList());
+        JsonObject ebMessage = new JsonObject()
+            .put(ACTION, LIST)
+            .put(CAMEL_USER_ID, userId)
+            .put(FILTER, ALL)
+            .put(INCLUDEALL, true);
+
+        EventBusHelper.requestJsonArray(WORKSPACE_EB_ADDRESS, eb, ebMessage)
+            .onSuccess(documents -> {
+                // all documents of user
+                List<CompleteDocument> completeDocuments = documents.stream()
+                    .map(JsonObject::mapFrom)
+                    .map(CompleteDocument::new)
+                    .collect(Collectors.toList());
+                // documents of grid
+                List<CompleteDocument> filteredDocuments = completeDocuments.stream()
+                    .filter(document -> grid.getDocumentsIds().contains(document.getId()))
+                    .collect(Collectors.toList());
+                // documents response
+                List<DocumentResponse> documentResponses = filteredDocuments.stream()
+                    .map(DocumentResponse::new)
+                    .collect(Collectors.toList());
+                promise.complete(documentResponses);
+            })
+            .onFailure(err -> {
+                String errorMessage = "Failed to get documents from grid";
+                LogHelper.logError(this, "getDocumentResponseFromGrid", errorMessage, err.getMessage());
+                promise.complete(new ArrayList<>());
+            });
+
+        return promise.future();
     }
 
     @Override
@@ -204,22 +238,10 @@ public class DefaultGridService implements GridService {
                 }
                 return Future.succeededFuture(optionalGrid.get());
             })
-            .compose(grid -> {
-                composeInfos.put(GRID, grid);
-                JsonObject ebMessage = new JsonObject()
-                        .put(ACTION, LIST)
-                        .put(CAMEL_USER_ID, user.getUserId());
-                return EventBusHelper.requestJsonArray(WORKSPACE_EB_ADDRESS, eb, ebMessage);
-            })
-            .recover(err -> {
-                String errorMessage = "Failed to get minimal grid infos by id";
-                LogHelper.logError(this, "getMinimalGridInfosById", errorMessage, err.getMessage());
-                return Future.succeededFuture(new JsonArray());
-            })
+            .compose(grid -> getDocumentResponseFromGrid(user.getUserId(), grid))
             .onSuccess(documents -> {
                 Grid grid = (Grid) composeInfos.getValue(GRID);
-                List<CompleteDocument> completeDocuments = jsonArrayToList(documents, CompleteDocument.class);
-                promise.complete(new MinimalGridInfos(grid, buildDocumentResponse(completeDocuments, grid.getDocumentsIds())));
+                promise.complete(new MinimalGridInfos(grid, documents));
             })
             .onFailure(err -> {
                 String errorMessage = "Failed to get grid with id " + gridId;

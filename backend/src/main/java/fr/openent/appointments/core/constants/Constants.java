@@ -42,16 +42,19 @@ public class Constants {
 
     // Other constants
     public static final String ACTION = "action";
+    public static final String ALL = "all";
     public static final String APPOINTMENTS = "Appointments";
     public static final String APPOINTMENTS_ADDRESS = "fr.openent.appointments";
     public static final String BODY = "body";
     public static final String CODE = "code";
+    public static final String FILTER = "filter";
     public static final String FUNCTIONS = "functions";
     public static final String FRENCH_NOW = "NOW() AT TIME ZONE 'Europe/Paris'";
     public static final String FRENCH_TIME_ZONE = "Europe/Paris";
     public static final String GRID = "grid";
     public static final String GROUPS = "groups";
     public static final String HOST = "host";
+    public static final String INCLUDEALL = "includeall";
     public static final String LIMIT = "limit";
     public static final String MESSAGE = "message";
     public static final String MODE = "mode";
