@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 
 import {
   Box,
@@ -18,7 +18,9 @@ import { CustomMultiAutocomplete } from "~/components/CustomMultiAutocomplete";
 import {
   ALLOWED_DOCUMENT_EXTENSIONS,
   APPOINTMENTS,
+  MAX_FILE_PER_GRID,
   MAX_STRING_LENGTH,
+  MAX_TOTAL_FILE_SIZE_PER_GRID_MO,
 } from "~/core/constants";
 import { useGlobal } from "~/providers/GlobalProvider";
 import { useGridModal } from "~/providers/GridModalProvider";
@@ -35,8 +37,9 @@ import {
   VisuallyHiddenInput,
 } from "./style";
 
-import { FileList } from "@cgi-learning-hub/ui";
+import { FileList, Tooltip } from "@cgi-learning-hub/ui";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
+import { displaySize } from "./utils";
 
 export const FirstPageGridModal: FC = () => {
   const { t } = useTranslation(APPOINTMENTS);
@@ -60,6 +63,11 @@ export const FirstPageGridModal: FC = () => {
     handleAddFile,
     handleDeleteFile,
   } = useGridModal();
+
+  const isAddDocumentDisabled = useMemo(
+    () => files.length >= MAX_FILE_PER_GRID,
+    [files.length],
+  );
 
   return (
     <Box sx={pageGridModalStyle}>
@@ -149,25 +157,39 @@ export const FirstPageGridModal: FC = () => {
         disabled={modalType === GRID_MODAL_TYPE.CONSULTATION}
       />
       <Box sx={spaceBetweenBoxStyle}>
-        <Button
-          component="label"
-          variant="outlined"
-          color="secondary"
-          tabIndex={-1}
-          startIcon={<UploadFileIcon />}
-          sx={addDocumentStyle}
+        <Tooltip
+          title={
+            isAddDocumentDisabled && t("appointments.max.number.files.exceeded")
+          }
         >
-          {t("appointments.grid.add.document")}
-          <VisuallyHiddenInput
-            type="file"
-            accept={ALLOWED_DOCUMENT_EXTENSIONS.join(",")}
-            onChange={handleAddFile}
-          />
-        </Button>
+          <Button
+            component="label"
+            variant="outlined"
+            color="secondary"
+            tabIndex={-1}
+            startIcon={<UploadFileIcon />}
+            sx={addDocumentStyle}
+            disabled={isAddDocumentDisabled}
+          >
+            {t("appointments.grid.add.document")}
+            <VisuallyHiddenInput
+              type="file"
+              accept={ALLOWED_DOCUMENT_EXTENSIONS.join(",")}
+              onChange={handleAddFile}
+            />
+          </Button>
+        </Tooltip>
         <Box sx={docsInfosStyle}>
-          <Typography>{"5 fichiers max"}</Typography>
           <Typography>
-            {"Taille totale des fichiers : " + totalFilesSize + "/100Mo"}
+            {t("appointments.max.number.files", {
+              maxNumber: MAX_FILE_PER_GRID,
+            })}
+          </Typography>
+          <Typography>
+            {t("appointments.total.size.files", {
+              totalSize: displaySize(totalFilesSize),
+              maxSize: MAX_TOTAL_FILE_SIZE_PER_GRID_MO,
+            })}
           </Typography>
         </Box>
       </Box>

@@ -96,6 +96,10 @@
   "appointments.confirm.modal.cancel.appointment.description": "Si vous confirmez, le rendez-vous sera annulé et vous redeviendrez disponible sur le créneau concerné.",
 
   "appointments.last.appointment": "Dernier rdv : {{date}}",
+  "appointments.max.number.files": "{{maxNumber}} fichiers max.",
+  "appointments.max.number.files.exceeded": "Limite de fichiers atteint",
+  "appointments.total.size.files": "Taille totale des fichiers : {{totalSize}}/{{maxSize}}Mo",
+  "appointments.total.size.files.exceeded": "Le fichier dépasse la taille totale maximale.",
 
   "appointments.cancel.request": "Annuler la demande",
   "appointments.cannot.cancel.request.tooltip": "Impossible d'annuler un rendez-vous moins de {{hours}}h avant",

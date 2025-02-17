@@ -238,7 +238,10 @@ public class DefaultGridService implements GridService {
                 }
                 return Future.succeededFuture(optionalGrid.get());
             })
-            .compose(grid -> getDocumentResponseFromGrid(user.getUserId(), grid))
+            .compose(grid -> {
+                composeInfos.put(GRID, grid);
+                return getDocumentResponseFromGrid(user.getUserId(), grid);
+            })
             .onSuccess(documents -> {
                 Grid grid = (Grid) composeInfos.getValue(GRID);
                 promise.complete(new MinimalGridInfos(grid, documents));

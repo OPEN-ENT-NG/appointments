@@ -39,6 +39,7 @@ export const initialGridModalInputs = (
   duration: DURATION.FIFTEEN_MINUTES,
   periodicity: PERIODICITY.WEEKLY,
   weekSlots: initialWeekSlots,
+  documents: [],
 });
 
 export const initialErrorInputs: InputsErrors = {
@@ -99,13 +100,14 @@ export const gridInputsToCreateGridPayload = (
 export const gridInputsToEditGridPayload = (
   inputs: GridModalInputs,
   gridId: number,
+  files: MyCustomFile[],
 ): EditGridPayload => {
   const body: EditGridBody = {
     name: inputs.name.trimEnd(),
     color: inputs.color,
     videoCallLink: inputs.isVideoCall ? inputs.videoCallLink : "",
     place: inputs.location,
-    documentsIds: [],
+    documentsIds: files.map((file) => file.workspaceId),
     publicComment: inputs.publicComment,
   };
 

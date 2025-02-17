@@ -68,6 +68,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
   const {
     files,
     totalFilesSize,
+    initFiles,
     handleAddFile,
     handleDeleteFile,
     saveInWorkspace,
@@ -156,7 +157,6 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       groups ?? [],
       savingFiles,
     );
-    console.log(payload);
     try {
       await createGrid(payload).unwrap();
       toast.success(t(TOAST_VALUES.CREATE_GRID.i18nKeySuccess));
@@ -223,9 +223,12 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
 
   const handleConfirmDialog = useCallback(async () => {
     if (confirmModalType === CONFIRM_MODAL_TYPE.CONFIRM_GRID_EDIT) {
+      const savingFiles = await saveInWorkspace();
+
       const payload: EditGridPayload = gridInputsToEditGridPayload(
         inputs,
         selectedGridId ?? 0,
+        savingFiles,
       );
       try {
         await editGrid(payload).unwrap();
@@ -239,7 +242,15 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
     resetInputs();
     setPage(PAGE_TYPE.FIRST);
     setIsModalOpen(false);
-  }, [confirmModalType, editGrid, inputs, resetInputs, selectedGridId, t]);
+  }, [
+    confirmModalType,
+    editGrid,
+    inputs,
+    resetInputs,
+    saveInWorkspace,
+    selectedGridId,
+    t,
+  ]);
 
   const handleDisplayGridModal = useCallback(
     (type: GRID_MODAL_TYPE, gridId?: number, gridName?: string) => {
@@ -305,6 +316,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       totalFilesSize,
       handleAddFile,
       handleDeleteFile,
+      initFiles,
     }),
     [
       inputs,
@@ -331,6 +343,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       totalFilesSize,
       handleAddFile,
       handleDeleteFile,
+      initFiles,
     ],
   );
 

@@ -64,12 +64,20 @@ export interface NameWithId {
   name: string;
 }
 
+export interface Document {
+  id: string;
+  name: string;
+  size: number;
+  ownerId: string;
+  ownerName: string;
+}
+
 export interface GridInfos {
   duration: DURATION;
   videoCallLink: string;
   place: string;
   publicComment: string;
-  documentsIds: string[];
+  documents: Document[];
 }
 
 export interface TimeSlot {
@@ -113,7 +121,7 @@ export interface GetGridByIdResponse {
   groups: Group[];
   videoCallLink: string;
   place: string;
-  documentsIds: string[];
+  documents: Document[];
   publicComment: string;
   dailySlots: DailySlot[];
 }

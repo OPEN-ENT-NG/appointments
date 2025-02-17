@@ -14,6 +14,8 @@ import {
 import { Public } from "~/services/api/CommunicationService/types";
 import { GRID_MODAL_TYPE, PAGE_TYPE } from "./enum";
 
+import { Document } from "~/services/api/GridService/types";
+
 export interface GridModalProviderContextProps {
   inputs: GridModalInputs;
   setInputs: Dispatch<SetStateAction<GridModalInputs>>;
@@ -49,6 +51,7 @@ export interface GridModalProviderContextProps {
   totalFilesSize: number;
   handleAddFile: (event: ChangeEvent<HTMLInputElement>) => void;
   handleDeleteFile: (file: MyCustomFile) => void;
+  initFiles: (documents: Document[]) => void;
 }
 
 export interface GridModalProviderProps {
@@ -71,6 +74,7 @@ export interface GridModalInputs {
   duration: DURATION;
   periodicity: PERIODICITY;
   weekSlots: WeekSlotsModel;
+  documents: Document[];
 }
 
 export interface InputsErrors {
