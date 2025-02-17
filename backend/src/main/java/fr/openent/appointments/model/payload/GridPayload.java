@@ -261,7 +261,7 @@ public class GridPayload implements IModel<GridPayload> {
             .put(CAMEL_TIME_SLOTS, new JsonArray(this.timeSlots.stream().map(TimeSlotPayload::toString).collect(Collectors.toList())))
             .put(CAMEL_VIDEO_CALL_LINK, this.videoCallLink)
             .put(PLACE, this.place)
-            .put(CAMEL_DOCUMENTS_IDS, this.documentsIds)
+            .put(CAMEL_DOCUMENTS_IDS, new JsonArray(this.documentsIds))
             .put(CAMEL_PUBLIC_COMMENT, this.publicComment)
             .toString();
     }

@@ -7,6 +7,7 @@ import fr.openent.appointments.model.IModel;
 import io.vertx.core.json.JsonObject;
 import static fr.openent.appointments.core.constants.Fields.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,8 +41,13 @@ public class AppointmentWithInfos implements IModel<AppointmentWithInfos> {
         this.publicComment = appointmentWithInfos.getString(PUBLIC_COMMENT, null);
 
         String stringDocumentsIds = appointmentWithInfos.getString(DOCUMENTS_IDS, "");
-        String cleanedDocumentsIds = stringDocumentsIds.substring(1, stringDocumentsIds.length() - 1);
-        this.documentsIds = Arrays.asList(cleanedDocumentsIds.split(",\\s*"));
+
+        if (stringDocumentsIds.length() > 2) {
+            String cleanedDocumentsIds = stringDocumentsIds.substring(1, stringDocumentsIds.length() - 1);
+            this.documentsIds = Arrays.asList(cleanedDocumentsIds.split(",\\s*"));
+        } else {
+            this.documentsIds = new ArrayList<>();
+        }
     }
 
     // Getters

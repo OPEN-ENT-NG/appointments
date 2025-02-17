@@ -111,7 +111,7 @@ export const BookAppointmentGridInfos: FC<BookAppointmentGridInfosProps> = ({
               <Typography sx={ellipsisWithWrapStyle}>{place}</Typography>
             </Box>
           )}
-          {documents && (
+          {!!(documents && documents.length) && (
             <Box sx={itemStyle}>
               <AttachFileIcon />
               <Stack direction="column">

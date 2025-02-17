@@ -1,5 +1,6 @@
 package fr.openent.appointments.model.database;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.time.LocalDate;
@@ -60,8 +61,13 @@ public class Grid implements IModel<Grid> {
         this.targetPublicListId = Arrays.asList(cleanedTargetPublicListId.split(",\\s*"));
 
         String stringDocumentsIds = grid.getString(DOCUMENTS_IDS, "");
-        String cleanedDocumentsIds = stringDocumentsIds.substring(1, stringDocumentsIds.length() - 1);
-        this.documentsIds = Arrays.asList(cleanedDocumentsIds.split(",\\s*"));
+
+        if (stringDocumentsIds.length() > 2) {
+            String cleanedDocumentsIds = stringDocumentsIds.substring(1, stringDocumentsIds.length() - 1);
+            this.documentsIds = Arrays.asList(cleanedDocumentsIds.split(",\\s*"));
+        } else {
+            this.documentsIds = new ArrayList<>();
+        }
     }
 
     // Getter

@@ -253,7 +253,7 @@ public class DefaultGridRepository implements GridRepository {
         boolean isColorUpdatable = color != null;
         boolean isVideoCallLinkUpdatable = videoCallLink != null;
         boolean isPlaceUpdatable = place != null;
-        boolean isDocumentsIdsUpdatable = documentsIds != null && !documentsIds.isEmpty();
+        boolean isDocumentsIdsUpdatable = documentsIds != null;
         boolean isPublicCommentUpdatable = publicComment != null;
 
         String query = "UPDATE " + DB_GRID_TABLE + " SET " + UPDATING_DATE + " = ?, ";
@@ -273,7 +273,7 @@ public class DefaultGridRepository implements GridRepository {
         if (isColorUpdatable) params.add(color);
         if (isVideoCallLinkUpdatable) params.add(videoCallLink);
         if (isPlaceUpdatable) params.add(place);
-        if (isDocumentsIdsUpdatable) params.add(documentsIds);
+        if (isDocumentsIdsUpdatable) params.add(documentsIds.toString());
         if (isPublicCommentUpdatable) params.add(publicComment);
         params.add(gridId);
 
