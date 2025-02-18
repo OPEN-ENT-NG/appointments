@@ -206,7 +206,7 @@ public class DefaultGridRepositoryTest {
                 .add(TEST_TARGET_PUBLIC_IDS.toString())
                 .add(TEST_VIDEO_CALL_LINK)
                 .add(TEST_PLACE)
-                .add(TEST_DOCUMENTS_IDS)
+                .add(TEST_DOCUMENTS_IDS.toString())
                 .add(TEST_PUBLIC_COMMENT)
                 .add(GridState.OPEN.getValue());
 
