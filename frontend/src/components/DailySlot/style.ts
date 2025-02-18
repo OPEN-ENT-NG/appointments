@@ -1,8 +1,8 @@
-import { Box, styled } from "@mui/material";
+import { Box, styled } from "@cgi-learning-hub/ui";
 
-import { StyledBoxProps } from "./types";
 import { centerBoxStyle, flexStartBoxStyle } from "~/styles/boxStyles";
 import { PURPLE } from "~/styles/color.constants";
+import { StyledBoxProps } from "./types";
 
 export const StyledDailySlotBox = styled(Box)<StyledBoxProps>(
   ({ isSlotError }) => ({

@@ -1,9 +1,9 @@
-import { Box, styled, SxProps } from "@mui/material";
+import { Box, styled, SxProps } from "@cgi-learning-hub/ui";
 
-import { ColorDotProps, StateDotProps } from "./types";
-import { getGridStateColor } from "./utils";
 import { flexStartBoxStyle } from "~/styles/boxStyles";
 import { GREEN } from "~/styles/color.constants";
+import { ColorDotProps, StateDotProps } from "./types";
+import { getGridStateColor } from "./utils";
 
 export const ColorDot = styled(Box)<ColorDotProps>(({ color }) => ({
   backgroundColor: color,

@@ -1,6 +1,7 @@
 import { FC, KeyboardEvent, useMemo, useState } from "react";
 
-import { Box, ClickAwayListener } from "@mui/material";
+import { Box } from "@cgi-learning-hub/ui";
+import { ClickAwayListener } from "@mui/material";
 import { CirclePicker, ColorResult } from "react-color";
 
 import { ColorPickerIcon } from "~/components/SVG/ColorPickerIcon";

@@ -1,12 +1,12 @@
 import { FC, useEffect, useMemo, useRef, useState } from "react";
 
-import { Loader } from "@cgi-learning-hub/ui";
+import { Box, Button, Loader, Typography } from "@cgi-learning-hub/ui";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { Box, Button, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import { DialogModal } from "~/components/DialogModal";
 import { AvailabilityEmptyState } from "~/components/SVG/AvailabilityEmptyState";
+import { APPOINTMENTS } from "~/core/constants";
 import { useAvailability } from "~/providers/AvailabilityProvider";
 import {
   GRID_CARD_SIZE,
@@ -23,7 +23,6 @@ import {
   emptyStateSvgStyle,
   headerStyle,
 } from "./style";
-import { APPOINTMENTS } from "~/core/constants";
 
 export const MyAvailability: FC = () => {
   const { t } = useTranslation(APPOINTMENTS);

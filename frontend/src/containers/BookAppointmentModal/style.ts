@@ -1,12 +1,12 @@
-import { Box, styled, SxProps } from "@mui/material";
+import { Box, styled, SxProps } from "@cgi-learning-hub/ui";
 
-import { ContentWrapperProps } from "./types";
 import {
   columnBoxStyle,
   flexEndBoxStyle,
   flexStartBoxStyle,
 } from "~/styles/boxStyles";
 import { BLACK } from "~/styles/color.constants";
+import { ContentWrapperProps } from "./types";
 
 export const ModalContainer = styled(Box)<{ isMobile: boolean }>(
   ({ isMobile }) => ({

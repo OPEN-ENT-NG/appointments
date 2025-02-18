@@ -1,6 +1,4 @@
-// import { CreateThemeOptions } from "@cgi-learning-hub/theme";
-
-import { ThemeOptions } from "@mui/material";
+import { ThemeOptions } from "@cgi-learning-hub/ui";
 
 import { PURPLE } from "./color.constants";
 

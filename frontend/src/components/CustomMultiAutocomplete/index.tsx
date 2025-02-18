@@ -1,15 +1,16 @@
 import { FC } from "react";
 
+import { Checkbox, Chip, TextField } from "@cgi-learning-hub/ui";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import { Autocomplete, Checkbox, Chip, TextField } from "@mui/material";
+import { Autocomplete } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { v4 as uuidv4 } from "uuid";
 
+import { APPOINTMENTS } from "~/core/constants";
 import { useGridModal } from "~/providers/GridModalProvider";
 import { GRID_MODAL_TYPE } from "~/providers/GridModalProvider/enum";
 import { chipStyle, TextFieldStyle } from "./style";
-import { APPOINTMENTS } from "~/core/constants";
 
 export const CustomMultiAutocomplete: FC = () => {
   const {

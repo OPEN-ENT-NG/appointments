@@ -1,4 +1,4 @@
-import { SxProps } from "@mui/material";
+import { SxProps } from "@cgi-learning-hub/ui";
 
 import { columnBoxStyle } from "~/styles/boxStyles";
 import { BLACK } from "~/styles/color.constants";

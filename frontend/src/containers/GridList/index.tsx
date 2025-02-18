@@ -1,8 +1,9 @@
 import { FC, useState } from "react";
 
+import { Box, Typography } from "@cgi-learning-hub/ui";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Box, Collapse, Pagination, Typography } from "@mui/material";
+import { Collapse, Pagination } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import { GridCard } from "~/components/GridCard";

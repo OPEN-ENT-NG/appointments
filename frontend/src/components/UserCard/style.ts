@@ -1,6 +1,5 @@
-import { Box, styled, SxProps } from "@mui/material";
+import { Box, styled, SxProps } from "@cgi-learning-hub/ui";
 
-import { StatusColorProps, WrapperUserCardProps } from "./types";
 import {
   columnBoxStyle,
   flexStartBoxStyle,
@@ -13,6 +12,7 @@ import {
   USER_STATUS_UNAVAILABLE_COLOR,
 } from "~/styles/color.constants";
 import { BOLD_FONT, ITALIC_FONT } from "~/styles/fontStyle.constants";
+import { StatusColorProps, WrapperUserCardProps } from "./types";
 
 export const WrapperUserCard = styled(Box, {
   shouldForwardProp: (prop) => prop !== "isAvailable",

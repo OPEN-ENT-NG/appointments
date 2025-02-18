@@ -1,10 +1,15 @@
 import { FC } from "react";
 
-import { Button, common } from "@cgi-learning-hub/ui";
+import {
+  Box,
+  Button,
+  Checkbox,
+  common,
+  Typography,
+} from "@cgi-learning-hub/ui";
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import { Box, Checkbox, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { v4 as uuidv4 } from "uuid";
 

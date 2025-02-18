@@ -1,6 +1,5 @@
-import { Box, styled, SxProps } from "@mui/material";
+import { Box, styled, SxProps } from "@cgi-learning-hub/ui";
 
-import { DaySlotsHeaderProps, RowSlotsWrapperProps } from "./types";
 import {
   centerBoxStyle,
   columnBoxStyle,
@@ -8,6 +7,7 @@ import {
 } from "~/styles/boxStyles";
 import { BLACK, LIGHTER_GREY, PURPLE } from "~/styles/color.constants";
 import { BOLD_FONT, ITALIC_FONT } from "~/styles/fontStyle.constants";
+import { DaySlotsHeaderProps, RowSlotsWrapperProps } from "./types";
 
 export const weekSlotsWrapperStyle: SxProps = {
   ...columnBoxStyle,

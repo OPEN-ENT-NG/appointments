@@ -1,6 +1,7 @@
 import { FC, useEffect, useRef, useState } from "react";
 
-import { Box, Pagination, Typography } from "@mui/material";
+import { Box, Typography } from "@cgi-learning-hub/ui";
+import { Pagination } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import { AppointmentCard } from "~/components/AppointmentCard";

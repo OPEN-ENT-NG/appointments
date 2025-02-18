@@ -1,4 +1,4 @@
-import { SxProps, Theme } from "@mui/material";
+import { SxProps, Theme } from "@cgi-learning-hub/ui";
 
 import { centerBoxStyle } from "~/styles/boxStyles";
 

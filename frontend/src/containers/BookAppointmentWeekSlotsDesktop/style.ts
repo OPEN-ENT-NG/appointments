@@ -1,12 +1,5 @@
-import { common, IconButton } from "@cgi-learning-hub/ui";
-import { Box, styled, SxProps } from "@mui/material";
+import { Box, common, IconButton, styled, SxProps } from "@cgi-learning-hub/ui";
 
-import {
-  ArrowButtonProps,
-  ColumnHeaderProps,
-  ColumnSlotsWrapperProps,
-  NoSlotsProps,
-} from "./types";
 import {
   columnBoxStyle,
   flexStartBoxStyle,
@@ -14,6 +7,12 @@ import {
 } from "~/styles/boxStyles";
 import { LIGHTER_GREY, PURPLE } from "~/styles/color.constants";
 import { BOLD_FONT, ITALIC_FONT } from "~/styles/fontStyle.constants";
+import {
+  ArrowButtonProps,
+  ColumnHeaderProps,
+  ColumnSlotsWrapperProps,
+  NoSlotsProps,
+} from "./types";
 
 export const globalContainerStyle: SxProps = {
   display: "flex",

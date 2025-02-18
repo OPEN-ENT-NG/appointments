@@ -1,4 +1,4 @@
-import { Box, styled, SxProps } from "@mui/material";
+import { Box, styled, SxProps } from "@cgi-learning-hub/ui";
 
 import { columnBoxStyle, flexStartBoxStyle } from "~/styles/boxStyles";
 import { StyledCardProps } from "./types";

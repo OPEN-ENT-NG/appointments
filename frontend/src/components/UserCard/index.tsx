@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useRef, useState } from "react";
 
-import { Box, Tooltip, Typography } from "@mui/material";
+import { Box, Tooltip, Typography } from "@cgi-learning-hub/ui";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 

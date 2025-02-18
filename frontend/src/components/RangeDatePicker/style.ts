@@ -1,4 +1,4 @@
-import { SxProps } from "@mui/material";
+import { SxProps } from "@cgi-learning-hub/ui";
 
 import { flexStartBoxStyle } from "~/styles/boxStyles";
 import { PURPLE } from "~/styles/color.constants";

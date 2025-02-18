@@ -1,12 +1,7 @@
 import { FC } from "react";
 
-import {
-  Box,
-  FormHelperText,
-  ToggleButton,
-  ToggleButtonGroup,
-  Typography,
-} from "@mui/material";
+import { Box, FormHelperText, Typography } from "@cgi-learning-hub/ui";
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import { RangeDatePicker } from "~/components/RangeDatePicker";

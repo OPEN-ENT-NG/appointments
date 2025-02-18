@@ -1,12 +1,5 @@
 import { FC, useEffect, useState } from "react";
 
-import BusinessIcon from "@mui/icons-material/Business";
-import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
-import EditIcon from "@mui/icons-material/Edit";
-import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
-import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
-import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
-import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import {
   Box,
   Button,
@@ -15,7 +8,14 @@ import {
   MenuItem,
   Tooltip,
   Typography,
-} from "@mui/material";
+} from "@cgi-learning-hub/ui";
+import BusinessIcon from "@mui/icons-material/Business";
+import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
+import EditIcon from "@mui/icons-material/Edit";
+import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
+import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
+import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
+import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import { useTranslation } from "react-i18next";
 
 import { APPOINTMENTS, DISPLAY_DATE_FORMAT } from "~/core/constants";

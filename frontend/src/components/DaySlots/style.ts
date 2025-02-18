@@ -1,9 +1,8 @@
-import { Button, common } from "@cgi-learning-hub/ui";
-import { Box, styled, SxProps } from "@mui/material";
+import { Box, Button, common, styled, SxProps } from "@cgi-learning-hub/ui";
 
-import { TimeSlotProps, TimeSlotWrapperProps } from "./types";
 import { BLACK, LIGHTER_PURPLE, PURPLE } from "~/styles/color.constants";
 import { IMPORTANT } from "~/styles/fontStyle.constants";
+import { TimeSlotProps, TimeSlotWrapperProps } from "./types";
 
 export const TimeSlot = styled(Button)<TimeSlotProps>(({ selected }) => ({
   width: "6.2rem",

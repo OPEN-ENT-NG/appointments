@@ -1,7 +1,7 @@
 import { FC } from "react";
 
+import { Box, IconButton, Modal, Typography } from "@cgi-learning-hub/ui";
 import CloseIcon from "@mui/icons-material/Close";
-import { Box, IconButton, Modal, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import { Button } from "@cgi-learning-hub/ui";

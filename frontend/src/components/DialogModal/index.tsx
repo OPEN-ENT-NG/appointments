@@ -5,10 +5,10 @@ import {
   FormControl,
   FormControlLabel,
   Modal,
-  Radio,
-  RadioGroup,
   Typography,
-} from "@mui/material";
+} from "@cgi-learning-hub/ui";
+
+import { Radio, RadioGroup } from "@mui/material";
 
 import { Button } from "@cgi-learning-hub/ui";
 import { useTranslation } from "react-i18next";

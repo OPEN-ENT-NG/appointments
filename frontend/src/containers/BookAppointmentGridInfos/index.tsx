@@ -1,21 +1,21 @@
 import { FC } from "react";
 
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import ChatIcon from "@mui/icons-material/Chat";
-import PlaceIcon from "@mui/icons-material/Place";
-import TimerIcon from "@mui/icons-material/Timer";
-import VideoCameraFrontIcon from "@mui/icons-material/VideoCameraFront";
-import VideocamOffIcon from "@mui/icons-material/VideocamOff";
 import {
   Box,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
-  Skeleton,
   Stack,
   Typography,
-} from "@mui/material";
+} from "@cgi-learning-hub/ui";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import ChatIcon from "@mui/icons-material/Chat";
+import PlaceIcon from "@mui/icons-material/Place";
+import TimerIcon from "@mui/icons-material/Timer";
+import VideoCameraFrontIcon from "@mui/icons-material/VideoCameraFront";
+import VideocamOffIcon from "@mui/icons-material/VideocamOff";
+import { Skeleton } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import { UserPicture } from "~/components/UserPicture";

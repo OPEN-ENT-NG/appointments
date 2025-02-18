@@ -1,12 +1,20 @@
 import { FC } from "react";
 
-import { Button, IconButton } from "@cgi-learning-hub/ui";
+import {
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  Modal,
+  Typography,
+} from "@cgi-learning-hub/ui";
 import CloseIcon from "@mui/icons-material/Close";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
-import { Box, Divider, Modal, Typography, useMediaQuery } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import { BOOK_APPOINTMENT_MODAL_BREAKPOINT } from "~/core/breakpoints";
+import { APPOINTMENTS } from "~/core/constants";
 import { useBookAppointmentModal } from "~/providers/BookAppointmentModalProvider";
 import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
 import { BookAppointmentGridInfos } from "../BookAppointmentGridInfos";
@@ -21,7 +29,6 @@ import {
   submitButtonStyle,
 } from "./style";
 import { BookAppointmentModalProps } from "./types";
-import { APPOINTMENTS } from "~/core/constants";
 
 export const BookAppointmentModal: FC<BookAppointmentModalProps> = ({
   userInfos,
