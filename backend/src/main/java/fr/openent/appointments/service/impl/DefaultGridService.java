@@ -6,6 +6,7 @@ import fr.openent.appointments.model.database.*;
 import fr.openent.appointments.model.response.*;
 import fr.openent.appointments.model.workspace.CompleteDocument;
 import fr.openent.appointments.repository.*;
+import fr.openent.appointments.service.EventBusService;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.Future;
@@ -38,6 +39,7 @@ public class DefaultGridService implements GridService {
     private static final Logger log = LoggerFactory.getLogger(DefaultGridService.class);
 
     private final EventBus eb;
+    private final EventBusService eventBusService;
     private final GridRepository gridRepository;
     private final TimeSlotRepository timeSlotRepository;
     private final DailySlotRepository dailySlotRepository;
@@ -45,6 +47,7 @@ public class DefaultGridService implements GridService {
 
     public DefaultGridService(ServiceFactory serviceFactory, RepositoryFactory repositoryFactory) {
         this.eb = serviceFactory.eventBus();
+        this.eventBusService = serviceFactory.eventBusService();
         this.gridRepository = repositoryFactory.gridRepository();
         this.timeSlotRepository = repositoryFactory.timeSlotRepository();
         this.dailySlotRepository = repositoryFactory.dailySlotRepository();
@@ -119,7 +122,8 @@ public class DefaultGridService implements GridService {
             })
             .compose(dailySlots -> {
                 composeInfos.put(CAMEL_DAILY_SLOTS, dailySlots);
-                return getDocumentResponseFromGrid(userId, (Grid) composeInfos.getValue(GRID));
+                Grid grid = (Grid) composeInfos.getValue(GRID);
+                return eventBusService.getDocumentResponseFromGrid(userId, grid.getDocumentsIds());
             })
             .onSuccess(documents -> {
                 Grid grid = (Grid) composeInfos.getValue(GRID);
@@ -182,41 +186,6 @@ public class DefaultGridService implements GridService {
         return promise.future();
     }
 
-    private Future<List<DocumentResponse>> getDocumentResponseFromGrid(String userId, Grid grid) {
-        Promise<List<DocumentResponse>> promise = Promise.promise();
-
-        JsonObject ebMessage = new JsonObject()
-            .put(ACTION, LIST)
-            .put(CAMEL_USER_ID, userId)
-            .put(FILTER, ALL)
-            .put(INCLUDEALL, true);
-
-        EventBusHelper.requestJsonArray(WORKSPACE_EB_ADDRESS, eb, ebMessage)
-            .onSuccess(documents -> {
-                // all documents of user
-                List<CompleteDocument> completeDocuments = documents.stream()
-                    .map(JsonObject::mapFrom)
-                    .map(CompleteDocument::new)
-                    .collect(Collectors.toList());
-                // documents of grid
-                List<CompleteDocument> filteredDocuments = completeDocuments.stream()
-                    .filter(document -> grid.getDocumentsIds().contains(document.getId()))
-                    .collect(Collectors.toList());
-                // documents response
-                List<DocumentResponse> documentResponses = filteredDocuments.stream()
-                    .map(DocumentResponse::new)
-                    .collect(Collectors.toList());
-                promise.complete(documentResponses);
-            })
-            .onFailure(err -> {
-                String errorMessage = "Failed to get documents from grid";
-                LogHelper.logError(this, "getDocumentResponseFromGrid", errorMessage, err.getMessage());
-                promise.complete(new ArrayList<>());
-            });
-
-        return promise.future();
-    }
-
     @Override
     public Future<MinimalGridInfos> getMinimalGridInfosById(UserInfos user, Long gridId) {
         Promise<MinimalGridInfos> promise = Promise.promise();
@@ -240,7 +209,7 @@ public class DefaultGridService implements GridService {
             })
             .compose(grid -> {
                 composeInfos.put(GRID, grid);
-                return getDocumentResponseFromGrid(user.getUserId(), grid);
+                return eventBusService.getDocumentResponseFromGrid(user.getUserId(), grid.getDocumentsIds());
             })
             .onSuccess(documents -> {
                 Grid grid = (Grid) composeInfos.getValue(GRID);

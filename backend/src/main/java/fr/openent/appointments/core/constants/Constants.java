@@ -21,6 +21,7 @@ public class Constants {
     public static final String CAMEL_IS_SHARED = "isShared";
     public static final String CAMEL_IS_VIDEO_CALL = "isVideoCall";
     public static final String CAMEL_MIN_HOURS_BEFORE_CANCELLATION = "minHoursBeforeCancellation";
+    public static final String CAMEL_NEO_USER = "neoUser";
     public static final String CAMEL_OWNER_NAME = "ownerName";
     public static final String CAMEL_PUBLIC_COMMENT = "publicComment";
     public static final String CAMEL_PUSH_NOTIF = "pushNotif";

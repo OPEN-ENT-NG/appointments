@@ -119,11 +119,10 @@ export const BookAppointmentGridInfos: FC<BookAppointmentGridInfosProps> = ({
                   <Link
                     key={doc.id}
                     href={`/workspace/document/${doc.id}`}
-                    color="primary"
                     underline="hover"
                     target="_blank"
                   >
-                    {doc.name}
+                    <Typography>{doc.name}</Typography>
                   </Link>
                 ))}
               </Stack>
