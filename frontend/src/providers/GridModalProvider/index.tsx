@@ -72,6 +72,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
     handleAddFile,
     handleDeleteFile,
     saveInWorkspace,
+    resetFiles,
   } = useFiles();
 
   const [selectedGridId, setSelectedGridId] = useState<number>(-1);
@@ -79,6 +80,8 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const [isSubmitButtonLoading, setIsSubmitButtonLoading] = useState(false);
 
   const [modalType, setModalType] = useState<GRID_MODAL_TYPE>(
     GRID_MODAL_TYPE.CREATION,
@@ -149,6 +152,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       setIsDialogOpen(true);
       return;
     }
+    setIsSubmitButtonLoading(true);
 
     const savingFiles = await saveInWorkspace();
 
@@ -161,8 +165,10 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       await createGrid(payload).unwrap();
       toast.success(t(TOAST_VALUES.CREATE_GRID.i18nKeySuccess));
       resetInputs();
+      resetFiles();
       setPage(PAGE_TYPE.FIRST);
       setIsModalOpen(false);
+      setIsSubmitButtonLoading(false);
     } catch (error) {
       console.error(error);
       toast.error(t(TOAST_VALUES.CREATE_GRID.i18nKeyError));
@@ -176,6 +182,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
     createGrid,
     t,
     resetInputs,
+    resetFiles,
   ]);
 
   const handlePrev = () => {
@@ -223,6 +230,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
 
   const handleConfirmDialog = useCallback(async () => {
     if (confirmModalType === CONFIRM_MODAL_TYPE.CONFIRM_GRID_EDIT) {
+      setIsSubmitButtonLoading(true);
       const savingFiles = await saveInWorkspace();
 
       const payload: EditGridPayload = gridInputsToEditGridPayload(
@@ -242,6 +250,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
     resetInputs();
     setPage(PAGE_TYPE.FIRST);
     setIsModalOpen(false);
+    setIsSubmitButtonLoading(false);
   }, [
     confirmModalType,
     editGrid,
@@ -317,6 +326,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       handleAddFile,
       handleDeleteFile,
       initFiles,
+      isSubmitButtonLoading,
     }),
     [
       inputs,
@@ -344,6 +354,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       handleAddFile,
       handleDeleteFile,
       initFiles,
+      isSubmitButtonLoading,
     ],
   );
 

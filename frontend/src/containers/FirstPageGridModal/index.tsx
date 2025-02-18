@@ -161,23 +161,26 @@ export const FirstPageGridModal: FC = () => {
           title={
             isAddDocumentDisabled && t("appointments.max.number.files.exceeded")
           }
+          disableHoverListener={false}
         >
-          <Button
-            component="label"
-            variant="outlined"
-            color="secondary"
-            tabIndex={-1}
-            startIcon={<UploadFileIcon />}
-            sx={addDocumentStyle}
-            disabled={isAddDocumentDisabled}
-          >
-            {t("appointments.grid.add.document")}
-            <VisuallyHiddenInput
-              type="file"
-              accept={ALLOWED_DOCUMENT_EXTENSIONS.join(",")}
-              onChange={handleAddFile}
-            />
-          </Button>
+          <Box>
+            <Button
+              component="label"
+              variant="outlined"
+              color="secondary"
+              tabIndex={-1}
+              startIcon={<UploadFileIcon />}
+              sx={addDocumentStyle}
+              disabled={isAddDocumentDisabled}
+            >
+              {t("appointments.grid.add.document")}
+              <VisuallyHiddenInput
+                type="file"
+                accept={ALLOWED_DOCUMENT_EXTENSIONS.join(",")}
+                onChange={handleAddFile}
+              />
+            </Button>
+          </Box>
         </Tooltip>
         <Box sx={docsInfosStyle}>
           <Typography>

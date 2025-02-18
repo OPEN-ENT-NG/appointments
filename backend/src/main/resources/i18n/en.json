@@ -97,7 +97,7 @@
 
   "appointments.last.appointment": "Dernier rdv : {{date}}",
   "appointments.max.number.files": "{{maxNumber}} fichiers max.",
-  "appointments.max.number.files.exceeded": "Limite de fichiers atteint",
+  "appointments.max.number.files.exceeded": "Limite de fichiers atteinte",
   "appointments.total.size.files": "Taille totale des fichiers : {{totalSize}}/{{maxSize}}Mo",
   "appointments.total.size.files.exceeded": "Le fichier dépasse la taille totale maximale.",
 

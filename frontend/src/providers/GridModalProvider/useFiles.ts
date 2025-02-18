@@ -24,12 +24,12 @@ export const useFiles = () => {
       return;
     }
     setTotalFilesSize(totalFilesSize + newFilesSize);
-    setFiles((prev) => [...prev, ...newFiles]);
+    return setFiles((prev) => [...prev, ...newFiles]);
   };
 
   const handleDeleteFile = (file: MyCustomFile) => {
     setFiles((prev) => prev.filter((f) => f.id !== file.id));
-    setTotalFilesSize(totalFilesSize - file.file.size);
+    return setTotalFilesSize(totalFilesSize - file.file.size);
   };
 
   const saveInWorkspace = async () => {
@@ -61,7 +61,15 @@ export const useFiles = () => {
       isDeletable: true,
     })) as MyCustomFile[];
     setFiles(newFiles);
-    setTotalFilesSize(newFiles.reduce((acc, file) => acc + file.file.size, 0));
+    return setTotalFilesSize(
+      newFiles.reduce((acc, file) => acc + file.file.size, 0),
+    );
+  };
+
+  const resetFiles = () => {
+    setFiles([]);
+    setTotalFilesSize(0);
+    return;
   };
 
   return {
@@ -71,5 +79,6 @@ export const useFiles = () => {
     handleAddFile,
     handleDeleteFile,
     saveInWorkspace,
+    resetFiles,
   };
 };

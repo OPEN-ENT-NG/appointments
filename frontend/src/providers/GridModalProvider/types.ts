@@ -52,6 +52,7 @@ export interface GridModalProviderContextProps {
   handleAddFile: (event: ChangeEvent<HTMLInputElement>) => void;
   handleDeleteFile: (file: MyCustomFile) => void;
   initFiles: (documents: Document[]) => void;
+  isSubmitButtonLoading: boolean;
 }
 
 export interface GridModalProviderProps {
