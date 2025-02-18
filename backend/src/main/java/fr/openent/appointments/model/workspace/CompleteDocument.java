@@ -82,48 +82,59 @@ public class CompleteDocument implements IModel<CompleteDocument> {
 
     // Setters
 
-    public void setApplication(String application) {
+    public CompleteDocument setApplication(String application){
         this.application = application;
+        return this;
     }
 
-    public void setCreated(String created) {
+    public CompleteDocument setCreated(String created){
         this.created = created;
+        return this;
     }
 
-    public void setFile(String file) {
+    public CompleteDocument setFile(String file){
         this.file = file;
+        return this;
     }
 
-    public void setShared(Boolean shared) {
+    public CompleteDocument setShared(Boolean shared){
         isShared = shared;
+        return this;
     }
 
-    public void setMetaData(MetaData metaData) {
+    public CompleteDocument setMetaData(MetaData metaData){
         this.metaData = metaData;
+        return this;
     }
 
-    public void setModified(String modified) {
+    public CompleteDocument setModified(String modified){
         this.modified = modified;
+        return this;
     }
 
-    public void setName(String name) {
+    public CompleteDocument setName(String name){
         this.name = name;
+        return this;
     }
 
-    public void setOwner(String owner) {
+    public CompleteDocument setOwner(String owner){
         this.owner = owner;
+        return this;
     }
 
-    public void setOwnerName(String ownerName) {
+    public CompleteDocument setOwnerName(String ownerName){
         this.ownerName = ownerName;
+        return this;
     }
 
-    public void setProtected(Boolean aProtected) {
+    public CompleteDocument setProtected(Boolean aProtected){
         isProtected = aProtected;
+        return this;
     }
 
-    public void setId(String id) {
+    public CompleteDocument setId(String id){
         this.id = id;
+        return this;
     }
 
     // Functions
