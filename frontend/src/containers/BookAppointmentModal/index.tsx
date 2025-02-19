@@ -7,10 +7,10 @@ import {
   IconButton,
   Modal,
   Typography,
+  useMediaQuery,
 } from "@cgi-learning-hub/ui";
 import CloseIcon from "@mui/icons-material/Close";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
-import { useMediaQuery } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import { BOOK_APPOINTMENT_MODAL_BREAKPOINT } from "~/core/breakpoints";

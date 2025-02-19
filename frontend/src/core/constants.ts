@@ -1,4 +1,4 @@
-import { SvgIconProps } from "@mui/material";
+import { SvgIconProps } from "@cgi-learning-hub/ui";
 import { Theme, ToastPosition } from "react-toastify";
 
 import { GRID_MODAL_TYPE } from "~/providers/GridModalProvider/enum";

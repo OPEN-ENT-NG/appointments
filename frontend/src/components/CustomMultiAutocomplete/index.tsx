@@ -1,11 +1,9 @@
 import { FC } from "react";
 
-import { Checkbox, Chip, TextField } from "@cgi-learning-hub/ui";
+import { Autocomplete, Checkbox, Chip, TextField } from "@cgi-learning-hub/ui";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import { Autocomplete } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { v4 as uuidv4 } from "uuid";
 
 import { APPOINTMENTS } from "~/core/constants";
 import { useGridModal } from "~/providers/GridModalProvider";
@@ -36,7 +34,7 @@ export const CustomMultiAutocomplete: FC = () => {
       renderOption={(props, option, { selected }) => {
         const optionProps = props;
         return (
-          <li key={uuidv4()} {...optionProps}>
+          <li {...optionProps}>
             <Checkbox
               icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
               checkedIcon={<CheckBoxIcon fontSize="small" />}

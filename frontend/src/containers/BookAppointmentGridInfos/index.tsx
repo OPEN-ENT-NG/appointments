@@ -6,6 +6,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Skeleton,
   Stack,
   Typography,
 } from "@cgi-learning-hub/ui";
@@ -15,7 +16,6 @@ import PlaceIcon from "@mui/icons-material/Place";
 import TimerIcon from "@mui/icons-material/Timer";
 import VideoCameraFrontIcon from "@mui/icons-material/VideoCameraFront";
 import VideocamOffIcon from "@mui/icons-material/VideocamOff";
-import { Skeleton } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import { UserPicture } from "~/components/UserPicture";

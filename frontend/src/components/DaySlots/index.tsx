@@ -1,8 +1,7 @@
 import { FC } from "react";
 
-import { Box } from "@cgi-learning-hub/ui";
+import { Box, Skeleton } from "@cgi-learning-hub/ui";
 import CloseIcon from "@mui/icons-material/Close";
-import { Skeleton } from "@mui/material";
 
 import { useBookAppointmentModal } from "~/providers/BookAppointmentModalProvider";
 import {

@@ -3,6 +3,7 @@ import { FC, useEffect, useMemo, useRef, useState } from "react";
 import {
   Box,
   Button,
+  ClickAwayListener,
   Divider,
   EllipsisWithTooltip,
   Typography,
@@ -10,7 +11,6 @@ import {
 } from "@cgi-learning-hub/ui";
 import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import VideoCameraFrontIcon from "@mui/icons-material/VideoCameraFront";
-import { ClickAwayListener } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import {
