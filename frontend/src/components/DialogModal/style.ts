@@ -27,11 +27,11 @@ export const buttonsBoxStyle: SxProps = {
   gap: "2rem",
 };
 
-export const buttonStyle: SxProps = {
+export const buttonStyle = {
   padding: "1rem 2rem",
 };
 
-export const cancelButtonStyle: SxProps = {
+export const cancelButtonStyle = {
   ...buttonStyle,
   color: GREY,
 };
