@@ -50,9 +50,8 @@ const minHoursBeforeCancellation = parseInt(
     DEFAULT_MIN_HOURS_BEFORE_MODIFICATION.toString(),
 );
 
-type test = ThemeProviderProps["themeId"];
 const themePlatform = (rootElement?.getAttribute("data-theme") ??
-  DEFAULT_THEME) as test;
+  DEFAULT_THEME) as ThemeProviderProps["themeId"];
 
 if (process.env.NODE_ENV !== "production") {
   import("@axe-core/react").then((axe) => {
