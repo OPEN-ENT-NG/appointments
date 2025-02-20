@@ -272,4 +272,4 @@ export const GRID_MODAL_VALUES = {
   },
 };
 
-export const defaultMinHoursBeforeCancellation = 24;
+export const DEFAULT_MIN_HOURS_BEFORE_MODIFICATION = 24;
