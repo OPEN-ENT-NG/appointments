@@ -1,6 +1,9 @@
 import React from "react";
 
-import { ThemeProvider as ThemeProviderCGI } from "@cgi-learning-hub/theme";
+import {
+  ThemeProvider as ThemeProviderCGI,
+  ThemeProviderProps,
+} from "@cgi-learning-hub/theme";
 import "@edifice.io/bootstrap/dist/index.css";
 import { EdificeClientProvider, EdificeThemeProvider } from "@edifice.io/react";
 import { LocalizationProvider } from "@mui/x-date-pickers";
@@ -46,8 +49,10 @@ const minHoursBeforeCancellation = parseInt(
   rootElement?.getAttribute("data-min-hours") ??
     DEFAULT_MIN_HOURS_BEFORE_MODIFICATION.toString(),
 );
+
+type test = ThemeProviderProps["themeId"];
 const themePlatform = (rootElement?.getAttribute("data-theme") ??
-  DEFAULT_THEME) as "default" | "campus" | "crna" | "imt";
+  DEFAULT_THEME) as test;
 
 if (process.env.NODE_ENV !== "production") {
   import("@axe-core/react").then((axe) => {
@@ -82,7 +87,10 @@ root.render(
         }}
       >
         <EdificeThemeProvider>
-          <ThemeProviderCGI themeId={themePlatform} options={options}>
+          <ThemeProviderCGI
+            themeId={themePlatform ?? "default"}
+            options={options}
+          >
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="fr">
               <GlobalProvider
                 minHoursBeforeCancellation={minHoursBeforeCancellation}
