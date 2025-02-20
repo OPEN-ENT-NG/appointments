@@ -22,7 +22,12 @@ import "react-toastify/dist/ReactToastify.css";
 
 import dayjs from "dayjs";
 import "dayjs/locale/fr";
-import { APPOINTMENTS, TOAST_CONFIG } from "./core/constants";
+import {
+  APPOINTMENTS,
+  DEFAULT_MIN_HOURS_BEFORE_MODIFICATION,
+  DEFAULT_THEME,
+  TOAST_CONFIG,
+} from "./core/constants";
 import { AvailabilityProvider } from "./providers/AvailabilityProvider";
 import { BookAppointmentModalProvider } from "./providers/BookAppointmentModalProvider";
 import { FindAppointmentsProvider } from "./providers/FindAppointmentsProvider";
@@ -34,6 +39,15 @@ import { options } from "./styles/theme";
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement!);
+
+// Config
+
+const minHoursBeforeCancellation = parseInt(
+  rootElement?.getAttribute("data-min-hours") ??
+    DEFAULT_MIN_HOURS_BEFORE_MODIFICATION.toString(),
+);
+const themePlatform = (rootElement?.getAttribute("data-theme") ??
+  DEFAULT_THEME) as "default" | "campus" | "crna" | "imt";
 
 if (process.env.NODE_ENV !== "production") {
   import("@axe-core/react").then((axe) => {
@@ -68,9 +82,11 @@ root.render(
         }}
       >
         <EdificeThemeProvider>
-          <ThemeProviderCGI themeId={"crna"} options={options}>
+          <ThemeProviderCGI themeId={themePlatform} options={options}>
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="fr">
-              <GlobalProvider>
+              <GlobalProvider
+                minHoursBeforeCancellation={minHoursBeforeCancellation}
+              >
                 <FindAppointmentsProvider>
                   <BookAppointmentModalProvider>
                     <GridModalProvider>
