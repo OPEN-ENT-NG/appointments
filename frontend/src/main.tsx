@@ -68,7 +68,7 @@ root.render(
         }}
       >
         <EdificeThemeProvider>
-          <ThemeProviderCGI themeId={"default"} options={options}>
+          <ThemeProviderCGI themeId={"crna"} options={options}>
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="fr">
               <GlobalProvider>
                 <FindAppointmentsProvider>
