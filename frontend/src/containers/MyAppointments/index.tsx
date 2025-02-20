@@ -1,12 +1,7 @@
 import { FC } from "react";
 
-import {
-  Box,
-  Loader,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@cgi-learning-hub/ui";
+import { Box, Loader, Typography, useMediaQuery } from "@cgi-learning-hub/ui";
+import { useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import { CustomDateCalendar } from "~/components/CustomDateCalendar";

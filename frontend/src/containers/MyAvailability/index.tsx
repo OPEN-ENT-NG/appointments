@@ -14,7 +14,6 @@ import {
 } from "~/providers/AvailabilityProvider/enum";
 import { useGridModal } from "~/providers/GridModalProvider";
 import { GRID_MODAL_TYPE } from "~/providers/GridModalProvider/enum";
-import { PURPLE } from "~/styles/color.constants";
 import { GridList } from "../GridList";
 import { GridModal } from "../GridModal";
 import {
@@ -73,7 +72,7 @@ export const MyAvailability: FC = () => {
       <GridModal />
       <Box ref={boxRef} sx={availabilityContainerStyle}>
         <Box sx={headerStyle}>
-          <Typography variant="h2">
+          <Typography variant="h2" color="primary" fontWeight="bold">
             {t("appointments.my.availability")}
           </Typography>
           <Button
@@ -92,7 +91,7 @@ export const MyAvailability: FC = () => {
               {t("appointments.grid.empty.state")}
             </Typography>
             <Box sx={emptyStateSvgStyle}>
-              <AvailabilityEmptyState fill={PURPLE} />
+              <AvailabilityEmptyState />
             </Box>
           </>
         ) : (

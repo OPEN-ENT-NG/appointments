@@ -1,7 +1,7 @@
 import { Box, styled, SxProps } from "@cgi-learning-hub/ui";
 
 import { flexStartBoxStyle } from "~/styles/boxStyles";
-import { GREEN } from "~/styles/color.constants";
+import { GREEN_APPOINTMENT_COLOR } from "~/styles/color.constants";
 import { ColorDotProps, StateDotProps } from "./types";
 import { getGridStateColor } from "./utils";
 
@@ -18,12 +18,6 @@ export const firstLineBoxStyle: SxProps = {
   display: "flex",
   gap: "0.6rem",
   alignItems: "center",
-};
-
-export const nameTextStyle: SxProps = {
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  textWrap: "nowrap",
 };
 
 export const secondLineBoxStyle: SxProps = {
@@ -44,7 +38,7 @@ export const stateStyle: SxProps = {
 };
 
 export const structureIconStyle: SxProps = {
-  color: GREEN,
+  color: GREEN_APPOINTMENT_COLOR,
   height: "2rem",
   width: "2rem",
 };

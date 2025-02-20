@@ -40,8 +40,10 @@ export const DialogModal: FC<DialogModalProps> = ({
   };
 
   return (
-    <Dialog open={open} showCloseButton={false}>
-      <DialogTitle>{title}</DialogTitle>
+    <Dialog open={open} showCloseButton onClose={handleCancel}>
+      <DialogTitle fontWeight="bold" fontSize="2rem">
+        {title}
+      </DialogTitle>
       <DialogContent>
         <Typography variant="h5">{description}</Typography>
         {showOptions && question && options.length && (
@@ -66,7 +68,9 @@ export const DialogModal: FC<DialogModalProps> = ({
         )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleCancel}>{t("appointments.cancel")}</Button>
+        <Button variant="text" onClick={handleCancel}>
+          {t("appointments.cancel")}
+        </Button>
         <Button
           onClick={() => handleConfirm(selectedOption || undefined)}
           variant="contained"

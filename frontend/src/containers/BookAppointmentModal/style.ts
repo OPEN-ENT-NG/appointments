@@ -5,7 +5,6 @@ import {
   flexEndBoxStyle,
   flexStartBoxStyle,
 } from "~/styles/boxStyles";
-import { BLACK } from "~/styles/color.constants";
 import { ContentWrapperProps } from "./types";
 
 export const ModalContainer = styled(Box)<{ isMobile: boolean }>(
@@ -45,7 +44,7 @@ export const contentBoxStyle: SxProps = {
 export const closeIconStyle = {
   "& > .MuiSvgIcon-root": {
     fontSize: "2.4rem",
-    color: BLACK,
+    color: "text.primary",
   },
 };
 

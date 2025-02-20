@@ -13,7 +13,6 @@ import { APPOINTMENTS } from "~/core/constants";
 import { useFindAppointments } from "~/providers/FindAppointmentsProvider";
 import { useGlobal } from "~/providers/GlobalProvider";
 import { MyAppointmentsProvider } from "~/providers/MyAppointmentsProvider";
-import { PURPLE } from "~/styles/color.constants";
 import {
   appointmentsIconStyle,
   contentStyle,
@@ -70,9 +69,16 @@ export const Home: FC = () => {
     <Box sx={homeStyle}>
       <Box sx={titleStyle}>
         <Box sx={appointmentsIconStyle}>
-          <AppointmentsIcon fill={PURPLE} />
+          <AppointmentsIcon />
         </Box>
-        <Typography variant="h1">{t("appointments.title")}</Typography>
+        <Typography
+          variant="h1"
+          color="primary"
+          fontFamily="Comfortaa"
+          fontWeight="bold"
+        >
+          {t("appointments.title")}
+        </Typography>
       </Box>
       <Box sx={contentStyle}>
         <Tabs

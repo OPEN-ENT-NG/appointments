@@ -26,7 +26,6 @@ import {
   nextTimeSlotStyle,
   nextTimeSlotTextStyle,
   noSlotStyle,
-  videoCallOptionStyle,
   weekDayStyle,
   weekSlotsWrapperStyle,
 } from "./style";
@@ -113,7 +112,7 @@ export const BookAppointmentWeekSlotsMobile: FC = () => {
             onChange={handleVideoCallCheckboxChange}
             checked={isVideoCallOptionChecked}
           />
-          <Typography sx={videoCallOptionStyle}>
+          <Typography color="text.primary" fontSize="1.4rem">
             {t("appointments.book.appointment.modal.video.call.option")}
           </Typography>
         </Box>

@@ -33,7 +33,6 @@ import {
   leftTextWrapperStyle,
   moreButtonBoxStyle,
   moreButtonStyle,
-  nameTextStyle,
   secondLineBoxStyle,
   StateDot,
   stateStyle,
@@ -80,7 +79,14 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
         <ColorDot color={grid.color} />
         <Box sx={leftTextWrapperStyle}>
           <Box sx={firstLineBoxStyle}>
-            <Typography variant="h5" sx={nameTextStyle}>
+            <Typography
+              variant="body1"
+              overflow="hidden"
+              textOverflow="ellipsis"
+              noWrap
+              fontSize="1.6rem"
+              color="text.primary"
+            >
               {grid.name}
             </Typography>
             {isMultiStructure && (
@@ -94,7 +100,11 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
             )}
           </Box>
           <Box sx={secondLineBoxStyle}>
-            <Typography variant="body1">
+            <Typography
+              variant="body2"
+              fontSize="1.4rem"
+              color="text.secondary"
+            >
               {t("appointments.grid.from.date.to.date", {
                 beginDate: grid.beginDate.format(DISPLAY_DATE_FORMAT),
                 endDate: grid.endDate.format(DISPLAY_DATE_FORMAT),
@@ -102,7 +112,11 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
             </Typography>
             <Box sx={stateStyle}>
               <StateDot state={grid.state} />
-              <Typography variant="body1">
+              <Typography
+                variant="body2"
+                fontSize="1.4rem"
+                color="text.secondary"
+              >
                 {t(`appointments.grid.state.${grid.state.toLowerCase()}`)}
               </Typography>
             </Box>

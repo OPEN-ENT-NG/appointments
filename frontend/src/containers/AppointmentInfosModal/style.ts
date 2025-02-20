@@ -8,13 +8,6 @@ export const modalStyle: SxProps = {
   maxHeight: "80vh",
   height: "fit-content",
 
-  "& .MuiDialogTitle-root": {
-    padding: "2rem",
-    fontSize: "2rem",
-    fontWeight: "bold",
-    color: "primary.main",
-  },
-
   "& .MuiSvgIcon-root": {
     width: "2rem",
     height: "2rem",

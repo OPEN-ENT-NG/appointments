@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { useTheme } from "@cgi-learning-hub/ui";
+import { useTheme } from "@mui/material";
 
 export const FindAppointmentsEmptyState: FC = () => {
   const theme = useTheme();

@@ -25,8 +25,6 @@ import { useBookAppointmentModal } from "~/providers/BookAppointmentModalProvide
 import { ellipsisWithWrapStyle } from "~/styles/textStyles";
 import {
   bottomUserInfoStyle,
-  displayNameStyle,
-  functionsStyle,
   itemComStyle,
   itemStyle,
   pictureBoxStyle,
@@ -62,8 +60,12 @@ export const BookAppointmentGridInfos: FC<BookAppointmentGridInfosProps> = ({
           <StatusCircle isAvailable={isAvailable} />
         </Box>
         <Box>
-          <Typography sx={displayNameStyle}>{displayName}</Typography>
-          <Typography sx={functionsStyle}>{functions.join(", ")}</Typography>
+          <Typography color="text.primary" fontSize="1.8rem" fontWeight="bold">
+            {displayName}
+          </Typography>
+          <Typography fontSize="1.3rem" color="text.primary">
+            {functions.join(", ")}
+          </Typography>
         </Box>
       </Box>
       {!gridInfos ? (
@@ -88,7 +90,7 @@ export const BookAppointmentGridInfos: FC<BookAppointmentGridInfosProps> = ({
           </FormControl>
           <Box sx={itemStyle}>
             {videoCallLink ? <VideoCameraFrontIcon /> : <VideocamOffIcon />}
-            <Typography>
+            <Typography color="text.primary">
               {t(
                 `appointments.book.appointment.modal.video.call.${
                   videoCallLink ? "possible" : "impossible"
@@ -98,7 +100,7 @@ export const BookAppointmentGridInfos: FC<BookAppointmentGridInfosProps> = ({
           </Box>
           <Box sx={itemStyle}>
             <TimerIcon />
-            <Typography>
+            <Typography color="text.primary">
               {t("appointments.slots") +
                 " : " +
                 DURATION_VALUES[duration ?? DURATION.FIFTEEN_MINUTES]
@@ -108,7 +110,9 @@ export const BookAppointmentGridInfos: FC<BookAppointmentGridInfosProps> = ({
           {!!place && (
             <Box sx={itemStyle}>
               <PlaceIcon />
-              <Typography sx={ellipsisWithWrapStyle}>{place}</Typography>
+              <Typography color="text.primary" sx={ellipsisWithWrapStyle}>
+                {place}
+              </Typography>
             </Box>
           )}
           {!!(documents && documents.length) && (
@@ -131,7 +135,11 @@ export const BookAppointmentGridInfos: FC<BookAppointmentGridInfosProps> = ({
           {!!publicComment && (
             <Box sx={itemComStyle}>
               <ChatIcon />
-              <Typography sx={ellipsisWithWrapStyle} fontStyle={"italic"}>
+              <Typography
+                color="text.primary"
+                sx={ellipsisWithWrapStyle}
+                fontStyle="italic"
+              >
                 {publicComment}
               </Typography>
             </Box>
