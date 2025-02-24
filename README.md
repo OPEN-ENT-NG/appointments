@@ -62,7 +62,7 @@ Voici un exemple de configuration :
 <pre>
 closingCron = 0 0 0 * * ?          # Tous les jours à minuit fermeture des rendez-vous passés
 minHoursBeforeCancellation = 24    # Possibilité de supprimer un rendez-vous (confirmé) 24 heures avant le rendez-vous
-themePlatform = "crna"             # Thème de la plateforme
+themePlatform = crna               # Thème de la plateforme
 </pre>
 
 ⚠️ La variable `themePlatform`, n'est pour le moment utilisé que sur rdv mais à terme, elle sera utilisé pour l'ensemble des modules utilisant nos themes cgi-ui.
