@@ -55,7 +55,7 @@ export const BookAppointmentWeekSlotsMobile: FC = () => {
         <ArrowButton isVisible={canGoPrev} onClick={handlePreviousWeek}>
           <KeyboardArrowLeftIcon />
         </ArrowButton>
-        <Typography fontSize="1.6rem" fontWeight={"bold"}>
+        <Typography variant="body1" fontWeight={"bold"}>
           {t("appointments.book.appointment.modal.change.week")}
         </Typography>
         <ArrowButton isVisible={canGoNext} onClick={handleNextWeek}>
@@ -112,7 +112,7 @@ export const BookAppointmentWeekSlotsMobile: FC = () => {
             onChange={handleVideoCallCheckboxChange}
             checked={isVideoCallOptionChecked}
           />
-          <Typography color="text.primary" fontSize="1.4rem">
+          <Typography color="text.primary" variant="body2">
             {t("appointments.book.appointment.modal.video.call.option")}
           </Typography>
         </Box>

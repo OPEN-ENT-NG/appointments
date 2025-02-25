@@ -70,7 +70,7 @@ export const GridModal: FC = () => {
             </Box>
             {modalType === GRID_MODAL_TYPE.EDIT && (
               <Alert severity="info">
-                <Typography variant="body1">
+                <Typography variant="body2">
                   {t("appointments.modify.grid.alert")}
                 </Typography>
               </Alert>
