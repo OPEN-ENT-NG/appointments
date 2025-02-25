@@ -7,9 +7,9 @@ import {
   common,
   Typography,
 } from "@cgi-learning-hub/ui";
-import CloseIcon from "@mui/icons-material/Close";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
+import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 import { useTranslation } from "react-i18next";
 import { v4 as uuidv4 } from "uuid";
 
@@ -60,7 +60,7 @@ export const BookAppointmentWeekSlotsDesktop: FC = () => {
     <Box sx={globalContainerStyle}>
       <Box sx={{ filter: "blur(0)" }}>
         <ArrowButton isVisible={canGoPrev} onClick={handlePreviousWeek}>
-          <KeyboardArrowLeftIcon />
+          <KeyboardArrowLeftRoundedIcon />
         </ArrowButton>
       </Box>
       <Box sx={containerStyle}>
@@ -86,7 +86,7 @@ export const BookAppointmentWeekSlotsDesktop: FC = () => {
               <Box sx={noSlotsWrapperStyle}>
                 {currentSlots.map(() => (
                   <Box sx={noSlotsStyle}>
-                    <CloseIcon />
+                    <CloseRoundedIcon />
                   </Box>
                 ))}
               </Box>
@@ -104,7 +104,7 @@ export const BookAppointmentWeekSlotsDesktop: FC = () => {
                   <Typography variant="body2" color="primary" fontWeight="bold">
                     {nextAvailableTimeSlot.format("dddd D MMMM")}
                   </Typography>
-                  <KeyboardArrowRightIcon sx={{ color: common.black }} />
+                  <KeyboardArrowRightRoundedIcon sx={{ color: common.black }} />
                 </Button>
               </GoToNextTimeSlot>
             </>
@@ -153,7 +153,7 @@ export const BookAppointmentWeekSlotsDesktop: FC = () => {
       </Box>
       <Box sx={{ filter: "blur(0)" }}>
         <ArrowButton isVisible={canGoNext} onClick={handleNextWeek}>
-          <KeyboardArrowRightIcon />
+          <KeyboardArrowRightRoundedIcon />
         </ArrowButton>
       </Box>
     </Box>

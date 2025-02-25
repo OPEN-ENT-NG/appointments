@@ -209,7 +209,7 @@ export const FirstPageGridModal: FC = () => {
           </Typography>
         </Box>
       </Box>
-      <FileList files={files} onDelete={handleDeleteFile} />
+      {!!files.length && <FileList files={files} onDelete={handleDeleteFile} />}
     </Box>
   );
 };
