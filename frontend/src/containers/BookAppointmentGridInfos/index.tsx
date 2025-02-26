@@ -79,7 +79,7 @@ export const BookAppointmentGridInfos: FC<BookAppointmentGridInfosProps> = ({
             <Select
               variant="standard"
               value={selectedGrid?.id ?? ""}
-              onChange={(e) => handleGridChange(e.target.value as string)}
+              onChange={(e) => handleGridChange(e.target.value as number)}
             >
               {grids?.map((grid) => (
                 <MenuItem key={grid.id} value={grid.id}>

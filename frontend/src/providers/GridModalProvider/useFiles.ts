@@ -19,13 +19,14 @@ export const useFiles = () => {
   const { create } = useWorkspaceFile();
 
   const handleAddFile = (event: ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.files) return;
+    if (!event.target.files) return (event.target.value = "");
     const newFiles = Array.from(event.target.files).reduce(
       (acc: MyCustomFile[], file) => {
         if (
           !ALLOWED_DOCUMENT_EXTENSIONS.some((ext) => file.name.endsWith(ext))
         ) {
           toast.error(t("appointments.not.allowed.extension"));
+          event.target.value = "";
           return acc;
         }
         acc.push(createMyCustomFile(file));
@@ -37,10 +38,11 @@ export const useFiles = () => {
     const newFilesSize = newFiles.reduce((acc, file) => acc + file.size, 0);
     if (totalFilesSize + newFilesSize > MAX_TOTAL_FILE_SIZE_PER_GRID_O) {
       toast.error(t("appointments.total.size.files.exceeded"));
-      return;
+      return (event.target.value = "");
     }
     setTotalFilesSize(totalFilesSize + newFilesSize);
-    return setFiles((prev) => [...prev, ...newFiles]);
+    setFiles((prev) => [...prev, ...newFiles]);
+    return (event.target.value = "");
   };
 
   const handleDeleteFile = (file: MyCustomFile) => {
