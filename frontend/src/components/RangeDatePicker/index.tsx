@@ -1,4 +1,4 @@
-import { FC, useMemo } from "react";
+import { FC, useEffect, useMemo } from "react";
 
 import { Box } from "@cgi-learning-hub/ui";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -32,6 +32,12 @@ export const RangeDatePicker: FC = () => {
     [isSubmitButtonLoading, modalType],
   );
 
+  useEffect(() => {
+    if (startDate?.add(1, "year").isBefore(endDate)) {
+      handleEndDateChange(null);
+    }
+  }, [endDate, handleEndDateChange, startDate]);
+
   return (
     <Box sx={boxStyle}>
       <Box sx={datePickerStyle}>
@@ -60,8 +66,9 @@ export const RangeDatePicker: FC = () => {
           value={endDate}
           onChange={handleEndDateChange}
           minDate={startDate}
+          maxDate={startDate?.add(1, "year")}
           shouldDisableDate={shouldDisableEndDate}
-          disabled={disabled}
+          disabled={disabled || !startDate}
           slotProps={{
             day: { sx: { fontSize: "1.2rem" } },
             textField: {
