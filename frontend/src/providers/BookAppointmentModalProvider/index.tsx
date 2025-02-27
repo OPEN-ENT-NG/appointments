@@ -200,10 +200,10 @@ export const BookAppointmentModalProvider: FC<
   }, [currentDay, isGridTimeSlotsFetching]);
 
   useEffect(() => {
-    if (grids && !selectedGrid) {
+    if (grids) {
       setSelectedGrid(grids[0]);
     }
-  }, [grids, selectedGrid]);
+  }, [grids, isModalOpen]);
 
   useEffect(() => {
     if (currentDay.isSame(dayjs(), WEEK)) {
