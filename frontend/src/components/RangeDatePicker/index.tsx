@@ -6,6 +6,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { useTranslation } from "react-i18next";
 
 import { APPOINTMENTS } from "~/core/constants";
+import { YEAR } from "~/core/dayjs.const";
 import { useGridModal } from "~/providers/GridModalProvider";
 import { GRID_MODAL_TYPE } from "~/providers/GridModalProvider/enum";
 import { boxStyle, datePickerStyle, removeIconStyle } from "./style";
@@ -33,7 +34,7 @@ export const RangeDatePicker: FC = () => {
   );
 
   useEffect(() => {
-    if (startDate?.add(1, "year").isBefore(endDate)) {
+    if (startDate?.add(1, YEAR).isBefore(endDate)) {
       handleEndDateChange(null);
     }
   }, [endDate, handleEndDateChange, startDate]);
@@ -66,7 +67,7 @@ export const RangeDatePicker: FC = () => {
           value={endDate}
           onChange={handleEndDateChange}
           minDate={startDate}
-          maxDate={startDate?.add(1, "year")}
+          maxDate={startDate?.add(1, YEAR)}
           shouldDisableDate={shouldDisableEndDate}
           disabled={disabled || !startDate}
           slotProps={{
