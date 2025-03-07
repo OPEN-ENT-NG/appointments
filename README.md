@@ -2,10 +2,10 @@
 
 ## À propos de l'application appointments
 
-- Licence : [AGPL v3](http://www.gnu.org/licenses/agpl.txt) - Copyright CGI
+- Licence : [AGPL v3](http://www.gnu.org/licenses/agpl.txt) - Copyright 91, ENT77, HDF, Paris
 - Développeur(s) : CGI
 - Mainteneur(s) : CGI
-- Financeur(s) : CGI
+- Financeur(s) : 91, ENT77, HDF, Paris
 - Description : Module permettant de prendre des rendez-vous en fonction de grilles de disponibilité
 
 ## Présentation du module
