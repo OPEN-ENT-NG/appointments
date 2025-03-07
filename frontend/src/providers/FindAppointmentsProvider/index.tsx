@@ -8,6 +8,7 @@ import {
   useState,
 } from "react";
 
+import { MIN_NB_CHAR_BEFORE_SEARCH_FOR_ADML } from "~/core/constants";
 import { useGetCommunicationUsersQuery } from "~/services/api/CommunicationService";
 import { UserCardInfos } from "~/services/api/CommunicationService/types";
 import { useGlobal } from "../GlobalProvider";
@@ -48,7 +49,12 @@ export const FindAppointmentsProvider: FC<FindAppointmentsProviderProps> = ({
       page,
       limit: NUMBER_MORE_USERS,
     },
-    { skip: !search || (isConnectedUserADML && search.length < 3) },
+    {
+      skip:
+        !search ||
+        (isConnectedUserADML &&
+          search.length < MIN_NB_CHAR_BEFORE_SEARCH_FOR_ADML),
+    },
   );
 
   useEffect(() => {
