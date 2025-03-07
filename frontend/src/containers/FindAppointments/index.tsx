@@ -8,6 +8,7 @@ import { UserCard } from "~/components/UserCard";
 import { APPOINTMENTS } from "~/core/constants";
 import { useBookAppointmentModal } from "~/providers/BookAppointmentModalProvider";
 import { useFindAppointments } from "~/providers/FindAppointmentsProvider";
+import { useGlobal } from "~/providers/GlobalProvider";
 import { BookAppointmentModal } from "../BookAppointmentModal";
 import {
   containerStyle,
@@ -31,6 +32,7 @@ export const FindAppointments: FC = () => {
   const { t } = useTranslation(APPOINTMENTS);
   const observerRef = useRef<IntersectionObserver | null>(null);
   const targetRef = useRef<HTMLDivElement | null>(null);
+  const { isConnectedUserADML } = useGlobal();
 
   const handleObserver = useCallback(
     (entries: IntersectionObserverEntry[]) => {
@@ -74,7 +76,7 @@ export const FindAppointments: FC = () => {
         {!users.length && !isFetching && (
           <Box sx={emptyStateBoxStyle}>
             <Typography variant="body1" sx={emptyStateTextStyle}>
-              {!search
+              {!search || (isConnectedUserADML && search.length < 3)
                 ? t("appointments.find.empty.state.search.bar")
                 : t("appointments.find.empty.state.no.user")}
             </Typography>
