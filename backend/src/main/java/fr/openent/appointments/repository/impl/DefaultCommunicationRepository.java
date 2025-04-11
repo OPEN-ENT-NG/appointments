@@ -59,24 +59,24 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
                 "WITH collect(s.externalId) AS structuresExternalIds " +
 
                 "MATCH (u:User) " +
-                "WHERE u.id IN {usersIds} OR " +
-                "EXISTS {" +
-                    "MATCH (g:Group)<-[:IN]-(u) " +
-                    "WHERE g.id IN {groupsIds}" +
-                "} " +
+                "OPTIONAL MATCH (g:Group)<-[:IN]-(u) " +
+                "WHERE u.id IN {usersIds} OR g.id IN {groupsIds} " +
 
                 "WITH DISTINCT u, structuresExternalIds " +
 
                 "MATCH (u)-[:IN]->(g:Group)-[:AUTHORIZED]->(r:Role)-[:AUTHORIZE]->(wa:WorkflowAction) " +
-                "WHERE wa.name = fr.openent.appointments.controller.MainController|initManageRights " +
+                "WHERE wa.name = \"fr.openent.appointments.controller.MainController|initManageRights\" " +
                 "WITH u, structuresExternalIds " +
 
                 "OPTIONAL MATCH (u)-[:USERBOOK]->(ub:UserBook) " +
                 "WITH u, ub, [func IN u.functions WHERE split(func, \"$\")[0] IN structuresExternalIds] AS filteredFunctions " +
                 "RETURN u.id AS id, u.displayName AS displayName, filteredFunctions AS functions, ub.picture AS picture, u.profiles as profiles;";
-        JsonObject params = new JsonObject().put(CAMEL_GROUPS_IDS, groupsIds).put(CAMEL_STRUCTURES_IDS, structuresIds);
+        JsonObject params = new JsonObject()
+                .put(CAMEL_GROUPS_IDS, groupsIds)
+                .put(CAMEL_STRUCTURES_IDS, structuresIds)
+                .put(CAMEL_USERS_IDS, usersIds);
 
-        String errorMessage = String.format("[Appointments@DefaultCommunicationRepository::getUsersFromGroupsIds] Fail to retrieve users infos from groups ids %s : ", groupsIds);
+        String errorMessage = String.format("[Appointments@DefaultCommunicationRepository::getUsersFromGroupsIdsAndUsersIds] Fail to retrieve users infos from groups ids %s : ", groupsIds);
         neo4j.execute(query, params, Neo4jResult.validResultHandler(IModelHelper.resultToIModel(promise, NeoUser.class, errorMessage)));
 
         return promise.future();
