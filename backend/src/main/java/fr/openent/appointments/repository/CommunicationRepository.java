@@ -28,14 +28,21 @@ public interface CommunicationRepository {
     Future<List<NeoGroup>> getGroupsICanCommunicateWith(String userId);
 
     /**
-     * Retrieves all users matching the given groups or users IDs.
+     * Retrieves all users matching the given groups IDs.
      *
      * @param groupsIds The list of group IDs to filter users.
-     * @param usersIds The list of user IDs to filter users.
-     * @param structureExternalIds The list of structure external IDs to filter users.
      * @return A Future containing a {@link List} of {@link NeoUser}.
      */
-    Future<List<NeoUser>> getUsersFromGroupsIdsAndUsersIds(List<String> groupsIds, List<String> usersIds, List<String> structureExternalIds);
+    Future<List<NeoUser>> getUsersFromGroupsIds(List<String> groupsIds);
+
+    /**
+     * Retrieves all users matching the given groups or users IDs.
+     *
+     * @param usersIds The list of user IDs to filter users.
+     * @param structuresIds The list of structure external IDs to filter users.
+     * @return A Future containing a {@link List} of {@link NeoUser}.
+     */
+    public Future<List<NeoUser>> getUsersFromUsersIdsWithGoodRight(List<String> usersIds, List<String> structuresIds);
 
     /**
      * Retrieves NeoUser from its ID.

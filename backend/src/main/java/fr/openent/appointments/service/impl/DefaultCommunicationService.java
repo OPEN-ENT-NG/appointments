@@ -62,22 +62,24 @@ public class DefaultCommunicationService implements CommunicationService {
     public Future<List<UserAppointment>> getUsers(UserInfos userInfos, String search, Long page, Long limit) {
         Promise<List<UserAppointment>> promise = Promise.promise();
 
-        List<String> groupsIdsICanCommunicateWith = new ArrayList<>();
-        List<String> usersIdsWhoSharedAGridWithMe = new ArrayList<>();
+        List<String> allUsersIds = new ArrayList<>();
 
         communicationRepository.getGroupsICanCommunicateWith(userInfos.getUserId())
-            .compose(groups -> {
-                groupsIdsICanCommunicateWith.addAll(groups.stream()
+            .compose(neoGroups -> {
+                List<String> groupsIdsICanCommunicateWith = neoGroups.stream()
                         .map(NeoGroup::getId)
+                        .collect(Collectors.toList());
+                return communicationRepository.getUsersFromGroupsIds(groupsIdsICanCommunicateWith);
+            })
+            .compose(neoUsers -> {
+                allUsersIds.addAll(neoUsers.stream()
+                        .map(NeoUser::getId)
                         .collect(Collectors.toList()));
                 return gridService.getUserIdsWhoSharedAGridWithMe(userInfos);
             })
             .compose(usersIds -> {
-                usersIdsWhoSharedAGridWithMe.addAll(usersIds);
-                return communicationRepository.getUsersFromGroupsIdsAndUsersIds(
-                        groupsIdsICanCommunicateWith,
-                        usersIdsWhoSharedAGridWithMe,
-                        userInfos.getStructures());
+                allUsersIds.addAll(usersIds);
+                return communicationRepository.getUsersFromUsersIdsWithGoodRight(allUsersIds, userInfos.getStructures());
             })
             .compose(neoUsers -> {
                 List<NeoUser> filteredUsers = filterNeoUsersBySearchAndPagination(neoUsers, search, page, limit);

@@ -50,33 +50,60 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
     }
 
     @Override
-    public Future<List<NeoUser>> getUsersFromGroupsIdsAndUsersIds(List<String> groupsIds, List<String> usersIds, List<String> structuresIds) {
+    public Future<List<NeoUser>> getUsersFromGroupsIds(List<String> groupsIds) {
         Promise<List<NeoUser>> promise = Promise.promise();
 
         String query =
-                "MATCH (s:Structure) " +
-                "WHERE s.id IN {structuresIds} " +
-                "WITH collect(s.externalId) AS structuresExternalIds " +
+                "MATCH (g:Group)<-[:IN]-(u:User) " +
+                        "WHERE g.id IN {groupsIds} " +
+                        "RETURN DISTINCT u.id AS id;";
 
-                "MATCH (u:User) " +
-                "OPTIONAL MATCH (g:Group)<-[:IN]-(u) " +
-                "WHERE u.id IN {usersIds} OR g.id IN {groupsIds} " +
+        JsonObject params = new JsonObject().put(CAMEL_GROUPS_IDS, new JsonArray(groupsIds));
 
-                "WITH DISTINCT u, structuresExternalIds " +
+        String errorMessage = String.format("[Appointments@DefaultCommunicationRepository::getUsersIdsFromGroupsIds] Fail to retrieve users ids from groups ids %s : ", groupsIds);
 
-                "MATCH (u)-[:IN]->(g:Group)-[:AUTHORIZED]->(r:Role)-[:AUTHORIZE]->(wa:WorkflowAction) " +
+        neo4j.execute(query, params, Neo4jResult.validResultHandler(IModelHelper.resultToIModel(promise, NeoUser.class, errorMessage)));
+
+        return promise.future();
+    }
+
+    @Override
+    public Future<List<NeoUser>> getUsersFromUsersIdsWithGoodRight(List<String> usersIds, List<String> structuresIds) {
+        Promise<List<NeoUser>> promise = Promise.promise();
+
+        String query =
+            "MATCH (u:User) " +
+                "WHERE u.id IN {usersIds} " +
+
+            "WITH DISTINCT u " +
+
+            // Droits via WorkflowAction
+            "MATCH (u)-[:IN]->(g:Group)-[:AUTHORIZED]->(r:Role)-[:AUTHORIZE]->(wa:WorkflowAction) " +
                 "WHERE wa.name = \"fr.openent.appointments.controller.MainController|initManageRights\" " +
-                "WITH u, structuresExternalIds " +
+                "WITH DISTINCT u " +
 
-                "OPTIONAL MATCH (u)-[:USERBOOK]->(ub:UserBook) " +
-                "WITH u, ub, [func IN u.functions WHERE split(func, \"$\")[0] IN structuresExternalIds] AS filteredFunctions " +
-                "RETURN u.id AS id, u.displayName AS displayName, filteredFunctions AS functions, ub.picture AS picture, u.profiles as profiles;";
+            // UserBook (optionnel)
+            "OPTIONAL MATCH (u)-[:USERBOOK]->(ub:UserBook) " +
+            "WITH u, ub " +
+
+            // Structures -> récupération des externalIds
+            "MATCH (s:Structure) " +
+                "WHERE s.id IN {structuresIds} " +
+                "WITH collect(s.externalId) AS structuresExternalIds, u, ub " +
+
+            // Retour des données
+            "RETURN " +
+                "u.id AS id, " +
+                "u.displayName AS displayName, " +
+                "[func IN u.functions WHERE split(func, \"$\")[0] IN structuresExternalIds] AS functions, " +
+                "ub.picture AS picture, " +
+                "u.profiles AS profiles;";
+
         JsonObject params = new JsonObject()
-                .put(CAMEL_GROUPS_IDS, groupsIds)
                 .put(CAMEL_STRUCTURES_IDS, structuresIds)
                 .put(CAMEL_USERS_IDS, usersIds);
 
-        String errorMessage = String.format("[Appointments@DefaultCommunicationRepository::getUsersFromGroupsIdsAndUsersIds] Fail to retrieve users infos from groups ids %s : ", groupsIds);
+        String errorMessage = String.format("[Appointments@DefaultCommunicationRepository::getUsersFromUsersIdsWithGoodRight] Fail to retrieve users from usersIds %s : ", usersIds);
         neo4j.execute(query, params, Neo4jResult.validResultHandler(IModelHelper.resultToIModel(promise, NeoUser.class, errorMessage)));
 
         return promise.future();
