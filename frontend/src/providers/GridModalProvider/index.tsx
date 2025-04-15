@@ -199,6 +199,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
     const newErrors = {
       name: blurGridModalInputs.newNameError,
       location: blurGridModalInputs.newLocationError,
+      public: blurGridModalInputs.newPublicError,
       videoCallLink: blurGridModalInputs.newVideoCallLinkError,
       validityPeriod: "",
       weekSlots: "",
