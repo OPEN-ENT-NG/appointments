@@ -54,9 +54,9 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
         Promise<List<NeoUser>> promise = Promise.promise();
 
         String query =
-                "MATCH (g:Group)<-[:IN]-(u:User) " +
-                        "WHERE g.id IN {groupsIds} " +
-                        "RETURN DISTINCT u.id AS id;";
+            "UNWIND {groupsIds} AS groupId " +
+            "MATCH (g:Group {id: groupId})<-[:IN]-(u:User) " +
+            "RETURN DISTINCT u.id AS id ";
 
         JsonObject params = new JsonObject().put(CAMEL_GROUPS_IDS, new JsonArray(groupsIds));
 
@@ -72,8 +72,8 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
         Promise<List<NeoUser>> promise = Promise.promise();
 
         String query =
-            "MATCH (u:User) " +
-                "WHERE u.id IN {usersIds} " +
+            "UNWIND {usersIds} AS userId " +
+            "MATCH (u:User {id: userId}) " +
 
             "WITH DISTINCT u " +
 
