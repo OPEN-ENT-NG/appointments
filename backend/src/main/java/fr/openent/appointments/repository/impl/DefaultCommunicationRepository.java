@@ -149,8 +149,8 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
                 "MATCH (u:User {id: {userId}})-[:IN]->(ug:Group) " +
                 "MATCH (g:Group)<-[:COMMUNIQUE]-(ug) "+
                 "WHERE exists(g.id) " +
-                "OPTIONAL MATCH (sg:Structure)<-[:DEPENDS]-(g) " +
-                "OPTIONAL MATCH (sc:Structure)<-[:BELONGS]-(c:Class)<-[:DEPENDS]-(g) " +
+                "OPTIONAL MATCH (sg:Structure)<-[:DEPENDS]-(ug) " +
+                "OPTIONAL MATCH (sc:Structure)<-[:BELONGS]-(c:Class)<-[:DEPENDS]-(ug) " +
                 "WITH COALESCE(sg, sc) as s, c, g " +
                 (structureId != null ? "WHERE s.id = {structureId} " : "") +
                 "WITH s, c, g " +
