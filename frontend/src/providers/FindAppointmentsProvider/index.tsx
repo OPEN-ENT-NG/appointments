@@ -8,6 +8,8 @@ import {
   useState,
 } from "react";
 
+import debounce from "lodash/debounce";
+
 import { MIN_NB_CHAR_BEFORE_SEARCH_FOR_ADML } from "~/core/constants";
 import { useGetCommunicationUsersQuery } from "~/services/api/CommunicationService";
 import { UserCardInfos } from "~/services/api/CommunicationService/types";
@@ -81,13 +83,13 @@ export const FindAppointmentsProvider: FC<FindAppointmentsProviderProps> = ({
   }, []);
 
   const handleSearch = useCallback(
-    (newSearch: string) => {
+    debounce((newSearch: string) => {
       refreshSearch();
       setSearch(newSearch);
-    },
-    [refreshSearch],
+    }, 300),
+    [refreshSearch]
   );
-
+  
   const resetSearch = useCallback(() => {
     handleSearch("");
   }, [handleSearch]);
