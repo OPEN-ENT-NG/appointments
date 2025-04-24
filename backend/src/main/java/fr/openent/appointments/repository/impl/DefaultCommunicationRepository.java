@@ -48,9 +48,11 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
     public Future<List<NeoGroup>> getGroupsICanCommunicateWithGoodRights(String userId) {
         Promise<List<NeoGroup>> promise = Promise.promise();
 
-        String query = getCommunicationWithGoodRightsQuery();
+        String query = getQueryGroupsICanCommunicateWithFilterByRight();
         JsonObject params = new JsonObject()
-                .put(CAMEL_USER_ID, userId);
+                .put(CAMEL_USER_ID, userId)
+                .put(CAMEL_RIGHT, "fr.openent.appointments.controller.MainController|initManageRights");
+
 
         String errorMessage = "[Appointments@DefaultCommunicationRepository::getGroupsICanCommunicateWithGoodRights] Fail to retrieve visible groups : ";
         neo4j.execute(query, params, Neo4jResult.validResultHandler(IModelHelper.resultToIModel(promise, NeoGroup.class, errorMessage)));
@@ -163,10 +165,10 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
                 "   g.name as name;";
     }
 
-    private String getCommunicationWithGoodRightsQuery() {
+    private String getQueryGroupsICanCommunicateWithFilterByRight() {
         return
             "MATCH (g:Group)-[:AUTHORIZED]->(:Role)-[:AUTHORIZE]->(wa:WorkflowAction) " +
-            "WHERE wa.name = 'fr.openent.appointments.controller.MainController|initManageRights' " +
+            "WHERE wa.name = {right} " +
             "AND EXISTS(g.id) " +
             "MATCH (u:User {id: {userId}}) " +
             "OPTIONAL MATCH (u)-[:COMMUNIQUE]->(g) " +

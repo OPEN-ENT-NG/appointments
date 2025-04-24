@@ -1,5 +1,6 @@
 package fr.openent.appointments.service.impl;
 
+import fr.openent.appointments.controller.MainController;
 import fr.openent.appointments.enums.GridState;
 import fr.openent.appointments.helper.LogHelper;
 import fr.openent.appointments.model.UserAppointment;
