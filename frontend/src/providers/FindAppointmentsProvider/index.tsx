@@ -87,9 +87,9 @@ export const FindAppointmentsProvider: FC<FindAppointmentsProviderProps> = ({
       refreshSearch();
       setSearch(newSearch);
     }, 300),
-    [refreshSearch]
+    [refreshSearch],
   );
-  
+
   const resetSearch = useCallback(() => {
     handleSearch("");
   }, [handleSearch]);
