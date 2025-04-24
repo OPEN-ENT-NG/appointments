@@ -64,34 +64,25 @@ public class DefaultCommunicationService implements CommunicationService {
 
         List<String> allUsersIds = new ArrayList<>();
 
-        LogHelper.logInfo(this, "getUsers", "before getGroupsICanCommunicateWith");
         communicationRepository.getGroupsICanCommunicateWithGoodRights(userInfos.getUserId())
             .compose(neoGroups -> {
-                LogHelper.logInfo(this, "getUsers", "after getGroupsICanCommunicateWith");
                 List<String> groupsIdsICanCommunicateWith = neoGroups.stream()
                         .map(NeoGroup::getId)
                         .collect(Collectors.toList());
-                LogHelper.logInfo(this, "getUsers", "before getUsersFromGroupsIds");
                 return communicationRepository.getUsersFromGroupsIds(groupsIdsICanCommunicateWith);
             })
             .compose(neoUsers -> {
-                LogHelper.logInfo(this, "getUsers", "after getUsersFromGroupsIds");
                 allUsersIds.addAll(neoUsers.stream()
                         .map(NeoUser::getId)
                         .collect(Collectors.toList()));
-                LogHelper.logInfo(this, "getUsers", "before getUserIdsWhoSharedAGridWithMe");
                 return gridService.getUserIdsWhoSharedAGridWithMe(userInfos);
             })
             .compose(usersIds -> {
-                LogHelper.logInfo(this, "getUsers", "after getUserIdsWhoSharedAGridWithMe");
                 allUsersIds.addAll(usersIds);
-                LogHelper.logInfo(this, "getUsers", "before getUsersFromUsersIdsWithGoodRight");
                 return communicationRepository.getUsersFromUsersIdsWithGoodRight(allUsersIds, userInfos.getStructures());
             })
             .compose(neoUsers -> {
-                LogHelper.logInfo(this, "getUsers", "after getUsersFromUsersIdsWithGoodRight");
                 List<NeoUser> filteredUsers = filterNeoUsersBySearchAndPagination(neoUsers, search, page, limit);
-                LogHelper.logInfo(this, "getUsers", "before getGridsAndBuildListUserAppointementResponse");
                 return getGridsAndBuildListUserAppointementResponse(userInfos, filteredUsers);
             })
             .onSuccess(promise::complete)
