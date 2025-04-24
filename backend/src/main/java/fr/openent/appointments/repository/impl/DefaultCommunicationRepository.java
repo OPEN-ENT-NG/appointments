@@ -72,7 +72,20 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
         Promise<List<NeoUser>> promise = Promise.promise();
 
         String query =
+            "MATCH (s:Structure) " +
+            "WHERE s.id IN {structuresIds} " +
+            "WITH collect(s.externalId) AS structuresExternalIds " +
             "UNWIND {usersIds} AS userId " +
+            "MATCH (u:User {id: userId})-[:IN]->(:Group)-[:AUTHORIZED]->(:Role)-[:AUTHORIZE]->(wa:WorkflowAction) " +
+            "WHERE wa.name = 'fr.openent.appointments.controller.MainController|initManageRights' " +
+            "OPTIONAL MATCH (u)-[:USERBOOK]->(ub:UserBook) " +
+            "RETURN " +
+            "u.id AS id, " +
+            "u.displayName AS displayName, " +
+            "[func IN u.functions WHERE split(func, '$')[0] IN structuresExternalIds] AS functions, " +
+            "ub.picture AS picture, " +
+            "u.profiles AS profiles";
+           /* "UNWIND {usersIds} AS userId " +
             "MATCH (u:User {id: userId}) " +
 
             "WITH DISTINCT u " +
@@ -97,7 +110,7 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
                 "u.displayName AS displayName, " +
                 "[func IN u.functions WHERE split(func, \"$\")[0] IN structuresExternalIds] AS functions, " +
                 "ub.picture AS picture, " +
-                "u.profiles AS profiles;";
+                "u.profiles AS profiles;";*/
 
         JsonObject params = new JsonObject()
                 .put(CAMEL_STRUCTURES_IDS, structuresIds)
