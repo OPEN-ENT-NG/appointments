@@ -77,7 +77,7 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
     }
 
     @Override
-    public Future<List<NeoUser>> getUsersFromUsersIdsWithGoodRight(List<String> usersIds, List<String> structuresIds) {
+    public Future<List<NeoUser>> getUsersFromUsersIds(List<String> usersIds, List<String> structuresIds) {
         Promise<List<NeoUser>> promise = Promise.promise();
 
         String query =

@@ -79,7 +79,7 @@ public class DefaultCommunicationService implements CommunicationService {
             })
             .compose(usersIds -> {
                 allUsersIds.addAll(usersIds);
-                return communicationRepository.getUsersFromUsersIdsWithGoodRight(allUsersIds, userInfos.getStructures());
+                return communicationRepository.getUsersFromUsersIds(allUsersIds, userInfos.getStructures());
             })
             .compose(neoUsers -> {
                 List<NeoUser> filteredUsers = filterNeoUsersBySearchAndPagination(neoUsers, search, page, limit);

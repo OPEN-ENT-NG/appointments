@@ -42,7 +42,7 @@ public interface CommunicationRepository {
      * @param structuresIds The list of structure external IDs to filter users.
      * @return A Future containing a {@link List} of {@link NeoUser}.
      */
-    public Future<List<NeoUser>> getUsersFromUsersIdsWithGoodRight(List<String> usersIds, List<String> structuresIds);
+    public Future<List<NeoUser>> getUsersFromUsersIds(List<String> usersIds, List<String> structuresIds);
 
     /**
      * Retrieves NeoUser from its ID.
