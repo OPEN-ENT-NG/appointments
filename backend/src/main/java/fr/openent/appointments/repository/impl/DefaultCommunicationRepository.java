@@ -33,7 +33,7 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
     public Future<List<NeoGroup>> getGroupsICanCommunicateWith(String userId, String structureId) {
         Promise<List<NeoGroup>> promise = Promise.promise();
 
-        String query = getCommunicationQuery(structureId);
+        String query = getCommunicationQuery();
         JsonObject params = new JsonObject()
                 .put(CAMEL_USER_ID, userId)
                 .put(CAMEL_STRUCTURE_ID, structureId);
@@ -45,8 +45,17 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
     }
 
     @Override
-    public Future<List<NeoGroup>> getGroupsICanCommunicateWith(String userId) {
-        return getGroupsICanCommunicateWith(userId, null);
+    public Future<List<NeoGroup>> getGroupsICanCommunicateWithGoodRights(String userId) {
+        Promise<List<NeoGroup>> promise = Promise.promise();
+
+        String query = getCommunicationWithGoodRightsQuery();
+        JsonObject params = new JsonObject()
+                .put(CAMEL_USER_ID, userId);
+
+        String errorMessage = "[Appointments@DefaultCommunicationRepository::getGroupsICanCommunicateWithGoodRights] Fail to retrieve visible groups : ";
+        neo4j.execute(query, params, Neo4jResult.validResultHandler(IModelHelper.resultToIModel(promise, NeoGroup.class, errorMessage)));
+
+        return promise.future();
     }
 
     @Override
@@ -72,28 +81,10 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
         Promise<List<NeoUser>> promise = Promise.promise();
 
         String query =
-            "MATCH (s:Structure) " +
-            "WHERE s.id IN {structuresIds} " +
-            "WITH collect(s.externalId) AS structuresExternalIds " +
             "UNWIND {usersIds} AS userId " +
-            "MATCH (u:User {id: userId})-[:IN]->(:Group)-[:AUTHORIZED]->(:Role)-[:AUTHORIZE]->(wa:WorkflowAction) " +
-            "WHERE wa.name = 'fr.openent.appointments.controller.MainController|initManageRights' " +
-            "OPTIONAL MATCH (u)-[:USERBOOK]->(ub:UserBook) " +
-            "RETURN " +
-            "u.id AS id, " +
-            "u.displayName AS displayName, " +
-            "[func IN u.functions WHERE split(func, '$')[0] IN structuresExternalIds] AS functions, " +
-            "ub.picture AS picture, " +
-            "u.profiles AS profiles";
-           /* "UNWIND {usersIds} AS userId " +
             "MATCH (u:User {id: userId}) " +
 
             "WITH DISTINCT u " +
-
-            // Droits via WorkflowAction
-            "MATCH (u)-[:IN]->(g:Group)-[:AUTHORIZED]->(r:Role)-[:AUTHORIZE]->(wa:WorkflowAction) " +
-                "WHERE wa.name = \"fr.openent.appointments.controller.MainController|initManageRights\" " +
-                "WITH DISTINCT u " +
 
             // UserBook (optionnel)
             "OPTIONAL MATCH (u)-[:USERBOOK]->(ub:UserBook) " +
@@ -110,7 +101,7 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
                 "u.displayName AS displayName, " +
                 "[func IN u.functions WHERE split(func, \"$\")[0] IN structuresExternalIds] AS functions, " +
                 "ub.picture AS picture, " +
-                "u.profiles AS profiles;";*/
+                "u.profiles AS profiles;";
 
         JsonObject params = new JsonObject()
                 .put(CAMEL_STRUCTURES_IDS, structuresIds)
@@ -143,7 +134,7 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
         return promise.future();
     }
 
-    private String getCommunicationQuery(String structureId) {
+    private String getCommunicationQuery() {
         // first part of the query is to get groups i can (directly) communicate with
         // second part is to get groups i can communicate with through a group i belong to
         return "MATCH (g:Group)<-[:COMMUNIQUE]-(u:User { id: {userId}}) " +
@@ -151,7 +142,7 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
                 "OPTIONAL MATCH (sg:Structure)<-[:DEPENDS]-(g) " +
                 "OPTIONAL MATCH (sc:Structure)<-[:BELONGS]-(c:Class)<-[:DEPENDS]-(g) " +
                 "WITH COALESCE(sg, sc) as s, c, g " +
-                (structureId != null ? "WHERE s.id = {structureId} " : "") +
+                "WHERE s.id = {structureId} " +
                 "WITH s, c, g " +
                 "RETURN DISTINCT " +
                 "   g.id as id, " +
@@ -165,12 +156,25 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
                 "OPTIONAL MATCH (sg:Structure)<-[:DEPENDS]-(ug) " +
                 "OPTIONAL MATCH (sc:Structure)<-[:BELONGS]-(c:Class)<-[:DEPENDS]-(ug) " +
                 "WITH COALESCE(sg, sc) as s, c, g " +
-                (structureId != null ? "WHERE s.id = {structureId} " : "") +
+                "WHERE s.id = {structureId} " +
                 "WITH s, c, g " +
                 "RETURN DISTINCT " +
                 "   g.id as id, " +
                 "   g.name as name;";
     }
+
+    private String getCommunicationWithGoodRightsQuery() {
+        return
+            "MATCH (g:Group)-[:AUTHORIZED]->(:Role)-[:AUTHORIZE]->(wa:WorkflowAction) " +
+            "WHERE wa.name = 'fr.openent.appointments.controller.MainController|initManageRights' " +
+            "AND EXISTS(g.id) " +
+            "MATCH (u:User {id: {userId}}) " +
+            "OPTIONAL MATCH (u)-[:COMMUNIQUE]->(g) " +
+            "OPTIONAL MATCH (u)-[:IN]->(:Group)-[:COMMUNIQUE]->(g) " +
+            "WHERE g IS NOT NULL " +
+            "RETURN DISTINCT g.id AS id, g.name AS name";
+    }
+
 
     @Override
     public Future<Optional<NeoStructure>> getStructure(String structureId){

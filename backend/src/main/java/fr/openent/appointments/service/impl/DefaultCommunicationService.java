@@ -65,7 +65,7 @@ public class DefaultCommunicationService implements CommunicationService {
         List<String> allUsersIds = new ArrayList<>();
 
         LogHelper.logInfo(this, "getUsers", "before getGroupsICanCommunicateWith");
-        communicationRepository.getGroupsICanCommunicateWith(userInfos.getUserId())
+        communicationRepository.getGroupsICanCommunicateWithGoodRights(userInfos.getUserId())
             .compose(neoGroups -> {
                 LogHelper.logInfo(this, "getUsers", "after getGroupsICanCommunicateWith");
                 List<String> groupsIdsICanCommunicateWith = neoGroups.stream()
