@@ -169,7 +169,7 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
         return  "MATCH (me:User {id: {userId}}) " +
                 "MATCH (otherUser:User)-[:IN]->(:Group)-[:AUTHORIZED]->(:Role)-[:AUTHORIZE]->(:WorkflowAction {name: {right}}) " +
                 "WHERE " +
-                "(me)-[:IN]->(myGroup:Group)-[:COMMUNIQUE]->(:Group)<-[:IN]-(otherUser) " +
+                "(me)-[:IN]->(:Group)-[:COMMUNIQUE]->(:Group)<-[:IN]-(otherUser) " +
                 "OR " +
                 "(me)-[:COMMUNIQUE]->(:Group)<-[:IN]-(otherUser) " +
                 "RETURN DISTINCT otherUser.id AS id, otherUser.name AS name ";
