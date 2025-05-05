@@ -70,7 +70,6 @@ export const CustomMultiAutocomplete: FC = () => {
       disableCloseOnSelect
       getOptionLabel={getOptionLabel}
       isOptionEqualToValue={isOptionEqualToValue}
-      // filterOptions={filterOptions}
       value={selectedPublic}
       limitTags={3}
       onChange={(_, value) => handlePublicChange(value)}
