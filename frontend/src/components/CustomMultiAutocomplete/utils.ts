@@ -1,6 +1,7 @@
 import i18n from "~/i18n";
 import { Public } from "~/services/api/CommunicationService/types";
 import { SelectPossibility } from "./enums";
+import { createFilterOptions } from "@mui/material";
 
 export const isOptionEqualToValue = (
   option: Public | SelectPossibility,
@@ -23,3 +24,7 @@ export const getOptionLabel = (option: Public | SelectPossibility): string => {
   }
   return (option as Public).groupName;
 };
+
+export const filterOptions = createFilterOptions<Public>({
+  stringify: (option) => `${option.groupName} ${option.groupId}`,
+});

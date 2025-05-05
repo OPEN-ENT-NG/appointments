@@ -16,7 +16,7 @@ import { GRID_MODAL_TYPE } from "~/providers/GridModalProvider/enum";
 import { Public } from "~/services/api/CommunicationService/types";
 import { SelectPossibility } from "./enums";
 import { TextFieldStyle } from "./style";
-import { getOptionLabel, isOptionEqualToValue } from "./utils";
+import { filterOptions, getOptionLabel, isOptionEqualToValue } from "./utils";
 
 export const CustomMultiAutocomplete: FC = () => {
   const {
@@ -70,6 +70,7 @@ export const CustomMultiAutocomplete: FC = () => {
       disableCloseOnSelect
       getOptionLabel={getOptionLabel}
       isOptionEqualToValue={isOptionEqualToValue}
+      filterOptions={filterOptions}
       value={selectedPublic}
       limitTags={3}
       onChange={(_, value) => handlePublicChange(value)}
@@ -92,6 +93,7 @@ export const CustomMultiAutocomplete: FC = () => {
                     ? handleSelectAll
                     : handleDeselectAll
                 }
+                key={option.groupId}
               >
                 {showSelectAll ? selectAllLabel : deselectAllLabel}
               </li>
@@ -100,7 +102,7 @@ export const CustomMultiAutocomplete: FC = () => {
           );
         }
         return (
-          <li {...optionProps}>
+          <li {...optionProps} key={option.groupId}>
             <Checkbox
               icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
               checkedIcon={<CheckBoxIcon fontSize="small" />}
