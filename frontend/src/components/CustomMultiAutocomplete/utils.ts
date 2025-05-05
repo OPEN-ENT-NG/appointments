@@ -25,6 +25,6 @@ export const getOptionLabel = (option: Public | SelectPossibility): string => {
   return (option as Public).groupName;
 };
 
-export const filterOptions = createFilterOptions<Public>({
-  stringify: (option) => `${option.groupName} ${option.groupId}`,
-});
+// export const filterOptions = createFilterOptions<Public>({
+//   stringify: (option) => `${option.groupName} ${option.groupId}`,
+// });

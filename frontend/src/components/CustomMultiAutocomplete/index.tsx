@@ -16,7 +16,7 @@ import { GRID_MODAL_TYPE } from "~/providers/GridModalProvider/enum";
 import { Public } from "~/services/api/CommunicationService/types";
 import { SelectPossibility } from "./enums";
 import { TextFieldStyle } from "./style";
-import { filterOptions, getOptionLabel, isOptionEqualToValue } from "./utils";
+import { getOptionLabel, isOptionEqualToValue } from "./utils";
 
 export const CustomMultiAutocomplete: FC = () => {
   const {
@@ -70,7 +70,7 @@ export const CustomMultiAutocomplete: FC = () => {
       disableCloseOnSelect
       getOptionLabel={getOptionLabel}
       isOptionEqualToValue={isOptionEqualToValue}
-      filterOptions={filterOptions}
+      // filterOptions={filterOptions}
       value={selectedPublic}
       limitTags={3}
       onChange={(_, value) => handlePublicChange(value)}
