@@ -177,6 +177,16 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
                 "   g2.name as name;";
     }
 
+    private String getQueryUsersICanCommunicateWithFilterByRight() {
+        return  "MATCH (me:User {id: {userId}}) " +
+                "MATCH (otherUser:User)-[:IN]->(:Group)-[:AUTHORIZED]->(:Role)-[:AUTHORIZE]->(:WorkflowAction {name: {right}}) " +
+                "WHERE " +
+                "(me)-[:IN]->(:Group)-[:COMMUNIQUE]->(:Group)<-[:IN]-(otherUser) " +
+                "OR " +
+                "(me)-[:COMMUNIQUE]->(:Group)<-[:IN]-(otherUser) " +
+                "RETURN DISTINCT otherUser.id AS id, otherUser.name AS name ";
+    }
+
     @Override
     public Future<Optional<NeoStructure>> getStructure(String structureId){
         Promise<Optional<NeoStructure>> promise = Promise.promise();
