@@ -146,9 +146,15 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
                 "WITH COALESCE(sg, sc) as s, c, g " +
                 "WHERE s.id = {structureId} " +
                 "WITH s, c, g " +
+                "OPTIONAL MATCH (g2:Group)-[:DEPENDS]->(g) " +
+                "WITH g, g2 " +
                 "RETURN DISTINCT " +
                 "   g.id as id, " +
                 "   g.name as name " +
+                "UNION " +
+                "RETURN DISTINCT " +
+                "   g2.id as id, " +
+                "   g2.name as name " +
 
                 "UNION " +
 
@@ -160,21 +166,16 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
                 "WITH COALESCE(sg, sc) as s, c, g " +
                 "WHERE s.id = {structureId} " +
                 "WITH s, c, g " +
+                "OPTIONAL MATCH (g2:Group)-[:DEPENDS]->(g) " +
+                "WITH g, g2 " +
                 "RETURN DISTINCT " +
                 "   g.id as id, " +
-                "   g.name as name;";
+                "   g.name as name " +
+                "UNION " +
+                "RETURN DISTINCT " +
+                "   g2.id as id, " +
+                "   g2.name as name;";
     }
-
-    private String getQueryUsersICanCommunicateWithFilterByRight() {
-        return  "MATCH (me:User {id: {userId}}) " +
-                "MATCH (otherUser:User)-[:IN]->(:Group)-[:AUTHORIZED]->(:Role)-[:AUTHORIZE]->(:WorkflowAction {name: {right}}) " +
-                "WHERE " +
-                "(me)-[:IN]->(:Group)-[:COMMUNIQUE]->(:Group)<-[:IN]-(otherUser) " +
-                "OR " +
-                "(me)-[:COMMUNIQUE]->(:Group)<-[:IN]-(otherUser) " +
-                "RETURN DISTINCT otherUser.id AS id, otherUser.name AS name ";
-    }
-
 
     @Override
     public Future<Optional<NeoStructure>> getStructure(String structureId){
