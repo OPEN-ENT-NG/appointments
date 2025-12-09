@@ -115,7 +115,7 @@ export const BookAppointmentGridInfos: FC<BookAppointmentGridInfosProps> = ({
             <Typography variant="body2" color="text.primary">
               {t("appointments.slots") +
                 " : " +
-                DURATION_VALUES[duration ?? DURATION.FIFTEEN_MINUTES]
+                DURATION_VALUES[duration ?? DURATION.FIVE_MINUTES]
                   .displayValue}
             </Typography>
           </Box>
