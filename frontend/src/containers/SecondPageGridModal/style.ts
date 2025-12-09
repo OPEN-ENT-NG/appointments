@@ -21,4 +21,4 @@ export const periodicityItemStyle = {
 export const buttonGroupStyle = {
   display: "flex",
   flexWrap: "wrap",
-}
+};
