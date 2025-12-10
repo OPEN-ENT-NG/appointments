@@ -248,6 +248,31 @@ public class GridPayload implements IModel<GridPayload> {
         }
     }
 
+    public boolean canGenerateTimeSlots() {
+        if (beginDate == null || endDate == null || !beginDate.isBefore(endDate)) {
+            return false;
+        }
+
+        if (duration == null || duration.isZero()) {
+            return false;
+        }
+
+        if (dailySlots == null || dailySlots.isEmpty()) {
+            return false;
+        }
+
+        for (DailySlotPayload dailySlot : dailySlots) {
+            if (dailySlot == null || dailySlot.getDay() == null
+                    || dailySlot.getBeginTime() == null || dailySlot.getEndTime() == null
+                    || !dailySlot.getBeginTime().isBefore(dailySlot.getEndTime())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
     public String toString() {
         return new JsonObject()
             .put(NAME, this.gridName)
