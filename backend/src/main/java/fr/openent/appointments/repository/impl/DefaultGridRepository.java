@@ -300,9 +300,9 @@ public class DefaultGridRepository implements GridRepository {
         if (isDocumentsIdsUpdatable) params.add(documentsIds.toString());
         if (isPublicCommentUpdatable) params.add(publicComment);
         if (isTargetPublicIdsUpdatable) params.add(targetPublicIds.toString());
-        if (isBeginDateUpdatable) params.add(beginDate);
-        if (isEndDateUpdatable) params.add(endDate);
-        if (isPeriodicityUpdatable) params.add(periodicity);
+        if (isBeginDateUpdatable) params.add(DateHelper.formatDate(beginDate));
+        if (isEndDateUpdatable) params.add(DateHelper.formatDate(endDate));
+        if (isPeriodicityUpdatable) params.add(periodicity.getValue());
         params.add(gridId);
 
         String errorMessage = "[Appointments@DefaultGridRepository::updateFields] Fail to update grid fields : ";

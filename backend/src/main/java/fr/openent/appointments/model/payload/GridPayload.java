@@ -57,6 +57,7 @@ public class GridPayload implements IModel<GridPayload> {
                 .map(Object::toString)
                 .collect(Collectors.toList());
         this.publicComment = grid.getString(CAMEL_PUBLIC_COMMENT, null);
+        this.timeSlots = new ArrayList<>();
     }
 
     // Getters
@@ -250,6 +251,10 @@ public class GridPayload implements IModel<GridPayload> {
 
     public boolean canGenerateTimeSlots() {
         if (beginDate == null || endDate == null || !beginDate.isBefore(endDate)) {
+            return false;
+        }
+
+        if (periodicity == null) {
             return false;
         }
 

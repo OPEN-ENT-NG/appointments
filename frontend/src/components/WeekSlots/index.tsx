@@ -10,12 +10,10 @@ import {
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useTranslation } from "react-i18next";
 
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { APPOINTMENTS, DAY_VALUES } from "~/core/constants";
 import { DAY } from "~/core/enums";
 import { Slot } from "~/core/types";
 import { useGridModal } from "~/providers/GridModalProvider";
-import { GRID_MODAL_TYPE } from "~/providers/GridModalProvider/enum";
 import { DailySlot } from "../DailySlot";
 import {
   dayBoxStyle,
@@ -23,9 +21,8 @@ import {
   dividerStyle,
   errorStyle,
   iconStyle,
-  noSlotStyle,
   slotsBoxStyle,
-  weekBoxStyle,
+  weekBoxStyle
 } from "./style";
 
 export const WeekSlots: FC = () => {
@@ -87,20 +84,14 @@ export const WeekSlots: FC = () => {
                   {timeSlots.map((slot) => (
                     <DailySlot key={slot.id} day={day} slot={slot} />
                   ))}
-                  {modalType === GRID_MODAL_TYPE.CREATION ? (
+                  {
                     <IconButton
                       disabled={isSubmitButtonLoading}
                       onClick={() => handleAddSlot(day)}
                     >
                       <AddCircleIcon sx={iconStyle} />
                     </IconButton>
-                  ) : (
-                    timeSlots.length === 0 && (
-                      <Box sx={noSlotStyle}>
-                        <CloseRoundedIcon />
-                      </Box>
-                    )
-                  )}
+                  }
                 </Box>
                 {dayErrors[day] && (
                   <FormHelperText sx={errorStyle} error>

@@ -287,6 +287,7 @@ public class DefaultGridService implements GridService {
         if (grid.getTimeSlots() != null && !grid.getTimeSlots().isEmpty()) {
             // On supprime tous les anciens TimeSlots, puis on recrée les DailySlots, puis les TimeSlots
             updateTimeSlotsFuture = timeSlotRepository.markAllGridTimeSlotsToDeleted(gridId)
+                    .compose(v -> dailySlotRepository.removeByGridId(gridId))
                     .compose(v -> dailySlotRepository.create(gridId, grid.getDailySlots()))
                     .compose(createdDailySlots -> timeSlotRepository.create(gridId, grid.getTimeSlots()))
                     .mapEmpty(); // mapEmpty pour retourner Future<Void>
