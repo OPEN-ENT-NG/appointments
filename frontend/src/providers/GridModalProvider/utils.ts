@@ -130,7 +130,8 @@ export const gridInputsToEditGridPayload = (
           })),
         ];
       },
-      [] as { day: DAY; beginTime: string; endTime: string }[],)
+      [] as { day: DAY; beginTime: string; endTime: string }[],
+    ),
   };
 
   return {

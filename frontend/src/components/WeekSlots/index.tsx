@@ -22,7 +22,7 @@ import {
   errorStyle,
   iconStyle,
   slotsBoxStyle,
-  weekBoxStyle
+  weekBoxStyle,
 } from "./style";
 
 export const WeekSlots: FC = () => {
@@ -31,7 +31,6 @@ export const WeekSlots: FC = () => {
     inputs,
     errorInputs: { slots },
     updateGridModalInputs: { handleAddSlot },
-    modalType,
     isSubmitButtonLoading,
   } = useGridModal();
 
