@@ -1,2 +1,1 @@
-ALTER TABLE appointments.time_slot
-    ADD COLUMN deleted_at timestamp NULL DEFAULT NULL;
+ALTER TABLE appointments.time_slot ADD COLUMN deleted_at timestamp;
