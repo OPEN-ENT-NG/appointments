@@ -48,6 +48,11 @@ export const WeekSlots: FC = () => {
 
     return entries.filter(([day]) => {
       const dayjsIndex = DAY_VALUES[day].dayjsDayIndex;
+
+      if (endDay < startDay) {
+        return dayjsIndex >= startDay || dayjsIndex <= endDay;
+      }
+
       return dayjsIndex >= startDay && dayjsIndex <= endDay;
     });
   }, [entries, inputs.validityPeriod]);
@@ -80,7 +85,7 @@ export const WeekSlots: FC = () => {
               />
               <Box>
                 <Box sx={slotsBoxStyle}>
-                  {timeSlots.map((slot) => (
+                  {timeSlots.map((slot: { id: any }) => (
                     <DailySlot key={slot.id} day={day} slot={slot} />
                   ))}
                   {
