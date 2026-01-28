@@ -153,7 +153,7 @@
   "appointments.toast.create.grid.error": "Ocorreu um erro ao criar a grade. Tente novamente.",
   "appointments.toast.edit.grid.success": "Sua grade de disponibilidade foi modificada com sucesso.",
   "appointments.toast.edit.grid.error": "Ocorreu um erro ao modificar a grade. Tente novamente.",
-  "appointments.toast.edit.errors": "Impossible d'enregistrer : certains champs obligatoires ne sont pas remplis.",
+  "appointments.toast.edit.errors": "Não foi possível salvar: alguns campos obrigatórios não foram preenchidos.",
   "appointments.toast.accept.appointment.success": "A solicitação foi aceita com sucesso.",
   "appointments.toast.accept.appointment.error": "Ocorreu um erro ao aceitar a solicitação. Tente novamente.",
   "appointments.toast.reject.appointment.success": "A solicitação foi recusada com sucesso.",
