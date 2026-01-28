@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 import {
   Autocomplete,
@@ -19,27 +19,16 @@ import { TextFieldStyle } from "./style";
 import { getOptionLabel, isOptionEqualToValue } from "./utils";
 
 export const CustomMultiAutocomplete: FC = () => {
-  const autocompleteRef = useRef<HTMLDivElement>(null);
-
   const {
     publicOptions,
     inputs: { public: selectedPublic },
     updateGridModalInputs: { handlePublicChange },
     blurGridModalInputs: { handlePublicBlur },
-    errorInputs,
+    errorInputs: { public: publicError },
     modalType,
   } = useGridModal();
 
   const { t } = useTranslation(APPOINTMENTS);
-
-  useEffect(() => {
-    if (errorInputs.public && autocompleteRef.current) {
-      autocompleteRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-    }
-  }, [errorInputs]);
 
   const selectAllLabel = t("appointments.select.all");
   const deselectAllLabel = t("appointments.deselect.all");
@@ -75,7 +64,6 @@ export const CustomMultiAutocomplete: FC = () => {
 
   return (
     <Autocomplete
-      ref={autocompleteRef}
       multiple
       options={options}
       disabled={modalType == GRID_MODAL_TYPE.CONSULTATION}
@@ -129,8 +117,8 @@ export const CustomMultiAutocomplete: FC = () => {
           sx={TextFieldStyle}
           {...params}
           label={t("appointments.grid.public") + " *"}
-          error={!!errorInputs.public}
-          helperText={t(errorInputs.public)}
+          error={!!publicError}
+          helperText={t(publicError)}
         />
       )}
     />
