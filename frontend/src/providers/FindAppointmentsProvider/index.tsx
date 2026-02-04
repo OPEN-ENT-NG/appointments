@@ -68,20 +68,6 @@ export const FindAppointmentsProvider: FC<FindAppointmentsProviderProps> = ({
     }
   }, [newUsers, search]);
 
-  // Charge automatiquement plus d'utilisateurs si pas assez de résultats
-  useEffect(() => {
-    const minUsersNeeded = 10; // Ajuste selon ton besoin
-    if (
-      !isFetching &&
-      hasMoreUsers &&
-      users.length < minUsersNeeded &&
-      search &&
-      search === lastSearchRef.current
-    ) {
-      setPage((prev) => prev + 1);
-    }
-  }, [users.length, hasMoreUsers, isFetching, search]);
-
   const loadMoreUsers = useCallback(() => {
     if (!isFetching && hasMoreUsers) {
       setPage((prev) => prev + 1);
