@@ -11,7 +11,10 @@ import {
 
 import debounce from "lodash/debounce";
 
-import { MIN_NB_CHAR_BEFORE_SEARCH_FOR_ADML } from "~/core/constants";
+import {
+  MIN_NB_CHAR_BEFORE_SEARCH_FOR_ADML,
+  MIN_USERS_NEEDED,
+} from "~/core/constants";
 import { useGetCommunicationUsersQuery } from "~/services/api/CommunicationService";
 import { UserCardInfos } from "~/services/api/CommunicationService/types";
 import { useGlobal } from "../GlobalProvider";
@@ -70,11 +73,10 @@ export const FindAppointmentsProvider: FC<FindAppointmentsProviderProps> = ({
   }, [newUsers, search]);
 
   useEffect(() => {
-    const minUsersNeeded = 10;
     if (
       !isFetching &&
       hasMoreUsers &&
-      users.length < minUsersNeeded &&
+      users.length < MIN_USERS_NEEDED &&
       search &&
       search === lastSearchRef.current
     ) {
