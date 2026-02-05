@@ -9,6 +9,8 @@ import {
   useState,
 } from "react";
 
+import debounce from "lodash/debounce";
+
 import { MIN_NB_CHAR_BEFORE_SEARCH_FOR_ADML } from "~/core/constants";
 import { useGetCommunicationUsersQuery } from "~/services/api/CommunicationService";
 import { UserCardInfos } from "~/services/api/CommunicationService/types";
@@ -40,7 +42,6 @@ export const FindAppointmentsProvider: FC<FindAppointmentsProviderProps> = ({
   const { isConnectedUserADML } = useGlobal();
   const [search, setSearch] = useState("");
   const [hasMoreUsers, setHasMoreUsers] = useState(true);
-  const searchTimeoutRef = useRef<NodeJS.Timeout>();
   const lastSearchRef = useRef("");
 
   const {
@@ -68,6 +69,19 @@ export const FindAppointmentsProvider: FC<FindAppointmentsProviderProps> = ({
     }
   }, [newUsers, search]);
 
+  useEffect(() => {
+    const minUsersNeeded = 10;
+    if (
+      !isFetching &&
+      hasMoreUsers &&
+      users.length < minUsersNeeded &&
+      search &&
+      search === lastSearchRef.current
+    ) {
+      setPage((prev) => prev + 1);
+    }
+  }, [users.length, hasMoreUsers, isFetching, search]);
+
   const loadMoreUsers = useCallback(() => {
     if (!isFetching && hasMoreUsers) {
       setPage((prev) => prev + 1);
@@ -80,29 +94,20 @@ export const FindAppointmentsProvider: FC<FindAppointmentsProviderProps> = ({
     setHasMoreUsers(true);
   }, []);
 
-  const handleSearch = useCallback((newSearch: string) => {
-    if (searchTimeoutRef.current) {
-      clearTimeout(searchTimeoutRef.current);
-    }
-    searchTimeoutRef.current = setTimeout(() => {
+  const handleSearch = useCallback(
+    debounce((newSearch: string) => {
       lastSearchRef.current = newSearch;
-      setSearch(newSearch);
       setPage(1);
       setUsers([]);
       setHasMoreUsers(true);
-    }, 300);
-  }, []);
+      setSearch(newSearch);
+    }, 300),
+    [],
+  );
 
   const resetSearch = useCallback(() => {
-    if (searchTimeoutRef.current) {
-      clearTimeout(searchTimeoutRef.current);
-    }
-    lastSearchRef.current = "";
-    setSearch("");
-    setPage(1);
-    setUsers([]);
-    setHasMoreUsers(true);
-  }, []);
+    handleSearch("");
+  }, [handleSearch]);
 
   const refetchSearch = useCallback(async () => {
     setPage(1);
