@@ -84,18 +84,20 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
 
         String query =
                 "MATCH (s:Structure) " +
-                    "WHERE s.id IN {structuresIds} " +
-                    "WITH collect(s.externalId) AS structuresExternalIds " +
+                        "WHERE s.id IN {structuresIds} " +
+                        "WITH collect(s.externalId) AS structuresExternalIds " +
 
-                "UNWIND {usersIds} AS userId " +
-                "MATCH (u:User {id: userId}) " +
+                        "UNWIND {usersIds} AS userId " +
+                        "MATCH (u:User {id: userId}) " +
 
-                "RETURN " +
-                    "u.id AS id, " +
-                    "u.displayName AS displayName, " +
-                    "[func IN u.functions WHERE split(func, \"$\")[0] IN structuresExternalIds] AS functions, " +
-                    "[(u)-[:USERBOOK]->(ub:UserBook) | ub.picture][0] AS picture, " +
-                    "u.profiles AS profiles;";
+                        "OPTIONAL MATCH (u)-[:USERBOOK]->(ub:UserBook) " +
+
+                        "RETURN " +
+                        "u.id AS id, " +
+                        "u.displayName AS displayName, " +
+                        "[func IN u.functions WHERE split(func, \"$\")[0] IN structuresExternalIds] AS functions, " +
+                        "ub.picture AS picture, " +
+                        "u.profiles AS profiles;";
 
         JsonObject params = new JsonObject()
                 .put(CAMEL_STRUCTURES_IDS, structuresIds)
