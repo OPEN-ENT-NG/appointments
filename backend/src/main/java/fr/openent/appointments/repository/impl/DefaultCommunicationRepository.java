@@ -174,11 +174,14 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
     private String getQueryUsersICanCommunicateWithFilterByRight() {
         return  "MATCH (me:User {id: {userId}}) " +
                 "MATCH (otherUser:User)-[:IN]->(:Group)-[:AUTHORIZED]->(:Role)-[:AUTHORIZE]->(:WorkflowAction {name: {right}}) " +
-                "WHERE " +
-                "(me)-[:IN]->(:Group)-[:COMMUNIQUE]->(:Group)<-[:IN]-(otherUser) " +
-                "OR " +
-                "(me)-[:COMMUNIQUE]->(:Group)<-[:IN]-(otherUser) " +
-                "RETURN DISTINCT otherUser.id AS id, otherUser.name AS name ";
+                "MATCH (me)-[:IN]->(gMe:Group) " +
+                "MATCH (gMe)-[:COMMUNIQUE]->(gShared:Group)<-[:IN]-(otherUser) " +
+                "RETURN DISTINCT otherUser.id AS id, otherUser.name AS name " +
+                "UNION " +
+                "MATCH (me:User {id: {userId}}) " +
+                "MATCH (otherUser:User)-[:IN]->(:Group)-[:AUTHORIZED]->(:Role)-[:AUTHORIZE]->(:WorkflowAction {name: {right}}) " +
+                "MATCH (me)-[:COMMUNIQUE]->(gShared:Group)<-[:IN]-(otherUser) " +
+                "RETURN DISTINCT otherUser.id AS id, otherUser.name AS name";
     }
 
     @Override
