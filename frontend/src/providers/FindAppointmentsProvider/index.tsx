@@ -4,14 +4,12 @@ import {
   useCallback,
   useContext,
   useMemo,
-  useState
+  useState,
 } from "react";
 
 import debounce from "lodash/debounce";
 
-import {
-  MIN_NB_CHAR_BEFORE_SEARCH_FOR_ADML
-} from "~/core/constants";
+import { MIN_NB_CHAR_BEFORE_SEARCH_FOR_ADML } from "~/core/constants";
 import { useGetCommunicationUsersInfiniteQuery } from "~/services/api/CommunicationService";
 import { useGlobal } from "../GlobalProvider";
 import {
@@ -40,30 +38,34 @@ export const FindAppointmentsProvider: FC<FindAppointmentsProviderProps> = ({
   const [search, setSearch] = useState("");
 
   const {
-  data,
-  isLoading,
-  isFetchingNextPage,
-  fetchNextPage,
-  hasNextPage,
-  refetch,
-} = useGetCommunicationUsersInfiniteQuery(
-  {
-    search,
-    limit: NUMBER_MORE_USERS,
-  },
-  {
-    skip:
+    data,
+    isLoading,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+    refetch,
+  } = useGetCommunicationUsersInfiniteQuery(
+    {
+      search,
+      limit: NUMBER_MORE_USERS,
+    },
+    {
+      skip:
+        !search ||
+        (isConnectedUserADML &&
+          search.length < MIN_NB_CHAR_BEFORE_SEARCH_FOR_ADML),
+    },
+  );
+
+  const users = useMemo(() => {
+    if (
       !search ||
       (isConnectedUserADML &&
-        search.length < MIN_NB_CHAR_BEFORE_SEARCH_FOR_ADML),
-  },
-);
-
-const users = useMemo(() => {
-  if (!search || (isConnectedUserADML && search.length < MIN_NB_CHAR_BEFORE_SEARCH_FOR_ADML)) return [];
-  return data?.pages.flat() ?? [];
-}, [data, isConnectedUserADML, search]);
-
+        search.length < MIN_NB_CHAR_BEFORE_SEARCH_FOR_ADML)
+    )
+      return [];
+    return data?.pages.flat() ?? [];
+  }, [data, isConnectedUserADML, search]);
 
   const loadMoreUsers = useCallback(() => {
     if (hasNextPage) {

@@ -10,7 +10,11 @@ export const communicationApi = emptySplitApi.injectEndpoints({
         `/structures/${structureId}/communication/from/groups`,
       transformResponse: transformResponseToPublic,
     }),
-    getCommunicationUsers: builder.infiniteQuery<UserCardInfos[], GetUsersPayload, number>({
+    getCommunicationUsers: builder.infiniteQuery<
+      UserCardInfos[],
+      GetUsersPayload,
+      number
+    >({
       query: ({ queryArg, pageParam }) => ({
         url: "/communication/to/users",
         params: {
@@ -24,9 +28,9 @@ export const communicationApi = emptySplitApi.injectEndpoints({
         initialPageParam: 1,
 
         getNextPageParam: (lastPage, _, lastPageParam) => {
-          if (lastPage.length < NUMBER_MORE_USERS) return undefined
+          if (lastPage.length < NUMBER_MORE_USERS) return undefined;
 
-          return lastPageParam + 1
+          return lastPageParam + 1;
         },
       },
 
@@ -35,5 +39,7 @@ export const communicationApi = emptySplitApi.injectEndpoints({
   }),
 });
 
-export const { useGetCommunicationGroupsQuery, useGetCommunicationUsersInfiniteQuery } =
-  communicationApi;
+export const {
+  useGetCommunicationGroupsQuery,
+  useGetCommunicationUsersInfiniteQuery,
+} = communicationApi;
