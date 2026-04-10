@@ -22,6 +22,7 @@ import {
 import {
   useAcceptAppointmentMutation,
   useCancelAppointmentMutation,
+  useExportAppointmentsEventMutation,
   useGetAppointmentIndexQuery,
   useGetAppointmentQuery,
   useGetAppointmentsDatesQuery,
@@ -38,12 +39,14 @@ import {
   MyAppointmentsProviderProps,
 } from "./types";
 import {
+  downloadBlob,
   initialAppointments,
   initialDialogModalProps,
   initialLimits,
   initialPages,
   states,
 } from "./utils";
+import { ModalType } from "../GlobalProvider/enum";
 
 const MyAppointmentsProviderContext =
   createContext<MyAppointmentsProviderContextProps | null>(null);
@@ -62,7 +65,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
   children,
 }) => {
   const { t } = useTranslation(APPOINTMENTS);
-  const { appointmentIdFromNotify } = useGlobal();
+  const { appointmentIdFromNotify, toggleModal } = useGlobal();
   const [pages, setPages] = useState<AppointmentListInfoType>(initialPages);
   const [maxPages, setMaxPages] =
     useState<AppointmentListInfoType>(initialPages);
@@ -77,6 +80,8 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
   const [dialogModalProps, setDialogModalProps] = useState<DialogModalProps>(
     initialDialogModalProps,
   );
+  const [isExportingAppointments, setIsExportingAppointments] = useState(false);
+  const [exportAppointments] = useExportAppointmentsEventMutation();
 
   const { data: myPendingAppointments } = useGetMyAppointmentsQuery({
     states: states[MY_APPOINTMENTS_LIST_STATE.PENDING],
@@ -227,6 +232,48 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
     [handleCloseDialogModal, handleConfirm],
   );
 
+  const downloadIcs = useCallback(
+    async (params: { appointmentsIds: number[]; states: APPOINTMENT_STATE[] }) => {
+      const { text, filename } = await exportAppointments(params).unwrap();
+      downloadBlob(new Blob([text], { type: "text/calendar;charset=utf-8" }), `${filename}.ics`);
+    },
+    [exportAppointments],
+  );
+
+  const withExportGuard = useCallback(
+    async (toastType: TOAST_TYPE, fn: () => Promise<void>) => {
+      try {
+        setIsExportingAppointments(true);
+        await fn();
+        toast.success(t(TOAST_VALUES[toastType].i18nKeySuccess));
+      } catch (error) {
+        console.error(error);
+        toast.error(t(TOAST_VALUES[toastType].i18nKeyError));
+      } finally {
+        setIsExportingAppointments(false);
+        toggleModal(ModalType.EXPORT);
+      }
+    },
+    [t],
+  );
+
+  const handleExportMultipleAppointments = useCallback(
+    () =>
+      withExportGuard(TOAST_TYPE.EXPORT_EVENTS, async () => {
+        await downloadIcs({ appointmentsIds: [], states: [APPOINTMENT_STATE.CANCELED] });
+        await downloadIcs({ appointmentsIds: [], states: [APPOINTMENT_STATE.ACCEPTED] });
+      }),
+    [withExportGuard, downloadIcs],
+  );
+
+  const handleExportSingleAppointment = useCallback(
+    (appointment: Appointment) =>
+      withExportGuard(TOAST_TYPE.EXPORT_EVENT, async () => {
+        await downloadIcs({ appointmentsIds: [appointment.id], states: [appointment.state] });
+      }),
+    [withExportGuard, downloadIcs],
+  );
+
   useEffect(() => {
     if (selectedAppointmentData && selectedAppointmentId && !isFetching) {
       setSelectedAppointment(selectedAppointmentData);
@@ -372,6 +419,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
       selectedAppointmentId,
       myAppointmentsDates,
       dialogModalProps,
+      isExportingAppointments,
       handleChangePage,
       handleChangeLimit,
       handleAcceptAppointment,
@@ -379,6 +427,8 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
       handleCloseAppointmentModal,
       handleOpenDialogModal,
       handleCloseDialogModal,
+      handleExportSingleAppointment,
+      handleExportMultipleAppointments,
     }),
     [
       myAppointments,
@@ -389,6 +439,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
       selectedAppointmentId,
       myAppointmentsDates,
       dialogModalProps,
+      isExportingAppointments,
       handleChangePage,
       handleChangeLimit,
       handleAcceptAppointment,
@@ -396,6 +447,8 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
       handleCloseAppointmentModal,
       handleOpenDialogModal,
       handleCloseDialogModal,
+      handleExportSingleAppointment,
+      handleExportMultipleAppointments
     ],
   );
 

@@ -107,7 +107,11 @@
   "appointments.cannot.cancel.request.tooltip": "Cancellation unavailable less than {{hours}}h before the appointment",
   "appointments.cancel.appointment": "Cancel appointment",
 
-  "appointments.event.export": "Download event",
+  "appointments.event.export.one.button.title": "Download event",
+  "appointments.event.export.all.button.title": "Download appointments",
+  "appointments.event.export.all.modal.title": "Download your appointments",
+  "appointments.event.export.all.modal.body1": "The file will contain the following appointments:\n   • Accepted appointments\n   • Cancelled appointments\nThe download will generate a calendar file (.ics) that you can manually import into the calendar of your choice.",
+  "appointments.event.export.all.modal.body2": "If an appointment is later modified or cancelled, a new export will be required.",
 
   "appointments.appointments": "Appointments",
   "appointments.cancel": "Cancel",
@@ -129,7 +133,7 @@
   "appointments.accepted": "Accepted",
   "appointments.refused": "Refused",
   "appointments.refuse": "Refuse",
-  "appointments.cancelled": "Canceled",
+  "appointments.download": "Download",
   "appointments.videoconference": "Videoconference",
 
   "appointments.monday": "Monday",
@@ -171,6 +175,7 @@
   "appointments.toast.restore.grid.success": "Your grid is now active again.",
   "appointments.toast.restore.grid.error": "An error occurred while reactivating the grid. Please try again.",
   "appointments.toast.event.export.success": "Your event has been successfully downloaded.",
+  "appointments.toast.event.export.all.success": "Your events have been successfully downloaded.",
   "appointments.toast.event.export.error": "An error occurred while generating the export. Please try again.",
 
   "group.HeadTeacher": "Head teachers of {0}",

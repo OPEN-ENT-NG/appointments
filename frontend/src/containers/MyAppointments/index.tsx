@@ -2,12 +2,10 @@ import { FC } from "react";
 
 import { Box, Loader, Typography, useMediaQuery } from "@cgi-learning-hub/ui";
 import { useTheme } from "@mui/material";
-import { useTranslation } from "react-i18next";
 
 import { CustomDateCalendar } from "~/components/CustomDateCalendar";
 import { DialogModal } from "~/components/DialogModal";
 import { AppointmentsEmptyState } from "~/components/SVG/AppointmentsEmptyState";
-import { APPOINTMENTS } from "~/core/constants";
 import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 import { MY_APPOINTMENTS_LIST_STATE } from "~/providers/MyAppointmentsProvider/enum";
 import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
@@ -21,6 +19,7 @@ import {
   loaderBoxStyle,
   mainContainerStyle,
 } from "./style";
+import { t } from "~/i18n";
 
 export const MyAppointments: FC = () => {
   const {
@@ -30,7 +29,6 @@ export const MyAppointments: FC = () => {
     selectedAppointment,
   } = useMyAppointments();
   const isMobile = useMediaQuery("(max-width:620px)");
-  const { t } = useTranslation(APPOINTMENTS);
   const theme = useTheme();
 
   const myPendingAppointments =

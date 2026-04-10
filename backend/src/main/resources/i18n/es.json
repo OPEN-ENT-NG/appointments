@@ -32,8 +32,6 @@
   "appointments.confirm.modal.option.preserve.them": "Conservarlas",
   "appointments.confirm.modal.option.cancel.them": "Cancelarlas",
 
-  "appointments.event.export": "Descargar evento",
-
   "appointments.grid.required": "Los campos marcados con * son obligatorios",
   "appointments.grid.name": "Nombre del horario",
   "appointments.grid.color": "Color de visualización",
@@ -109,6 +107,12 @@
   "appointments.cannot.cancel.request.tooltip": "Cancelación no disponible menos de {{hours}}h antes de la cita",
   "appointments.cancel.appointment": "Cancelar la cita",
 
+  "appointments.event.export.one.button.title": "Descargar evento",
+  "appointments.event.export.all.button.title": "Descargar citas",
+  "appointments.event.export.all.modal.title": "Descargar sus citas",
+  "appointments.event.export.all.modal.body1": "El archivo contendrá las siguientes citas:\n   • Citas aceptadas\n   • Citas canceladas\nLa descarga generará un archivo de calendario (.ics) que podrá importar manualmente en el calendario de su elección.",
+  "appointments.event.export.all.modal.body2": "En caso de modificación o cancelación posterior, será necesario realizar una nueva exportación.",
+
   "appointments.appointments": "Citas",
   "appointments.cancel": "Cancelar",
   "appointments.canceled": "Cancelado",
@@ -129,7 +133,7 @@
   "appointments.accepted": "Aceptado",
   "appointments.refused": "Rechazado",
   "appointments.refuse": "Rechazar",
-  "appointments.cancelled": "Cancelado",
+  "appointments.download": "Descargar",
   "appointments.videoconference": "Videoconferencia",
 
   "appointments.monday": "Lunes",
@@ -171,6 +175,7 @@
   "appointments.toast.restore.grid.success": "Tu horario está nuevamente disponible.",
   "appointments.toast.restore.grid.error": "Se produjo un error al reactivar el horario. Por favor, inténtalo de nuevo.",
   "appointments.toast.event.export.success": "Tu evento ha sido descargado correctamente.",
+  "appointments.toast.event.export.all.success": "Tus eventos han sido descargados correctamente.",
   "appointments.toast.event.export.error": "Se produjo un error al generar la exportación. Por favor, inténtalo de nuevo.",
 
   "group.HeadTeacher": "Profesores principales de {0}",

@@ -107,7 +107,11 @@
   "appointments.cannot.cancel.request.tooltip": "Stornierung nicht möglich weniger als {{hours}} Stunden vor dem Termin",
   "appointments.cancel.appointment": "Termin absagen",
 
-  "appointments.event.export": "Ereignis herunterladen",
+  "appointments.event.export.one.button.title": "Ereignis herunterladen",
+  "appointments.event.export.all.button.title": "Termine herunterladen",
+  "appointments.event.export.all.modal.title": "Ihre Termine herunterladen",
+  "appointments.event.export.all.modal.body1": "Die Datei enthält die folgenden Termine:\n   • Angenommene Termine\n   • Abgesagte Termine\nDer Download erstellt eine Kalenderdatei (.ics), die Sie manuell in den Kalender Ihrer Wahl importieren können.",
+  "appointments.event.export.all.modal.body2": "Bei späteren Änderungen oder Absagen ist ein erneuter Export erforderlich.",
 
   "appointments.appointments": "Termine",
   "appointments.cancel": "Abbrechen",
@@ -129,7 +133,7 @@
   "appointments.accepted": "Akzeptiert",
   "appointments.refused": "Abgelehnt",
   "appointments.refuse": "Ablehnen",
-  "appointments.cancelled": "Abgesagt",
+  "appointments.download": "Herunterladen",
   "appointments.videoconference": "Videokonferenz",
 
   "appointments.monday": "Montag",
@@ -171,6 +175,7 @@
   "appointments.toast.restore.grid.success": "Ihr Raster ist wieder geöffnet.",
   "appointments.toast.restore.grid.error": "Beim Wiederherstellen des Rasters ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
   "appointments.toast.event.export.success": "Ihr Ereignis wurde erfolgreich heruntergeladen.",
+  "appointments.toast.event.export.all.success": "Ihre Ereignisse wurden erfolgreich heruntergeladen.",
   "appointments.toast.event.export.error": "Beim Erstellen des Exports ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
 
   "group.HeadTeacher": "Klassenlehrer von {0}",

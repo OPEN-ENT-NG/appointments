@@ -1,4 +1,4 @@
-import { FC, useCallback, useMemo, useState } from "react";
+import { FC, useMemo } from "react";
 
 import {
   Box,
@@ -19,7 +19,6 @@ import PlaceIcon from "@mui/icons-material/Place";
 import VideoCameraFrontIcon from "@mui/icons-material/VideoCameraFront";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
 
 import { AppointmentStateIcon } from "~/components/AppointmentCard/utils";
 import { UserPicture } from "~/components/UserPicture";
@@ -28,7 +27,6 @@ import {
   APPOINTMENTS,
   TEXT_DATE_FORMAT,
   TIME_FORMAT,
-  TOAST_VALUES,
 } from "~/core/constants";
 import { APPOINTMENT_STATE, CONFIRM_MODAL_TYPE } from "~/core/enums";
 import { useGlobal } from "~/providers/GlobalProvider";
@@ -51,7 +49,6 @@ import { AppointmentInfosModalProps } from "./types";
 import { HOUR } from "~/core/dayjs.const";
 import { useTheme } from "~/hooks/useTheme";
 import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
-import { useExportAppointmentsEventMutation } from "~/services/api/AppointmentService";
 
 export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
   appointment,
@@ -61,11 +58,11 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
     handleCloseAppointmentModal,
     handleAcceptAppointment,
     handleOpenDialogModal,
+    handleExportSingleAppointment,
+    isExportingAppointments,
   } = useMyAppointments();
   const { t } = useTranslation(APPOINTMENTS);
   const { isTheme1D } = useTheme();
-  const [isExportingEvent, setIsExportingEvent] = useState(false);
-  const [exportEvent] = useExportAppointmentsEventMutation();
 
   const canCancelRequest = useMemo(
     () =>
@@ -73,36 +70,6 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
         .add(minHoursBeforeCancellation, HOUR)
         .isBefore(appointment.beginDate),
     [appointment.beginDate, minHoursBeforeCancellation],
-  );
-
-  const handleExportEvent = useCallback(
-    async (id: number) => {
-      try {
-        setIsExportingEvent(true);
-
-        const { text: icsString, filename } = await exportEvent({
-          appointmentsIds: [id],
-          states: [appointment.state],
-        }).unwrap();
-        const blob = new Blob([icsString], {
-          type: "text/calendar;charset=utf-8",
-        });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `${filename}.ics`;
-        a.click();
-        URL.revokeObjectURL(url);
-
-        toast.success(t(TOAST_VALUES.EXPORT_EVENT.i18nKeySuccess));
-        setIsExportingEvent(false);
-      } catch (error) {
-        console.error(error);
-        toast.error(t(TOAST_VALUES.EXPORT_EVENT.i18nKeyError));
-        setIsExportingEvent(false);
-      }
-    },
-    [exportEvent, t],
   );
 
   return (
@@ -174,12 +141,12 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
                     color={"primary"}
                     variant={"contained"}
                     startIcon={<DownloadRoundedIcon />}
-                    loading={isExportingEvent}
+                    loading={isExportingAppointments}
                     onClick={() => {
-                      void handleExportEvent(appointment.id);
+                      void handleExportSingleAppointment(appointment);
                     }}
                   >
-                    {t("appointments.event.export")}
+                    {t("appointments.event.export.one.button.title")}
                   </Button>
                 )}
               </Box>

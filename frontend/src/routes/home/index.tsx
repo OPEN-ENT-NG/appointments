@@ -1,26 +1,32 @@
 import { FC, SyntheticEvent, useCallback, useEffect, useState } from "react";
 
-import { Box, Tab, Tabs, Typography } from "@cgi-learning-hub/ui";
+import { Box, Button, Tab, Tabs, Typography, useMediaQuery } from "@cgi-learning-hub/ui";
 import { ID } from "@edifice.io/client";
-import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 
 import { AppointmentsIcon } from "~/components/SVG/AppointmentsIcon";
 import { FindAppointments } from "~/containers/FindAppointments";
 import { MyAppointments } from "~/containers/MyAppointments";
 import { MyAvailability } from "~/containers/MyAvailability";
-import { APPOINTMENTS } from "~/core/constants";
 import { useFindAppointments } from "~/providers/FindAppointmentsProvider";
 import { useGlobal } from "~/providers/GlobalProvider";
 import {
   appointmentsIconStyle,
   contentStyle,
+  headerStyle,
   homeStyle,
   tabItemStyle,
   tabsStyle,
   titleStyle,
 } from "./style";
 import { useTheme } from "~/hooks/useTheme";
+import { centerBoxStyle } from "~/styles/boxStyles";
+import { ExportAppointmentsModal } from "~/containers/ExportAppointmentsModal";
+import { ModalType } from "~/providers/GlobalProvider/enum";
+import { t } from "~/i18n";
+import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
+import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
+import { shouldDisplayExportButton } from "./utils";
 
 export interface AppProps {
   _id: string;
@@ -35,15 +41,17 @@ export interface AppProps {
 }
 
 export const Home: FC = () => {
-  const { hasManageRight, setAppointmentIdFromNotify } = useGlobal();
+  const { hasManageRight, setAppointmentIdFromNotify, toggleModal, displayModals: { showExportModal } } = useGlobal();
   const { resetSearch } = useFindAppointments();
+  const { myAppointments, isExportingAppointments, handleExportMultipleAppointments } = useMyAppointments();
 
   const initialTabValue = parseInt(sessionStorage.getItem("tabValue") || "0");
   const [tabValue, setTabValue] = useState(
     !hasManageRight && initialTabValue === 2 ? 0 : initialTabValue,
   );
-  const { t } = useTranslation(APPOINTMENTS);
   const { isTheme1D } = useTheme();
+  const isMobile = useMediaQuery("(max-width:620px)");
+  const displayExportButton = shouldDisplayExportButton(myAppointments);
 
   const handleChange = useCallback(
     (_: SyntheticEvent, newValue: number) => {
@@ -81,23 +89,42 @@ export const Home: FC = () => {
         </Typography>
       </Box>
       <Box sx={contentStyle}>
-        <Tabs
-          sx={tabsStyle}
-          value={tabValue}
-          onChange={handleChange}
-          variant="scrollable"
-          scrollButtons={false}
-        >
-          <Tab label={t("appointments.find.appointment")} />
-          <Tab label={t("appointments.my.appointments")} />
-          {hasManageRight && <Tab label={t("appointments.my.availability")} />}
-        </Tabs>
+        <Box sx={headerStyle}>
+          <Tabs
+            sx={tabsStyle}
+            value={tabValue}
+            onChange={handleChange}
+            variant="scrollable"
+            scrollButtons={false}
+          >
+            <Tab label={t("appointments.find.appointment")} />
+            <Tab label={t("appointments.my.appointments")} />
+            {hasManageRight && <Tab label={t("appointments.my.availability")} />}
+          </Tabs>
+          <Box sx={{...(isMobile && { ...centerBoxStyle, marginTop: "1rem" })}}>
+            {displayExportButton && tabValue === 1 && (
+              <Button
+                color={"primary"}
+                variant={"contained"}
+                startIcon={<DownloadRoundedIcon />}
+                loading={isExportingAppointments}
+                onClick={() => toggleModal(ModalType.EXPORT)}
+              >
+                {t("appointments.event.export.all.button.title")}
+              </Button>
+            )}
+          </Box>
+        </Box>
         <Box sx={tabItemStyle}>
           {tabValue === 0 && <FindAppointments />}
           {tabValue === 1 && <MyAppointments />}
           {tabValue === 2 && hasManageRight && <MyAvailability />}
         </Box>
       </Box>
+      <ExportAppointmentsModal
+        isOpen={showExportModal}
+        handleClose={() => toggleModal(ModalType.EXPORT)}
+        handleExport={() => { void handleExportMultipleAppointments() }} />
     </Box>
   );
 };

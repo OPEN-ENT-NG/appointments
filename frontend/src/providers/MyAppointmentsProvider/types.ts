@@ -19,6 +19,7 @@ export interface MyAppointmentsProviderContextProps {
   selectedAppointmentId: number | null;
   myAppointmentsDates: Dayjs[] | undefined;
   dialogModalProps: DialogModalProps;
+  isExportingAppointments: boolean;
   handleChangePage: (state: MY_APPOINTMENTS_LIST_STATE, page: number) => void;
   handleChangeLimit: (state: MY_APPOINTMENTS_LIST_STATE, limit: number) => void;
   handleAcceptAppointment: (id: number) => void;
@@ -26,6 +27,8 @@ export interface MyAppointmentsProviderContextProps {
   handleCloseAppointmentModal: () => void;
   handleOpenDialogModal: (confirmType: CONFIRM_MODAL_TYPE, id: number) => void;
   handleCloseDialogModal: () => void;
+  handleExportSingleAppointment: (appointment: Appointment) => void;
+  handleExportMultipleAppointments: () => void;
 }
 
 export interface MyAppointmentsProviderProps {

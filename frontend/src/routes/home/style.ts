@@ -1,4 +1,4 @@
-import { columnBoxStyle, flexStartBoxStyle } from "~/styles/boxStyles";
+import { columnBoxStyle, flexStartBoxStyle, spaceBetweenBoxStyle } from "~/styles/boxStyles";
 
 export const homeStyle = {
   width: "100%",
@@ -31,10 +31,15 @@ export const contentStyle = {
   },
 };
 
+export const headerStyle = {
+  ...spaceBetweenBoxStyle,
+  flexWrap: "wrap",
+};
+
 export const tabsStyle = {
   borderBottom: 1,
   borderColor: "divider",
-  width: "100%",
+  width: "fit-content",
 };
 
 export const tabItemStyle = {
