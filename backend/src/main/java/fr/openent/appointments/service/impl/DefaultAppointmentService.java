@@ -227,40 +227,32 @@ public class DefaultAppointmentService implements AppointmentService {
     }
 
     @Override
-    public Future<List<AppointmentWithInfos>> getAppointmentsByIds(List<Long> appointmentIds, String userId, List<AppointmentState> states) {
+    public Future<List<AppointmentWithInfos>> getAppointmentsByIds(List<Long> appointmentsIds, String userId, List<AppointmentState> states) {
         Promise<List<AppointmentWithInfos>> promise = Promise.promise();
-        
-        appointmentRepository.getAppointments(userId, states, true)
-            .onSuccess(appointmentWithInfos -> {
-                if (appointmentWithInfos.isEmpty()) {
-                    String errorMessage = "No appointments not found";
+
+        if (states.contains(AppointmentState.CANCELED)) states = Collections.singletonList(AppointmentState.CANCELED);
+
+        appointmentRepository.getAppointments(userId, states, true, appointmentsIds)
+            .onSuccess(appointmentWithInfosList -> {
+                if (appointmentWithInfosList.isEmpty()) {
+                    String errorMessage = "No appointments found";
                     LogHelper.logError(this, "getAppointmentsByIds", errorMessage);
                     promise.fail(errorMessage);
                     return;
                 }
 
-                Set<Long> appointmentsIdsInBDD = appointmentWithInfos.stream()
+                Set<Long> appointmentsIdsInBDD = appointmentWithInfosList.stream()
                         .map(AppointmentWithInfos::getId)
                         .collect(Collectors.toSet());
 
-                if (!appointmentsIdsInBDD.containsAll(appointmentIds)) {
-                    String errorMessage = "User is not in one of the appointments";
+                if (appointmentsIds.size() > appointmentsIdsInBDD.size()) {
+                    String errorMessage = "User is not in one of the requested appointments";
                     LogHelper.logError(this, "getAppointmentsByIds", errorMessage);
                     promise.fail(errorMessage);
                     return;
                 }
 
-                List<AppointmentWithInfos> validAppointements = appointmentWithInfos.stream()
-                        .filter((appointment) -> appointmentIds.contains(appointment.getId()))
-                        .collect(Collectors.toList());
-
-                if (states.contains(AppointmentState.CANCELED)) {
-                    validAppointements = validAppointements.stream()
-                            .filter(appointment -> appointment.getState() == AppointmentState.CANCELED)
-                            .collect(Collectors.toList());
-                }
-
-                promise.complete(validAppointements);
+                promise.complete(appointmentWithInfosList);
             })
             .onFailure(err -> {
                 String errorMessage = "Failed to get appointments by ids";

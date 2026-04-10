@@ -71,10 +71,10 @@ public interface CommunicationRepository {
     Future<List<NeoGroup>> getGroups(List<String> groupIds);
 
     /**
-     * Retrieves all user names from their ids.
+     * Retrieves all users' infos from their ids.
      *
      * @param usersIds The list of user IDs to filter users.
      * @return A Future containing a {@link Map}<{@link String}, {@link String}>.
      */
-    Future<Map<String, String>> getUsernameByUserIds(List<String> usersIds);
+    Future<List<NeoUser>> getSimplifiedUsersByUserIds(List<String> usersIds);
 }

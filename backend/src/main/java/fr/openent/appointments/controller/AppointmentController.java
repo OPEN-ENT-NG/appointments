@@ -6,6 +6,7 @@ import fr.openent.appointments.helper.LogHelper;
 import fr.openent.appointments.helper.ParamHelper;
 import fr.openent.appointments.model.database.Appointment;
 import fr.openent.appointments.model.database.AppointmentWithInfos;
+import fr.openent.appointments.model.database.NeoUser;
 import fr.openent.appointments.model.response.MinimalAppointment;
 import fr.openent.appointments.security.ManageRight;
 import fr.openent.appointments.security.ViewRight;
@@ -42,6 +43,8 @@ import java.util.stream.Stream;
 import static fr.openent.appointments.core.constants.Constants.*;
 import static fr.openent.appointments.core.constants.Fields.*;
 import static fr.openent.appointments.enums.Events.CREATE;
+import static fr.openent.appointments.helper.ICSHelper.buildFilename;
+import static fr.openent.appointments.helper.ICSHelper.buildFinalFilename;
 
 public class AppointmentController extends ControllerHelper {
     private final EventStore eventStore;
@@ -332,10 +335,10 @@ public class AppointmentController extends ControllerHelper {
     @SecuredAction(value="", type= ActionType.RESOURCE)
     public void exportAppointmentsEvents(final HttpServerRequest request) {
         RequestUtils.bodyToJson(request, body -> {
-            List<AppointmentState> states = body.getJsonArray("states").stream()
+            List<AppointmentState> states = body.getJsonArray(STATES).stream()
                     .map(state -> AppointmentState.getAppointmentState(state.toString()))
                     .collect(Collectors.toList());
-            List<Long> appointmentIds = body.getJsonArray("appointmentsIds").stream()
+            List<Long> appointmentIds = body.getJsonArray(APPOINTMENTS_IDS).stream()
                 .map(id -> ((Number) id).longValue())
                 .collect(Collectors.toList());
             
@@ -353,21 +356,7 @@ public class AppointmentController extends ControllerHelper {
                         return Future.failedFuture(errorMessage);
                     }
 
-                    // Build filename
-                    String filename = "export_global_rdv.ics";
-                    if(appointments.size() == 1) {
-                        LocalDateTime start = appointments.get(0).getBeginDate();
-                        LocalDateTime end = appointments.get(0).getEndDate();
-
-                        String rdvDateTime = String.format("%s_%s_%s",
-                            start.toLocalDate(),
-                            start.format(DateTimeFormatter.ofPattern("HH:mm")),
-                            end.format(DateTimeFormatter.ofPattern("HH:mm"))
-                        );
-
-                        filename = "export_rdv_" + rdvDateTime + ".ics";
-                    }
-
+                    String filename = buildFilename(appointments);
                     composeInfo.put(APPOINTMENTS, appointments);
                     composeInfo.put(FILENAME, filename);
 
@@ -378,14 +367,15 @@ public class AppointmentController extends ControllerHelper {
                             .collect(Collectors.toList());
                     return communicationService.getUsernamesFromUserIds(usersIds);
                 })
-                .compose(mapUserIdToDisplayName -> {
+                .compose(neoUsers -> {
                     UserInfos user = (UserInfos) composeInfo.getValue(CAMEL_USER_INFO);
                     List<AppointmentWithInfos> appointments = composeInfo.getJsonArray(APPOINTMENTS).getList();
+                    Map<String, String> mapUserIdToDisplayName = neoUsers.stream()
+                            .collect(Collectors.toMap(NeoUser::getId, NeoUser::getDisplayName));
                     return appointmentService.buildICSFile(appointments, mapUserIdToDisplayName, user.getUserId());
                 })
                 .onSuccess(fileICS -> {
-                    String finalFilename = composeInfo.getString(FILENAME);
-                    if (states.contains(AppointmentState.CANCELED)) finalFilename = "export_cancelled_" + finalFilename.substring("export_".length());
+                    String finalFilename = buildFinalFilename(composeInfo.getString(FILENAME), states);
                     request.response()
                         .putHeader("Content-Type", "text/calendar; charset=utf-8")
                         .putHeader("Content-Disposition", "attachment; filename=" + finalFilename)

@@ -8,9 +8,9 @@ import fr.openent.appointments.model.database.AppointmentWithInfos;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.Base64;
 import java.util.List;
-import java.util.UUID;
+
+import static fr.openent.appointments.helper.ICSHelper.buildEventICSSummary;
 
 public class EventICS {
     private String uid;             // identifiant unique global (ex: uuid@domain)
@@ -39,7 +39,7 @@ public class EventICS {
 
     public EventICS(AppointmentWithInfos appointment, String otherMemberDisplayName) {
         this.uid = appointment.getId() + "@cgi.com";
-        this.summary = "RDV avec " + otherMemberDisplayName + " - " + appointment.getGridName();
+        this.summary = buildEventICSSummary(otherMemberDisplayName, appointment.getGridName());
         this.description = appointment.getPublicComment();
         this.location = appointment.getIsVideoCall() ? appointment.getVideoCallLink() : appointment.getPlace();
         this.url = appointment.getVideoCallLink();

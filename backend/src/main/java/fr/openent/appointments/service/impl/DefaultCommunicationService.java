@@ -86,8 +86,8 @@ public class DefaultCommunicationService implements CommunicationService {
         return promise.future();
     }
 
-    public Future<Map<String, String>> getUsernamesFromUserIds(List<String> userIds) {
-        return communicationRepository.getUsernameByUserIds(userIds);
+    public Future<List<NeoUser>> getUsernamesFromUserIds(List<String> usersIds) {
+        return communicationRepository.getSimplifiedUsersByUserIds(usersIds);
     }
 
     // Private functions

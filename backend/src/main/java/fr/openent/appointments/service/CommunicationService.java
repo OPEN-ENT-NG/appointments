@@ -2,6 +2,7 @@ package fr.openent.appointments.service;
 
 import fr.openent.appointments.model.UserAppointment;
 import fr.openent.appointments.model.database.NeoGroup;
+import fr.openent.appointments.model.database.NeoUser;
 import io.vertx.core.Future;
 import org.entcore.common.user.UserInfos;
 
@@ -33,10 +34,10 @@ public interface CommunicationService {
     Future<List<UserAppointment>> getUsers(UserInfos userInfos, String search, Long page, Long limit);
 
     /**
-     * Retrieves all user names from their ids.
+     * Retrieves all users' infos from their ids.
      *
      * @param usersIds The list of user IDs.
      * @return A Future containing a {@link Map}<{@link String}, {@link String}>.
      */
-    Future<Map<String, String>> getUsernamesFromUserIds(List<String> userIds);
+    Future<List<NeoUser>> getUsernamesFromUserIds(List<String> usersIds);
 }

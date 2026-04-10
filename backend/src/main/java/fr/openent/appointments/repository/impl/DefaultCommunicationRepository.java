@@ -110,7 +110,7 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
                 .put(CAMEL_STRUCTURES_IDS, structuresIds)
                 .put(CAMEL_USERS_IDS, usersIds);
 
-        String errorMessage = String.format("[Appointments@DefaultCommunicationRepository::getUsersFromUsersIdsWithGoodRight] Fail to retrieve users from usersIds %s : ", usersIds);
+        String errorMessage = String.format("[Appointments@DefaultCommunicationRepository::getUsersFromUsersIds] Fail to retrieve users from usersIds %s : ", usersIds);
         neo4j.execute(query, params, Neo4jResult.validResultHandler(IModelHelper.resultToIModel(promise, NeoUser.class, errorMessage)));
 
         return promise.future();
@@ -216,8 +216,8 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
     }
 
     @Override
-    public Future<Map<String, String>> getUsernameByUserIds(List<String> usersIds) {
-        Promise<Map<String, String>> promise = Promise.promise();
+    public Future<List<NeoUser>> getSimplifiedUsersByUserIds(List<String> usersIds) {
+        Promise<List<NeoUser>> promise = Promise.promise();
 
         String query = "MATCH (u:User) " +
                         "WHERE u.id IN {usersIds} " +
@@ -225,22 +225,8 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
 
         JsonObject params = new JsonObject().put(CAMEL_USERS_IDS, usersIds);
 
-        neo4j.execute(query, params, Neo4jResult.validResultHandler(result -> {
-            if (result.isLeft()) {
-                String errorMessage = String.format("Fail to retrieve usernames from usersIds %s", usersIds);
-                LogHelper.logError(this, "getUsernameByUserIds", errorMessage, result.left().getValue());
-                promise.fail(errorMessage);
-                return;
-            } 
-            
-            Map<String, String> idToUsername = result.right().getValue().stream()
-                    .map(JsonObject.class::cast)
-                    .collect(Collectors.toMap(
-                            row -> row.getString("id"),
-                            row -> row.getString("displayName")
-                    ));
-            promise.complete(idToUsername);
-        }));
+        String errorMessage = String.format("[Appointments@DefaultCommunicationRepository::getUsernameByUserIds] Fail to retrieve usernames from usersIds %s ", usersIds);
+        neo4j.execute(query, params, Neo4jResult.validResultHandler(IModelHelper.resultToIModel(promise, NeoUser.class, errorMessage)));
 
         return promise.future();
     }

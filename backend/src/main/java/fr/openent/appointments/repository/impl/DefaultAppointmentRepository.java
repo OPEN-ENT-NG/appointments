@@ -80,6 +80,11 @@ public class DefaultAppointmentRepository implements AppointmentRepository {
 
     @Override
     public Future<List<AppointmentWithInfos>> getAppointments(String userId, List<AppointmentState> states, Boolean ignorePast) {
+        return getAppointments(userId, states, ignorePast, null);
+    }
+
+    @Override
+    public Future<List<AppointmentWithInfos>> getAppointments(String userId, List<AppointmentState> states, Boolean ignorePast, List<Long> appointmentsIds) {
         Promise<List<AppointmentWithInfos>> promise = Promise.promise();
 
         if (userId == null) {
@@ -99,6 +104,11 @@ public class DefaultAppointmentRepository implements AppointmentRepository {
         if (states != null && !states.isEmpty()) {
             query += " AND a.state IN " + Sql.listPrepared(states);
             params.addAll(new JsonArray(states.stream().map(AppointmentState::getValue).collect(Collectors.toList())));
+        }
+
+        if (appointmentsIds != null && !appointmentsIds.isEmpty()) {
+            query += " AND a.id IN " + Sql.listPrepared(appointmentsIds);
+            params.addAll(new JsonArray(appointmentsIds));
         }
 
         if (ignorePast) {
