@@ -5,9 +5,13 @@ import fr.openent.appointments.model.database.AppointmentWithInfos;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ICSHelper {
+    public static List<AppointmentState> authorizedStates = Arrays.asList(AppointmentState.CANCELED, AppointmentState.ACCEPTED);
+
     public static String buildFilename(List<AppointmentWithInfos> appointments)
     {
         String filename = "export_global_rdv.ics";

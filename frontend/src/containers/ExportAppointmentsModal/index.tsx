@@ -10,8 +10,11 @@ import {
 import { IExportAppointmentsModalProps } from "./type";
 import { FC } from "react";
 import { t } from "~/i18n";
+import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 
 export const ExportAppointmentsModal: FC<IExportAppointmentsModalProps> = ({ isOpen, handleClose, handleExport }) => {
+  const { isExportingAppointments } = useMyAppointments();
+
   return (
     <Dialog 
       maxWidth={"md"}
@@ -34,6 +37,7 @@ export const ExportAppointmentsModal: FC<IExportAppointmentsModalProps> = ({ isO
         </Button>
         <Button
           variant="contained"
+          loading={isExportingAppointments}
           onClick={handleExport}
         >
           {t("appointments.download")}

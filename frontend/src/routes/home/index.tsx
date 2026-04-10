@@ -27,6 +27,7 @@ import { t } from "~/i18n";
 import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
 import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 import { shouldDisplayExportButton } from "./utils";
+import { THREE_TABS_EXPORT_BREAKPOINT, TWO_TABS_EXPORT_BREAKPOINT } from "~/core/breakpoints";
 
 export interface AppProps {
   _id: string;
@@ -50,7 +51,8 @@ export const Home: FC = () => {
     !hasManageRight && initialTabValue === 2 ? 0 : initialTabValue,
   );
   const { isTheme1D } = useTheme();
-  const isMobile = useMediaQuery("(max-width:620px)");
+  const hasTwoTabs = useMediaQuery(`(max-width: ${TWO_TABS_EXPORT_BREAKPOINT}px)`,);
+  const hasThreeTabs = useMediaQuery(`(max-width: ${THREE_TABS_EXPORT_BREAKPOINT}px)`,);
   const displayExportButton = shouldDisplayExportButton(myAppointments);
 
   const handleChange = useCallback(
@@ -101,7 +103,7 @@ export const Home: FC = () => {
             <Tab label={t("appointments.my.appointments")} />
             {hasManageRight && <Tab label={t("appointments.my.availability")} />}
           </Tabs>
-          <Box sx={{...(isMobile && { ...centerBoxStyle, marginTop: "1rem" })}}>
+          <Box sx={{...((!hasManageRight && hasTwoTabs || hasManageRight && hasThreeTabs) && { ...centerBoxStyle, marginTop: "1rem" })}}>
             {displayExportButton && tabValue === 1 && (
               <Button
                 color={"primary"}

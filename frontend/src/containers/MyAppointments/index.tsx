@@ -20,6 +20,7 @@ import {
   mainContainerStyle,
 } from "./style";
 import { t } from "~/i18n";
+import { TWO_TABS_EXPORT_BREAKPOINT } from "~/core/breakpoints";
 
 export const MyAppointments: FC = () => {
   const {
@@ -28,7 +29,7 @@ export const MyAppointments: FC = () => {
     dialogModalProps,
     selectedAppointment,
   } = useMyAppointments();
-  const isMobile = useMediaQuery("(max-width:620px)");
+  const isMobile = useMediaQuery(`(max-width: ${TWO_TABS_EXPORT_BREAKPOINT}px)`);
   const theme = useTheme();
 
   const myPendingAppointments =

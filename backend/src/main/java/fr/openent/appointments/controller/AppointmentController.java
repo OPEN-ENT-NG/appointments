@@ -43,8 +43,7 @@ import java.util.stream.Stream;
 import static fr.openent.appointments.core.constants.Constants.*;
 import static fr.openent.appointments.core.constants.Fields.*;
 import static fr.openent.appointments.enums.Events.CREATE;
-import static fr.openent.appointments.helper.ICSHelper.buildFilename;
-import static fr.openent.appointments.helper.ICSHelper.buildFinalFilename;
+import static fr.openent.appointments.helper.ICSHelper.*;
 
 public class AppointmentController extends ControllerHelper {
     private final EventStore eventStore;
@@ -337,6 +336,7 @@ public class AppointmentController extends ControllerHelper {
         RequestUtils.bodyToJson(request, body -> {
             List<AppointmentState> states = body.getJsonArray(STATES).stream()
                     .map(state -> AppointmentState.getAppointmentState(state.toString()))
+                    .filter(state -> authorizedStates.contains(state))
                     .collect(Collectors.toList());
             List<Long> appointmentIds = body.getJsonArray(APPOINTMENTS_IDS).stream()
                 .map(id -> ((Number) id).longValue())
