@@ -8,6 +8,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
+import static fr.openent.appointments.core.constants.DateFormat.TIME_FORMAT;
+
 public class ICSHelper {
     public static List<AppointmentState> authorizedStates = Arrays.asList(AppointmentState.CANCELED, AppointmentState.ACCEPTED);
 
@@ -24,8 +26,8 @@ public class ICSHelper {
 
         String rdvDateTime = String.format("%s_%s_%s",
                 start.toLocalDate(),
-                start.format(DateTimeFormatter.ofPattern("HH:mm")),
-                end.format(DateTimeFormatter.ofPattern("HH:mm"))
+                start.format(DateTimeFormatter.ofPattern(TIME_FORMAT)),
+                end.format(DateTimeFormatter.ofPattern(TIME_FORMAT))
         );
 
         return "export_rdv_" + rdvDateTime + ".ics";
