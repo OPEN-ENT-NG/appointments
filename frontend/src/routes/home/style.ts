@@ -1,4 +1,8 @@
-import { columnBoxStyle, flexStartBoxStyle, spaceBetweenBoxStyle } from "~/styles/boxStyles";
+import {
+  columnBoxStyle,
+  flexStartBoxStyle,
+  spaceBetweenBoxStyle,
+} from "~/styles/boxStyles";
 
 export const homeStyle = {
   width: "100%",

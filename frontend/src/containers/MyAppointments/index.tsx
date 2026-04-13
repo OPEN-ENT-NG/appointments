@@ -29,7 +29,9 @@ export const MyAppointments: FC = () => {
     dialogModalProps,
     selectedAppointment,
   } = useMyAppointments();
-  const isMobile = useMediaQuery(`(max-width: ${TWO_TABS_EXPORT_BREAKPOINT}px)`);
+  const isMobile = useMediaQuery(
+    `(max-width: ${TWO_TABS_EXPORT_BREAKPOINT}px)`,
+  );
   const theme = useTheme();
 
   const myPendingAppointments =

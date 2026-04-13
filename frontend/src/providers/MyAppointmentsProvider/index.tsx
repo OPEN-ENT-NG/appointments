@@ -234,9 +234,15 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
   );
 
   const downloadIcs = useCallback(
-    async (params: { appointmentsIds: number[]; states: APPOINTMENT_STATE[] }) => {
+    async (params: {
+      appointmentsIds: number[];
+      states: APPOINTMENT_STATE[];
+    }) => {
       const { text, filename } = await exportAppointments(params).unwrap();
-      downloadBlob(new Blob([text], { type: "text/calendar;charset=utf-8" }), `${filename}.ics`);
+      downloadBlob(
+        new Blob([text], { type: "text/calendar;charset=utf-8" }),
+        `${filename}.ics`,
+      );
     },
     [exportAppointments],
   );
@@ -264,13 +270,22 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
         if (!hasAccepted && !hasCancelled) return;
 
         if (!hasAccepted && hasCancelled) {
-          await downloadIcs({ appointmentsIds: [], states: [APPOINTMENT_STATE.CANCELED] });
+          await downloadIcs({
+            appointmentsIds: [],
+            states: [APPOINTMENT_STATE.CANCELED],
+          });
           return;
         }
 
-        await downloadIcs({ appointmentsIds: [], states: [APPOINTMENT_STATE.ACCEPTED, APPOINTMENT_STATE.CANCELED] });
+        await downloadIcs({
+          appointmentsIds: [],
+          states: [APPOINTMENT_STATE.ACCEPTED, APPOINTMENT_STATE.CANCELED],
+        });
         await sleep(1000);
-        await downloadIcs({ appointmentsIds: [], states: [APPOINTMENT_STATE.ACCEPTED] });
+        await downloadIcs({
+          appointmentsIds: [],
+          states: [APPOINTMENT_STATE.ACCEPTED],
+        });
       }),
     [withExportGuard, downloadIcs],
   );
@@ -278,7 +293,10 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
   const handleExportSingleAppointment = useCallback(
     (appointment: Appointment) =>
       withExportGuard(TOAST_TYPE.EXPORT_EVENT, async () => {
-        await downloadIcs({ appointmentsIds: [appointment.id], states: [appointment.state] });
+        await downloadIcs({
+          appointmentsIds: [appointment.id],
+          states: [appointment.state],
+        });
       }),
     [withExportGuard, downloadIcs],
   );
@@ -457,7 +475,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
       handleOpenDialogModal,
       handleCloseDialogModal,
       handleExportSingleAppointment,
-      handleExportMultipleAppointments
+      handleExportMultipleAppointments,
     ],
   );
 
