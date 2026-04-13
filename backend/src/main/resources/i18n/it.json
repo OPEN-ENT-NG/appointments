@@ -91,10 +91,13 @@
 
   "appointments.confirm.modal.reject.request.title": "Rifiutare la richiesta",
   "appointments.confirm.modal.reject.request.description": "Se confermi, la richiesta di appuntamento verrà rifiutata e sarai nuovamente disponibile nella fascia oraria interessata.",
+  "appointments.confirm.modal.reject.request.comment.description": "Potete, se lo desiderate, indicare il motivo del rifiuto per informare il richiedente.",
   "appointments.confirm.modal.cancel.request.title": "Annullare la richiesta",
   "appointments.confirm.modal.cancel.request.description": "Se confermi, la richiesta di appuntamento verrà annullata e la fascia oraria sarà nuovamente disponibile.",
+  "appointments.confirm.modal.cancel.request.comment.description": "Potete, se lo desiderate, indicare il motivo dell'annullamento per informare l'altro partecipante.",
   "appointments.confirm.modal.cancel.appointment.title": "Annullare l'appuntamento",
   "appointments.confirm.modal.cancel.appointment.description": "Se confermi, l'appuntamento verrà annullato e sarai nuovamente disponibile nella fascia oraria interessata.",
+  "appointments.confirm.modal.cancel.appointment.comment.description": "Potete, se lo desiderate, indicare il motivo dell'annullamento per informare il proprietario della griglia.",
 
   "appointments.last.appointment": "Ultimo appuntamento: {{date}}",
   "appointments.max.number.files": "Massimo {{maxNumber}} file.",
@@ -138,6 +141,7 @@
   "appointments.refuse": "Rifiuta",
   "appointments.download": "Scarica",
   "appointments.videoconference": "Videoconferenza",
+  "appointments.comment.optionnal": "Commento (facoltativo)",
 
   "appointments.monday": "Lunedì",
   "appointments.tuesday": "Martedì",

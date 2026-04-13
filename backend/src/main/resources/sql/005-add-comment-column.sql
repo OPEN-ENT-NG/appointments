@@ -1,0 +1,1 @@
+ALTER TABLE appointments.appointment ADD COLUMN comment VARCHAR(255);

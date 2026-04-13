@@ -301,7 +301,12 @@ public class DefaultAppointmentService implements AppointmentService {
         return LocalDateTime.now().plusHours(limitHoursBeforeCancelAppointment).isBefore(beginDate);
     }
 
-    private Future<Appointment> handleAppointmentStateChange(final HttpServerRequest request, Long appointmentId, UserInfos userInfos, AppointmentState targetState, String functionName) {
+    private Future<Appointment> handleAppointmentStateChange(final HttpServerRequest request,
+                                                             Long appointmentId,
+                                                             UserInfos userInfos,
+                                                             String comment,
+                                                             AppointmentState targetState,
+                                                             String functionName) {
         Promise<Appointment> promise = Promise.promise();
 
         JsonObject composeInfos = new JsonObject();
@@ -337,7 +342,7 @@ public class DefaultAppointmentService implements AppointmentService {
                     LogHelper.logError(this, functionName, errorMessage, "");
                     return Future.failedFuture(errorMessage);
                 }
-                return appointmentRepository.updateState(appointmentId, targetState);
+                return appointmentRepository.updateState(appointmentId, targetState, comment);
             })
             .onSuccess(updatedAppointment -> {
                 if (updatedAppointment.isPresent()) {
@@ -369,18 +374,18 @@ public class DefaultAppointmentService implements AppointmentService {
     }
 
     @Override
-    public Future<Appointment> acceptAppointment(final HttpServerRequest request, Long appointmentId, UserInfos userInfos) {
-        return handleAppointmentStateChange(request, appointmentId, userInfos, AppointmentState.ACCEPTED, "acceptAppointment");
+    public Future<Appointment> acceptAppointment(final HttpServerRequest request, Long appointmentId, UserInfos userInfos, String comment) {
+        return handleAppointmentStateChange(request, appointmentId, userInfos, comment, AppointmentState.ACCEPTED, "acceptAppointment");
     }
 
     @Override
-    public Future<Appointment> rejectAppointment(final HttpServerRequest request, Long appointmentId, UserInfos userInfos) {
-        return handleAppointmentStateChange(request, appointmentId, userInfos, AppointmentState.REFUSED, "rejectAppointment");
+    public Future<Appointment> rejectAppointment(final HttpServerRequest request, Long appointmentId, UserInfos userInfos, String comment) {
+        return handleAppointmentStateChange(request, appointmentId, userInfos, comment, AppointmentState.REFUSED, "rejectAppointment");
     }
 
     @Override
-    public Future<Appointment> cancelAppointment(final HttpServerRequest request, Long appointmentId, UserInfos userInfos) {
-        return handleAppointmentStateChange(request, appointmentId, userInfos, AppointmentState.CANCELED, "cancelAppointment");
+    public Future<Appointment> cancelAppointment(final HttpServerRequest request, Long appointmentId, UserInfos userInfos, String comment) {
+        return handleAppointmentStateChange(request, appointmentId, userInfos, comment, AppointmentState.CANCELED, "cancelAppointment");
     }
 
     @Override

@@ -102,9 +102,16 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
                 state={appointment.state}
                 isRequester={appointment.isRequester}
               />
-              <Typography variant="body1" color="text.primary">
-                {t(APPOINTMENT_STATE_VALUES[appointment.state].i18nKey)}
-              </Typography>
+              <Box maxWidth="90%">
+                <Typography variant="body1" color="text.primary">
+                  {t(APPOINTMENT_STATE_VALUES[appointment.state].i18nKey)}
+                </Typography>
+                {appointment.comment && (
+                  <Box>
+                    //TODO
+                  </Box>
+                )}
+              </Box>
             </Box>
             {appointment.isVideoCall && (
               <Box sx={rowInfoStyle}>
@@ -224,6 +231,7 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
                     handleOpenDialogModal(
                       CONFIRM_MODAL_TYPE.CANCEL_REQUEST,
                       appointment.id,
+                      true,
                     )
                   }
                 >
