@@ -86,6 +86,8 @@
   "appointments.my.appointments.accepted.empty.state": "You have no scheduled appointments. Use the 'Find an appointment' tab to book one.",
   "appointments.my.appointments.rejected.or.canceled": "Canceled/Rejected appointments",
   "appointments.my.appointment.infos.modal.title": "Appointment with...",
+  "appointments.my.appointment.infos.modal.comment.title.canceled": "Reason for cancellation",
+  "appointments.my.appointment.infos.modal.comment.title.reject": "Reason for rejection",
   "appointments.my.appointment.infos.modal.video.call": "Videoconference appointment:",
   "appointments.my.appointment.infos.modal.date": "On {{date}}, from {{beginTime}} to {{endTime}}",
 

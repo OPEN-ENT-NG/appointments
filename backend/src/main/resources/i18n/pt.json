@@ -86,6 +86,8 @@
   "appointments.my.appointments.accepted.empty.state": "Você não tem compromissos agendados. Use a aba Encontrar um compromisso para agendar um.",
   "appointments.my.appointments.rejected.or.canceled": "Compromissos cancelados/recusados",
   "appointments.my.appointment.infos.modal.title": "Compromisso com...",
+  "appointments.my.appointment.infos.modal.comment.title.canceled": "Motivo do cancelamento",
+  "appointments.my.appointment.infos.modal.comment.title.reject": "Motivo da rejeição",
   "appointments.my.appointment.infos.modal.video.call": "Compromisso por videoconferência:",
   "appointments.my.appointment.infos.modal.date": "Em {{date}}, das {{beginTime}} às {{endTime}}",
 

@@ -86,6 +86,8 @@
   "appointments.my.appointments.accepted.empty.state": "No tienes ninguna cita programada. Usa la pestaña 'Buscar una cita' para programar una.",
   "appointments.my.appointments.rejected.or.canceled": "Citas canceladas/rechazadas",
   "appointments.my.appointment.infos.modal.title": "Cita con...",
+  "appointments.my.appointment.infos.modal.comment.title.canceled": "Motivo de la cancelación",
+  "appointments.my.appointment.infos.modal.comment.title.reject": "Motivo del rechazo",
   "appointments.my.appointment.infos.modal.video.call": "Cita por videoconferencia:",
   "appointments.my.appointment.infos.modal.date": "El {{date}}, de {{beginTime}} a {{endTime}}",
 

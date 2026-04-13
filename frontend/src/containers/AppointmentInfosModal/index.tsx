@@ -3,12 +3,14 @@ import { FC, useMemo } from "react";
 import {
   Box,
   Button,
+  Chip,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   EllipsisWithTooltip,
   Link,
+  Stack,
   Tooltip,
   Typography,
 } from "@cgi-learning-hub/ui";
@@ -32,7 +34,10 @@ import { APPOINTMENT_STATE, CONFIRM_MODAL_TYPE } from "~/core/enums";
 import { useGlobal } from "~/providers/GlobalProvider";
 import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 import {
+  avatarChipStyle,
   bottomContainerStyle,
+  chipStyle,
+  commentStyle,
   dialogContentStyle,
   greyIconStyle,
   modalStyle,
@@ -102,16 +107,26 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
                 state={appointment.state}
                 isRequester={appointment.isRequester}
               />
-              <Box maxWidth="90%">
+              <Stack width="90%">
                 <Typography variant="body1" color="text.primary">
                   {t(APPOINTMENT_STATE_VALUES[appointment.state].i18nKey)}
                 </Typography>
                 {appointment.comment && (
-                  <Box>
-                    //TODO
-                  </Box>
+                  <Stack sx={commentStyle}>
+                    <Typography fontSize="1.2rem" fontWeight="bold" color="text.primary">
+                      {t("appointments.my.appointment.infos.modal.comment.title.canceled")}
+                      </Typography>
+                    <Typography fontSize="1.2rem" color="text.primary">{appointment.comment}</Typography> // TODO retrieve comment from back
+                    <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                      <Chip
+                        avatar={<Box sx={avatarChipStyle}><UserPicture picture={appointment.commentatorPicture} /></Box>} // TODO retrieve comment from back
+                        label={appointment.commentator} // TODO retrieve comment from back
+                        sx={chipStyle}
+                      />
+                    </Box>
+                  </Stack>
                 )}
-              </Box>
+              </Stack>
             </Box>
             {appointment.isVideoCall && (
               <Box sx={rowInfoStyle}>

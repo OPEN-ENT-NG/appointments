@@ -86,6 +86,8 @@
   "appointments.my.appointments.accepted.empty.state": "Non hai appuntamenti programmati. Usa la scheda Trova un appuntamento per programmarne uno.",
   "appointments.my.appointments.rejected.or.canceled": "Appuntamenti annullati/rifiutati",
   "appointments.my.appointment.infos.modal.title": "Appuntamento con...",
+  "appointments.my.appointment.infos.modal.comment.title.canceled": "Motivo dell'annullamento",
+  "appointments.my.appointment.infos.modal.comment.title.reject": "Motivo del rifiuto",
   "appointments.my.appointment.infos.modal.video.call": "Appuntamento in videoconferenza:",
   "appointments.my.appointment.infos.modal.date": "Il {{date}}, dalle {{beginTime}} alle {{endTime}}",
 

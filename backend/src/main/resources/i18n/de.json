@@ -86,6 +86,8 @@
   "appointments.my.appointments.accepted.empty.state": "Sie haben keine geplanten Termine. Verwenden Sie den Tab 'Termin finden', um einen zu planen.",
   "appointments.my.appointments.rejected.or.canceled": "Abgesagte/abgelehnte Termine",
   "appointments.my.appointment.infos.modal.title": "Termin mit...",
+  "appointments.my.appointment.infos.modal.comment.title.canceled": "Grund der Stornierung",
+  "appointments.my.appointment.infos.modal.comment.title.reject": "Grund der Ablehnung",
   "appointments.my.appointment.infos.modal.video.call": "Videokonferenz-Termin:",
   "appointments.my.appointment.infos.modal.date": "Am {{date}}, von {{beginTime}} bis {{endTime}}",
 
