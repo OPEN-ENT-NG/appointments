@@ -26,8 +26,8 @@ import { ModalType } from "~/providers/GlobalProvider/enum";
 import { t } from "~/i18n";
 import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
 import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
-import { shouldDisplayExportButton } from "./utils";
 import { THREE_TABS_EXPORT_BREAKPOINT, TWO_TABS_EXPORT_BREAKPOINT } from "~/core/breakpoints";
+import { APPOINTMENT_STATE } from "~/core/enums";
 
 export interface AppProps {
   _id: string;
@@ -53,7 +53,10 @@ export const Home: FC = () => {
   const { isTheme1D } = useTheme();
   const hasTwoTabs = useMediaQuery(`(max-width: ${TWO_TABS_EXPORT_BREAKPOINT}px)`,);
   const hasThreeTabs = useMediaQuery(`(max-width: ${THREE_TABS_EXPORT_BREAKPOINT}px)`,);
-  const displayExportButton = shouldDisplayExportButton(myAppointments);
+  const hasAccepted = (myAppointments.accepted?.total ?? 0) > 0;
+  const hasCancelled = (myAppointments.rejected_or_canceled?.appointments
+      .filter((a) => a.state === APPOINTMENT_STATE.CANCELED)
+      .length ?? 0) > 0;
 
   const handleChange = useCallback(
     (_: SyntheticEvent, newValue: number) => {
@@ -104,7 +107,7 @@ export const Home: FC = () => {
             {hasManageRight && <Tab label={t("appointments.my.availability")} />}
           </Tabs>
           <Box sx={{...((!hasManageRight && hasTwoTabs || hasManageRight && hasThreeTabs) && { ...centerBoxStyle, marginTop: "1rem" })}}>
-            {displayExportButton && tabValue === 1 && (
+            {(hasAccepted || hasCancelled) && tabValue === 1 && (
               <Button
                 color={"primary"}
                 variant={"contained"}
@@ -126,7 +129,7 @@ export const Home: FC = () => {
       <ExportAppointmentsModal
         isOpen={showExportModal}
         handleClose={() => toggleModal(ModalType.EXPORT)}
-        handleExport={() => { void handleExportMultipleAppointments() }} />
+        handleExport={() => { void handleExportMultipleAppointments(hasAccepted, hasCancelled) }} />
     </Box>
   );
 };
