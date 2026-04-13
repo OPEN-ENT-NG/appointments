@@ -109,9 +109,12 @@
 
   "appointments.event.export.one.button.title": "Ereignis herunterladen",
   "appointments.event.export.all.button.title": "Termine herunterladen",
-  "appointments.event.export.all.modal.title": "Ihre Termine herunterladen",
-  "appointments.event.export.all.modal.body1": "Die Datei enthält die folgenden Termine:\n   • Angenommene Termine\n   • Abgesagte Termine\nDer Download erstellt eine Kalenderdatei (.ics), die Sie manuell in den Kalender Ihrer Wahl importieren können.",
-  "appointments.event.export.all.modal.body2": "Bei späteren Änderungen oder Absagen ist ein erneuter Export erforderlich.",
+  "appointments.event.export.all.modal.body1": "Der Download generiert <strong>zwei .ics-Dateien</strong>, die Sie manuell in den Kalender Ihrer Wahl importieren können.",
+  "appointments.event.export.all.modal.body2": "Die erste storniert alle bestehenden Termine, die zweite erstellt die aktualisierten aktiven Termine neu.",
+  "appointments.event.export.all.modal.warning.title": "Wichtig",
+  "appointments.event.export.all.modal.warning.body": "Importieren Sie die Dateien in der angegebenen Reihenfolge, damit Ihr Kalender korrekt aktualisiert wird.\n   • <i>1-export_global_stornierung.ics</i>\n   • <i>2-export_global_erstellung.ics</i>",
+  "appointments.event.export.all.modal.end": "Jede spätere Änderung erfordert einen neuen Export.",
+  "appointments.event.export.all.only.cancelled.body": "Der Download generiert <strong>eine .ics-Datei</strong> mit allen Ihren stornierten Terminen, die Sie manuell in den Kalender Ihrer Wahl importieren können.",
 
   "appointments.appointments": "Termine",
   "appointments.cancel": "Abbrechen",

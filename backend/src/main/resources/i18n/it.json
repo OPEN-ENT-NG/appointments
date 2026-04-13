@@ -109,9 +109,12 @@
 
   "appointments.event.export.one.button.title": "Scarica evento",
   "appointments.event.export.all.button.title": "Scarica gli appuntamenti",
-  "appointments.event.export.all.modal.title": "Scarica i tuoi appuntamenti",
-  "appointments.event.export.all.modal.body1": "Il file conterrà i seguenti appuntamenti:\n   • Appuntamenti accettati\n   • Appuntamenti annullati\nIl download genererà un file di calendario (.ics) che potrai importare manualmente nel calendario di tua scelta.",
-  "appointments.event.export.all.modal.body2": "In caso di modifiche o annullamenti successivi, sarà necessario effettuare una nuova esportazione.",
+  "appointments.event.export.all.modal.body1": "Il download genererà <strong>due file .ics</strong> che potrete importare manualmente nel calendario di vostra scelta.",
+  "appointments.event.export.all.modal.body2": "Il primo annulla tutti gli appuntamenti esistenti, il secondo ricrea gli appuntamenti attivi aggiornati.",
+  "appointments.event.export.all.modal.warning.title": "Importante",
+  "appointments.event.export.all.modal.warning.body": "Importate i file nell'ordine indicato affinché il vostro calendario venga aggiornato correttamente.\n   • <i>1-export_global_annullamento.ics</i>\n   • <i>2-export_global_creazione.ics</i>",
+  "appointments.event.export.all.modal.end": "Qualsiasi modifica successiva richiederà una nuova esportazione.",
+  "appointments.event.export.all.only.cancelled.body": "Il download genererà <strong>un file .ics</strong> contenente tutti i vostri appuntamenti annullati che potrete importare manualmente nel calendario di vostra scelta.",
 
   "appointments.appointments": "Appuntamenti",
   "appointments.cancel": "Annulla",

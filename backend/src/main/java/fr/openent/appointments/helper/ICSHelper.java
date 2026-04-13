@@ -7,34 +7,28 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ICSHelper {
     public static List<AppointmentState> authorizedStates = Arrays.asList(AppointmentState.CANCELED, AppointmentState.ACCEPTED);
 
-    public static String buildFilename(List<AppointmentWithInfos> appointments)
+    public static String buildFilename(List<AppointmentWithInfos> appointments, List<AppointmentState> states)
     {
-        String filename = "export_global_rdv.ics";
-        if(appointments.size() == 1) {
-            LocalDateTime start = appointments.get(0).getBeginDate();
-            LocalDateTime end = appointments.get(0).getEndDate();
-
-            String rdvDateTime = String.format("%s_%s_%s",
-                    start.toLocalDate(),
-                    start.format(DateTimeFormatter.ofPattern("HH:mm")),
-                    end.format(DateTimeFormatter.ofPattern("HH:mm"))
-            );
-
-            filename = "export_rdv_" + rdvDateTime + ".ics";
+        if (appointments.size() > 1) {
+            return states.contains(AppointmentState.CANCELED)
+                    ? "1-export_global_annulation.ics"
+                    : "2-export_global_création.ics";
         }
-        return filename;
-    }
 
-    public static String buildFinalFilename(String filename, List<AppointmentState> states)
-    {
-        return states.contains(AppointmentState.CANCELED)
-                ? "export_cancelled_" + filename.substring("export_".length())
-                : filename;
+        LocalDateTime start = appointments.get(0).getBeginDate();
+        LocalDateTime end = appointments.get(0).getEndDate();
+
+        String rdvDateTime = String.format("%s_%s_%s",
+                start.toLocalDate(),
+                start.format(DateTimeFormatter.ofPattern("HH:mm")),
+                end.format(DateTimeFormatter.ofPattern("HH:mm"))
+        );
+
+        return "export_rdv_" + rdvDateTime + ".ics";
     }
 
     public static String buildEventICSSummary(String otherMemberDisplayName, String gridName) {

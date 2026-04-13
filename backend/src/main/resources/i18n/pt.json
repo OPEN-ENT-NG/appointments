@@ -109,9 +109,12 @@
 
   "appointments.event.export.one.button.title": "Baixar evento",
   "appointments.event.export.all.button.title": "Baixar consultas",
-  "appointments.event.export.all.modal.title": "Baixar suas consultas",
-  "appointments.event.export.all.modal.body1": "O arquivo conterá as seguintes consultas:\n   • Consultas aceitas\n   • Consultas canceladas\nO download gerará um arquivo de calendário (.ics) que você poderá importar manualmente no calendário de sua escolha.",
-  "appointments.event.export.all.modal.body2": "Em caso de modificação ou cancelamento posterior, será necessário realizar uma nova exportação.",
+  "appointments.event.export.all.modal.body1": "O download irá gerar <strong>dois ficheiros .ics</strong> que poderá importar manualmente para o calendário da sua escolha.",
+  "appointments.event.export.all.modal.body2": "O primeiro cancela todos os compromissos existentes, o segundo recria os compromissos ativos atualizados.",
+  "appointments.event.export.all.modal.warning.title": "Importante",
+  "appointments.event.export.all.modal.warning.body": "Importe os ficheiros na ordem indicada para que o seu calendário seja atualizado corretamente.\n   • <i>1-export_global_cancelamento.ics</i>\n   • <i>2-export_global_criação.ics</i>",
+  "appointments.event.export.all.modal.end": "Qualquer modificação posterior exigirá uma nova exportação.",
+  "appointments.event.export.all.only.cancelled.body": "O download irá gerar <strong>um ficheiro .ics</strong> contendo todos os seus compromissos cancelados que poderá importar manualmente para o calendário da sua escolha.",
 
   "appointments.appointments": "Compromissos",
   "appointments.cancel": "Cancelar",

@@ -127,6 +127,7 @@ export const Home: FC = () => {
         </Box>
       </Box>
       <ExportAppointmentsModal
+        hasOnlyCancelled={hasCancelled && !hasAccepted}
         isOpen={showExportModal}
         handleClose={() => toggleModal(ModalType.EXPORT)}
         handleExport={() => { void handleExportMultipleAppointments(hasAccepted, hasCancelled) }} />

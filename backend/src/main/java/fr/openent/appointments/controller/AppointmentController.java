@@ -357,7 +357,7 @@ public class AppointmentController extends ControllerHelper {
                         return Future.failedFuture(errorMessage);
                     }
 
-                    String filename = buildFilename(appointments);
+                    String filename = buildFilename(appointments, states);
                     composeInfo.put(APPOINTMENTS, appointments);
                     composeInfo.put(FILENAME, filename);
 
@@ -377,10 +377,9 @@ public class AppointmentController extends ControllerHelper {
                     return appointmentService.buildICSFile(appointments, mapUserIdToDisplayName, user.getUserId(), eventMethod);
                 })
                 .onSuccess(fileICS -> {
-                    String finalFilename = buildFinalFilename(composeInfo.getString(FILENAME), states);
                     request.response()
                         .putHeader("Content-Type", "text/calendar; charset=utf-8")
-                        .putHeader("Content-Disposition", "attachment; filename=" + finalFilename)
+                        .putHeader("Content-Disposition", "attachment; filename=" + composeInfo.getString(FILENAME))
                         .end(fileICS);
                 })
                 .onFailure(err -> {
