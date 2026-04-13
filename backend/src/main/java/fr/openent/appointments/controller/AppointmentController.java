@@ -1,6 +1,7 @@
 package fr.openent.appointments.controller;
 
 import fr.openent.appointments.enums.AppointmentState;
+import fr.openent.appointments.enums.ICS.EventMethod;
 import fr.openent.appointments.helper.DateHelper;
 import fr.openent.appointments.helper.LogHelper;
 import fr.openent.appointments.helper.ParamHelper;
@@ -368,11 +369,12 @@ public class AppointmentController extends ControllerHelper {
                     return communicationService.getUsernamesFromUserIds(usersIds);
                 })
                 .compose(neoUsers -> {
-                    UserInfos user = (UserInfos) composeInfo.getValue(CAMEL_USER_INFO);
                     List<AppointmentWithInfos> appointments = composeInfo.getJsonArray(APPOINTMENTS).getList();
                     Map<String, String> mapUserIdToDisplayName = neoUsers.stream()
                             .collect(Collectors.toMap(NeoUser::getId, NeoUser::getDisplayName));
-                    return appointmentService.buildICSFile(appointments, mapUserIdToDisplayName, user.getUserId());
+                    UserInfos user = (UserInfos) composeInfo.getValue(CAMEL_USER_INFO);
+                    EventMethod eventMethod = states.contains(AppointmentState.CANCELED) ? EventMethod.CANCEL : EventMethod.PUBLISH;
+                    return appointmentService.buildICSFile(appointments, mapUserIdToDisplayName, user.getUserId(), eventMethod);
                 })
                 .onSuccess(fileICS -> {
                     String finalFilename = buildFinalFilename(composeInfo.getString(FILENAME), states);

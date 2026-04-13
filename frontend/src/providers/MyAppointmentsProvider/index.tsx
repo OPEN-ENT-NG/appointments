@@ -255,13 +255,13 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
         toggleModal(ModalType.EXPORT);
       }
     },
-    [t],
+    [t, toggleModal],
   );
 
   const handleExportMultipleAppointments = useCallback(
     () =>
       withExportGuard(TOAST_TYPE.EXPORT_EVENTS, async () => {
-        await downloadIcs({ appointmentsIds: [], states: [APPOINTMENT_STATE.CANCELED] });
+        await downloadIcs({ appointmentsIds: [], states: [APPOINTMENT_STATE.ACCEPTED, APPOINTMENT_STATE.CANCELED] });
         await sleep(1000);
         await downloadIcs({ appointmentsIds: [], states: [APPOINTMENT_STATE.ACCEPTED] });
       }),
