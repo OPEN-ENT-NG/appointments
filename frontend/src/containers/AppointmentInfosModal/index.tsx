@@ -85,7 +85,9 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
             </Box>
             <Box sx={userInfosBoxStyle}>
               <EllipsisWithTooltip
-                typographyProps={{ fontSize: "1.8rem", fontWeight: "bold" }}
+                slotProps={{
+                  text: { sx: { fontSize: "1.8rem", fontWeight: "bold" } },
+                }}
               >
                 {appointment.displayName}
               </EllipsisWithTooltip>
@@ -155,10 +157,14 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
               <Box sx={rowInfoStyle}>
                 <PlaceIcon sx={greyIconStyle} />
                 <EllipsisWithTooltip
-                  typographyProps={{
-                    whiteSpace: "wrap",
-                    variant: "body1",
-                    color: "text.primary",
+                  slotProps={{
+                    text: {
+                      sx: {
+                        whiteSpace: "wrap",
+                        variant: "body1",
+                        color: "text.primary",
+                      },
+                    },
                   }}
                 >
                   {appointment.place}
@@ -177,7 +183,7 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
                       target="_blank"
                     >
                       <EllipsisWithTooltip
-                        typographyProps={{ variant: "body1" }}
+                        slotProps={{ text: { sx: { variant: "body1" } } }}
                       >
                         {doc.name}
                       </EllipsisWithTooltip>
@@ -190,10 +196,14 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
               <Box sx={rowInfoStyle}>
                 <CommentIcon sx={greyIconStyle} />
                 <EllipsisWithTooltip
-                  typographyProps={{
-                    variant: "body1",
-                    color: "text.primary",
-                    whiteSpace: "pre-line",
+                  slotProps={{
+                    text: {
+                      sx: {
+                        variant: "body1",
+                        color: "text.primary",
+                        whiteSpace: "pre-line",
+                      },
+                    },
                   }}
                 >
                   {appointment.publicComment}
