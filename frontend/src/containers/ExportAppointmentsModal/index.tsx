@@ -17,7 +17,7 @@ export const ExportAppointmentsModal: FC<IExportAppointmentsModalProps> = ({ has
   const { isExportingAppointments } = useMyAppointments();
 
   return (
-    <Dialog 
+    <Dialog
       maxWidth={"md"}
       open={isOpen}
       onClose={handleClose}
@@ -29,8 +29,10 @@ export const ExportAppointmentsModal: FC<IExportAppointmentsModalProps> = ({ has
             <Typography dangerouslySetInnerHTML={{ __html: t('appointments.event.export.all.only.cancelled.body') }} />
           ) : (
             <Stack gap={2}>
-              <Typography dangerouslySetInnerHTML={{ __html: t('appointments.event.export.all.modal.body1') }} />
-              <Typography>{t("appointments.event.export.all.modal.body2")}</Typography>
+              <Stack>
+                <Typography dangerouslySetInnerHTML={{ __html: t('appointments.event.export.all.modal.body1') }} />
+                <Typography>{t("appointments.event.export.all.modal.body2")}</Typography>
+              </Stack>
               <Alert severity="warning" title={t("appointments.event.export.all.modal.warning.title")}>
                 <Typography sx={{ whiteSpace: 'pre-wrap' }} dangerouslySetInnerHTML={{ __html: t("appointments.event.export.all.modal.warning.body") }} />
               </Alert>
