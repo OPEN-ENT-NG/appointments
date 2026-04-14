@@ -113,13 +113,27 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
                 </Typography>
                 {appointment.comment && (
                   <Stack sx={commentStyle}>
-                    <Typography fontSize="1.6rem" fontWeight="bold" color="text.primary">
-                      {t("appointments.my.appointment.infos.modal.comment.title.canceled")}
-                      </Typography>
-                    <Typography fontSize="1.6rem" color="text.primary">{appointment.comment}</Typography>
+                    <Typography
+                      fontSize="1.6rem"
+                      fontWeight="bold"
+                      color="text.primary"
+                    >
+                      {t(
+                        "appointments.my.appointment.infos.modal.comment.title.canceled",
+                      )}
+                    </Typography>
+                    <Typography fontSize="1.6rem" color="text.primary">
+                      {appointment.comment}
+                    </Typography>
                     <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                       <Chip
-                        avatar={<Box sx={avatarChipStyle}><UserPicture picture={appointment.commentatorPicture} /></Box>}
+                        avatar={
+                          <Box sx={avatarChipStyle}>
+                            <UserPicture
+                              picture={appointment.commentatorPicture}
+                            />
+                          </Box>
+                        }
                         label={appointment.commentatorDisplayName}
                         sx={chipStyle}
                       />
