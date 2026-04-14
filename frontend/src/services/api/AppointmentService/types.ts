@@ -54,7 +54,7 @@ export interface MyMinimalAppointment {
   isVideoCall: boolean;
   videoCallLink: string;
   comment: string;
-  commentator: string;
+  commentatorDisplayName: string;
   commentatorPicture: string;
   state: APPOINTMENT_STATE;
   isRequester: boolean;

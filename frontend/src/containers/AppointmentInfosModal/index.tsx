@@ -113,14 +113,14 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
                 </Typography>
                 {appointment.comment && (
                   <Stack sx={commentStyle}>
-                    <Typography fontSize="1.2rem" fontWeight="bold" color="text.primary">
+                    <Typography fontSize="1.6rem" fontWeight="bold" color="text.primary">
                       {t("appointments.my.appointment.infos.modal.comment.title.canceled")}
                       </Typography>
-                    <Typography fontSize="1.2rem" color="text.primary">{appointment.comment}</Typography> // TODO retrieve comment from back
+                    <Typography fontSize="1.6rem" color="text.primary">{appointment.comment}</Typography>
                     <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                       <Chip
-                        avatar={<Box sx={avatarChipStyle}><UserPicture picture={appointment.commentatorPicture} /></Box>} // TODO retrieve comment from back
-                        label={appointment.commentator} // TODO retrieve comment from back
+                        avatar={<Box sx={avatarChipStyle}><UserPicture picture={appointment.commentatorPicture} /></Box>}
+                        label={appointment.commentatorDisplayName}
                         sx={chipStyle}
                       />
                     </Box>
@@ -274,6 +274,7 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
                     handleOpenDialogModal(
                       CONFIRM_MODAL_TYPE.REJECT_REQUEST,
                       appointment.id,
+                      true,
                     )
                   }
                 >
@@ -310,6 +311,7 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
                     handleOpenDialogModal(
                       CONFIRM_MODAL_TYPE.CANCEL_APPOINTMENT,
                       appointment.id,
+                      true,
                     )
                   }
                 >

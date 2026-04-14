@@ -149,7 +149,7 @@ public class DefaultAppointmentRepository implements AppointmentRepository {
     }
 
     @Override
-    public Future<Optional<Appointment>> updateState(Long appointmentId, AppointmentState state, String comment){
+    public Future<Optional<Appointment>> updateState(Long appointmentId, AppointmentState state, String comment, String userId){
         Promise<Optional<Appointment>> promise = Promise.promise();
 
         if (appointmentId == null || state == null) {
@@ -161,8 +161,8 @@ public class DefaultAppointmentRepository implements AppointmentRepository {
         JsonArray params = new JsonArray().add(state.getValue());
 
         if (comment != null && !comment.isEmpty()) {
-            query += ", " + COMMENT + " = ? ";
-            params.add(comment);
+            query += ", " + COMMENT + " = ?, " + COMMENTATOR_ID + " = ? ";
+            params.add(comment).add(userId);
         }
 
         query += "WHERE id = ? RETURNING *;";

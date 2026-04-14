@@ -9,6 +9,7 @@ public class Fields {
     public static final String CHARSET = "charset";
     public static final String COLOR = "color";
     public static final String COMMENT = "comment";
+    public static final String  COMMENTATOR_ID = "commentator_id";
     public static final String CONTENT_TRANSFER_ENCODING = "content_transfer_encoding";
     public static final String CONTENT_TYPE = "content_type";
     public static final String CREATED = "created";
