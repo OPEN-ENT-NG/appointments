@@ -180,7 +180,6 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
   }, [structures]);
 
   const handleSubmit = useCallback(async () => {
-    //TODO check duration validity + display toaster if needed
     const newErrors = newErrorInputs(blurGridModalInputs);
     setErrorInputs(newErrors);
     if (!isErrorsEmpty(newErrors)) {
