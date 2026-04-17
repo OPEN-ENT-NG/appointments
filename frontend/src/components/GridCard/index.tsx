@@ -13,14 +13,18 @@ import {
 import BusinessIcon from "@mui/icons-material/Business";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import EditIcon from "@mui/icons-material/Edit";
-import InsertLinkRoundedIcon from '@mui/icons-material/InsertLinkRounded';
+import InsertLinkRoundedIcon from "@mui/icons-material/InsertLinkRounded";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import { useTranslation } from "react-i18next";
 
-import { APPOINTMENTS, DISPLAY_DATE_FORMAT, TOAST_VALUES } from "~/core/constants";
+import {
+  APPOINTMENTS,
+  DISPLAY_DATE_FORMAT,
+  TOAST_VALUES,
+} from "~/core/constants";
 import { CONFIRM_MODAL_TYPE, GRID_STATE } from "~/core/enums";
 import { useAvailability } from "~/providers/AvailabilityProvider";
 import { GRID_CARD_SIZE } from "~/providers/AvailabilityProvider/enum";
@@ -82,7 +86,7 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
       console.error(error);
       toast.success(t(TOAST_VALUES.COPY_LINK.i18nKeyError));
     }
-  }
+  };
 
   useEffect(() => {
     if (size === GRID_CARD_SIZE.LARGE) handleCloseMenu();
@@ -145,7 +149,9 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
             <Button
               variant="outlined"
               startIcon={<InsertLinkRoundedIcon />}
-              onClick={() => { void handleCopyLink() }}
+              onClick={() => {
+                void handleCopyLink();
+              }}
             >
               {t("appointments.copy.link")}
             </Button>
@@ -215,7 +221,11 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
                   <EditIcon />
                   {t("appointments.edit")}
                 </MenuItem>
-                <MenuItem onClick={() => { void handleCopyLink() }}>
+                <MenuItem
+                  onClick={() => {
+                    void handleCopyLink();
+                  }}
+                >
                   <InsertLinkRoundedIcon />
                   {t("appointments.copy.link")}
                 </MenuItem>
