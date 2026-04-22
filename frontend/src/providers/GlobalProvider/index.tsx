@@ -46,9 +46,7 @@ export const GlobalProvider: FC<GlobalProviderProps> = ({
   const [appointmentIdFromNotify, setAppointmentIdFromNotify] = useState<
     number | null
   >(null);
-  const [gridIdFromLink, setGridIdFromLink] = useState<
-    number | null
-  >(null);
+  const [gridIdFromLink, setGridIdFromLink] = useState<number | null>(null);
 
   const [displayModals, setDisplayModals] = useState<DisplayModalsState>(
     initialDisplayModalsState,

@@ -111,7 +111,13 @@ export const Home: FC = () => {
       searchParams.delete("gridId");
       setSearchParams(searchParams);
     }
-  }, [searchParams, setAppointmentIdFromNotify, setGridIdFromLink, handleChange, setSearchParams]);
+  }, [
+    searchParams,
+    setAppointmentIdFromNotify,
+    setGridIdFromLink,
+    handleChange,
+    setSearchParams,
+  ]);
 
   return (
     <Box sx={homeStyle}>

@@ -52,7 +52,8 @@ export const BookAppointmentGridInfos: FC<BookAppointmentGridInfosProps> = ({
   const { duration, videoCallLink, place, publicComment, documents } =
     gridInfos || {};
 
-  if (gridIdFromLink && grids?.find((grid) => grid.id === gridIdFromLink)) handleGridChange(gridIdFromLink);
+  if (gridIdFromLink && grids?.find((grid) => grid.id === gridIdFromLink))
+    handleGridChange(gridIdFromLink);
 
   return (
     <Box sx={wrapperUserInfoStyle}>

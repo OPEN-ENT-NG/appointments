@@ -38,9 +38,12 @@ export const FindAppointmentsProvider: FC<FindAppointmentsProviderProps> = ({
 }) => {
   const { isConnectedUserADML, gridIdFromLink } = useGlobal();
   const [search, setSearch] = useState("");
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
 
-  const { data: dataGridOwner } = useGetGridOwnerInfosQuery(gridIdFromLink ?? 0, { skip: !gridIdFromLink });
+  const { data: dataGridOwner } = useGetGridOwnerInfosQuery(
+    gridIdFromLink ?? 0,
+    { skip: !gridIdFromLink },
+  );
 
   const {
     data,
@@ -88,10 +91,13 @@ export const FindAppointmentsProvider: FC<FindAppointmentsProviderProps> = ({
     [],
   );
 
-  const handleSearchChange = useCallback((value: string) => {
-    setInputValue(value);
-    handleSearch(value);
-  }, [handleSearch]);
+  const handleSearchChange = useCallback(
+    (value: string) => {
+      setInputValue(value);
+      handleSearch(value);
+    },
+    [handleSearch],
+  );
 
   const resetSearch = useCallback(() => {
     setSearch("");

@@ -62,7 +62,7 @@ export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(
         ref={ref}
         onClick={() => {
           setGridIdFromLink(null);
-          handleOnClickCard(isAvailable ? infos : null)
+          handleOnClickCard(isAvailable ? infos : null);
         }}
       >
         <Box sx={pictureStyle}>
