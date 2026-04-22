@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import { UserCardInfos } from "~/services/api/CommunicationService/types";
 
 export interface FindAppointmentsProviderContextProps {
-  users: UserCardInfos[];
+  users: UserCardInfos[] | null;
   hasNextPage: boolean;
   search: string;
   inputValue: string;

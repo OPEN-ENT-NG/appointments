@@ -70,8 +70,8 @@ export const FindAppointmentsProvider: FC<FindAppointmentsProviderProps> = ({
       (isConnectedUserADML &&
         search.length < MIN_NB_CHAR_BEFORE_SEARCH_FOR_ADML)
     )
-      return [];
-    return data?.pages.flat() ?? [];
+      return null;
+    return data?.pages.flat() ?? null;
   }, [data, isConnectedUserADML, search]);
 
   const loadMoreUsers = useCallback(() => {

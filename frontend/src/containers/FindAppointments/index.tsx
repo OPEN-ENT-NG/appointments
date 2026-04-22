@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useRef } from "react";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 
 import { Box, Loader, SearchInput, Typography } from "@cgi-learning-hub/ui";
 import { useTranslation } from "react-i18next";
@@ -21,6 +21,7 @@ import {
   listCardStyle,
   searchInputStyle,
 } from "./style";
+import { toast } from "react-toastify";
 
 export const FindAppointments: FC = () => {
   const {
@@ -33,11 +34,14 @@ export const FindAppointments: FC = () => {
     loadMoreUsers,
     handleSearchChange,
   } = useFindAppointments();
-  const { selectedUser, handleOnClickCard } = useBookAppointmentModal();
+  const { selectedUser, handleOnClickCard, grids } = useBookAppointmentModal();
   const { t } = useTranslation(APPOINTMENTS);
   const observerRef = useRef<IntersectionObserver | null>(null);
   const targetRef = useRef<HTMLDivElement | null>(null);
-  const { isConnectedUserADML, gridIdFromLink } = useGlobal();
+  const { isConnectedUserADML, gridIdFromLink, setGridIdFromLink } = useGlobal();
+  const [displayModalFromLink, setDisplayModalFromLink] = useState<boolean>(false);
+  const hasHandledLinkRef = useRef(false);
+  const hasHandledGridRef = useRef(false);
 
   const handleObserver = useCallback(
     (entries: IntersectionObserverEntry[]) => {
@@ -71,20 +75,50 @@ export const FindAppointments: FC = () => {
   }, [users, handleObserver]);
 
   useEffect(() => {
-    if (!gridIdFromLink || !users) return;
+    if (!gridIdFromLink || !users || !inputValue || hasHandledLinkRef.current) return;
+    console.log("users : ", users);
+    if (!users.length) {
+      toast.error(t("appointments.toast.grid.link.403.error"));
+      hasHandledLinkRef.current = true;
+      return;
+    }
     handleOnClickCard(users[0]); // We only have cards of same user so first one is ok
-  }, [users, gridIdFromLink, handleOnClickCard])
+    hasHandledLinkRef.current = true;
+  }, [t, users, gridIdFromLink, inputValue, handleOnClickCard])
+
+  useEffect(() => {
+    if (!gridIdFromLink || !selectedUser || !grids || hasHandledGridRef.current) return;
+    if (!grids.find((grid) => grid.id === gridIdFromLink)) {
+      console.log("second");
+      toast.error(t("appointments.toast.grid.link.403.error"));
+      hasHandledGridRef.current = true;
+      return;
+    }
+    setDisplayModalFromLink(true);
+    hasHandledGridRef.current = true;
+  }, [t, gridIdFromLink, selectedUser, grids])
+
+  useEffect(() => {
+    if (!gridIdFromLink) {
+      setDisplayModalFromLink(false);
+      hasHandledLinkRef.current = false;
+      hasHandledGridRef.current = false;
+    }
+  }, [gridIdFromLink])
 
   return (
     <>
-      {selectedUser && <BookAppointmentModal userInfos={selectedUser} />}
+      {(gridIdFromLink ? displayModalFromLink : true) && selectedUser && <BookAppointmentModal userInfos={selectedUser} />}
       <Box sx={containerStyle}>
         <SearchInput
           sx={searchInputStyle}
-          onChange={(event) => handleSearchChange(event.target.value)}
+          onChange={(event) => {
+            if (gridIdFromLink) setGridIdFromLink(null);
+            handleSearchChange(event.target.value);
+          }}
           value={inputValue}
         />
-        {!users.length && !isFetchingFirstPage && (
+        {users && !users.length && !isFetchingFirstPage && (
           <Box sx={emptyStateBoxStyle}>
             <Typography variant="body1" sx={emptyStateTextStyle}>
               {!search ||
@@ -103,7 +137,7 @@ export const FindAppointments: FC = () => {
         ) : (
           <>
             <Box sx={listCardStyle}>
-              {users.map((user) => (
+              {users && users.map((user) => (
                 <UserCard key={user.userId} infos={user} />
               ))}
             </Box>
