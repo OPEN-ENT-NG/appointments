@@ -27,11 +27,11 @@ public interface GridService {
     Future<ListGridsResponse> getMyMinimalGrids(String userId, List<GridState> states, Long page, Long limit);
 
     /**
-     * Retrieves all grids associated with the current user.
+     * Retrieves all grids associated with the current user for linker.
      *
-     * @return A Future containing a JsonArray of grids.
+     * @return A Future containing a List of grids for linker.
      */
-    Future<List<Grid>> getMyGrids(String userId, List<GridState> states);
+    Future<List<LinkerGrid>> getMyGridsForLinker(String userId, String ownerName, List<GridState> states);
 
     /**
      * Retrieves all grids name associated with the current user.

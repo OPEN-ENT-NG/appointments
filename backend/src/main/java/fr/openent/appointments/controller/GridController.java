@@ -35,6 +35,8 @@ import fr.openent.appointments.security.ViewRight;
 import org.entcore.common.user.UserInfos;
 import org.entcore.common.user.UserUtils;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -94,6 +96,26 @@ public class GridController extends ControllerHelper {
                 String errorMessage = String.format("[Appointments@%s::getMyGridsName] Failed to get my grids name : %s", this.getClass().getSimpleName(), error.getMessage());
                 log.error(errorMessage);
                 badRequest(request);
+            });
+    }
+
+    @Get("/grids/linker")
+    @ApiDoc("Get my grids for linker")
+    @SecuredAction(value = "", type = ActionType.RESOURCE)
+    @ResourceFilter(ManageRight.class)
+    public void getMyGridsForLinker(final HttpServerRequest request) {
+        List<GridState> states = Collections.singletonList(GridState.OPEN);
+
+        UserUtils.getAuthenticatedUserInfos(eb, request)
+            .compose(user -> {
+                String ownerName = String.join(" ", user.getLastName(), user.getFirstName());
+                return gridService.getMyGridsForLinker(user.getUserId(), ownerName, states);
+            })
+            .onSuccess(grids -> renderJson(request, new JsonArray(grids)))
+            .onFailure(error -> {
+                String errorMessage = "Failed to get my grids for linker";
+                LogHelper.logError(this, "getMyGridsForLinker", errorMessage, error.getMessage());
+                renderError(request);
             });
     }
 

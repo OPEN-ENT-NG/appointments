@@ -1,13 +1,10 @@
 package fr.openent.appointments.service.impl;
 
-import fr.openent.appointments.helper.EventBusHelper;
 import fr.openent.appointments.helper.LogHelper;
 import fr.openent.appointments.model.database.*;
 import fr.openent.appointments.model.response.*;
-import fr.openent.appointments.model.workspace.CompleteDocument;
 import fr.openent.appointments.repository.*;
 import fr.openent.appointments.service.EventBusService;
-import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
@@ -29,8 +26,6 @@ import org.entcore.common.user.UserInfos;
 import org.entcore.common.user.UserUtils;
 
 import static fr.openent.appointments.core.constants.Constants.*;
-import static fr.openent.appointments.core.constants.EbFields.*;
-import static fr.openent.appointments.helper.JsonHelper.jsonArrayToList;
 
 /**
  * Default implementation of the GridService interface.
@@ -70,8 +65,24 @@ public class DefaultGridService implements GridService {
     }
 
     @Override
-    public Future<List<Grid>> getMyGrids(String userId, List<GridState> states) {
-        return gridRepository.getMyGrids(userId, states);
+    public Future<List<LinkerGrid>> getMyGridsForLinker(String userId, String ownerName, List<GridState> states) {
+        Promise<List<LinkerGrid>> promise = Promise.promise();
+
+        gridRepository.getMyGrids(userId, states)
+            .onSuccess(grids -> {
+                List<LinkerGrid> linkerGrids = grids.stream()
+                        .map(grid -> new LinkerGrid(grid, ownerName))
+                        .collect(Collectors.toList());
+                promise.complete(linkerGrids);
+            })
+            .onFailure(error -> {
+                String errorMessage = "Failed to get my grids";
+                LogHelper.logError(this, "getMyGridsForLinker", errorMessage, error.getMessage());
+                promise.fail(error.getMessage());
+            });
+
+
+        return promise.future();
     }
 
     @Override
