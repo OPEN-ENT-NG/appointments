@@ -374,10 +374,17 @@ public class DefaultGridService implements GridService {
         return promise.future();
     }
 
-    public Future<GridOwnerInfos> getGridOwnerInfos(Long gridId) {
+    public Future<GridOwnerInfos> getGridOwnerInfos(Long gridId, List<String> userGroupsIds) {
         Promise<GridOwnerInfos> promise = Promise.promise();
 
-        getGridById(gridId)
+        gridRepository.getGridsGroupsCanAccess(userGroupsIds)
+            .compose(userGrids -> {
+                if (!userGrids.stream().map(Grid::getId).collect(Collectors.toList()).contains(gridId)) {
+                    String errorMessage = String.format("The grid with id %s is not shared to the connected user", gridId);
+                    return Future.failedFuture(errorMessage);
+                }
+                return getGridById(gridId);
+            })
             .compose(grid -> communicationRepository.getUserFromId(grid.getOwnerId(), null))
             .onSuccess(optionalNeoUser -> {
                 if (!optionalNeoUser.isPresent()) {

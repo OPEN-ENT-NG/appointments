@@ -206,7 +206,8 @@ public class GridController extends ControllerHelper {
         Long gridId = ParamHelper.getParam(CAMEL_GRID_ID, request, Long.class, true, "getGridOwnerInfos");
         if (request.response().ended()) return;
 
-        gridService.getGridOwnerInfos(gridId)
+        UserUtils.getAuthenticatedUserInfos(eb, request)
+            .compose(user -> gridService.getGridOwnerInfos(gridId, user.getGroupsIds()))
             .onSuccess(ownerInfos -> render(request, ownerInfos))
             .onFailure(error -> {
                 String errorMessage = "Failed to get owner infos for grid with id " + gridId;

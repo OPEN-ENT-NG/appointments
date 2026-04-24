@@ -154,7 +154,8 @@ public interface GridService {
      * Retrieves infos about the owner of the given grid.
      *
      * @param gridId The grid id.
+     * @param userGroupsIds The {@link List<String>} of connected user group ids.
      * @return A Future containing grid owner infos.
      */
-    Future<GridOwnerInfos> getGridOwnerInfos(Long gridId);
+    Future<GridOwnerInfos> getGridOwnerInfos(Long gridId, List<String> userGroupsIds);
 }

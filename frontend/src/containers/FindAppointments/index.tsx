@@ -82,11 +82,19 @@ export const FindAppointments: FC = () => {
     if (!users.length) {
       toast.error(t("appointments.toast.grid.link.403.error"));
       hasHandledLinkRef.current = true;
+      setGridIdFromLink(null);
       return;
     }
     handleOnClickCard(users[0]); // We only have cards of same user so first one is ok
     hasHandledLinkRef.current = true;
-  }, [t, users, gridIdFromLink, inputValue, handleOnClickCard]);
+  }, [
+    t,
+    users,
+    gridIdFromLink,
+    setGridIdFromLink,
+    inputValue,
+    handleOnClickCard,
+  ]);
 
   useEffect(() => {
     if (!gridIdFromLink || !selectedUser || !grids || hasHandledGridRef.current)
@@ -94,11 +102,12 @@ export const FindAppointments: FC = () => {
     if (!grids.find((grid) => grid.id === gridIdFromLink)) {
       toast.error(t("appointments.toast.grid.link.404.error"));
       hasHandledGridRef.current = true;
+      setGridIdFromLink(null);
       return;
     }
     setDisplayModalFromLink(true);
     hasHandledGridRef.current = true;
-  }, [t, gridIdFromLink, selectedUser, grids]);
+  }, [t, gridIdFromLink, setGridIdFromLink, selectedUser, grids]);
 
   useEffect(() => {
     if (!gridIdFromLink) {
@@ -122,7 +131,7 @@ export const FindAppointments: FC = () => {
           }}
           value={inputValue}
         />
-        {users && !users.length && !isFetchingFirstPage && (
+        {!users?.length && !isFetchingFirstPage && (
           <Box sx={emptyStateBoxStyle}>
             <Typography variant="body1" sx={emptyStateTextStyle}>
               {!search ||
@@ -141,10 +150,9 @@ export const FindAppointments: FC = () => {
         ) : (
           <>
             <Box sx={listCardStyle}>
-              {users &&
-                users.map((user) => (
-                  <UserCard key={user.userId} infos={user} />
-                ))}
+              {users?.map((user) => (
+                <UserCard key={user.userId} infos={user} />
+              ))}
             </Box>
             <Box ref={targetRef}></Box>
             {isFetchingNextPage && <Loader />}
