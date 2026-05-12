@@ -119,10 +119,17 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
                       color="text.primary"
                     >
                       {t(
-                        "appointments.my.appointment.infos.modal.comment.title.canceled",
+                        APPOINTMENT_STATE_VALUES[appointment.state]
+                          .commentI18nKey,
                       )}
                     </Typography>
-                    <Typography fontSize="1.6rem" color="text.primary">
+                    <Typography
+                      sx={{
+                        fontSize: "1.6rem",
+                        color: "text.primary",
+                        whiteSpace: "pre-wrap",
+                      }}
+                    >
                       {appointment.comment}
                     </Typography>
                     <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -141,6 +148,34 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
                   </Stack>
                 )}
               </Stack>
+            </Box>
+            <Box sx={rowInfoStyle}>
+              <EventIcon sx={greyIconStyle} />
+              <Box maxWidth="90%">
+                <Typography variant="body1" color="text.primary">
+                  {t("appointments.my.appointment.infos.modal.date", {
+                    date: appointment.beginDate.format(TEXT_DATE_FORMAT),
+                    beginTime: appointment.beginDate.format(TIME_FORMAT),
+                    endTime: appointment.endDate.format(TIME_FORMAT),
+                  })}
+                </Typography>
+                {(appointment.state === APPOINTMENT_STATE.ACCEPTED ||
+                  appointment.state === APPOINTMENT_STATE.CANCELED) && (
+                  <Button
+                    color={"primary"}
+                    variant={"contained"}
+                    size={"small"}
+                    sx={{ fontSize: "13px", marginTop: "0.5rem" }}
+                    startIcon={<DownloadRoundedIcon />}
+                    loading={isExportingAppointments}
+                    onClick={() => {
+                      void handleExportSingleAppointment(appointment);
+                    }}
+                  >
+                    {t("appointments.event.export.one.button.title")}
+                  </Button>
+                )}
+              </Box>
             </Box>
             {appointment.isVideoCall && (
               <Box sx={rowInfoStyle}>
@@ -163,32 +198,6 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
                 </Box>
               </Box>
             )}
-            <Box sx={rowInfoStyle}>
-              <EventIcon sx={greyIconStyle} />
-              <Box maxWidth="90%">
-                <Typography variant="body1" color="text.primary">
-                  {t("appointments.my.appointment.infos.modal.date", {
-                    date: appointment.beginDate.format(TEXT_DATE_FORMAT),
-                    beginTime: appointment.beginDate.format(TIME_FORMAT),
-                    endTime: appointment.endDate.format(TIME_FORMAT),
-                  })}
-                </Typography>
-                {(appointment.state === APPOINTMENT_STATE.ACCEPTED ||
-                  appointment.state === APPOINTMENT_STATE.CANCELED) && (
-                  <Button
-                    color={"primary"}
-                    variant={"contained"}
-                    startIcon={<DownloadRoundedIcon />}
-                    loading={isExportingAppointments}
-                    onClick={() => {
-                      void handleExportSingleAppointment(appointment);
-                    }}
-                  >
-                    {t("appointments.event.export.one.button.title")}
-                  </Button>
-                )}
-              </Box>
-            </Box>
             {appointment.place && (
               <Box sx={rowInfoStyle}>
                 <PlaceIcon sx={greyIconStyle} />
