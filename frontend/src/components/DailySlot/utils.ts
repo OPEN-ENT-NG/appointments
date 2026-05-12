@@ -85,19 +85,6 @@ export const shouldDisableThisStartValue = (
     default:
       return false;
   }
-
-  // const nbBeginTimeMinutes = beginTime.getNbMinutesFromMidnight();
-  // const nbDurationMinutes = getNbMinutesOfduration(duration);
-  // const nbValueMinutes = getNbMinutesFromMidnight(value);
-
-  switch (view.toString().toUpperCase()) {
-    case TIMEPICKER_VIEW.HOURS:
-      return false;
-    case TIMEPICKER_VIEW.MINUTES:
-      return false;
-    default:
-      return false;
-  }
 };
 
 export const shouldDisableThisEndValue = (
