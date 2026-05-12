@@ -250,9 +250,13 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
   );
 
   const withExportGuard = useCallback(
-    async (toastType: TOAST_TYPE, fn: () => Promise<void>) => {
+    async (
+      toastType: TOAST_TYPE,
+      shouldToggleModal: boolean,
+      fn: () => Promise<void>,
+    ) => {
       try {
-        setIsExportingAppointments(true);
+        if (shouldToggleModal) setIsExportingAppointments(true);
         await fn();
         toast.success(t(TOAST_VALUES[toastType].i18nKeySuccess));
       } catch (error) {
@@ -260,7 +264,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
         toast.error(t(TOAST_VALUES[toastType].i18nKeyError));
       } finally {
         setIsExportingAppointments(false);
-        toggleModal(ModalType.EXPORT);
+        if (shouldToggleModal) toggleModal(ModalType.EXPORT);
       }
     },
     [t, toggleModal],
@@ -268,7 +272,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
 
   const handleExportMultipleAppointments = useCallback(
     (hasAccepted: boolean, hasCancelled: boolean) =>
-      withExportGuard(TOAST_TYPE.EXPORT_EVENTS, async () => {
+      withExportGuard(TOAST_TYPE.EXPORT_EVENTS, true, async () => {
         if (!hasAccepted && !hasCancelled) return;
 
         if (!hasAccepted && hasCancelled) {
@@ -294,7 +298,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
 
   const handleExportSingleAppointment = useCallback(
     (appointment: Appointment) =>
-      withExportGuard(TOAST_TYPE.EXPORT_EVENT, async () => {
+      withExportGuard(TOAST_TYPE.EXPORT_EVENT, false, async () => {
         await downloadIcs({
           appointmentsIds: [appointment.id],
           states: [appointment.state],
