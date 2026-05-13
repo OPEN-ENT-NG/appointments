@@ -114,6 +114,7 @@
 
   "appointments.event.export.one.button.title": "Descargar evento",
   "appointments.event.export.all.button.title": "Descargar citas",
+  "appointments.event.export.all.modal.title": "Descargar sus citas",
   "appointments.event.export.all.modal.body1": "La descarga generará <strong>dos archivos .ics</strong> que podrá importar manualmente en el calendario de su elección.",
   "appointments.event.export.all.modal.body2": "El primero cancela todas las citas existentes, el segundo recrea las citas activas actualizadas.",
   "appointments.event.export.all.modal.warning.title": "Importante",
@@ -178,6 +179,7 @@
   "appointments.toast.copy.link.error": "Se ha producido un error al copiar el enlace a la agenda. Por favor, inténtelo de nuevo.",
   "appointments.toast.edit.errors": "No se puede guardar: algunos campos obligatorios no se han completado.",
   "appointments.toast.edit.duration.error": "No se puede guardar: la duración de la franja horaria no es válida.",
+  "appointments.toast.edit.slot.overlap.error": "No se puede guardar: algunas franjas horarias se superponen.",
   "appointments.toast.accept.appointment.success": "La solicitud ha sido aceptada con éxito.",
   "appointments.toast.accept.appointment.error": "Se produjo un error al aceptar la solicitud. Por favor, inténtalo de nuevo.",
   "appointments.toast.reject.appointment.success": "La solicitud ha sido rechazada con éxito.",

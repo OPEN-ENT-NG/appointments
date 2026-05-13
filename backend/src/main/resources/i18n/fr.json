@@ -179,6 +179,7 @@
   "appointments.toast.copy.link.error": "Une erreur est survenue lors de la copie du lien vers la grille. Veuillez réessayer.",
   "appointments.toast.edit.errors": "Impossible d'enregistrer : certains champs obligatoires ne sont pas remplis.",
   "appointments.toast.edit.duration.error": "Impossible d'enregistrer : la durée du créneau n'est pas valide.",
+  "appointments.toast.edit.slot.overlap.error": "Impossible d'enregistrer : certains créneaux se chevauchent.",
   "appointments.toast.accept.appointment.success": "La demande a bien été acceptée.",
   "appointments.toast.accept.appointment.error": "Une erreur est survenue lors de l’acceptation de la demande. Veuillez réessayer.",
   "appointments.toast.reject.appointment.success": "La demande a bien été refusée.",

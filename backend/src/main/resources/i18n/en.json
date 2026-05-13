@@ -114,6 +114,7 @@
 
   "appointments.event.export.one.button.title": "Download event",
   "appointments.event.export.all.button.title": "Download appointments",
+  "appointments.event.export.all.modal.title": "Download your appointments",
   "appointments.event.export.all.modal.body1": "The download will generate <strong>two .ics files</strong> that you can manually import into the calendar of your choice.",
   "appointments.event.export.all.modal.body2": "The first cancels all existing appointments, the second recreates the updated active appointments.",
   "appointments.event.export.all.modal.warning.title": "Important",
@@ -178,6 +179,7 @@
   "appointments.toast.copy.link.error": "An error occurred while copying the link to the schedule. Please try again.",
   "appointments.toast.edit.errors": "Unable to save: some required fields are not filled in.",
   "appointments.toast.edit.duration.error": "Unable to save: the slot duration is not valid.",
+  "appointments.toast.edit.slot.overlap.error": "Unable to save: some slots are overlapping.",
   "appointments.toast.accept.appointment.success": "The request has been successfully accepted.",
   "appointments.toast.accept.appointment.error": "An error occurred while accepting the request. Please try again.",
   "appointments.toast.reject.appointment.success": "The request has been successfully declined.",

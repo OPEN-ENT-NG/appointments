@@ -240,13 +240,6 @@ export const useUpdateGridInputs: useUpdateGridInputsType = (
       ...slot,
       [type]: new Time({ hour: value.hour(), minute: value.minute() }),
     };
-    updateInputField("weekSlots", {
-      ...inputs.weekSlots,
-      [day]: inputs.weekSlots[day].map((item) => {
-        if (item.id !== slot.id) return item;
-        return updatedSlot;
-      }),
-    });
 
     updateInputField("weekSlots", {
       ...inputs.weekSlots,

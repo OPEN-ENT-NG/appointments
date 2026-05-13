@@ -39,6 +39,7 @@ import {
 } from "./types";
 import { useFiles } from "./useFiles";
 import {
+  checkIfSlotsOverlap,
   gridInputsToCreateGridPayload,
   gridInputsToEditGridPayload,
   initialErrorInputs,
@@ -189,6 +190,11 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
 
     if (newErrors.duration.hours || newErrors.duration.minutes) {
       toast.error(t("appointments.toast.edit.duration.error"));
+      return;
+    }
+
+    if (checkIfSlotsOverlap(inputs.weekSlots)) {
+      toast.error(t("appointments.toast.edit.slot.overlap"));
       return;
     }
 
