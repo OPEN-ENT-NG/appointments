@@ -68,7 +68,7 @@ export const wouldCandidatesOverlapSlot = (
   return siblingsSlots.some((slot) => {
     const start = slot.begin.parseToDayjsOrDefault(null);
     const end = slot.end.parseToDayjsOrDefault(null);
-    
+
     return candidateStart.isBefore(end) && candidateEnd.isAfter(start);
   });
 };
@@ -83,9 +83,17 @@ export const wouldOverlapExistingSlot = (
     start: dayjs(),
     end: dayjs(),
   };
-  candidates.start = isCandidateStart ? candidate : candidate.subtract(slotDurationMinutes, 'minute');
-  candidates.end = isCandidateStart ? candidate.add(slotDurationMinutes, 'minute') : candidate;
-  return wouldCandidatesOverlapSlot(candidates.start, candidates.end, siblingsSlots);
+  candidates.start = isCandidateStart
+    ? candidate
+    : candidate.subtract(slotDurationMinutes, "minute");
+  candidates.end = isCandidateStart
+    ? candidate.add(slotDurationMinutes, "minute")
+    : candidate;
+  return wouldCandidatesOverlapSlot(
+    candidates.start,
+    candidates.end,
+    siblingsSlots,
+  );
 };
 
 export const shouldDisableThisStartValue = (
@@ -98,10 +106,18 @@ export const shouldDisableThisStartValue = (
     case TIMEPICKER_VIEW.HOURS:
       // Given hour is disabled if ALL possible minutes conflict
       return Array.from({ length: 12 }, (_, i) => i * 5).every((m) =>
-        wouldOverlapExistingSlot(value.minute(m), siblingsSlots, slotDurationMinutes),
+        wouldOverlapExistingSlot(
+          value.minute(m),
+          siblingsSlots,
+          slotDurationMinutes,
+        ),
       );
     case TIMEPICKER_VIEW.MINUTES:
-      return wouldOverlapExistingSlot(value, siblingsSlots, slotDurationMinutes);
+      return wouldOverlapExistingSlot(
+        value,
+        siblingsSlots,
+        slotDurationMinutes,
+      );
     default:
       return false;
   }
@@ -124,7 +140,9 @@ export const shouldDisableThisEndValue = (
     .filter((s) => s.isAfter(slotStart))
     .sort((a, b) => a.diff(b))[0];
 
-  const effectiveEndMax = nextSlotStart?.isBefore(endMax) ? nextSlotStart : endMax;
+  const effectiveEndMax = nextSlotStart?.isBefore(endMax)
+    ? nextSlotStart
+    : endMax;
   const effectiveEndMaxMinutes = getNbMinutesFromMidnight(effectiveEndMax);
 
   const isValidMultiple = (nbMinutes: number): boolean =>
@@ -136,11 +154,17 @@ export const shouldDisableThisEndValue = (
       const hourMinutes = Array.from({ length: 12 }, (_, i) => i * 5);
       return hourMinutes.every((m) => {
         const totalMinutes = value.hour() * 60 + m;
-        return !isValidMultiple(totalMinutes) || totalMinutes > effectiveEndMaxMinutes;
+        return (
+          !isValidMultiple(totalMinutes) ||
+          totalMinutes > effectiveEndMaxMinutes
+        );
       });
     }
-    case TIMEPICKER_VIEW.MINUTES:{
-      return !isValidMultiple(nbValueMinutes) || nbValueMinutes > effectiveEndMaxMinutes;
+    case TIMEPICKER_VIEW.MINUTES: {
+      return (
+        !isValidMultiple(nbValueMinutes) ||
+        nbValueMinutes > effectiveEndMaxMinutes
+      );
     }
     default:
       return false;

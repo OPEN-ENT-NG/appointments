@@ -186,11 +186,13 @@ export const createMyCustomFile = (file: File): MyCustomFile => {
 };
 
 export const checkIfSlotsOverlap = (weekSlots: WeekSlotsModel): boolean => {
-  return Object.values(weekSlots).some((slots) => slots.some((slot) => {
-    if (!slot.begin.time || !slot.end.time) return true;
-    const start = slot.begin.parseToDayjs();
-    const end = slot.end.parseToDayjs();
-    const siblingSlots = slots.filter(s => s.id !== slot.id);
-    return wouldCandidatesOverlapSlot(start, end, siblingSlots);
-  }));
-}
+  return Object.values(weekSlots).some((slots) =>
+    slots.some((slot) => {
+      if (!slot.begin.time || !slot.end.time) return true;
+      const start = slot.begin.parseToDayjs();
+      const end = slot.end.parseToDayjs();
+      const siblingSlots = slots.filter((s) => s.id !== slot.id);
+      return wouldCandidatesOverlapSlot(start, end, siblingSlots);
+    }),
+  );
+};
