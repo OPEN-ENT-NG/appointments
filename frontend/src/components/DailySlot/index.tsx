@@ -32,6 +32,8 @@ import {
   shouldDisableThisStartValue,
   shouldDisplayHelperText,
 } from "./utils";
+import { TimeView } from "@mui/x-date-pickers";
+import { Dayjs } from "dayjs";
 
 export const DailySlot: FC<DailySlotProps> = ({ day, slot, siblingsSlots }) => {
   const { t } = useTranslation(APPOINTMENTS);
@@ -49,6 +51,16 @@ export const DailySlot: FC<DailySlotProps> = ({ day, slot, siblingsSlots }) => {
   const isDisabled =
     isSubmitButtonLoading || modalType === GRID_MODAL_TYPE.CONSULTATION;
 
+  const checkIfStartTimeShouldBeDisabled = (value: Dayjs, view: TimeView) => {
+    const start = slot.begin.parseToDayjsOrDefault(null);
+    const end = slot.end.parseToDayjsOrDefault(null);
+    const slotDuration =
+      start && end
+        ? start.diff(end, "minute")
+        : getNbMinutesOfduration(duration);
+    return shouldDisableThisStartValue(value, siblingsSlots, view, slotDuration);
+  }
+
   return (
     <StyledDailySlotBox isSlotError={isSlotError}>
       <Stack
@@ -65,20 +77,7 @@ export const DailySlot: FC<DailySlotProps> = ({ day, slot, siblingsSlots }) => {
               minTime={beginMin}
               maxTime={beginMax}
               defaultValue={beginMin}
-              shouldDisableTime={(value, view) => {
-                const start = slot.begin.parseToDayjsOrDefault(null);
-                const end = slot.end.parseToDayjsOrDefault(null);
-                const slotDuration =
-                  start && end
-                    ? start.diff(end, "minute")
-                    : getNbMinutesOfduration(duration);
-                return shouldDisableThisStartValue(
-                  value,
-                  siblingsSlots,
-                  view,
-                  slotDuration,
-                );
-              }}
+              shouldDisableTime={checkIfStartTimeShouldBeDisabled}
               value={slot.begin.parseToDayjsOrDefault(null)}
               onChange={(newValue) =>
                 handleSlotChange(day, slot, newValue, "begin")

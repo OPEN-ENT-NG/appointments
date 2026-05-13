@@ -14,6 +14,8 @@ import { ICandidates } from "./types";
 dayjs.extend(duration);
 dayjs.extend(isBetween);
 
+const hourMinutes = Array.from({ length: 12 }, (_, i) => i * 5);
+
 export const isTimeInRange = (
   time: Dayjs,
   start: Dayjs,
@@ -105,7 +107,7 @@ export const shouldDisableThisStartValue = (
   switch (view.toString().toUpperCase()) {
     case TIMEPICKER_VIEW.HOURS:
       // Given hour is disabled if ALL possible minutes conflict
-      return Array.from({ length: 12 }, (_, i) => i * 5).every((m) =>
+      return hourMinutes.every((m) =>
         wouldOverlapExistingSlot(
           value.minute(m),
           siblingsSlots,
@@ -151,7 +153,6 @@ export const shouldDisableThisEndValue = (
 
   switch (view.toString().toUpperCase()) {
     case TIMEPICKER_VIEW.HOURS: {
-      const hourMinutes = Array.from({ length: 12 }, (_, i) => i * 5);
       return hourMinutes.every((m) => {
         const totalMinutes = value.hour() * 60 + m;
         return (
