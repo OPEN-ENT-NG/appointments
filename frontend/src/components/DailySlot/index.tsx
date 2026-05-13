@@ -58,8 +58,13 @@ export const DailySlot: FC<DailySlotProps> = ({ day, slot, siblingsSlots }) => {
       start && end
         ? start.diff(end, "minute")
         : getNbMinutesOfduration(duration);
-    return shouldDisableThisStartValue(value, siblingsSlots, view, slotDuration);
-  }
+    return shouldDisableThisStartValue(
+      value,
+      siblingsSlots,
+      view,
+      slotDuration,
+    );
+  };
 
   return (
     <StyledDailySlotBox isSlotError={isSlotError}>
