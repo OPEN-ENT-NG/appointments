@@ -12,9 +12,9 @@
   "appointments.consultation.grid.title": "Consult your expired schedule",
 
   "appointments.modify.grid.title": "Modify your schedule grid",
-  "appointments.modify.grid.alert": "Fields impacting appointment booking cannot be modified (public, validity, time slots, ...).",
+  "appointments.modify.grid.alert": "Fields affecting appointment booking cannot be modified (video conference activation, slot duration).",
   "appointments.modify.grid.confirm.title": "Modify your schedule?",
-  "appointments.modify.grid.confirm.message": "By confirming, your changes will be saved.<ul><li>Changes that are compatible with existing appointments (location, comments, general information, etc.) will be automatically applied to the affected appointments.</li><li>Changes to availability (audience, validity period, recurrence, time slots) <strong>will not result in the cancellation of already scheduled appointments</strong>, even if they no longer match the new grid.</li></ul>",
+  "appointments.modify.grid.confirm.message": "By confirming, your changes will be saved.<ul><li>Changes that are compatible with existing appointments (location, comments, general information, etc.) will be automatically applied to the affected appointments.</li><li>Changes to availability (validity period, recurrence, time slots) <strong>will not result in the cancellation of already scheduled appointments</strong>, even if they no longer match the new grid.</li></ul>",
   "appointments.modify.grid.abandon.title": "Abandon modifications?",
   "appointments.modify.grid.abandon.message": "If you confirm, all ongoing modifications will be lost.",
 

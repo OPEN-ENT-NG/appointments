@@ -12,9 +12,9 @@
   "appointments.consultation.grid.title": "Ihr abgelaufenes Raster einsehen",
 
   "appointments.modify.grid.title": "Ihr Zeitraster ändern",
-  "appointments.modify.grid.alert": "Die Felder, die die Terminvereinbarung beeinflussen, sind nicht änderbar (öffentlich, Gültigkeit, Zeitfenster, ...).",
+  "appointments.modify.grid.alert": "Felder, die die Terminbuchung beeinflussen, können nicht geändert werden (Videokonferenz-Aktivierung, Zeitfensterdauer).",
   "appointments.modify.grid.confirm.title": "Ihr Raster ändern?",
-  "appointments.modify.grid.confirm.message": "Durch die Bestätigung werden Ihre Änderungen gespeichert.<ul><li>Änderungen, die mit bestehenden Terminen kompatibel sind (Ort, Kommentare, allgemeine Informationen usw.), werden automatisch auf die betreffenden Termine angewendet.</li><li>Änderungen der Verfügbarkeiten (Zielgruppe, Gültigkeitszeitraum, Periodizität, Zeitfenster) <strong>führen nicht zur Stornierung bereits geplanter Termine</strong>, auch wenn sie nicht mehr dem neuen Raster entsprechen.</li></ul>",
+  "appointments.modify.grid.confirm.message": "Durch die Bestätigung werden Ihre Änderungen gespeichert.<ul><li>Änderungen, die mit bestehenden Terminen kompatibel sind (Ort, Kommentare, allgemeine Informationen usw.), werden automatisch auf die betreffenden Termine angewendet.</li><li>Änderungen der Verfügbarkeiten (Gültigkeitszeitraum, Periodizität, Zeitfenster) <strong>führen nicht zur Stornierung bereits geplanter Termine</strong>, auch wenn sie nicht mehr dem neuen Raster entsprechen.</li></ul>",
   "appointments.modify.grid.abandon.title": "Änderungen verwerfen?",
   "appointments.modify.grid.abandon.message": "Wenn Sie bestätigen, gehen alle aktuellen Änderungen verloren.",
 
