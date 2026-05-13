@@ -114,6 +114,7 @@
 
   "appointments.event.export.one.button.title": "Scarica evento",
   "appointments.event.export.all.button.title": "Scarica gli appuntamenti",
+  "appointments.event.export.all.modal.title": "Scarica i tuoi appuntamenti",
   "appointments.event.export.all.modal.body1": "Il download genererà <strong>due file .ics</strong> che potrete importare manualmente nel calendario di vostra scelta.",
   "appointments.event.export.all.modal.body2": "Il primo annulla tutti gli appuntamenti esistenti, il secondo ricrea gli appuntamenti attivi aggiornati.",
   "appointments.event.export.all.modal.warning.title": "Importante",
@@ -178,6 +179,7 @@
   "appointments.toast.copy.link.error": "Si è verificato un errore durante la copia del link alla griglia. Si prega di riprovare.",
   "appointments.toast.edit.errors": "Impossibile salvare: alcuni campi obbligatori non sono compilati.",
   "appointments.toast.edit.duration.error": "Impossibile salvare: la durata dello slot non è valida.",
+  "appointments.toast.edit.slot.overlap.error": "Impossibile salvare: alcuni slot si sovrappongono.",
   "appointments.toast.accept.appointment.success": "La richiesta è stata accettata correttamente.",
   "appointments.toast.accept.appointment.error": "Si è verificato un errore durante l'accettazione della richiesta. Riprova.",
   "appointments.toast.reject.appointment.success": "La richiesta è stata rifiutata correttamente.",

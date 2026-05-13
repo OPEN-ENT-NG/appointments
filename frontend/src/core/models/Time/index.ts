@@ -23,13 +23,13 @@ export class Time implements ITime {
 
   parseToDisplayText(): string {
     if (!this.time) {
-      return "--h --min";
+      return "--h--";
     }
 
     const hour = this.time.hour.toString();
     const minute = this.time.minute.toString().padStart(2, "0");
 
-    return `${hour}h${minute}min`;
+    return `${hour}h${minute}`;
   }
 
   parseToDayjs(): Dayjs {

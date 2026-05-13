@@ -113,7 +113,8 @@
   "appointments.cancel.appointment": "Cancelar o compromisso",
 
   "appointments.event.export.one.button.title": "Baixar evento",
-  "appointments.event.export.all.button.title": "Baixar consultas",
+  "appointments.event.export.all.button.title": "Baixar os compromissos",
+  "appointments.event.export.all.modal.title": "Baixar os seus compromissos",
   "appointments.event.export.all.modal.body1": "O download irá gerar <strong>dois ficheiros .ics</strong> que poderá importar manualmente para o calendário da sua escolha.",
   "appointments.event.export.all.modal.body2": "O primeiro cancela todos os compromissos existentes, o segundo recria os compromissos ativos atualizados.",
   "appointments.event.export.all.modal.warning.title": "Importante",
@@ -178,6 +179,7 @@
   "appointments.toast.copy.link.error": "Ocorreu um erro ao copiar o link para a agenda. Por favor, tente novamente.",
   "appointments.toast.edit.errors": "Não foi possível salvar: alguns campos obrigatórios não foram preenchidos.",
   "appointments.toast.edit.duration.error": "Impossível guardar: a duração do intervalo não é válida.",
+  "appointments.toast.edit.slot.overlap.error": "Impossível guardar: alguns intervalos estão sobrepostos.",
   "appointments.toast.accept.appointment.success": "A solicitação foi aceita com sucesso.",
   "appointments.toast.accept.appointment.error": "Ocorreu um erro ao aceitar a solicitação. Tente novamente.",
   "appointments.toast.reject.appointment.success": "A solicitação foi recusada com sucesso.",

@@ -10,6 +10,7 @@ import {
   EditGridPayload,
 } from "~/services/api/GridService/types";
 import { GridModalInputs, InputsErrors, MyCustomFile } from "./types";
+import { wouldCandidatesOverlapSlot } from "~/components/DailySlot/utils";
 
 export const initialPublic: Public[] = [];
 export const initialWeekSlots: WeekSlotsModel = {
@@ -183,3 +184,13 @@ export const createMyCustomFile = (file: File): MyCustomFile => {
     isDeletable: true,
   };
 };
+
+export const checkIfSlotsOverlap = (weekSlots: WeekSlotsModel): boolean => {
+  return Object.values(weekSlots).some((slots) => slots.some((slot) => {
+    if (!slot.begin.time || !slot.end.time) return true;
+    const start = slot.begin.parseToDayjs();
+    const end = slot.end.parseToDayjs();
+    const siblingSlots = slots.filter(s => s.id !== slot.id);
+    return wouldCandidatesOverlapSlot(start, end, siblingSlots);
+  }));
+}

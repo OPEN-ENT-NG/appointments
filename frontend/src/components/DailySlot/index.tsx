@@ -27,6 +27,7 @@ import {
   getEndMinTime,
   getErrorHelperText,
   getExtremumTimes,
+  getNbMinutesOfduration,
   shouldDisableThisEndValue,
   shouldDisableThisStartValue,
   shouldDisplayHelperText,
@@ -50,7 +51,7 @@ export const DailySlot: FC<DailySlotProps> = ({ day, slot, siblingsSlots }) => {
 
   return (
     <StyledDailySlotBox isSlotError={isSlotError}>
-      <Stack direction="row" spacing={1} sx={{ width: "fit-content" }}>
+      <Stack direction="row" spacing={1} sx={{ width: "fit-content", alignItems: "center" }}>
         <Box sx={beginAndEndWrapperStyle}>
           <Box sx={beginAndEndBoxStyle}>
             <Typography noWrap width="20%">
@@ -60,9 +61,14 @@ export const DailySlot: FC<DailySlotProps> = ({ day, slot, siblingsSlots }) => {
               minTime={beginMin}
               maxTime={beginMax}
               defaultValue={beginMin}
-              shouldDisableTime={(value, view) =>
-                shouldDisableThisStartValue(value, siblingsSlots, view)
-              }
+              shouldDisableTime={(value, view) => {
+                const start = slot.begin.parseToDayjsOrDefault(null);
+                const end = slot.end.parseToDayjsOrDefault(null);
+                const slotDuration = start && end
+                  ? start.diff(end, 'minute')
+                  : getNbMinutesOfduration(duration);
+                return shouldDisableThisStartValue(value, siblingsSlots, view, slotDuration);
+              }}
               value={slot.begin.parseToDayjsOrDefault(null)}
               onChange={(newValue) =>
                 handleSlotChange(day, slot, newValue, "begin")
@@ -84,12 +90,13 @@ export const DailySlot: FC<DailySlotProps> = ({ day, slot, siblingsSlots }) => {
               )}
               maxTime={endMax}
               defaultValue={endMin}
-              shouldDisableTime={(value, view) =>
+              shouldDisableTime={(value, view) => 
                 shouldDisableThisEndValue(
                   value,
-                  slot.begin,
+                  slot.begin.parseToDayjsOrDefault(null) ?? endMin,
                   duration,
                   endMax,
+                  siblingsSlots,
                   view,
                 )
               }

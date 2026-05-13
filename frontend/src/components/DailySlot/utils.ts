@@ -9,6 +9,7 @@ import { Time } from "~/core/models/Time";
 import { Slot } from "~/core/types";
 import { t } from "~/i18n";
 import { IDurationProps } from "~/providers/GridModalProvider/types";
+import { ICandidates } from "./types";
 
 dayjs.extend(duration);
 dayjs.extend(isBetween);
@@ -59,29 +60,48 @@ export const getEndMinTime = (
   return beginTime.add(duration.hours, HOUR).add(duration.minutes, MINUTE);
 };
 
-const isCandidateInExistingSlot = (candidate: Dayjs, siblingsSlots: Slot[]) =>
-  siblingsSlots.some((slot) => {
+export const wouldCandidatesOverlapSlot = (
+  candidateStart: Dayjs,
+  candidateEnd: Dayjs,
+  siblingsSlots: Slot[],
+): boolean => {
+  return siblingsSlots.some((slot) => {
     const start = slot.begin.parseToDayjsOrDefault(null);
     const end = slot.end.parseToDayjsOrDefault(null);
-    if (!start || !end) return false;
-    return (
-      (candidate.isSame(start) || candidate.isAfter(start)) &&
-      candidate.isBefore(end)
-    );
+    
+    return candidateStart.isBefore(end) && candidateEnd.isAfter(start);
   });
+};
+
+export const wouldOverlapExistingSlot = (
+  candidate: Dayjs,
+  siblingsSlots: Slot[],
+  slotDurationMinutes: number,
+  isCandidateStart: boolean = true,
+): boolean => {
+  const candidates: ICandidates = {
+    start: dayjs(),
+    end: dayjs(),
+  };
+  candidates.start = isCandidateStart ? candidate : candidate.subtract(slotDurationMinutes, 'minute');
+  candidates.end = isCandidateStart ? candidate.add(slotDurationMinutes, 'minute') : candidate;
+  return wouldCandidatesOverlapSlot(candidates.start, candidates.end, siblingsSlots);
+};
 
 export const shouldDisableThisStartValue = (
   value: Dayjs,
   siblingsSlots: Slot[],
   view: TimeView,
+  slotDurationMinutes: number, // durée du créneau en cours de création
 ): boolean => {
   switch (view.toString().toUpperCase()) {
     case TIMEPICKER_VIEW.HOURS:
+      // Given hour is disabled if ALL possible minutes conflict
       return Array.from({ length: 12 }, (_, i) => i * 5).every((m) =>
-        isCandidateInExistingSlot(value.minute(m), siblingsSlots),
+        wouldOverlapExistingSlot(value.minute(m), siblingsSlots, slotDurationMinutes),
       );
     case TIMEPICKER_VIEW.MINUTES:
-      return isCandidateInExistingSlot(value, siblingsSlots);
+      return wouldOverlapExistingSlot(value, siblingsSlots, slotDurationMinutes);
     default:
       return false;
   }
@@ -89,27 +109,39 @@ export const shouldDisableThisStartValue = (
 
 export const shouldDisableThisEndValue = (
   value: Dayjs,
-  beginTime: Time,
+  slotStart: Dayjs,
   duration: IDurationProps,
   endMax: Dayjs,
+  siblingsSlots: Slot[],
   view: TimeView,
 ): boolean => {
-  const nbBeginTimeMinutes = beginTime.getNbMinutesFromMidnight();
+  const nbBeginTimeMinutes = getNbMinutesFromMidnight(slotStart);
   const nbDurationMinutes = getNbMinutesOfduration(duration);
   const nbValueMinutes = getNbMinutesFromMidnight(value);
 
+  const nextSlotStart = siblingsSlots
+    .map((slot) => dayjs(slot.begin.parseToDayjsOrDefault(null)))
+    .filter((s) => s.isAfter(slotStart))
+    .sort((a, b) => a.diff(b))[0];
+
+  const effectiveEndMax = nextSlotStart?.isBefore(endMax) ? nextSlotStart : endMax;
+  const effectiveEndMaxMinutes = getNbMinutesFromMidnight(effectiveEndMax);
+
+  const isValidMultiple = (nbMinutes: number): boolean =>
+    (nbMinutes - nbBeginTimeMinutes) % nbDurationMinutes === 0 &&
+    nbMinutes > nbBeginTimeMinutes;
+
   switch (view.toString().toUpperCase()) {
-    case TIMEPICKER_VIEW.HOURS:
-      // Check if at least one minute of this hour can be a match
-      return (
-        Array.from({ length: 12 }, (_, i) => i * 5).every(
-          (m) =>
-            (value.hour() * 60 + m - nbBeginTimeMinutes) % nbDurationMinutes !=
-            0,
-        ) || value.hour() > endMax.hour()
-      );
-    case TIMEPICKER_VIEW.MINUTES:
-      return (nbValueMinutes - nbBeginTimeMinutes) % nbDurationMinutes !== 0;
+    case TIMEPICKER_VIEW.HOURS: {
+      const hourMinutes = Array.from({ length: 12 }, (_, i) => i * 5);
+      return hourMinutes.every((m) => {
+        const totalMinutes = value.hour() * 60 + m;
+        return !isValidMultiple(totalMinutes) || totalMinutes > effectiveEndMaxMinutes;
+      });
+    }
+    case TIMEPICKER_VIEW.MINUTES:{
+      return !isValidMultiple(nbValueMinutes) || nbValueMinutes > effectiveEndMaxMinutes;
+    }
     default:
       return false;
   }
@@ -133,7 +165,7 @@ export const getErrorHelperText = (
   return t("appointments.error.slot.time.end", {
     duration: `${duration.hours}h${duration.minutes
       .toString()
-      .padStart(2, "0")}`,
+      .padStart(2, "0")}min`,
     startTime: beginTime.parseToDisplayText(),
   });
 };

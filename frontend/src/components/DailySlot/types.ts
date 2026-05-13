@@ -1,3 +1,4 @@
+import { Dayjs } from "dayjs";
 import { DAY } from "~/core/enums";
 import { Slot } from "~/core/types";
 
@@ -9,4 +10,9 @@ export interface DailySlotProps {
 
 export interface StyledBoxProps {
   isSlotError?: boolean;
+}
+
+export interface ICandidates {
+  start: Dayjs;
+  end: Dayjs;
 }
