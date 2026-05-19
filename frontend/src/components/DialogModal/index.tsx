@@ -26,6 +26,8 @@ export const DialogModal: FC<DialogModalProps> = ({
   isSubmitButtonLoading = false,
   showOptions = true,
   askForComment = false,
+  comment = "",
+  handleUpdateComment,
   handleCancel,
   handleConfirm,
 }) => {
@@ -38,7 +40,6 @@ export const DialogModal: FC<DialogModalProps> = ({
   const [selectedOption, setSelectedOption] = useState<string | null>(
     options[0],
   );
-  const [comment, setComment] = useState<string>("");
 
   const handleOptionChange = (option: string) => {
     setSelectedOption(option);
@@ -90,7 +91,7 @@ export const DialogModal: FC<DialogModalProps> = ({
             </>
           )}
 
-          {askForComment && (
+          {askForComment && handleUpdateComment && (
             <Stack spacing={1}>
               <Typography>{commentDescription}</Typography>
               <TextField
@@ -99,9 +100,8 @@ export const DialogModal: FC<DialogModalProps> = ({
                 rows={4}
                 placeholder={t("appointments.comment.optionnal")}
                 value={comment}
-                onChange={(e) => {
-                  setComment(e.target.value);
-                }}
+                onChange={(e) => handleUpdateComment(e.target.value)}
+                error={comment.length > 255}
               />
             </Stack>
           )}
@@ -116,7 +116,7 @@ export const DialogModal: FC<DialogModalProps> = ({
           {t("appointments.cancel")}
         </Button>
         <Button
-          onClick={() => handleConfirm(selectedOption || undefined, comment)}
+          onClick={() => handleConfirm(selectedOption || undefined)}
           variant="contained"
           loading={isSubmitButtonLoading}
         >

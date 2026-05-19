@@ -31,6 +31,7 @@ export const states = {
 export const initialDialogModalProps = {
   open: false,
   type: CONFIRM_MODAL_TYPE.CANCEL_APPOINTMENT,
+  handleUpdateComment: () => {},
   handleCancel: () => {},
   handleConfirm: () => {},
 };

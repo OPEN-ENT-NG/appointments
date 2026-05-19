@@ -6,6 +6,8 @@ export interface DialogModalProps {
   isSubmitButtonLoading?: boolean;
   showOptions?: boolean;
   askForComment?: boolean;
+  comment?: string;
+  handleUpdateComment?: (comment: string) => void;
   handleCancel: () => void;
   handleConfirm: (option?: string, comment?: string) => void;
 }

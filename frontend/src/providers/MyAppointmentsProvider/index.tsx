@@ -208,6 +208,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
           handleCancelAppointment(id, TOAST_TYPE.CANCEL_APPOINTMENT, comment);
           break;
       }
+      setDialogModalProps((prev) => ({ ...prev, comment: "" }));
       handleCloseDialogModal();
       handleCloseAppointmentModal();
     },
@@ -219,20 +220,33 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
     ],
   );
 
+  const handleCancel = useCallback(() => {
+    setDialogModalProps((prev) => ({ ...prev, comment: "" }));
+    handleCloseDialogModal();
+  }, [handleCloseDialogModal]);
+
+  const updateComment = useCallback((comment: string) => {
+    const newCommentVlaue =
+      comment.length <= 255 ? comment : comment.substring(0, 255);
+    setDialogModalProps((prev) => ({ ...prev, comment: newCommentVlaue }));
+  }, []);
+
   const handleOpenDialogModal = useCallback(
     (confirmType: CONFIRM_MODAL_TYPE, id: number, askForComment = false) => {
       const dialogModalProps: DialogModalProps = {
         open: true,
         type: confirmType,
         askForComment: askForComment,
-        handleCancel: handleCloseDialogModal,
+        comment: "",
+        handleUpdateComment: (comment: string) => updateComment(comment),
+        handleCancel: () => handleCancel(),
         handleConfirm: (_option?: string, comment?: string) =>
           handleConfirm(confirmType, id, comment),
       };
 
       setDialogModalProps(dialogModalProps);
     },
-    [handleCloseDialogModal, handleConfirm],
+    [handleCancel, handleConfirm, updateComment],
   );
 
   const downloadIcs = useCallback(

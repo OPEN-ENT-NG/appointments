@@ -27,7 +27,6 @@ import {
   titleStyle,
 } from "./style";
 import { useTheme } from "~/hooks/useTheme";
-import { centerBoxStyle } from "~/styles/boxStyles";
 import { ExportAppointmentsModal } from "~/containers/ExportAppointmentsModal";
 import { ModalType } from "~/providers/GlobalProvider/enum";
 import { t } from "~/i18n";
@@ -152,7 +151,7 @@ export const Home: FC = () => {
             sx={{
               ...(((!hasManageRight && hasTwoTabs) ||
                 (hasManageRight && hasThreeTabs)) && {
-                ...centerBoxStyle,
+                paddingLeft: "3rem",
                 marginTop: "1rem",
               }),
             }}

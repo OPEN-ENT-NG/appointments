@@ -1,6 +1,7 @@
 package fr.openent.appointments.model.ICS;
 
 import fr.openent.appointments.enums.ICS.EventMethod;
+import fr.openent.appointments.enums.ICS.EventStatus;
 
 import java.util.List;
 
@@ -29,7 +30,11 @@ public class CalendarICS {
         sb.append("PRODID:-//CGI Learning Hub//Appointments//FR\r\n");
         appendIfPresent(sb, "METHOD", method.name());
 
-        events.forEach((event) -> sb.append(event.toICS()));
+        boolean isMethodCancel = method.name().equals(EventMethod.CANCEL.name());
+        events.forEach((event) -> {
+            if (isMethodCancel) event.setStatus(EventStatus.CANCELLED);
+            sb.append(event.toICS());
+        });
 
         sb.append("END:VCALENDAR\r\n");
 
