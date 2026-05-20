@@ -13,7 +13,11 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 import { DialogModalProps } from "~/components/DialogModal/types";
-import { APPOINTMENTS, TOAST_VALUES } from "~/core/constants";
+import {
+  APPOINTMENTS,
+  COMMENT_MAX_LENGTH,
+  TOAST_VALUES,
+} from "~/core/constants";
 import {
   APPOINTMENT_STATE,
   CONFIRM_MODAL_TYPE,
@@ -47,7 +51,6 @@ import {
   states,
 } from "./utils";
 import { ModalType } from "../GlobalProvider/enum";
-import { sleep } from "~/core/utils";
 
 const MyAppointmentsProviderContext =
   createContext<MyAppointmentsProviderContextProps | null>(null);
@@ -208,6 +211,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
           handleCancelAppointment(id, TOAST_TYPE.CANCEL_APPOINTMENT, comment);
           break;
       }
+      setDialogModalProps((prev) => ({ ...prev, comment: "" }));
       handleCloseDialogModal();
       handleCloseAppointmentModal();
     },
@@ -219,20 +223,35 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
     ],
   );
 
+  const handleCancel = useCallback(() => {
+    setDialogModalProps((prev) => ({ ...prev, comment: "" }));
+    handleCloseDialogModal();
+  }, [handleCloseDialogModal]);
+
+  const updateComment = useCallback((comment: string) => {
+    const newCommentVlaue =
+      comment.length <= COMMENT_MAX_LENGTH
+        ? comment
+        : comment.substring(0, COMMENT_MAX_LENGTH);
+    setDialogModalProps((prev) => ({ ...prev, comment: newCommentVlaue }));
+  }, []);
+
   const handleOpenDialogModal = useCallback(
     (confirmType: CONFIRM_MODAL_TYPE, id: number, askForComment = false) => {
       const dialogModalProps: DialogModalProps = {
         open: true,
         type: confirmType,
         askForComment: askForComment,
-        handleCancel: handleCloseDialogModal,
+        comment: "",
+        handleUpdateComment: (comment: string) => updateComment(comment),
+        handleCancel: () => handleCancel(),
         handleConfirm: (_option?: string, comment?: string) =>
           handleConfirm(confirmType, id, comment),
       };
 
       setDialogModalProps(dialogModalProps);
     },
-    [handleCloseDialogModal, handleConfirm],
+    [handleCancel, handleConfirm, updateComment],
   );
 
   const downloadIcs = useCallback(
@@ -271,23 +290,10 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
   );
 
   const handleExportMultipleAppointments = useCallback(
-    (hasAccepted: boolean, hasCancelled: boolean) =>
+    (hasAccepted: boolean) =>
       withExportGuard(TOAST_TYPE.EXPORT_EVENTS, true, async () => {
-        if (!hasAccepted && !hasCancelled) return;
+        if (!hasAccepted) return;
 
-        if (!hasAccepted && hasCancelled) {
-          await downloadIcs({
-            appointmentsIds: [],
-            states: [APPOINTMENT_STATE.CANCELED],
-          });
-          return;
-        }
-
-        await downloadIcs({
-          appointmentsIds: [],
-          states: [APPOINTMENT_STATE.ACCEPTED, APPOINTMENT_STATE.CANCELED],
-        });
-        await sleep(1000);
         await downloadIcs({
           appointmentsIds: [],
           states: [APPOINTMENT_STATE.ACCEPTED],

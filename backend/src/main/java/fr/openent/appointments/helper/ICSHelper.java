@@ -13,13 +13,9 @@ import static fr.openent.appointments.core.constants.DateFormat.TIME_FORMAT;
 public class ICSHelper {
     public static List<AppointmentState> authorizedStates = Arrays.asList(AppointmentState.CANCELED, AppointmentState.ACCEPTED);
 
-    public static String buildFilename(List<AppointmentWithInfos> appointments, List<AppointmentState> states)
+    public static String buildFilename(List<AppointmentWithInfos> appointments)
     {
-        if (appointments.size() > 1) {
-            return states.contains(AppointmentState.CANCELED)
-                    ? "1-export_global_annulation.ics"
-                    : "2-export_global_création.ics";
-        }
+        if (appointments.size() > 1) return "export_global.ics";
 
         LocalDateTime start = appointments.get(0).getBeginDate();
         LocalDateTime end = appointments.get(0).getEndDate();

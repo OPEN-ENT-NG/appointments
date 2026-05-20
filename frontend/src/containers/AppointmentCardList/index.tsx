@@ -1,6 +1,12 @@
 import { FC, useEffect, useRef, useState } from "react";
 
-import { Box, Pagination, Typography } from "@cgi-learning-hub/ui";
+import {
+  Box,
+  Button,
+  Pagination,
+  Stack,
+  Typography,
+} from "@cgi-learning-hub/ui";
 import { useTranslation } from "react-i18next";
 
 import { AppointmentCard } from "~/components/AppointmentCard";
@@ -18,14 +24,25 @@ import {
   wrapperListBox,
 } from "./style";
 import { AppointmentCardListProps } from "./types";
+import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
+import { ModalType } from "~/providers/GlobalProvider/enum";
+import { useGlobal } from "~/providers/GlobalProvider";
+import { MY_APPOINTMENTS_LIST_STATE } from "~/providers/MyAppointmentsProvider/enum";
 
 export const AppointmentCardList: FC<AppointmentCardListProps> = ({
   appointmentsType,
   myAppointments,
 }) => {
+  const { toggleModal } = useGlobal();
   const { t } = useTranslation(APPOINTMENTS);
-  const { handleChangeLimit, handleChangePage, limits, pages, maxPages } =
-    useMyAppointments();
+  const {
+    handleChangeLimit,
+    handleChangePage,
+    limits,
+    pages,
+    maxPages,
+    isExportingAppointments,
+  } = useMyAppointments();
 
   const [containerWidth, setContainerWidth] = useState<number | undefined>();
 
@@ -61,9 +78,25 @@ export const AppointmentCardList: FC<AppointmentCardListProps> = ({
 
   return (
     <Box ref={containerRef} sx={containerStyle}>
-      <Typography variant="h2" color="primary" fontWeight="bold">
-        {t(MY_APPOINTMENTS_LIST_STATE_VALUES[appointmentsType].i18nTitleKey)}
-      </Typography>
+      <Stack direction="row" spacing={2} alignItems="center">
+        <Typography variant="h2" color="primary" fontWeight="bold">
+          {t(MY_APPOINTMENTS_LIST_STATE_VALUES[appointmentsType].i18nTitleKey)}
+        </Typography>
+        {appointmentsType === MY_APPOINTMENTS_LIST_STATE.ACCEPTED &&
+          myAppointments.total > 0 && (
+            <Button
+              color={"secondary"}
+              variant={"outlined"}
+              size={"small"}
+              sx={{ fontSize: "13px" }}
+              startIcon={<DownloadRoundedIcon />}
+              loading={isExportingAppointments}
+              onClick={() => toggleModal(ModalType.EXPORT)}
+            >
+              {t("appointments.event.export.all.button.title")}
+            </Button>
+          )}
+      </Stack>
       {!myAppointments.total ? (
         <Typography fontStyle="italic" variant="body1">
           {t(

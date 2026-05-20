@@ -113,10 +113,9 @@
   "appointments.cancel.appointment": "Cancelar o compromisso",
 
   "appointments.event.export.one.button.title": "Baixar evento",
-  "appointments.event.export.all.button.title": "Baixar os compromissos",
+  "appointments.event.export.all.button.title": "Baixar os meus compromissos",
   "appointments.event.export.all.modal.title": "Baixar os seus compromissos",
-  "appointments.event.export.all.modal.body1": "O download irá gerar <strong>dois ficheiros .ics</strong> que poderá importar manualmente para o calendário da sua escolha.",
-  "appointments.event.export.all.modal.body2": "O primeiro cancela todos os compromissos existentes, o segundo recria os compromissos ativos atualizados.",
+  "appointments.event.export.all.modal.body": "O download irá gerar <strong>um ficheiro .ics</strong> contendo todos os seus compromissos aceites que poderá importar manualmente para o calendário da sua escolha.",  "appointments.event.export.all.modal.body2": "O primeiro cancela todos os compromissos existentes, o segundo recria os compromissos ativos atualizados.",
   "appointments.event.export.all.modal.warning.title": "Importante",
   "appointments.event.export.all.modal.warning.body": "Importe os ficheiros na ordem indicada para que o seu calendário seja atualizado corretamente.\n   • <i>1-export_global_cancelamento.ics</i>\n   • <i>2-export_global_criação.ics</i>",
   "appointments.event.export.all.modal.end": "Qualquer modificação posterior exigirá uma nova exportação.",

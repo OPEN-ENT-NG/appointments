@@ -113,10 +113,9 @@
   "appointments.cancel.appointment": "Cancel appointment",
 
   "appointments.event.export.one.button.title": "Download event",
-  "appointments.event.export.all.button.title": "Download appointments",
+  "appointments.event.export.all.button.title": "Download my appointments",
   "appointments.event.export.all.modal.title": "Download your appointments",
-  "appointments.event.export.all.modal.body1": "The download will generate <strong>two .ics files</strong> that you can manually import into the calendar of your choice.",
-  "appointments.event.export.all.modal.body2": "The first cancels all existing appointments, the second recreates the updated active appointments.",
+  "appointments.event.export.all.modal.body": "The download will generate <strong>one .ics file</strong> containing all your accepted appointments that you can manually import into the calendar of your choice.",  "appointments.event.export.all.modal.body2": "The first cancels all existing appointments, the second recreates the updated active appointments.",
   "appointments.event.export.all.modal.warning.title": "Important",
   "appointments.event.export.all.modal.warning.body": "Import the files in the order indicated so that your calendar is correctly updated.\n   • <i>1-export_global_cancellation.ics</i>\n   • <i>2-export_global_creation.ics</i>",
   "appointments.event.export.all.modal.end": "Any subsequent modification will require a new export.",

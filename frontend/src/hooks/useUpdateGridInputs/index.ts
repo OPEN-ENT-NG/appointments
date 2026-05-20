@@ -17,7 +17,7 @@ import {
   FIELD_REQUIRED_ERROR,
   INVALID_SLOT_ERROR,
   SAME_GRID_ALREADY_EXISTS_ERROR,
-  SLOT_DURATION_VALUE_ERROR,
+  SLOT_DURATION_OUTRANGE_ERROR,
 } from "~/core/i18nKeys";
 import { Time } from "~/core/models/Time";
 import { Slot } from "~/core/types";
@@ -152,7 +152,7 @@ export const useUpdateGridInputs: useUpdateGridInputsType = (
       duration: {
         hours:
           value == 0 && inputs.duration.minutes == 0
-            ? SLOT_DURATION_VALUE_ERROR
+            ? SLOT_DURATION_OUTRANGE_ERROR
             : "",
         minutes: getMinuteDurationErrorValue(inputs.duration.minutes, value),
       },
@@ -171,7 +171,7 @@ export const useUpdateGridInputs: useUpdateGridInputsType = (
       duration: {
         hours:
           inputs.duration.hours == 0 && value == 0
-            ? SLOT_DURATION_VALUE_ERROR
+            ? SLOT_DURATION_OUTRANGE_ERROR
             : "",
         minutes: getMinuteDurationErrorValue(value, inputs.duration.hours),
       },
