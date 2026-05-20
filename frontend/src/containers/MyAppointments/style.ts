@@ -16,7 +16,7 @@ export const fisrtContainerStyle: SxProps = {
 };
 
 export const customCalendarBoxStyle: SxProps = {
-  marginTop: "4rem",
+  marginY: "4rem",
   display: "flex",
   flexShrink: 0,
   width: "fit-content",

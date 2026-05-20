@@ -1,5 +1,4 @@
 import {
-  Alert,
   Button,
   Dialog,
   DialogActions,
@@ -14,7 +13,6 @@ import { t } from "~/i18n";
 import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 
 export const ExportAppointmentsModal: FC<IExportAppointmentsModalProps> = ({
-  hasOnlyCancelled,
   isOpen,
   handleClose,
   handleExport,
@@ -22,45 +20,17 @@ export const ExportAppointmentsModal: FC<IExportAppointmentsModalProps> = ({
   const { isExportingAppointments } = useMyAppointments();
 
   return (
-    <Dialog maxWidth={"md"} open={isOpen} onClose={handleClose}>
+    <Dialog maxWidth={"sm"} open={isOpen} onClose={handleClose}>
       <DialogTitle>
         {t("appointments.event.export.all.modal.title")}
       </DialogTitle>
       <DialogContent>
         <Stack spacing={3}>
-          {hasOnlyCancelled ? (
-            <Typography
-              dangerouslySetInnerHTML={{
-                __html: t("appointments.event.export.all.only.cancelled.body"),
-              }}
-            />
-          ) : (
-            <Stack spacing={2}>
-              <Stack>
-                <Typography
-                  dangerouslySetInnerHTML={{
-                    __html: t("appointments.event.export.all.modal.body1"),
-                  }}
-                />
-                <Typography>
-                  {t("appointments.event.export.all.modal.body2")}
-                </Typography>
-              </Stack>
-              <Alert
-                severity="warning"
-                title={t("appointments.event.export.all.modal.warning.title")}
-              >
-                <Typography
-                  sx={{ whiteSpace: "pre-wrap" }}
-                  dangerouslySetInnerHTML={{
-                    __html: t(
-                      "appointments.event.export.all.modal.warning.body",
-                    ),
-                  }}
-                />
-              </Alert>
-            </Stack>
-          )}
+          <Typography
+            dangerouslySetInnerHTML={{
+              __html: t("appointments.event.export.all.modal.body"),
+            }}
+          />
           <Typography>
             {t("appointments.event.export.all.modal.end")}
           </Typography>

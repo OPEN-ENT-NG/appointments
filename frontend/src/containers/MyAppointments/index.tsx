@@ -21,13 +21,21 @@ import {
 } from "./style";
 import { t } from "~/i18n";
 import { TWO_TABS_EXPORT_BREAKPOINT } from "~/core/breakpoints";
+import { ExportAppointmentsModal } from "../ExportAppointmentsModal";
+import { useGlobal } from "~/providers/GlobalProvider";
+import { ModalType } from "~/providers/GlobalProvider/enum";
 
 export const MyAppointments: FC = () => {
+  const {
+    toggleModal,
+    displayModals: { showExportModal },
+  } = useGlobal();
   const {
     myAppointments,
     myAppointmentsDates,
     dialogModalProps,
     selectedAppointment,
+    handleExportMultipleAppointments,
   } = useMyAppointments();
   const isMobile = useMediaQuery(
     `(max-width: ${TWO_TABS_EXPORT_BREAKPOINT}px)`,
@@ -99,6 +107,13 @@ export const MyAppointments: FC = () => {
         <AppointmentInfosModal appointment={selectedAppointment} />
       )}
       <DialogModal {...dialogModalProps} />
+      <ExportAppointmentsModal
+        isOpen={showExportModal}
+        handleClose={() => toggleModal(ModalType.EXPORT)}
+        handleExport={() => {
+          void handleExportMultipleAppointments(!isMyAcceptedAppointmentsEmpty);
+        }}
+      />
       <Box sx={mainContainerStyle}>
         <Box sx={fisrtContainerStyle}>
           <AppointmentCardList

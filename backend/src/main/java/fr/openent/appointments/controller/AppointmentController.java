@@ -349,6 +349,13 @@ public class AppointmentController extends ControllerHelper {
             List<Long> appointmentIds = body.getJsonArray(APPOINTMENTS_IDS).stream()
                 .map(id -> ((Number) id).longValue())
                 .collect(Collectors.toList());
+
+            if (states.contains(AppointmentState.CANCELED) && appointmentIds.size() > 1) {
+                String errorMessage = "Impossible to export more than one cancelled appointment at a time";
+                LogHelper.logError(this, "exportAppointmentsEvents", errorMessage);
+                badRequest(request);
+                return;
+            }
             
             final JsonObject composeInfo = new JsonObject();
             UserUtils.getAuthenticatedUserInfos(eb, request)
@@ -364,7 +371,7 @@ public class AppointmentController extends ControllerHelper {
                         return Future.failedFuture(errorMessage);
                     }
 
-                    String filename = buildFilename(appointments, states);
+                    String filename = buildFilename(appointments);
                     composeInfo.put(APPOINTMENTS, appointments);
                     composeInfo.put(FILENAME, filename);
 
