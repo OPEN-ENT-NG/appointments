@@ -8,6 +8,7 @@ import io.vertx.core.json.JsonObject;
 
 import java.time.LocalDate;
 
+import static fr.openent.appointments.core.constants.DateFormat.DATE_TIME_FORMAT;
 import static fr.openent.appointments.core.constants.Fields.*;
 
 public class LinkerGrid implements IModel<LinkerGrid> {
@@ -25,7 +26,9 @@ public class LinkerGrid implements IModel<LinkerGrid> {
         this.name = grid.getString(NAME, null);
         this.ownerId = grid.getString(OWNER_ID, null);
         this.ownerName = grid.getString(OWNER_NAME, null);
-        this.updatingDate = DateHelper.parseDate(grid.getString(UPDATING_DATE, null).substring(0,10)).toString();
+        this.updatingDate = DateHelper.parseDateTime(grid.getString(UPDATING_DATE, null)
+                .substring(0, DATE_TIME_FORMAT.length()))
+                .toString();
         this.color = grid.getString(COLOR, null);
     }
 

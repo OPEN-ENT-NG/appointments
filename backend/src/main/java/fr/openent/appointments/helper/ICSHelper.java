@@ -15,7 +15,7 @@ public class ICSHelper {
 
     public static String buildFilename(List<AppointmentWithInfos> appointments)
     {
-        if (appointments.size() > 1) return "export_global.ics";
+        if (appointments.size() > 1) return "export_global";
 
         LocalDateTime start = appointments.get(0).getBeginDate();
         LocalDateTime end = appointments.get(0).getEndDate();
@@ -26,7 +26,7 @@ public class ICSHelper {
                 end.format(DateTimeFormatter.ofPattern(TIME_FORMAT))
         );
 
-        return "export_rdv_" + rdvDateTime + ".ics";
+        return "export_rdv_" + rdvDateTime;
     }
 
     public static String buildEventICSSummary(String otherMemberDisplayName, String gridName) {

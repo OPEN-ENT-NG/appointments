@@ -78,7 +78,7 @@ export const AppointmentCardList: FC<AppointmentCardListProps> = ({
 
   return (
     <Box ref={containerRef} sx={containerStyle}>
-      <Stack direction="row" spacing={2} alignItems="center">
+      <Stack direction="row" gap={2} alignItems="center" flexWrap={"wrap"}>
         <Typography variant="h2" color="primary" fontWeight="bold">
           {t(MY_APPOINTMENTS_LIST_STATE_VALUES[appointmentsType].i18nTitleKey)}
         </Typography>
@@ -88,7 +88,7 @@ export const AppointmentCardList: FC<AppointmentCardListProps> = ({
               color={"secondary"}
               variant={"outlined"}
               size={"small"}
-              sx={{ fontSize: "13px" }}
+              sx={{ fontSize: "13px", minHeight: "30px" }}
               startIcon={<DownloadRoundedIcon />}
               loading={isExportingAppointments}
               onClick={() => toggleModal(ModalType.EXPORT)}

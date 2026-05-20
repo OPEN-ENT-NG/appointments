@@ -70,7 +70,7 @@ export const DailySlot: FC<DailySlotProps> = ({ day, slot, siblingsSlots }) => {
     <StyledDailySlotBox isSlotError={isSlotError}>
       <Stack
         direction="row"
-        spacing={1}
+        gap={1}
         sx={{ width: "fit-content", alignItems: "center" }}
       >
         <Box sx={beginAndEndWrapperStyle}>

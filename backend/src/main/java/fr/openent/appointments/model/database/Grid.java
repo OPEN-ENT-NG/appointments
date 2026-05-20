@@ -1,5 +1,6 @@
 package fr.openent.appointments.model.database;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +15,8 @@ import fr.openent.appointments.model.IModel;
 
 import io.vertx.core.json.JsonObject;
 
+import static fr.openent.appointments.core.constants.DateFormat.DATE_FORMAT;
+import static fr.openent.appointments.core.constants.DateFormat.DATE_TIME_FORMAT;
 import static fr.openent.appointments.core.constants.Fields.*;
 
 public class Grid implements IModel<Grid> {
@@ -24,8 +27,8 @@ public class Grid implements IModel<Grid> {
     private String structureId;
     private LocalDate beginDate;
     private LocalDate endDate;
-    private LocalDate creationDate;
-    private LocalDate updatingDate;
+    private LocalDateTime creationDate;
+    private LocalDateTime updatingDate;
     private String color;
     private Duration duration;
     private Periodicity periodicity;
@@ -43,10 +46,10 @@ public class Grid implements IModel<Grid> {
         this.name = grid.getString(NAME, null);
         this.ownerId = grid.getString(OWNER_ID, null);
         this.structureId = grid.getString(STRUCTURE_ID, null);
-        this.beginDate = DateHelper.parseDate(grid.getString(BEGIN_DATE, null).substring(0, 10));
-        this.endDate = DateHelper.parseDate(grid.getString(END_DATE, null).substring(0, 10));
-        this.creationDate = DateHelper.parseDate(grid.getString(CREATION_DATE, null).substring(0, 10));
-        this.updatingDate = DateHelper.parseDate(grid.getString(UPDATING_DATE, null).substring(0,10));
+        this.beginDate = DateHelper.parseDate(grid.getString(BEGIN_DATE, null).substring(0, DATE_FORMAT.length()));
+        this.endDate = DateHelper.parseDate(grid.getString(END_DATE, null).substring(0, DATE_FORMAT.length()));
+        this.creationDate = DateHelper.parseDateTime(grid.getString(CREATION_DATE, null));
+        this.updatingDate = DateHelper.parseDateTime(grid.getString(UPDATING_DATE, null));
         this.color = grid.getString(COLOR, null);
         this.duration = DateHelper.parseDuration(grid.getString(DURATION,null));
         this.periodicity = Periodicity.getPeriodicity(grid.getInteger(PERIODICITY,0));
@@ -95,11 +98,11 @@ public class Grid implements IModel<Grid> {
         return endDate;
     }
 
-    public LocalDate getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public LocalDate getUpdatingDate() {
+    public LocalDateTime getUpdatingDate() {
         return updatingDate;
     }
 
@@ -171,12 +174,12 @@ public class Grid implements IModel<Grid> {
         return this;
     }
 
-    public Grid setCreationDate(LocalDate creationDate) {
+    public Grid setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
         return this;
     }
 
-    public Grid setUpdatingDate(LocalDate updatingDate) {
+    public Grid setUpdatingDate(LocalDateTime updatingDate) {
         this.updatingDate = updatingDate;
         return this;
     }
