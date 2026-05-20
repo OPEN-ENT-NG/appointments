@@ -13,7 +13,11 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 import { DialogModalProps } from "~/components/DialogModal/types";
-import { APPOINTMENTS, TOAST_VALUES } from "~/core/constants";
+import {
+  APPOINTMENTS,
+  COMMENT_MAX_LENGTH,
+  TOAST_VALUES,
+} from "~/core/constants";
 import {
   APPOINTMENT_STATE,
   CONFIRM_MODAL_TYPE,
@@ -226,7 +230,9 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
 
   const updateComment = useCallback((comment: string) => {
     const newCommentVlaue =
-      comment.length <= 255 ? comment : comment.substring(0, 255);
+      comment.length <= COMMENT_MAX_LENGTH
+        ? comment
+        : comment.substring(0, COMMENT_MAX_LENGTH);
     setDialogModalProps((prev) => ({ ...prev, comment: newCommentVlaue }));
   }, []);
 

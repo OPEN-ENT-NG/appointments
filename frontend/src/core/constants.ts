@@ -30,6 +30,8 @@ export const MAX_TOTAL_FILE_SIZE_PER_GRID_O =
 
 export const MIN_NB_CHAR_BEFORE_SEARCH_FOR_ADML = 3;
 
+export const COMMENT_MAX_LENGTH = 255;
+
 export const ALLOWED_DOCUMENT_EXTENSIONS = [
   ".pdf",
   ".csv",

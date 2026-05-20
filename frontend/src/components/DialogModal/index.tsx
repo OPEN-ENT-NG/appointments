@@ -17,7 +17,11 @@ import {
 import { Button } from "@cgi-learning-hub/ui";
 import { useTranslation } from "react-i18next";
 
-import { APPOINTMENTS, CONFIRM_MODAL_VALUES } from "~/core/constants";
+import {
+  APPOINTMENTS,
+  COMMENT_MAX_LENGTH,
+  CONFIRM_MODAL_VALUES,
+} from "~/core/constants";
 import { DialogModalProps } from "./types";
 
 export const DialogModal: FC<DialogModalProps> = ({
@@ -101,7 +105,7 @@ export const DialogModal: FC<DialogModalProps> = ({
                 placeholder={t("appointments.comment.optionnal")}
                 value={comment}
                 onChange={(e) => handleUpdateComment(e.target.value)}
-                error={comment.length > 255}
+                error={comment.length > COMMENT_MAX_LENGTH}
               />
             </Stack>
           )}
