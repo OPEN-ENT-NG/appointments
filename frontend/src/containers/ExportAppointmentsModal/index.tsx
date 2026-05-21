@@ -25,7 +25,7 @@ export const ExportAppointmentsModal: FC<IExportAppointmentsModalProps> = ({
         {t("appointments.event.export.all.modal.title")}
       </DialogTitle>
       <DialogContent>
-        <Stack spacing={3}>
+        <Stack gap={3}>
           <Typography
             dangerouslySetInnerHTML={{
               __html: t("appointments.event.export.all.modal.body"),

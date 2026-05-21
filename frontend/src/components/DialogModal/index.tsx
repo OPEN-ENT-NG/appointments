@@ -65,7 +65,7 @@ export const DialogModal: FC<DialogModalProps> = ({
         {title}
       </DialogTitle>
       <DialogContent>
-        <Stack spacing={2}>
+        <Stack gap={2}>
           <Typography
             variant="body1"
             component="div"
@@ -96,7 +96,7 @@ export const DialogModal: FC<DialogModalProps> = ({
           )}
 
           {askForComment && handleUpdateComment && (
-            <Stack spacing={1}>
+            <Stack gap={1}>
               <Typography>{commentDescription}</Typography>
               <TextField
                 fullWidth
@@ -120,7 +120,7 @@ export const DialogModal: FC<DialogModalProps> = ({
           {t("appointments.cancel")}
         </Button>
         <Button
-          onClick={() => handleConfirm(selectedOption || undefined)}
+          onClick={() => handleConfirm(selectedOption || undefined, comment)}
           variant="contained"
           loading={isSubmitButtonLoading}
         >

@@ -50,7 +50,7 @@ export const SecondPageGridModal: FC = () => {
       </Box>
       <Box sx={itemStyle}>
         <Typography>{t("appointments.grid.slot.duration") + " *"}</Typography>
-        <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+        <Stack direction="row" gap={1} sx={{ alignItems: "center" }}>
           <NumberField
             min={0}
             max={4}
