@@ -165,7 +165,11 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
                     color={"secondary"}
                     variant={"outlined"}
                     size={"small"}
-                    sx={{ fontSize: "13px", marginTop: "0.5rem", minHeight: "30px" }}
+                    sx={{
+                      fontSize: "13px",
+                      marginTop: "0.5rem",
+                      minHeight: "30px",
+                    }}
                     startIcon={<DownloadRoundedIcon />}
                     loading={isExportingAppointments}
                     onClick={() => {
