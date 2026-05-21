@@ -26,7 +26,7 @@ public class LinkerGrid implements IModel<LinkerGrid> {
         this.name = grid.getString(NAME, null);
         this.ownerId = grid.getString(OWNER_ID, null);
         this.ownerName = grid.getString(OWNER_NAME, null);
-        this.updatingDate = DateHelper.parseDateTime(grid.getString(UPDATING_DATE, null)
+        this.updatingDate = DateHelper.parseDateTime(grid.getString(UPDATING_DATE, "")
                 .substring(0, DATE_TIME_FORMAT.length()))
                 .toString();
         this.color = grid.getString(COLOR, null);
