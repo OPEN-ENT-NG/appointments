@@ -29,13 +29,10 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.entcore.common.controller.ControllerHelper;
 import org.entcore.common.events.EventStore;
-import org.entcore.common.http.filter.IgnoreCsrf;
 import org.entcore.common.http.filter.ResourceFilter;
 import org.entcore.common.user.UserInfos;
 import org.entcore.common.user.UserUtils;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -77,7 +74,7 @@ public class AppointmentController extends ControllerHelper {
         UserUtils.getAuthenticatedUserInfos(eb, request)
             .compose(user -> {
                 composeInfo.put(CAMEL_USER_INFO, user);
-                return appointmentService.checkIfUserCanAccessTimeSlot(timeSlotId, user.getUserId(), user.getGroupsIds());
+                return appointmentService.checkIfUserCanAccessTimeSlot(timeSlotId, user, user.getGroupsIds());
             })
             .compose(canAccess -> {
                 if (!canAccess) {

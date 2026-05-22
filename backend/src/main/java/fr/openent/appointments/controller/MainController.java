@@ -1,6 +1,7 @@
 package fr.openent.appointments.controller;
 
 import fr.openent.appointments.config.AppConfig;
+import fr.openent.appointments.core.constants.ShareRights;
 import fr.openent.appointments.core.constants.WorkflowRight;
 import fr.openent.appointments.security.ViewRight;
 import fr.openent.appointments.service.ServiceFactory;
@@ -51,11 +52,22 @@ public class MainController extends ControllerHelper {
         renderJson(request, config);
     }
 
+    // Init classic rights
+
     @SecuredAction(WorkflowRight.MANAGE)
     public void initManageRights(final HttpServerRequest request) {
     }
 
     @SecuredAction(WorkflowRight.VIEW)
     public void initViewRights(final HttpServerRequest request) {
+    }
+
+    // Init sharing rights
+    @SecuredAction(value = ShareRights.BOOK_RESOURCE_RIGHT, type = ActionType.RESOURCE)
+    public void initBookResourceRight(final HttpServerRequest request) {
+    }
+
+    @SecuredAction(value = ShareRights.MANAGER_RESOURCE_RIGHT, type = ActionType.RESOURCE)
+    public void initManagerResourceRight(final HttpServerRequest request) {
     }
 }

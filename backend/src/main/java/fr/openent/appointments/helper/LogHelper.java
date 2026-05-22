@@ -10,22 +10,37 @@ public class LogHelper {
 
     private LogHelper() {}
 
-    public static String getBaseLog(Class<?> myClass, String methodName) {
-        return String.format("[%s@%s::%s]", APPOINTMENTS, myClass.getSimpleName(), methodName);
-    }
-
     public static Logger getLogger(Class<?> myClass) {
         return LoggerFactory.getLogger(myClass);
     }
 
+    public static String getBaseLog(Class<?> myClass, String methodName) {
+        return String.format("[%s@%s::%s]", APPOINTMENTS, myClass.getSimpleName(), methodName);
+    }
+
+    public static String constructLogMessage(Object classObject, String methodName, String message) {
+        Class<?> myClass = classObject.getClass();
+        return constructLogMessage(myClass, methodName, message, null);
+    }
+
+    public static String constructLogMessage(Class<?> myClass, String methodName, String message) {
+        return constructLogMessage(myClass, methodName, message, null);
+    }
+
+    public static String constructLogMessage(Class<?> myClass, String methodName, String message, String err) {
+        return err != null && !err.isEmpty()
+                ? String.format("%s %s : %s", getBaseLog(myClass, methodName), message, err)
+                : String.format("%s %s", getBaseLog(myClass, methodName), message);
+    }
+
     public static void logError(Object classObject, String methodName, String message) {
         Class<?> myClass = classObject.getClass();
-        getLogger(myClass).error(String.format("%s %s", getBaseLog(myClass, methodName), message));
+        getLogger(myClass).error(constructLogMessage(myClass, methodName, message));
     }
 
     public static void logError(Object classObject, String methodName, String message, String err) {
         Class<?> myClass = classObject.getClass();
-        getLogger(myClass).error(String.format("%s %s : %s", getBaseLog(myClass, methodName), message, err));
+        getLogger(myClass).error(constructLogMessage(myClass, methodName, message, err));
     }
 
     public static void logInfo(Object classObject, String methodName, Object object) {
@@ -34,6 +49,6 @@ public class LogHelper {
 
     public static void logInfo(Object classObject, String methodName, String message) {
         Class<?> myClass = classObject.getClass();
-        getLogger(myClass).info(String.format("%s %s", getBaseLog(myClass, methodName), message));
+        getLogger(myClass).info(constructLogMessage(myClass, methodName, message));
     }
 }

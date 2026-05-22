@@ -1,16 +1,14 @@
 package fr.openent.appointments.service.impl;
 
 import fr.openent.appointments.enums.GridState;
+import fr.openent.appointments.enums.ShareRight;
 import fr.openent.appointments.helper.DateHelper;
 import fr.openent.appointments.helper.LogHelper;
 import fr.openent.appointments.model.database.Grid;
+import fr.openent.appointments.model.database.GridShare;
 import fr.openent.appointments.model.database.TimeSlot;
-import fr.openent.appointments.model.response.MinimalGridInfos;
 import fr.openent.appointments.model.response.TimeSlotsAvailableResponse;
-import fr.openent.appointments.repository.AppointmentRepository;
-import fr.openent.appointments.repository.GridRepository;
-import fr.openent.appointments.repository.RepositoryFactory;
-import fr.openent.appointments.repository.TimeSlotRepository;
+import fr.openent.appointments.repository.*;
 import fr.openent.appointments.service.TimeSlotService;
 import fr.openent.appointments.service.ServiceFactory;
 import io.vertx.core.Future;
@@ -19,6 +17,7 @@ import io.vertx.core.json.JsonObject;
 import org.entcore.common.user.UserInfos;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,11 +32,13 @@ import static fr.openent.appointments.core.constants.Fields.OWNER_ID;
 public class DefaultTimeSlotService implements TimeSlotService {
     private final TimeSlotRepository timeSlotRepository;
     private final GridRepository gridRepository;
+    private final GridSharesRepository gridShareRepository;
     private final AppointmentRepository appointmentRepository;
 
     public DefaultTimeSlotService(ServiceFactory serviceFactory, RepositoryFactory repositoryFactory) {
         this.timeSlotRepository = repositoryFactory.timeSlotRepository();
         this.gridRepository = repositoryFactory.gridRepository();
+        this.gridShareRepository = repositoryFactory.gridShareRepository();
         this.appointmentRepository = repositoryFactory.appointmentRepository();
     }
 
@@ -71,10 +72,16 @@ public class DefaultTimeSlotService implements TimeSlotService {
     }
 
     @Override
-    public Future<Boolean> checkIfUserCanAccessTimeSlot(Long timeSlotId, String userId, List<String> userGroupsIds){
+    public Future<Boolean> checkIfUserCanAccessTimeSlot(Long timeSlotId, UserInfos user, List<String> userGroupsIds){
         Promise<Boolean> promise = Promise.promise();
 
-        timeSlotRepository.get(timeSlotId)
+        List<Number> gridIdsSharedWithMe = new ArrayList<>();
+
+        gridShareRepository.getGridsSharedWithMeByRight(user, ShareRight.BOOK)
+            .compose(gridShares -> {
+                gridIdsSharedWithMe.addAll(gridShares.stream().map(GridShare::getResourceId).collect(Collectors.toList()));
+                return timeSlotRepository.get(timeSlotId);
+            })
             .compose(timeSlot -> {
                 if(!timeSlot.isPresent()) {
                     String errorMessage = "TimeSlot with id " + timeSlotId + " not found";
@@ -86,18 +93,16 @@ public class DefaultTimeSlotService implements TimeSlotService {
                 }
                 return gridRepository.get(timeSlot.get().getGridId());
             })
-            .onSuccess(grid -> {
-                if(!grid.isPresent()) {
+            .onSuccess(optionalGrid -> {
+                if(!optionalGrid.isPresent()) {
                     String errorMessage = "Grid with timeSlot id " + timeSlotId + " not found";
                     promise.fail(errorMessage);
                     return;
                 }
-                if(grid.get().getState() != GridState.OPEN)
-                    promise.complete(false);
-                else {
-                    boolean isUserInTargetPublicList = grid.get().getTargetPublicListId().stream().anyMatch(userGroupsIds::contains);
-                    promise.complete(isUserInTargetPublicList);
-                }
+
+                Grid grid = optionalGrid.get();
+                boolean isGridOpenAndSharedWithMe = grid.getState() == GridState.OPEN && gridIdsSharedWithMe.contains(grid.getId());
+                promise.complete(isGridOpenAndSharedWithMe);
             })
             .onFailure(err -> {
                 String errorMessage = "Failed to check if user can access timeSlot with id " + timeSlotId;

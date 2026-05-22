@@ -1,11 +1,14 @@
 package fr.openent.appointments.service.impl;
 
+import fr.openent.appointments.enums.ShareRight;
 import fr.openent.appointments.helper.LogHelper;
 import fr.openent.appointments.model.UserAppointment;
 import fr.openent.appointments.model.database.Grid;
+import fr.openent.appointments.model.database.GridShare;
 import fr.openent.appointments.model.database.NeoGroup;
 import fr.openent.appointments.model.database.NeoUser;
 import fr.openent.appointments.repository.GridRepository;
+import fr.openent.appointments.repository.GridSharesRepository;
 import fr.openent.appointments.service.CommunicationService;
 import fr.openent.appointments.repository.CommunicationRepository;
 import fr.openent.appointments.repository.RepositoryFactory;
@@ -31,12 +34,14 @@ public class DefaultCommunicationService implements CommunicationService {
     private final GridService gridService;
     private final CommunicationRepository communicationRepository;
     private final GridRepository gridRepository;
+    private final GridSharesRepository gridShareRepository;
 
     public DefaultCommunicationService(ServiceFactory serviceFactory, RepositoryFactory repositoryFactory) {
         this.timeSlotService = serviceFactory.timeSlotService();
         this.gridService = serviceFactory.gridService();
         this.communicationRepository = repositoryFactory.communicationRepository();
         this.gridRepository = repositoryFactory.gridRepository();
+        this.gridShareRepository = repositoryFactory.gridShareRepository();
     }
 
 
@@ -74,7 +79,7 @@ public class DefaultCommunicationService implements CommunicationService {
             })
             .compose(neoUsers -> {
                 List<NeoUser> filteredUsers = filterNeoUsersBySearchAndPagination(neoUsers, search, page, limit);
-                return getGridsAndBuildListUserAppointementResponse(userInfos, filteredUsers);
+                return getGridsAndBuildListUserAppointmentResponse(userInfos, filteredUsers);
             })
             .onSuccess(promise::complete)
             .onFailure(err -> {
@@ -123,29 +128,35 @@ public class DefaultCommunicationService implements CommunicationService {
         return uniqueAndFilteredUsers;
     }
 
-    private Future<List<UserAppointment>> getGridsAndBuildListUserAppointementResponse(UserInfos user, List<NeoUser> users) {
+    private Future<List<UserAppointment>> getGridsAndBuildListUserAppointmentResponse(UserInfos user, List<NeoUser> users) {
         Promise<List<UserAppointment>> promise = Promise.promise();
 
         List<String> otherUsersIds = users.stream().map(NeoUser::getId).collect(Collectors.toList());
-        gridRepository.getGridsByUserIds(otherUsersIds)
+        List<Number> gridIdsSharedWithMe = new ArrayList<>();
+
+        gridShareRepository.getGridsSharedWithMeByRight(user, null)
+            .compose(gridShares -> {
+                gridIdsSharedWithMe.addAll(gridShares.stream().map(GridShare::getResourceId).collect(Collectors.toList()));
+                return gridRepository.getGridsByUserIds(otherUsersIds);
+            })
             .compose(grids -> {
                 // Filter grids in order to keep only grids that the user can access
-                List<Grid> filteredGrids = grids.stream().filter(grid -> grid.getTargetPublicListId()
-                                                .stream().anyMatch(user.getGroupsIds()::contains))
+                List<Grid> filteredGrids = grids.stream()
+                                                .filter(grid -> gridIdsSharedWithMe.contains(grid.getId()))
                                                 .collect(Collectors.toList());
-                return getAdditionalInfosAndBuildListUserAppointementResponse(user.getUserId(), filteredGrids, users);
+                return getAdditionalInfosAndBuildListUserAppointmentResponse(user.getUserId(), filteredGrids, users);
             })
             .onSuccess(promise::complete)
             .onFailure(err -> {
                 String errorMessage = "Failed to retrieve grids associated with users ids " + otherUsersIds;
-                LogHelper.logError(this, "getGridsAndBuildListUserAppointementResponse", errorMessage, err.getMessage());
+                LogHelper.logError(this, "getGridsAndBuildListUserAppointmentResponse", errorMessage, err.getMessage());
                 promise.fail(err);
             });
 
         return promise.future();
     }
 
-    private Future<List<UserAppointment>> getAdditionalInfosAndBuildListUserAppointementResponse(String userId, List<Grid> grids, List<NeoUser> users) {
+    private Future<List<UserAppointment>> getAdditionalInfosAndBuildListUserAppointmentResponse(String userId, List<Grid> grids, List<NeoUser> users) {
         Promise<List<UserAppointment>> promise = Promise.promise();
         JsonObject composeInfos = new JsonObject();
 
@@ -168,19 +179,19 @@ public class DefaultCommunicationService implements CommunicationService {
                         .map(Long.class::cast)
                         .collect(Collectors.toList());
 
-                promise.complete(buildListUserAppointementResponse(usersMap, grids, availabilities));
+                promise.complete(buildListUserAppointmentResponse(usersMap, grids, availabilities));
             })
             .onFailure(err -> {
                 String errorMessage = "Failed get additional infos to build UserAppointment";
-                LogHelper.logError(this, "getAdditionalInfosAndBuildListUserAppointementResponse", errorMessage, err.getMessage());
+                LogHelper.logError(this, "getAdditionalInfosAndBuildListUserAppointmentResponse", errorMessage, err.getMessage());
                 promise.fail(err);
             });
 
         return promise.future();
     }
 
-    private List<UserAppointment> buildListUserAppointementResponse(Map<NeoUser,LocalDate> users, List<Grid> grids, List<Long> availableGridsIds) {
-        List<UserAppointment> listUserAppointementResponse = new ArrayList<>();
+    private List<UserAppointment> buildListUserAppointmentResponse(Map<NeoUser,LocalDate> users, List<Grid> grids, List<Long> availableGridsIds) {
+        List<UserAppointment> listUserAppointmentResponse = new ArrayList<>();
 
         users.forEach((user, lastAppointmentDate) -> {
                 List<Long> userGridIds = grids.stream()
@@ -188,11 +199,11 @@ public class DefaultCommunicationService implements CommunicationService {
                         .map(Grid::getId)
                         .collect(Collectors.toList());
                 boolean availability = availableGridsIds.stream().anyMatch(userGridIds::contains);
-                listUserAppointementResponse.add(new UserAppointment(user, lastAppointmentDate, availability));
+                listUserAppointmentResponse.add(new UserAppointment(user, lastAppointmentDate, availability));
             });
 
-        listUserAppointementResponse.sort((user1, user2) -> user1.getDisplayName().compareToIgnoreCase(user2.getDisplayName()));
+        listUserAppointmentResponse.sort((user1, user2) -> user1.getDisplayName().compareToIgnoreCase(user2.getDisplayName()));
 
-        return listUserAppointementResponse;
+        return listUserAppointmentResponse;
     }
 }

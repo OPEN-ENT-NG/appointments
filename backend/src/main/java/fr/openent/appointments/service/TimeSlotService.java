@@ -30,10 +30,10 @@ public interface TimeSlotService {
     /**
      * Retrieve if slotId is linked to a grid that user is in groups of the grid
      *
-     * @param userId The ID of the connected user
+     * @param user The user infos
      * @param timeSlotId The ID of the time slot
      */
-    Future<Boolean> checkIfUserCanAccessTimeSlot(Long timeSlotId, String userId, List<String> userGroupsIds);
+    Future<Boolean> checkIfUserCanAccessTimeSlot(Long timeSlotId, UserInfos user, List<String> userGroupsIds);
 
     /**
      * Retrieve if slot is available (not already booked)

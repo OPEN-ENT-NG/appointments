@@ -2,11 +2,9 @@ package fr.openent.appointments.helper;
 
 import fr.openent.appointments.enums.UserFunction;
 import fr.openent.appointments.enums.UserFunctionException;
+import org.entcore.common.user.UserInfos;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class UserFunctionHelper {
@@ -59,6 +57,14 @@ public class UserFunctionHelper {
         if (UserFunctionException.getAllValues().contains(codeFunction)) return specificFormat(codeFunction, function, discipline);
 
         return prettifyText(function);
+    }
+
+    public static List<String> getIdAndGroupIds(UserInfos user) {
+        List<String> groupsAndUserIds = new ArrayList<>();
+        groupsAndUserIds.add(user.getUserId());
+        if (user.getGroupsIds() != null) groupsAndUserIds.addAll(user.getGroupsIds());
+
+        return groupsAndUserIds;
     }
 
     // Private functions
