@@ -65,7 +65,6 @@ public class AppointmentController extends ControllerHelper {
     @ApiDoc("Create an appointment linked to a time slot")
     @ResourceFilter(ViewRight.class)
     @SecuredAction(value="", type= ActionType.RESOURCE)
-    @IgnoreCsrf
     public void createAppointment(final HttpServerRequest request) {
         Long timeSlotId = ParamHelper.getParam(CAMEL_TIME_SLOT_ID, request, Long.class, true, "createAppointment");
         if(request.response().ended()) return;
@@ -205,7 +204,6 @@ public class AppointmentController extends ControllerHelper {
     @ApiDoc("Accept an appointment")
     @ResourceFilter(ManageRight.class)
     @SecuredAction(value="", type= ActionType.RESOURCE)
-    @IgnoreCsrf
     public void acceptAppointment(final HttpServerRequest request) {
         handleAppointmentAction(request, "accept", null, appointmentService::acceptAppointment);
     }
@@ -214,7 +212,6 @@ public class AppointmentController extends ControllerHelper {
     @ApiDoc("Reject an appointment")
     @ResourceFilter(ManageRight.class)
     @SecuredAction(value="", type= ActionType.RESOURCE)
-    @IgnoreCsrf
     public void rejectAppointment(final HttpServerRequest request) {
         RequestUtils.bodyToJson(request, body -> {
             String comment = body.getString(COMMENT, null);
@@ -226,7 +223,6 @@ public class AppointmentController extends ControllerHelper {
     @ApiDoc("Cancel an appointment")
     @ResourceFilter(ViewRight.class)
     @SecuredAction(value="", type= ActionType.RESOURCE)
-    @IgnoreCsrf
     public void cancelAppointment(final HttpServerRequest request) {
         RequestUtils.bodyToJson(request, body -> {
             String comment = body.getString(COMMENT, null);
