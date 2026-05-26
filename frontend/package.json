@@ -1,6 +1,6 @@
 {
   "name": "Appointments",
-  "version": "1.4.1-dev.1",
+  "version": "1.4-separation-SNAPSHOTfeat-separation.1",
   "description": "Appointments",
   "homepage": "https://github.com/OPEN-ENT-NG/appointments#readme",
   "bugs": {
@@ -49,9 +49,9 @@
     "@cgi-learning-hub/icons": "develop",
     "@cgi-learning-hub/theme": "develop",
     "@cgi-learning-hub/ui": "develop",
-    "@edifice.io/react": "develop",
-    "@edifice.io/bootstrap": "develop",
-    "@edifice.io/client": "develop",
+    "@edifice.io/react": "feat-separation",
+    "@edifice.io/bootstrap": "feat-separation",
+    "@edifice.io/client": "feat-separation",
     "@react-spring/web": "9.7.3",
     "@tanstack/react-query": "4.36.1",
     "@mui/material": "^7",
