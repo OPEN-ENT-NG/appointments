@@ -2,6 +2,7 @@ package fr.openent.appointments.core.constants;
 
 public class Fields {
     // SQL fields
+    public static final String ACTIONS = "actions";
     public static final String APPLICATION = "application";
     public static final String BEGIN = "begin";
     public static final String BEGIN_DATE = "begin_date";
@@ -25,11 +26,14 @@ public class Fields {
     public static final String FILE = "file";
     public static final String FILENAME = "filename";
     public static final String GRID_ID = "grid_id";
+    public static final String GROUP_ID = "group_id";
     public static final String GRID_NAME = "grid_name";
     public static final String _ID = "_id";
     public static final String ID = "id";
     public static final String INDEX = "index";
+    public static final String IS_GROUP = "is_group";
     public static final String IS_VIDEO_CALL = "is_video_call";
+    public static final String MEMBER_ID = "member_id";
     public static final String MESSAGE = "message";
     public static final String METADATA = "metadata";
     public static final String MODIFIED = "modified";
@@ -43,8 +47,10 @@ public class Fields {
     public static final String PROTECTED = "protected";
     public static final String PUBLIC_COMMENT = "public_comment";
     public static final String REQUESTER_ID = "requester_id";
+    public static final String RESOURCE_ID = "resource_id";
     public static final String RESULT = "result";
     public static final String RESULTS = "results";
+    public static final String SEARCH = "search";
     public static final String SIZE = "size";
     public static final String STATE = "state";
     public static final String STATUS = "status";
