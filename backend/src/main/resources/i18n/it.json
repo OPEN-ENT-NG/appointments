@@ -205,6 +205,7 @@
   "appointments.toast.event.export.error": "Si è verificato un errore durante la generazione dell'esportazione. Riprova.",
   "appointments.toast.grid.link.404.error": "Griglia non trovata: potrebbe essere stata eliminata, sospesa o non avere più slot disponibili",
   "appointments.toast.grid.link.403.error": "Non hai il permesso di accedere a questa griglia.",
+  "appointments.toast.share.success": "Le modifiche di condivisione sono state salvate correttamente",
 
   "group.HeadTeacher": "Insegnanti principali di {0}",
   "group.Direction": "Direttori di {0}",

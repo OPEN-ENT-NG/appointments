@@ -206,6 +206,7 @@
   "appointments.toast.event.export.error": "Beim Erstellen des Exports ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
   "appointments.toast.grid.link.404.error": "Zeitplan nicht gefunden: er wurde möglicherweise gelöscht, gesperrt oder hat keine verfügbaren Zeitfenster mehr",
   "appointments.toast.grid.link.403.error": "Sie haben keine Berechtigung, auf diesen Zeitplan zuzugreifen.",
+  "appointments.toast.share.success": "Die Freigabe-Änderungen wurden erfolgreich gespeichert",
 
   "group.HeadTeacher": "Klassenlehrer von {0}",
   "group.Direction": "Direktoren von {0}",
