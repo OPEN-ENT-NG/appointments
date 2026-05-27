@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 
 import static fr.openent.appointments.core.constants.Fields.END_DATE;
 import static fr.openent.appointments.core.constants.Fields.OWNER_ID;
+import static fr.openent.appointments.helper.UserFunctionHelper.getIdAndGroupIds;
 
 /**
  * Default implementation of the TimeSlotService interface.
@@ -155,7 +156,7 @@ public class DefaultTimeSlotService implements TimeSlotService {
     public Future<TimeSlotsAvailableResponse> getAvailableTimeSlotsByDates(UserInfos user, Long gridId, LocalDate beginDate, LocalDate endDate) {
         Promise<TimeSlotsAvailableResponse> promise = Promise.promise();
 
-        gridRepository.getGridsGroupsCanAccess(user.getGroupsIds())
+        gridRepository.getGridsUserOrGroupsCanAccess(getIdAndGroupIds(user))
             .compose(userGrids -> {
                 if (!userGrids.stream().map(Grid::getId).collect(Collectors.toList()).contains(gridId)) {
                     String errorMessage = String.format("The grid with id %s is not shared to the connected user", gridId);

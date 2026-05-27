@@ -84,6 +84,7 @@ export const ShareResourceModal = ({
     getSearchMinLength,
     handleSearchInputChange,
     handleSearchResultsChange,
+    handleBlurSearchInput,
   } = useSearch({
     appCode,
     resourceId,
@@ -116,10 +117,11 @@ export const ShareResourceModal = ({
     (option: OptionListItemType | null, reason: string) => {
       if (reason != "selectOption" || !option) return;
       void handleSearchResultsChange([option.value]);
+      handleBlurSearchInput();
       setResetKey((prev) => prev + 1);
       setHasUserInterracted((prev) => prev || true);
     },
-    [handleSearchResultsChange, setHasUserInterracted],
+    [handleSearchResultsChange, setHasUserInterracted, handleBlurSearchInput],
   );
 
   const displaySearchOption = (
@@ -179,7 +181,8 @@ export const ShareResourceModal = ({
               key={resetKey}
               autoComplete
               autoHighlight
-              clearOnBlur
+              loading={showSearchLoading()}
+              // Input
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -187,13 +190,16 @@ export const ShareResourceModal = ({
                 />
               )}
               onInputChange={(event, value) => handleSearchChange(event, value)}
-              onChange={(_, value, reason) => handleSelectOption(value, reason)}
+              // Bluring
+              clearOnBlur
+              onBlur={handleBlurSearchInput}
+              // Options and selection
               noOptionsText={getNoOptionsText()}
               options={searchResults}
               renderOption={(props, option) =>
                 displaySearchOption(props, option)
               }
-              loading={showSearchLoading()}
+              onChange={(_, value, reason) => handleSelectOption(value, reason)}
             />
           </Stack>
           {/* Sharing grid */}
@@ -216,7 +222,10 @@ export const ShareResourceModal = ({
                   <Box component={BoxComponentType.THEAD}>
                     <Box
                       component={BoxComponentType.TR}
-                      sx={{ backgroundColor: "primary.main" }}
+                      sx={{
+                        backgroundColor: "primary.main",
+                        verticalAlign: "middle",
+                      }}
                     >
                       <Box
                         component={BoxComponentType.TH}

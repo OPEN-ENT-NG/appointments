@@ -2,6 +2,7 @@ package fr.openent.appointments.repository.impl;
 
 import fr.openent.appointments.enums.AppointmentState;
 import fr.openent.appointments.enums.Periodicity;
+import fr.openent.appointments.enums.ShareRight;
 import fr.openent.appointments.helper.*;
 import fr.openent.appointments.model.TransactionElement;
 import fr.openent.appointments.model.database.Appointment;
@@ -115,19 +116,20 @@ public class DefaultGridRepository implements GridRepository {
     }
 
     @Override
-    public Future<List<Grid>> getGridsGroupsCanAccess(List<String> groupsIds) {
+    public Future<List<Grid>> getGridsUserOrGroupsCanAccess(List<String> userOrGroupsIds) {
         Promise<List<Grid>> promise = Promise.promise();
 
-        if (groupsIds == null || groupsIds.isEmpty()) {
+        if (userOrGroupsIds == null || userOrGroupsIds.isEmpty()) {
             promise.complete(new ArrayList<>());
             return promise.future();
         }
 
-        // The '~' annotation allows to execute a REGEX with case sensitivity
-        String query = "SELECT * FROM " + DB_GRID_TABLE + " WHERE " + TARGET_PUBLIC_LIST_ID + " ~ '" + String.join("|", groupsIds) + "';";
-        JsonArray params = new JsonArray();
+        String query = "SELECT g.* FROM " + DB_GRID_TABLE + " g " +
+                "JOIN " + DB_GRID_SHARES_TABLE + " sg ON sg.resource_id = g.id " +
+                "WHERE sg.member_id IN " + Sql.listPrepared(userOrGroupsIds) + " AND action = ?;";
+        JsonArray params = new JsonArray(userOrGroupsIds).add(ShareRight.BOOK.getAction());
 
-        String errorMessage = String.format("[Appointments@DefaultGridRepository::getGridsGroupsCanAccess] Fail to get grids the groups %s can access : ", groupsIds);
+        String errorMessage = String.format("[Appointments@DefaultGridRepository::getGridsGroupsCanAccess] Fail to get grids the groups %s can access : ", userOrGroupsIds);
         sql.prepared(query, params, SqlResult.validResultHandler(IModelHelper.resultToIModel(promise, Grid.class, errorMessage)));
 
         return promise.future();
