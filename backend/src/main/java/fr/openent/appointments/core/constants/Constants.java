@@ -57,6 +57,7 @@ public class Constants {
     public static final String APPOINTMENTS_IDS = "appointmentsIds";
     public static final String APPOINTMENTS_ADDRESS = "fr.openent.appointments";
     public static final String BODY = "body";
+    public static final String BOOKMARKS = "bookmarks";
     public static final String CODE = "code";
     public static final String FILTER = "filter";
     public static final String FUNCTIONS = "functions";
@@ -72,6 +73,7 @@ public class Constants {
     public static final String PAGE = "page";
     public static final String PICTURE = "picture";
     public static final String PROFILES = "profiles";
+    public static final String ROLE = "role";
     public static final String SEARCH = "search";
     public static final String STATEMENT = "statement";
     public static final String STRUCTURE = "structure";
@@ -79,6 +81,7 @@ public class Constants {
     public static final String STATES = "states";
     public static final String TITLE = "title";
     public static final String USERNAME = "username";
+    public static final String USERS = "users";
     public static final String VALUES = "values";
 
     private Constants() {

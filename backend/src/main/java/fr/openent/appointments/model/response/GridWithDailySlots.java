@@ -11,6 +11,7 @@ import io.vertx.core.json.JsonObject;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GridWithDailySlots implements IModel<GridWithDailySlots> {
@@ -32,7 +33,7 @@ public class GridWithDailySlots implements IModel<GridWithDailySlots> {
     private String ownerId;
 
     // Constructor
-    public GridWithDailySlots(Grid grid, NeoStructure structure, List<NeoGroup> groups, List<DailySlot> dailySlots, List<DocumentResponse> documents) {
+    public GridWithDailySlots(Grid grid, NeoStructure structure, List<DailySlot> dailySlots, List<DocumentResponse> documents) {
         this.id = grid.getId();
         this.name = grid.getName();
         this.color = grid.getColor();
@@ -41,7 +42,7 @@ public class GridWithDailySlots implements IModel<GridWithDailySlots> {
         this.structure = structure;
         this.duration = grid.getDuration();
         this.periodicity = grid.getPeriodicity();
-        this.groups = groups;
+        this.groups = new ArrayList<>(); //TODO remove
         this.videoCallLink = grid.getVideoCallLink();
         this.place = grid.getPlace();
         this.documents = documents;

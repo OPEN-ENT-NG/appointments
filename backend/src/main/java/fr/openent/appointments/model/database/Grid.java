@@ -60,7 +60,7 @@ public class Grid implements IModel<Grid> {
 
         String stringTargetPublicListId = grid.getString(TARGET_PUBLIC_LIST_ID, "");
         String cleanedTargetPublicListId = stringTargetPublicListId.substring(1, stringTargetPublicListId.length() - 1);
-        this.targetPublicListId = Arrays.asList(cleanedTargetPublicListId.split(",\\s*"));
+        this.targetPublicListId = Arrays.asList(cleanedTargetPublicListId.split(",\\s*")); //TODO remove
 
         String stringDocumentsIds = grid.getString(DOCUMENTS_IDS, "");
 

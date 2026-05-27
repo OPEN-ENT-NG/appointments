@@ -24,7 +24,6 @@ import io.vertx.core.json.JsonObject;
 
 import org.entcore.common.controller.ControllerHelper;
 import org.entcore.common.events.EventStore;
-import org.entcore.common.http.filter.IgnoreCsrf;
 import org.entcore.common.http.filter.ResourceFilter;
 
 import fr.openent.appointments.model.payload.GridPayload;
@@ -35,7 +34,6 @@ import fr.openent.appointments.security.ViewRight;
 import org.entcore.common.user.UserInfos;
 import org.entcore.common.user.UserUtils;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -119,17 +117,6 @@ public class GridController extends ControllerHelper {
             });
     }
 
-    private List<NeoGroup> formatGroupList(final HttpServerRequest request, List<NeoGroup> groups) {
-        String language = I18n.acceptLanguage(request);
-
-        groups.forEach(group -> {
-            String formattedName = UserUtils.groupDisplayName(group.getName(), null, language);
-            group.setName(formattedName);
-        });
-
-        return groups;
-    }
-
     @Get("/grids/:gridId")
     @ApiDoc("Get grid by id")
     @ResourceFilter(ViewRight.class)
@@ -152,7 +139,6 @@ public class GridController extends ControllerHelper {
                     unauthorized(request, errorMessage);
                     return;
                 }
-                grid.setGroups(formatGroupList(request, grid.getGroups()));
                 renderJson(request, grid.toJson());
             })
             .onFailure(error -> {

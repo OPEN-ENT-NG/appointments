@@ -1,5 +1,6 @@
 package fr.openent.appointments.service.impl;
 
+import fr.openent.appointments.enums.ShareRight;
 import fr.openent.appointments.helper.LogHelper;
 import fr.openent.appointments.model.database.*;
 import fr.openent.appointments.model.response.*;
@@ -39,6 +40,7 @@ public class DefaultGridService implements GridService {
     private final TimeSlotRepository timeSlotRepository;
     private final DailySlotRepository dailySlotRepository;
     private final CommunicationRepository communicationRepository;
+    private final GridSharesRepository gridShareRepository;
 
     public DefaultGridService(ServiceFactory serviceFactory, RepositoryFactory repositoryFactory) {
         this.eb = serviceFactory.eventBus();
@@ -47,6 +49,7 @@ public class DefaultGridService implements GridService {
         this.timeSlotRepository = repositoryFactory.timeSlotRepository();
         this.dailySlotRepository = repositoryFactory.dailySlotRepository();
         this.communicationRepository = repositoryFactory.communicationRepository();
+        this.gridShareRepository = repositoryFactory.gridShareRepository();
     }
 
     @Override
@@ -119,12 +122,7 @@ public class DefaultGridService implements GridService {
                 if (!grid.isPresent()) return Future.failedFuture("Grid not found");
                 Grid gridFetched = grid.get();
                 composeInfos.put(GRID, gridFetched);
-                return communicationRepository.getGroups(gridFetched.getTargetPublicListId());
-            })
-            .compose(groups -> {
-                composeInfos.put(GROUPS, groups);
-                Grid grid = (Grid) composeInfos.getValue(GRID);
-                return communicationRepository.getStructure(grid.getStructureId());
+                return communicationRepository.getStructure(gridFetched.getStructureId());
             })
             .compose(neoStructure -> {
                 if(!neoStructure.isPresent()) return Future.failedFuture("Structure not found");
@@ -139,13 +137,10 @@ public class DefaultGridService implements GridService {
             .onSuccess(documents -> {
                 Grid grid = (Grid) composeInfos.getValue(GRID);
                 NeoStructure structure = (NeoStructure) composeInfos.getValue(STRUCTURE);
-                List<NeoGroup> groups = composeInfos.getJsonArray(GROUPS).stream()
-                        .map(group -> (NeoGroup) group)
-                        .collect(Collectors.toList());
                 List<DailySlot> dailySlots = composeInfos.getJsonArray(CAMEL_DAILY_SLOTS).stream()
                         .map(dailySlot -> (DailySlot) dailySlot)
                         .collect(Collectors.toList());
-                promise.complete(new GridWithDailySlots(grid, structure, groups, dailySlots, documents));
+                promise.complete(new GridWithDailySlots(grid, structure, dailySlots, documents));
             })
             .onFailure(err -> {
                 String errorMessage = "Failed to get grid by id";
@@ -354,12 +349,15 @@ public class DefaultGridService implements GridService {
         gridStates.add(GridState.OPEN);
         gridStates.add(GridState.SUSPENDED);
 
-        gridRepository.getAllGridsByState(gridStates)
+        List<Number> gridIdsSharedWithMe = new ArrayList<>();
+        gridShareRepository.getGridsSharedWithMeByRight(user, ShareRight.BOOK)
+            .compose(gridShares -> {
+                gridIdsSharedWithMe.addAll(gridShares.stream().map(GridShare::getResourceId).collect(Collectors.toList()));
+                return gridRepository.getAllGridsByState(gridStates);
+            })
             .onSuccess(grids -> {
                 List<String> ownersIds = grids.stream()
-                        .filter(grid -> grid.getTargetPublicListId()
-                                .stream()
-                                .anyMatch(user.getGroupsIds()::contains))
+                        .filter(grid -> gridIdsSharedWithMe.contains(grid.getId()))
                         .map(Grid::getOwnerId)
                         .distinct()
                         .collect(Collectors.toList());
