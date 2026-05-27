@@ -101,6 +101,15 @@
   "appointments.confirm.modal.cancel.appointment.description": "Se confirmar, o compromisso será cancelado e você ficará disponível no horário afetado.",
   "appointments.confirm.modal.cancel.appointment.comment.description": "Pode, se desejar, indicar o motivo do cancelamento para informar o proprietário da agenda.",
 
+  "appointments.share.modal.title": "Partilhar a agenda",
+  "appointments.share.modal.search.title": "Pesquisar e adicionar",
+  "appointments.share.modal.search.placeholder": "Nome de utilizador, grupos, favoritos",
+  "appointments.share.modal.search.noResult": "Nenhum resultado encontrado",
+  "appointments.share.modal.search.minChars": "Introduza pelo menos 3 caracteres para iniciar a pesquisa",
+  "appointments.share.modal.bookmark.title": "Criar um favorito de partilha",
+  "appointments.share.modal.bookmark.placeholder": "Introduzir o nome do favorito *",
+  "appointments.share.modal.bookmark.button": "Guardar favorito",
+
   "appointments.last.appointment": "Último compromisso: {{date}}",
   "appointments.max.number.files": "Máximo {{maxNumber}} arquivos.",
   "appointments.max.number.files.exceeded": "Limite de arquivos atingido",
@@ -116,10 +125,7 @@
   "appointments.event.export.all.button.title": "Baixar os meus compromissos",
   "appointments.event.export.all.modal.title": "Baixar os seus compromissos",
   "appointments.event.export.all.modal.body": "O download irá gerar <strong>um ficheiro .ics</strong> contendo todos os seus compromissos aceites que poderá importar manualmente para o calendário da sua escolha.",  "appointments.event.export.all.modal.body2": "O primeiro cancela todos os compromissos existentes, o segundo recria os compromissos ativos atualizados.",
-  "appointments.event.export.all.modal.warning.title": "Importante",
-  "appointments.event.export.all.modal.warning.body": "Importe os ficheiros na ordem indicada para que o seu calendário seja atualizado corretamente.\n   • <i>1-export_global_cancelamento.ics</i>\n   • <i>2-export_global_criação.ics</i>",
   "appointments.event.export.all.modal.end": "Qualquer modificação posterior exigirá uma nova exportação.",
-  "appointments.event.export.all.only.cancelled.body": "O download irá gerar <strong>um ficheiro .ics</strong> contendo todos os seus compromissos cancelados que poderá importar manualmente para o calendário da sua escolha.",
 
   "appointments.appointments": "Compromissos",
   "appointments.cancel": "Cancelar",
@@ -147,6 +153,8 @@
   "appointments.comment.optionnal": "Comentário (opcional)",
   "appointments.hours": "horas",
   "appointments.minutes": "minutos",
+  "appointments.share": "Partilhar",
+  "appointments.share.rights.read": "Reserva de intervalos",
 
   "appointments.monday": "Segunda-feira",
   "appointments.tuesday": "Terça-feira",

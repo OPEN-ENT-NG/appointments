@@ -19,6 +19,7 @@ import {
 } from "./utils";
 import { t } from "~/i18n";
 import { toast } from "react-toastify";
+import { TagName } from "~/core/enums";
 
 export const gridApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -28,12 +29,12 @@ export const gridApi = emptySplitApi.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: ["MyGrids", "Availability"],
+      invalidatesTags: [TagName.GRIDS, TagName.AVAILABILITY],
     }),
     getGridById: builder.query<GridModalInputs, number>({
       query: (gridId) => `/grids/${gridId}`,
       transformResponse: transformResponseToCompleteGridResponse,
-      providesTags: ["MyGrids"],
+      providesTags: [TagName.GRIDS],
     }),
     getMyGrids: builder.query<MyGrids, GetMyGridsPayload>({
       query: (body) => {
@@ -47,20 +48,20 @@ export const gridApi = emptySplitApi.injectEndpoints({
         };
       },
       transformResponse: transformResponseToMyGridsResponse,
-      providesTags: ["MyGrids"],
+      providesTags: [TagName.GRIDS],
     }),
     getMyGridsName: builder.query<string[], void>({
       query: () => "/grids/names",
-      providesTags: ["MyGrids"],
+      providesTags: [TagName.GRIDS],
     }),
     getAvailableUserMinimalGrids: builder.query<NameWithId[], string>({
       query: (userId) => `/users/${userId}/grids/minimal`,
-      providesTags: ["Availability"],
+      providesTags: [TagName.AVAILABILITY],
     }),
     getMinimalGridInfosById: builder.query<GridInfos, number>({
       query: (gridId) => `/grids/${gridId}/minimal/infos`,
       transformResponse: transformResponseToGridInfosResponse,
-      providesTags: ["Availability"],
+      providesTags: [TagName.AVAILABILITY],
     }),
     getTimeSlotsByGridIdAndDate: builder.query<TimeSlots, GetTimeSlotsPayload>({
       query: ({ gridId, beginDate, endDate }) => ({
@@ -70,7 +71,7 @@ export const gridApi = emptySplitApi.injectEndpoints({
           endDate: endDate,
         },
       }),
-      providesTags: ["Availability"],
+      providesTags: [TagName.AVAILABILITY],
     }),
     getGridOwnerInfos: builder.query<IGridOwnerInfosProps, number>({
       query: (gridId) => `/grids/${gridId}/owner`,
@@ -89,7 +90,11 @@ export const gridApi = emptySplitApi.injectEndpoints({
         method: "PUT",
         params: { deleteAppointments },
       }),
-      invalidatesTags: ["MyGrids", "Availability", "MyAppointments"],
+      invalidatesTags: [
+        TagName.GRIDS,
+        TagName.AVAILABILITY,
+        TagName.APPOINTMENTS,
+      ],
     }),
     suspendGrid: builder.mutation<void, UpdateGridStatePayload>({
       query: ({ gridId, deleteAppointments }) => ({
@@ -97,14 +102,18 @@ export const gridApi = emptySplitApi.injectEndpoints({
         method: "PUT",
         params: { deleteAppointments },
       }),
-      invalidatesTags: ["MyGrids", "Availability", "MyAppointments"],
+      invalidatesTags: [
+        TagName.GRIDS,
+        TagName.AVAILABILITY,
+        TagName.APPOINTMENTS,
+      ],
     }),
     restoreGrid: builder.mutation({
       query: ({ gridId }) => ({
         url: `/grids/${gridId}/restore`,
         method: "PUT",
       }),
-      invalidatesTags: ["MyGrids", "Availability"],
+      invalidatesTags: [TagName.GRIDS, TagName.AVAILABILITY],
     }),
     editGrid: builder.mutation<void, EditGridPayload>({
       query: ({ gridId, body }) => ({
@@ -112,7 +121,11 @@ export const gridApi = emptySplitApi.injectEndpoints({
         method: "PUT",
         body,
       }),
-      invalidatesTags: ["MyGrids", "Availability", "MyAppointments"],
+      invalidatesTags: [
+        TagName.GRIDS,
+        TagName.AVAILABILITY,
+        TagName.APPOINTMENTS,
+      ],
     }),
   }),
 });

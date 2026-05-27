@@ -17,6 +17,7 @@ import InsertLinkRoundedIcon from "@mui/icons-material/InsertLinkRounded";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
+import ShareIcon from "@mui/icons-material/Share";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import { useTranslation } from "react-i18next";
 
@@ -52,7 +53,11 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
   const { t } = useTranslation(APPOINTMENTS);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { isMultiStructure, getStructureNameById } = useGlobal();
-  const { handleOpenDialogModal, handleOpenGridModal } = useAvailability();
+  const {
+    handleOpenDialogModal,
+    handleOpenGridModal,
+    handleOpenShareGridModal,
+  } = useAvailability();
 
   const handleClickedMoreButton = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -74,6 +79,11 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
 
   const handleOpenConsultModal = () => {
     handleOpenGridModal(GRID_MODAL_TYPE.CONSULTATION, grid.id);
+    handleCloseMenu();
+  };
+
+  const handleOpenShareModal = async () => {
+    handleOpenShareGridModal(grid.id);
     handleCloseMenu();
   };
 
@@ -145,6 +155,15 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
               onClick={() => handleOpenGridModal(GRID_MODAL_TYPE.EDIT, grid.id)}
             >
               {t("appointments.edit")}
+            </Button>
+            <Button
+              variant="outlined"
+              startIcon={<ShareIcon />}
+              onClick={() => {
+                handleOpenShareGridModal(grid.id);
+              }}
+            >
+              {t("appointments.share")}
             </Button>
             <Button
               variant="outlined"
@@ -220,6 +239,10 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
                 <MenuItem onClick={handleOpenEditModal}>
                   <EditIcon />
                   {t("appointments.edit")}
+                </MenuItem>
+                <MenuItem onClick={handleOpenShareModal}>
+                  <ShareIcon />
+                  {t("appointments.share")}
                 </MenuItem>
                 <MenuItem
                   onClick={() => {

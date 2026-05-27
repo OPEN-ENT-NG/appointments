@@ -101,6 +101,15 @@
   "appointments.confirm.modal.cancel.appointment.description": "Wenn Sie bestätigen, wird der Termin abgesagt und Sie sind in dem betroffenen Zeitfenster wieder verfügbar.",
   "appointments.confirm.modal.cancel.appointment.comment.description": "Sie können, wenn Sie möchten, den Grund der Stornierung angeben, um den Inhaber des Zeitplans zu informieren.",
 
+  "appointments.share.modal.title": "Zeitplan teilen",
+  "appointments.share.modal.search.title": "Suchen und hinzufügen",
+  "appointments.share.modal.search.placeholder": "Benutzername, Gruppen, Favoriten",
+  "appointments.share.modal.search.noResult": "Keine Ergebnisse gefunden",
+  "appointments.share.modal.search.minChars": "Geben Sie mindestens 3 Zeichen ein, um die Suche zu starten",
+  "appointments.share.modal.bookmark.title": "Freigabe-Favorit erstellen",
+  "appointments.share.modal.bookmark.placeholder": "Favoritenname eingeben *",
+  "appointments.share.modal.bookmark.button": "Favorit speichern",
+
   "appointments.last.appointment": "Letzter Termin: {{date}}",
   "appointments.max.number.files": "Maximal {{maxNumber}} Dateien.",
   "appointments.max.number.files.exceeded": "Dateilimit erreicht",
@@ -116,10 +125,7 @@
   "appointments.event.export.all.button.title": "Meine Termine herunterladen",
   "appointments.event.export.all.modal.title": "Ihre Termine herunterladen",
   "appointments.event.export.all.modal.body": "Der Download generiert <strong>eine .ics-Datei</strong> mit allen Ihren akzeptierten Terminen, die Sie manuell in den Kalender Ihrer Wahl importieren können.",  "appointments.event.export.all.modal.body2": "Die erste storniert alle bestehenden Termine, die zweite erstellt die aktualisierten aktiven Termine neu.",
-  "appointments.event.export.all.modal.warning.title": "Wichtig",
-  "appointments.event.export.all.modal.warning.body": "Importieren Sie die Dateien in der angegebenen Reihenfolge, damit Ihr Kalender korrekt aktualisiert wird.\n   • <i>1-export_global_stornierung.ics</i>\n   • <i>2-export_global_erstellung.ics</i>",
   "appointments.event.export.all.modal.end": "Jede spätere Änderung erfordert einen neuen Export.",
-  "appointments.event.export.all.only.cancelled.body": "Der Download generiert <strong>eine .ics-Datei</strong> mit allen Ihren stornierten Terminen, die Sie manuell in den Kalender Ihrer Wahl importieren können.",
 
   "appointments.appointments": "Termine",
   "appointments.cancel": "Abbrechen",
@@ -147,6 +153,8 @@
   "appointments.comment.optionnal": "Kommentar (optional)",
   "appointments.hours": "Stunden",
   "appointments.minutes": "Minuten",
+  "appointments.share": "Teilen",
+  "appointments.share.rights.read": "Zeitfensterbuchung",
 
   "appointments.monday": "Montag",
   "appointments.tuesday": "Dienstag",
