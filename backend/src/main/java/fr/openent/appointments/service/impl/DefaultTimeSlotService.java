@@ -72,7 +72,7 @@ public class DefaultTimeSlotService implements TimeSlotService {
     }
 
     @Override
-    public Future<Boolean> checkIfUserCanAccessTimeSlot(Long timeSlotId, UserInfos user, List<String> userGroupsIds){
+    public Future<Boolean> checkIfUserCanAccessTimeSlot(Long timeSlotId, UserInfos user) {
         Promise<Boolean> promise = Promise.promise();
 
         List<Number> gridIdsSharedWithMe = new ArrayList<>();

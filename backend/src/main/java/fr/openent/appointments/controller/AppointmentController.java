@@ -74,7 +74,7 @@ public class AppointmentController extends ControllerHelper {
         UserUtils.getAuthenticatedUserInfos(eb, request)
             .compose(user -> {
                 composeInfo.put(CAMEL_USER_INFO, user);
-                return appointmentService.checkIfUserCanAccessTimeSlot(timeSlotId, user, user.getGroupsIds());
+                return appointmentService.checkIfUserCanAccessTimeSlot(timeSlotId, user);
             })
             .compose(canAccess -> {
                 if (!canAccess) {

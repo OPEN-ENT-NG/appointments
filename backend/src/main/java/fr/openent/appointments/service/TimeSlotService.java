@@ -33,7 +33,7 @@ public interface TimeSlotService {
      * @param user The user infos
      * @param timeSlotId The ID of the time slot
      */
-    Future<Boolean> checkIfUserCanAccessTimeSlot(Long timeSlotId, UserInfos user, List<String> userGroupsIds);
+    Future<Boolean> checkIfUserCanAccessTimeSlot(Long timeSlotId, UserInfos user);
 
     /**
      * Retrieve if slot is available (not already booked)

@@ -50,8 +50,8 @@ public class DefaultAppointmentService implements AppointmentService {
     }
 
     @Override
-    public Future<Boolean> checkIfUserCanAccessTimeSlot(Long timeSlotId, UserInfos user, List<String> userGroupsIds) {
-        return timeSlotService.checkIfUserCanAccessTimeSlot(timeSlotId, user, userGroupsIds);
+    public Future<Boolean> checkIfUserCanAccessTimeSlot(Long timeSlotId, UserInfos user) {
+        return timeSlotService.checkIfUserCanAccessTimeSlot(timeSlotId, user);
     }
 
     @Override
