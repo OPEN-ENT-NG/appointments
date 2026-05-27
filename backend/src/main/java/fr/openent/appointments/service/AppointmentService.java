@@ -20,11 +20,10 @@ public interface AppointmentService {
     /**
      *
      * @param timeSlotId The time slot id
-     * @param userId The user id
-     * @param userGroupsIds The user groups ids
+     * @param user The user infos
      * @return if the user can access the time slot
      */
-    public Future<Boolean> checkIfUserCanAccessTimeSlot(Long timeSlotId, String userId, List<String> userGroupsIds);
+    public Future<Boolean> checkIfUserCanAccessTimeSlot(Long timeSlotId, UserInfos user);
 
 
     /**

@@ -13,6 +13,7 @@ public class RepositoryFactory {
     private final DailySlotRepository dailySlotRepository;
     private final GridRepository gridRepository;
     private final CommunicationRepository communicationRepository;
+    private final GridSharesRepository gridShareRepository;
     private final AppointmentRepository appointmentRepository;
 
     public RepositoryFactory(Sql sql, Neo4j neo4j) {
@@ -22,6 +23,7 @@ public class RepositoryFactory {
         this.dailySlotRepository = new DefaultDailySlotRepository(this);
         this.gridRepository = new DefaultGridRepository(this);
         this.communicationRepository = new DefaultCommunicationRepository(this);
+        this.gridShareRepository = new DefaultGridSharesRepository(this);
         this.appointmentRepository = new DefaultAppointmentRepository(this);
     }
 
@@ -47,6 +49,10 @@ public class RepositoryFactory {
 
     public CommunicationRepository communicationRepository() {
         return this.communicationRepository;
+    }
+
+    public GridSharesRepository gridShareRepository() {
+        return this.gridShareRepository;
     }
 
     public AppointmentRepository appointmentRepository() { return this.appointmentRepository; }

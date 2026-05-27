@@ -99,9 +99,8 @@ public class CommunicationController extends BaseController {
                     badRequest(request, errorMessage);
                     return Future.failedFuture(errorMessage);
                 }
-                return Future.succeededFuture(user);
+                return communicationService.getUsers(user, search, page, limit);
             })
-            .compose(user -> communicationService.getUsers(user, search, page, limit))
             .onSuccess(listUserAppointmentResponse -> renderJson(request, IModelHelper.toJsonArray(listUserAppointmentResponse)))
             .onFailure(err -> {
                 if(request.response().ended()) return;

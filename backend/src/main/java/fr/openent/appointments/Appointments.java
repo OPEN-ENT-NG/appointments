@@ -12,11 +12,19 @@ import io.vertx.core.Promise;
 import org.entcore.common.events.EventStore;
 import org.entcore.common.events.EventStoreFactory;
 import org.entcore.common.notification.TimelineHelper;
+import org.entcore.common.share.impl.SqlShareService;
 import org.entcore.common.sql.Sql;
 import org.entcore.common.neo4j.Neo4j;
 import org.entcore.common.http.BaseServer;
+import org.entcore.common.sql.SqlConf;
+import org.entcore.common.sql.SqlConfs;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import static fr.openent.appointments.core.constants.SqlTables.*;
 
 public class Appointments extends BaseServer {
 
@@ -41,12 +49,24 @@ public class Appointments extends BaseServer {
         RepositoryFactory repositoryFactory = new RepositoryFactory(sql, neo4j);
         ServiceFactory serviceFactory = new ServiceFactory(vertx, eventStore, appConfig, repositoryFactory, timelineHelper);
 
+        // Create and parameter conf for all controllers using sharing system (only the SharingController for now)
+        SqlConf sharingConf = SqlConfs.createConf(SharingController.class.getName());
+        sharingConf.setSchema(DB_SCHEMA);
+        sharingConf.setTable(GRID_TABLE);
+        sharingConf.setShareTable(GRID_SHARES_TABLE);
+
+        // Set sharing service
+        SharingController sharingController = new SharingController();
+        SqlShareService sqlShareService = new SqlShareService(DB_SCHEMA, GRID_SHARES_TABLE, eb, securedActions, null);
+        sharingController.setShareService(sqlShareService);
+
         // Controller
         addController(new MainController(serviceFactory));
         addController(new GridController(serviceFactory));
         addController(new TimeSlotController(serviceFactory));
         addController(new CommunicationController(serviceFactory));
         addController(new AppointmentController(serviceFactory));
+        addController(sharingController);
 
         // CRON
         ClosingCron closingCron = new ClosingCron(serviceFactory);
