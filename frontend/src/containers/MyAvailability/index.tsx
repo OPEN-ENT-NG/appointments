@@ -22,6 +22,7 @@ import {
   emptyStateSvgStyle,
   headerStyle,
 } from "./style";
+import { ShareGridModal } from "../ShareGridModal";
 
 export const MyAvailability: FC = () => {
   const { t } = useTranslation(APPOINTMENTS);
@@ -70,6 +71,7 @@ export const MyAvailability: FC = () => {
     <>
       <DialogModal {...dialogModalProps} />
       <GridModal />
+      <ShareGridModal />
       <Box ref={boxRef} sx={availabilityContainerStyle}>
         <Box sx={headerStyle}>
           <Typography variant="h2" color="primary" fontWeight="bold">

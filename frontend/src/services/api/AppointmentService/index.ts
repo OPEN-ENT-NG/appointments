@@ -14,7 +14,7 @@ import {
   transformResponseToMyAppointments,
   transformResponseToNumber,
 } from "./utils";
-import { APPOINTMENT_STATE } from "~/core/enums";
+import { APPOINTMENT_STATE, TagName } from "~/core/enums";
 
 export const appointmentApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -25,9 +25,9 @@ export const appointmentApi = emptySplitApi.injectEndpoints({
         params: isVideoCall !== undefined ? { isVideoCall } : undefined,
       }),
       invalidatesTags: [
-        "Availability",
-        "MyAppointments",
-        "AppointmentsLinkedToGrid",
+        TagName.AVAILABILITY,
+        TagName.APPOINTMENTS,
+        TagName.APPOINTMENTS_LINKED_TO_GRID,
       ],
     }),
     getMyAppointments: builder.query<MyAppointments, GetMyAppointmentsPayload>({
@@ -42,12 +42,12 @@ export const appointmentApi = emptySplitApi.injectEndpoints({
         };
       },
       transformResponse: transformResponseToMyAppointments,
-      providesTags: ["MyAppointments"],
+      providesTags: [TagName.APPOINTMENTS],
     }),
     getAppointment: builder.query<Appointment, number>({
       query: (appointmentId) => `/appointments/${appointmentId}`,
       transformResponse: transformResponseToAppointment,
-      providesTags: ["MyAppointments"],
+      providesTags: [TagName.APPOINTMENTS],
     }),
     getAppointmentIndex: builder.query<number, number>({
       query: (appointmentId) => `/appointments/${appointmentId}/index`,
@@ -65,18 +65,18 @@ export const appointmentApi = emptySplitApi.injectEndpoints({
         };
       },
       transformResponse: transformResponseToDayjsArray,
-      providesTags: ["MyAppointments"],
+      providesTags: [TagName.APPOINTMENTS],
     }),
     getAvailableAppointments: builder.query<Appointment[], number>({
       query: (gridId) => `/appointments/available/grids/${gridId}`,
-      providesTags: ["AppointmentsLinkedToGrid"],
+      providesTags: [TagName.APPOINTMENTS_LINKED_TO_GRID],
     }),
     acceptAppointment: builder.mutation<void, number>({
       query: (appointmentId) => ({
         url: `/appointments/${appointmentId}/accept`,
         method: "PUT",
       }),
-      invalidatesTags: ["MyAppointments"],
+      invalidatesTags: [TagName.APPOINTMENTS],
     }),
     rejectAppointment: builder.mutation<void, { id: number; comment?: string }>(
       {
@@ -85,7 +85,10 @@ export const appointmentApi = emptySplitApi.injectEndpoints({
           body: { comment },
           method: "PUT",
         }),
-        invalidatesTags: ["MyAppointments", "AppointmentsLinkedToGrid"],
+        invalidatesTags: [
+          TagName.APPOINTMENTS,
+          TagName.APPOINTMENTS_LINKED_TO_GRID,
+        ],
       },
     ),
     cancelAppointment: builder.mutation<void, { id: number; comment?: string }>(
@@ -95,7 +98,10 @@ export const appointmentApi = emptySplitApi.injectEndpoints({
           body: { comment },
           method: "PUT",
         }),
-        invalidatesTags: ["MyAppointments", "AppointmentsLinkedToGrid"],
+        invalidatesTags: [
+          TagName.APPOINTMENTS,
+          TagName.APPOINTMENTS_LINKED_TO_GRID,
+        ],
       },
     ),
     exportAppointmentsEvent: builder.mutation<

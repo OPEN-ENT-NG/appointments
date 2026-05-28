@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { TagName } from "~/core/enums";
 
 const delayBaseQuery = async (args: any, api: any, extraOptions: any) => {
   await new Promise((resolve) => setTimeout(resolve, 0));
@@ -23,10 +24,10 @@ const delayBaseQuery = async (args: any, api: any, extraOptions: any) => {
 export const emptySplitApi = createApi({
   baseQuery: delayBaseQuery,
   tagTypes: [
-    "MyGrids",
-    "Availability",
-    "MyAppointments",
-    "AppointmentsLinkedToGrid",
+    TagName.GRIDS,
+    TagName.AVAILABILITY,
+    TagName.APPOINTMENTS,
+    TagName.APPOINTMENTS_LINKED_TO_GRID,
   ],
   endpoints: () => ({}),
 });

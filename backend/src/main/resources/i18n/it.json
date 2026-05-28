@@ -101,6 +101,15 @@
   "appointments.confirm.modal.cancel.appointment.description": "Se confermi, l'appuntamento verrà annullato e sarai nuovamente disponibile nella fascia oraria interessata.",
   "appointments.confirm.modal.cancel.appointment.comment.description": "Potete, se lo desiderate, indicare il motivo dell'annullamento per informare il proprietario della griglia.",
 
+  "appointments.share.modal.title": "Condividi la griglia",
+  "appointments.share.modal.search.title": "Cerca e aggiungi",
+  "appointments.share.modal.search.placeholder": "Nome utente, gruppi, preferiti",
+  "appointments.share.modal.search.noResult": "Nessun risultato trovato",
+  "appointments.share.modal.search.minChars": "Inserire almeno 3 caratteri per avviare la ricerca",
+  "appointments.share.modal.bookmark.title": "Crea un preferito di condivisione",
+  "appointments.share.modal.bookmark.placeholder": "Inserire il nome del preferito *",
+  "appointments.share.modal.bookmark.button": "Salva preferito",
+
   "appointments.last.appointment": "Ultimo appuntamento: {{date}}",
   "appointments.max.number.files": "Massimo {{maxNumber}} file.",
   "appointments.max.number.files.exceeded": "Limite di file raggiunto",
@@ -116,10 +125,7 @@
   "appointments.event.export.all.button.title": "Scarica i miei appuntamenti",
   "appointments.event.export.all.modal.title": "Scarica i tuoi appuntamenti",
   "appointments.event.export.all.modal.body": "Il download genererà <strong>un file .ics</strong> contenente tutti i tuoi appuntamenti accettati che potrai importare manualmente nel calendario di tua scelta.",  "appointments.event.export.all.modal.body2": "Il primo annulla tutti gli appuntamenti esistenti, il secondo ricrea gli appuntamenti attivi aggiornati.",
-  "appointments.event.export.all.modal.warning.title": "Importante",
-  "appointments.event.export.all.modal.warning.body": "Importate i file nell'ordine indicato affinché il vostro calendario venga aggiornato correttamente.\n   • <i>1-export_global_annullamento.ics</i>\n   • <i>2-export_global_creazione.ics</i>",
   "appointments.event.export.all.modal.end": "Qualsiasi modifica successiva richiederà una nuova esportazione.",
-  "appointments.event.export.all.only.cancelled.body": "Il download genererà <strong>un file .ics</strong> contenente tutti i vostri appuntamenti annullati che potrete importare manualmente nel calendario di vostra scelta.",
 
   "appointments.appointments": "Appuntamenti",
   "appointments.cancel": "Annulla",
@@ -147,6 +153,8 @@
   "appointments.comment.optionnal": "Commento (facoltativo)",
   "appointments.hours": "ore",
   "appointments.minutes": "minuti",
+  "appointments.share": "Condividi",
+  "appointments.share.rights.read": "Prenotazione slot",
 
   "appointments.monday": "Lunedì",
   "appointments.tuesday": "Martedì",

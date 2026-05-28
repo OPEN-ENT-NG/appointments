@@ -2,6 +2,7 @@ import { NUMBER_MORE_USERS } from "~/providers/FindAppointmentsProvider/utils";
 import { emptySplitApi } from "../EmptySplitService";
 import { GetUsersPayload, Public, UserCardInfos } from "./types";
 import { transformResponseToPublic } from "./utils";
+import { TagName } from "~/core/enums";
 
 export const communicationApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -34,7 +35,7 @@ export const communicationApi = emptySplitApi.injectEndpoints({
         },
       },
 
-      providesTags: ["Availability"],
+      providesTags: [TagName.AVAILABILITY],
     }),
   }),
 });

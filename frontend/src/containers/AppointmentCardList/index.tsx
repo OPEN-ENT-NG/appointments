@@ -88,7 +88,7 @@ export const AppointmentCardList: FC<AppointmentCardListProps> = ({
               color={"secondary"}
               variant={"outlined"}
               size={"small"}
-              sx={{ fontSize: "13px", minHeight: "30px" }}
+              sx={{ fontSize: "1.3rem", minHeight: "3rem" }}
               startIcon={<DownloadRoundedIcon />}
               loading={isExportingAppointments}
               onClick={() => toggleModal(ModalType.EXPORT)}
