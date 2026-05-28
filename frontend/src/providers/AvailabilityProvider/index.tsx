@@ -39,6 +39,7 @@ import {
   initialGridsLength,
   initialPages,
 } from "./utils";
+import { ModalType } from "../GlobalProvider/enum";
 
 const AvailabilityProviderContext =
   createContext<AvailabilityProviderContextProps | null>(null);
@@ -56,13 +57,14 @@ export const useAvailability = () => {
 export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
   children,
 }) => {
-  const { hasManageRight } = useGlobal();
+  const { hasManageRight, toggleModal } = useGlobal();
   const { setInputs, handleDisplayGridModal, initFiles } = useGridModal();
   const { t } = useTranslation(APPOINTMENTS);
   const [gridPages, setGridPages] = useState<GridPages>(initialPages);
   const [grids, setGrids] = useState<GridList>(initialGrids);
   const [gridsLength, setGridsLength] =
     useState<GridTypeLength>(initialGridsLength);
+  const [selectedGridId, setSelectedGridId] = useState<number | null>(null);
   const [selectedGridIdUpdateState, setSelectedGridIdUpdateState] = useState<
     number | null
   >(null);
@@ -121,6 +123,14 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
       setCurrentModalType(type);
     },
     [handleDisplayGridModal],
+  );
+
+  const handleOpenShareGridModal = useCallback(
+    (gridId?: number) => {
+      setSelectedGridId(gridId ?? null);
+      toggleModal(ModalType.SHARE_GRID);
+    },
+    [toggleModal],
   );
 
   const handleChangePage = useCallback(
@@ -302,9 +312,11 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
       currentGridList: grids,
       isLoading,
       dialogModalProps,
+      selectedGridId,
       handleOpenGridModal,
       handleChangePage,
       handleOpenDialogModal,
+      handleOpenShareGridModal,
     }),
     [
       gridPages,
@@ -312,9 +324,11 @@ export const AvailabilityProvider: FC<AvailabilityProviderProps> = ({
       grids,
       isLoading,
       dialogModalProps,
+      selectedGridId,
       handleOpenGridModal,
       handleChangePage,
       handleOpenDialogModal,
+      handleOpenShareGridModal,
     ],
   );
 

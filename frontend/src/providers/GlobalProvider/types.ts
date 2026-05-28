@@ -29,4 +29,5 @@ export interface DisplayModalsState {
   [ModalType.GRID]: boolean;
   [ModalType.CONFIRMATION]: boolean;
   [ModalType.EXPORT]: boolean;
+  [ModalType.SHARE_GRID]: boolean;
 }

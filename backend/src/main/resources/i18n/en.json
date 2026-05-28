@@ -101,6 +101,15 @@
   "appointments.confirm.modal.cancel.appointment.description": "If you confirm, the appointment will be canceled, and you will be available for the slot again.",
   "appointments.confirm.modal.cancel.appointment.comment.description": "You may, if you wish, indicate the reason for the cancellation in order to inform the schedule owner.",
 
+  "appointments.share.modal.title": "Share the schedule",
+  "appointments.share.modal.search.title": "Search and add",
+  "appointments.share.modal.search.placeholder": "Username, groups, favourites",
+  "appointments.share.modal.search.noResult": "No results found",
+  "appointments.share.modal.search.minChars": "Enter at least 3 characters to start the search",
+  "appointments.share.modal.bookmark.title": "Create a sharing favourite",
+  "appointments.share.modal.bookmark.placeholder": "Enter the favourite name *",
+  "appointments.share.modal.bookmark.button": "Save favourite",
+
   "appointments.last.appointment": "Last appointment: {{date}}",
   "appointments.max.number.files": "{{maxNumber}} files max.",
   "appointments.max.number.files.exceeded": "File limit reached",
@@ -116,10 +125,7 @@
   "appointments.event.export.all.button.title": "Download my appointments",
   "appointments.event.export.all.modal.title": "Download your appointments",
   "appointments.event.export.all.modal.body": "The download will generate <strong>one .ics file</strong> containing all your accepted appointments that you can manually import into the calendar of your choice.",  "appointments.event.export.all.modal.body2": "The first cancels all existing appointments, the second recreates the updated active appointments.",
-  "appointments.event.export.all.modal.warning.title": "Important",
-  "appointments.event.export.all.modal.warning.body": "Import the files in the order indicated so that your calendar is correctly updated.\n   • <i>1-export_global_cancellation.ics</i>\n   • <i>2-export_global_creation.ics</i>",
   "appointments.event.export.all.modal.end": "Any subsequent modification will require a new export.",
-  "appointments.event.export.all.only.cancelled.body": "The download will generate <strong>one .ics file</strong> containing all your cancelled appointments that you can manually import into the calendar of your choice.",
 
   "appointments.appointments": "Appointments",
   "appointments.cancel": "Cancel",
@@ -147,6 +153,8 @@
   "appointments.comment.optionnal": "Comment (optional)",
   "appointments.hours": "hours",
   "appointments.minutes": "minutes",
+  "appointments.share": "Share",
+  "appointments.share.rights.read": "Slot booking",
 
   "appointments.monday": "Monday",
   "appointments.tuesday": "Tuesday",
