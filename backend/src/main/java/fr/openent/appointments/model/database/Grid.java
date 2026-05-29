@@ -32,7 +32,6 @@ public class Grid implements IModel<Grid> {
     private String color;
     private Duration duration;
     private Periodicity periodicity;
-    private List<String> targetPublicListId;
     private String videoCallLink;
     private String place;
     private List<String> documentsIds;
@@ -57,11 +56,6 @@ public class Grid implements IModel<Grid> {
         this.place = grid.getString(PLACE, null);
         this.publicComment = grid.getString(PUBLIC_COMMENT, null);
         this.state = GridState.getGridState(grid.getString(STATE, null));
-
-        //TODO remove
-        String stringTargetPublicListId = grid.getString(TARGET_PUBLIC_LIST_ID, "");
-        String cleanedTargetPublicListId = stringTargetPublicListId.substring(1, stringTargetPublicListId.length() - 1);
-        this.targetPublicListId = Arrays.asList(cleanedTargetPublicListId.split(",\\s*"));
 
         String stringDocumentsIds = grid.getString(DOCUMENTS_IDS, "");
 
@@ -117,10 +111,6 @@ public class Grid implements IModel<Grid> {
 
     public Periodicity getPeriodicity() {
         return periodicity;
-    }
-
-    public List<String> getTargetPublicListId() {
-        return targetPublicListId;
     }
 
     public String getVideoCallLink() {
@@ -197,11 +187,6 @@ public class Grid implements IModel<Grid> {
 
     public Grid setPeriodicity(Periodicity periodicity) {
         this.periodicity = periodicity;
-        return this;
-    }
-
-    public Grid setTargetPublicListId(List<String> targetPublicListId) {
-        this.targetPublicListId = targetPublicListId;
         return this;
     }
 

@@ -1,4 +1,0 @@
-export enum SelectPossibility {
-  SELECT_ALL = "TOUT_SELECTIONNER",
-  DESELECT_ALL = "TOUT_DE_SELECTIONNER",
-}

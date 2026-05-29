@@ -268,7 +268,6 @@ public class DefaultGridRepository implements GridRepository {
         String place = grid.getPlace();
         List<String> documentsIds = grid.getDocumentsIds();
         String publicComment = grid.getPublicComment();
-        List<String> targetPublicIds = grid.getTargetPublicIds();
         LocalDate beginDate = grid.getBeginDate();
         LocalDate endDate = grid.getEndDate();
         Periodicity periodicity = grid.getPeriodicity();
@@ -279,7 +278,6 @@ public class DefaultGridRepository implements GridRepository {
         boolean isPlaceUpdatable = place != null;
         boolean isDocumentsIdsUpdatable = documentsIds != null;
         boolean isPublicCommentUpdatable = publicComment != null;
-        boolean isTargetPublicIdsUpdatable = targetPublicIds != null;
         boolean isBeginDateUpdatable = beginDate != null;
         boolean isEndDateUpdatable = endDate != null;
         boolean isPeriodicityUpdatable = periodicity != null;
@@ -291,7 +289,6 @@ public class DefaultGridRepository implements GridRepository {
         if (isPlaceUpdatable) query += PLACE + " = ?, ";
         if (isDocumentsIdsUpdatable) query += DOCUMENTS_IDS + " = ?, ";
         if (isPublicCommentUpdatable) query += PUBLIC_COMMENT + " = ?, ";
-        if (isTargetPublicIdsUpdatable) query += TARGET_PUBLIC_LIST_ID + " = ?, ";
         if (isBeginDateUpdatable) query += BEGIN_DATE + " = ?, ";
         if (isEndDateUpdatable) query += END_DATE + " = ?, ";
         if (isPeriodicityUpdatable) query += PERIODICITY + " = ?, ";
@@ -307,7 +304,6 @@ public class DefaultGridRepository implements GridRepository {
         if (isPlaceUpdatable) params.add(place);
         if (isDocumentsIdsUpdatable) params.add(documentsIds.toString());
         if (isPublicCommentUpdatable) params.add(publicComment);
-        if (isTargetPublicIdsUpdatable) params.add(targetPublicIds.toString());
         if (isBeginDateUpdatable) params.add(DateHelper.formatDate(beginDate));
         if (isEndDateUpdatable) params.add(DateHelper.formatDate(endDate));
         if (isPeriodicityUpdatable) params.add(periodicity.getValue());
@@ -376,7 +372,6 @@ public class DefaultGridRepository implements GridRepository {
                 COLOR,
                 DURATION,
                 PERIODICITY,
-                TARGET_PUBLIC_LIST_ID,
                 VIDEO_CALL_LINK,
                 PLACE,
                 DOCUMENTS_IDS,
@@ -399,7 +394,6 @@ public class DefaultGridRepository implements GridRepository {
                 .add(grid.getColor())
                 .add(DateHelper.formatDuration(grid.getDuration()))
                 .add(grid.getPeriodicity().getValue())
-                .add(grid.getTargetPublicIds().toString())
                 .add(grid.getVideoCallLink())
                 .add(grid.getPlace())
                 .add(grid.getDocumentsIds().toString())

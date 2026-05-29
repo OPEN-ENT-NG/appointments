@@ -44,22 +44,6 @@ public class DefaultCommunicationService implements CommunicationService {
         this.gridShareRepository = repositoryFactory.gridShareRepository();
     }
 
-
-    @Override
-    public Future<List<NeoGroup>> getGroupsICanCommunicateWith(String userId, String structureId){
-        Promise<List<NeoGroup>> promise = Promise.promise();
-
-        communicationRepository.getGroupsICanCommunicateWith(userId, structureId)
-            .onSuccess(promise::complete)
-            .onFailure(err -> {
-                String errorMessage = "Failed to retrieve groups I can communicate with";
-                LogHelper.logError(this, "getGroupsICanCommunicateWith", errorMessage, err.getMessage());
-                promise.fail(err);
-            });
-
-        return promise.future();
-    }
-
     @Override
     public Future<List<UserAppointment>> getUsers(UserInfos userInfos, String search, Long page, Long limit) {
         Promise<List<UserAppointment>> promise = Promise.promise();

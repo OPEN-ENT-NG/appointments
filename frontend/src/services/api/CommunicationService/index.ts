@@ -1,16 +1,10 @@
 import { NUMBER_MORE_USERS } from "~/providers/FindAppointmentsProvider/utils";
 import { emptySplitApi } from "../EmptySplitService";
-import { GetUsersPayload, Public, UserCardInfos } from "./types";
-import { transformResponseToPublic } from "./utils";
+import { GetUsersPayload, UserCardInfos } from "./types";
 import { TagName } from "~/core/enums";
 
 export const communicationApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
-    getCommunicationGroups: builder.query<Public[], string>({
-      query: (structureId: string) =>
-        `/structures/${structureId}/communication/from/groups`,
-      transformResponse: transformResponseToPublic,
-    }),
     getCommunicationUsers: builder.infiniteQuery<
       UserCardInfos[],
       GetUsersPayload,
@@ -40,7 +34,4 @@ export const communicationApi = emptySplitApi.injectEndpoints({
   }),
 });
 
-export const {
-  useGetCommunicationGroupsQuery,
-  useGetCommunicationUsersInfiniteQuery,
-} = communicationApi;
+export const { useGetCommunicationUsersInfiniteQuery } = communicationApi;

@@ -5,13 +5,11 @@ import fr.openent.appointments.helper.IModelHelper;
 import fr.openent.appointments.model.IModel;
 import fr.openent.appointments.model.database.DailySlot;
 import fr.openent.appointments.model.database.Grid;
-import fr.openent.appointments.model.database.NeoGroup;
 import fr.openent.appointments.model.database.NeoStructure;
 import io.vertx.core.json.JsonObject;
 
 import java.time.Duration;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GridWithDailySlots implements IModel<GridWithDailySlots> {
@@ -24,7 +22,6 @@ public class GridWithDailySlots implements IModel<GridWithDailySlots> {
     private NeoStructure structure;
     private Duration duration;
     private Periodicity periodicity;
-    private List<NeoGroup> groups;
     private String videoCallLink;
     private String place;
     private List<DocumentResponse> documents;
@@ -42,7 +39,6 @@ public class GridWithDailySlots implements IModel<GridWithDailySlots> {
         this.structure = structure;
         this.duration = grid.getDuration();
         this.periodicity = grid.getPeriodicity();
-        this.groups = new ArrayList<>(); //TODO remove
         this.videoCallLink = grid.getVideoCallLink();
         this.place = grid.getPlace();
         this.documents = documents;
@@ -82,10 +78,6 @@ public class GridWithDailySlots implements IModel<GridWithDailySlots> {
 
     public Periodicity getPeriodicity() {
         return periodicity;
-    }
-
-    public List<NeoGroup> getGroups() {
-        return groups;
     }
 
     public String getVideoCallLink() {
@@ -151,11 +143,6 @@ public class GridWithDailySlots implements IModel<GridWithDailySlots> {
 
     public GridWithDailySlots setPeriodicity(Periodicity periodicity) {
         this.periodicity = periodicity;
-        return this;
-    }
-
-    public GridWithDailySlots setGroups(List<NeoGroup> groups) {
-        this.groups = groups;
         return this;
     }
 

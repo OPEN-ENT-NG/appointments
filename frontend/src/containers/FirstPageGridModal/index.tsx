@@ -16,7 +16,6 @@ import {
 import { useTranslation } from "react-i18next";
 
 import { ColorPicker } from "~/components/ColorPicker";
-import { CustomMultiAutocomplete } from "~/components/CustomMultiAutocomplete";
 import {
   ALLOWED_DOCUMENT_EXTENSIONS,
   APPOINTMENTS,
@@ -144,7 +143,6 @@ export const FirstPageGridModal: FC = () => {
         helperText={t(errorInputs.location)}
         disabled={modalType === GRID_MODAL_TYPE.CONSULTATION}
       />
-      <CustomMultiAutocomplete />
       <Box sx={flexStartBoxStyle}>
         <FormControlLabel
           value={t("appointments.grid.videoconference")}
