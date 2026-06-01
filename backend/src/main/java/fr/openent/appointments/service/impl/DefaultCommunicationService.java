@@ -134,7 +134,7 @@ public class DefaultCommunicationService implements CommunicationService {
         List<String> otherUsersIds = users.stream().map(NeoUser::getId).collect(Collectors.toList());
         List<Number> gridIdsSharedWithMe = new ArrayList<>();
 
-        gridShareRepository.getGridsSharedWithMeByRight(user, null)
+        gridShareRepository.getGridsSharedWithMeByRight(user, ShareRight.BOOK)
             .compose(gridShares -> {
                 gridIdsSharedWithMe.addAll(gridShares.stream().map(GridShare::getResourceId).collect(Collectors.toList()));
                 return gridRepository.getGridsByUserIds(otherUsersIds);

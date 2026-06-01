@@ -53,7 +53,7 @@ public interface GridRepository {
      * @return a {@link Future} representing the asynchronous operation, which will
      *         return a {@link List} of {@link Grid} containing the details of the grids.
      */
-    Future<List<Grid>> getGridsGroupsCanAccess(List<String> groupsIds);
+    Future<List<Grid>> getGridsUserOrGroupsCanAccess(List<String> groupsIds);
 
     /**
      * Retrieves all the grids from the list with at least one available time slot.

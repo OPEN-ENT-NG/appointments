@@ -27,6 +27,7 @@ import org.entcore.common.user.UserInfos;
 import org.entcore.common.user.UserUtils;
 
 import static fr.openent.appointments.core.constants.Constants.*;
+import static fr.openent.appointments.helper.UserFunctionHelper.getIdAndGroupIds;
 
 /**
  * Default implementation of the GridService interface.
@@ -177,7 +178,7 @@ public class DefaultGridService implements GridService {
     public Future<List<MinimalGrid>> getAvailableUserMinimalGrids(UserInfos user, String userId) {
         Promise<List<MinimalGrid>> promise = Promise.promise();
 
-        gridRepository.getGridsGroupsCanAccess(user.getGroupsIds())
+        gridRepository.getGridsUserOrGroupsCanAccess(getIdAndGroupIds(user))
             .compose(userGrids -> {
                 userGrids = userGrids.stream().filter(grid -> grid.getOwnerId().equals(userId)).collect(Collectors.toList());
                 return gridRepository.getGridsWithAvailableTimeSlots(userGrids.stream().map(Grid::getId).collect(Collectors.toList()));
@@ -198,7 +199,7 @@ public class DefaultGridService implements GridService {
 
         JsonObject composeInfos = new JsonObject();
 
-        gridRepository.getGridsGroupsCanAccess(user.getGroupsIds())
+        gridRepository.getGridsUserOrGroupsCanAccess(getIdAndGroupIds(user))
             .compose(userGrids -> {
                 if (!userGrids.stream().map(Grid::getId).collect(Collectors.toList()).contains(gridId)) {
                     String errorMessage = String.format("The grid with id %s is not shared to the connected user", gridId);
@@ -372,10 +373,10 @@ public class DefaultGridService implements GridService {
         return promise.future();
     }
 
-    public Future<GridOwnerInfos> getGridOwnerInfos(Long gridId, List<String> userGroupsIds) {
+    public Future<GridOwnerInfos> getGridOwnerInfos(Long gridId, List<String> userAndGroupsIds) {
         Promise<GridOwnerInfos> promise = Promise.promise();
 
-        gridRepository.getGridsGroupsCanAccess(userGroupsIds)
+        gridRepository.getGridsUserOrGroupsCanAccess(userAndGroupsIds)
             .compose(userGrids -> {
                 if (!userGrids.stream().map(Grid::getId).collect(Collectors.toList()).contains(gridId)) {
                     String errorMessage = String.format("The grid with id %s is not shared to the connected user", gridId);

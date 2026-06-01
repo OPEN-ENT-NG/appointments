@@ -62,6 +62,21 @@ export const useSearch = ({
     void search(debouncedSearchInputValue);
   }, [debouncedSearchInputValue]);
 
+  const handleBlurSearchInput = () => {
+    dispatch({
+      type: "emptyResult",
+      payloads: [],
+    });
+    dispatch({
+      type: "onChange",
+      payload: "",
+    });
+    dispatch({
+      type: "isSearching",
+      payload: false,
+    });
+  };
+
   const handleSearchInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     dispatch({
@@ -230,26 +245,8 @@ export const useSearch = ({
         },
       });
 
-      dispatch({
-        type: "updateSearchResult",
-        payloads: state.searchResults.filter(
-          (result) => result.value !== models[0],
-        ),
-      });
+      handleBlurSearchInput();
     }
-  };
-
-  const showSearchNoResults = (): boolean => {
-    return (
-      (!state.isSearching &&
-        !isAdml &&
-        debouncedSearchInputValue.length > 0 &&
-        state.searchResults.length === 0) ||
-      (!state.isSearching &&
-        isAdml &&
-        debouncedSearchInputValue.length > 3 &&
-        state.searchResults.length === 0)
-    );
   };
 
   const showSearchAdmlHint = (): boolean => {
@@ -266,11 +263,11 @@ export const useSearch = ({
 
   return {
     state,
-    showSearchAdmlHint,
     showSearchLoading,
-    showSearchNoResults,
+    showSearchAdmlHint,
     getSearchMinLength,
     handleSearchInputChange,
     handleSearchResultsChange,
+    handleBlurSearchInput,
   };
 };

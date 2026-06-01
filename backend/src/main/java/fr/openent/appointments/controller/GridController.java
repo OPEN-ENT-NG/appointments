@@ -41,6 +41,7 @@ import java.util.stream.Collectors;
 import static fr.openent.appointments.core.constants.Constants.*;
 import static fr.openent.appointments.core.constants.Fields.OWNER_ID;
 import static fr.openent.appointments.enums.Events.CREATE;
+import static fr.openent.appointments.helper.UserFunctionHelper.getIdAndGroupIds;
 
 public class GridController extends ControllerHelper {
     private final EventStore eventStore;
@@ -193,7 +194,7 @@ public class GridController extends ControllerHelper {
         if (request.response().ended()) return;
 
         UserUtils.getAuthenticatedUserInfos(eb, request)
-            .compose(user -> gridService.getGridOwnerInfos(gridId, user.getGroupsIds()))
+            .compose(user -> gridService.getGridOwnerInfos(gridId, getIdAndGroupIds(user)))
             .onSuccess(ownerInfos -> render(request, ownerInfos))
             .onFailure(error -> {
                 String errorMessage = "Failed to get owner infos for grid with id " + gridId;
