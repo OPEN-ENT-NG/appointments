@@ -10,15 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface CommunicationService {
-    
-    /**
-     * Retrieves all groups that the current user can communicate with.
-     *
-     * @param userId The ID of the user whose groups are to be retrieved.
-     * @param structureId The ID of the structure the user selected.
-     * @return A Future containing a JsonArray of groups.
-     */
-    Future<List<NeoGroup>> getGroupsICanCommunicateWith(String userId, String structureId);
 
     /**
      * Retrieves users that the current user can communicate with

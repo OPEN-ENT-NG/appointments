@@ -10,14 +10,12 @@ import {
   GridModalInputs,
   InputsErrors,
 } from "~/providers/GridModalProvider/types";
-import { Public } from "~/services/api/CommunicationService/types";
 
 export interface useUpdateGridInputsReturnType {
   handleNameChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleColorChange: (color: HexaColor) => void;
   handleStructureChange: (event: SelectChangeEvent<unknown>) => void;
   handleLocationChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  handlePublicChange: (value: Public[]) => void;
   handleIsVideoCallChange: () => void;
   handleVideoCallLinkChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handlePublicCommentChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -56,11 +54,9 @@ export interface useBlurGridInputsReturnType {
   newDurationError: { hours: string; minutes: string };
   newWeekSlotsError: string;
   newSlotsError: { ids: number[]; error: string };
-  newPublicError: string;
   handleNameBlur: () => void;
   handleLocationBlur: () => void;
   handleVideoCallLinkBlur: () => void;
-  handlePublicBlur: () => void;
 }
 
 export type useBlurGridInputsType = (

@@ -47,7 +47,6 @@ public class DefaultDailySlotRepositoryTest {
     private static final String TEST_COLOR = "blue";
     private static final Duration TEST_DURATION = Duration.ofMinutes(30);
     private static final Periodicity TEST_PERIODICITY = Periodicity.getPeriodicity(1);
-    private static final List<String> TEST_TARGET_PUBLIC_IDS = Arrays.asList("1", "2", "3");
     private static final String TEST_VIDEO_CALL_LINK = "http://example.com";
     private static final String TEST_PLACE = "Room A";
     private static final List<String> TEST_DOCUMENTS_IDS = Arrays.asList("1", "2", "3");

@@ -19,7 +19,6 @@ import {
 } from "~/hooks/types";
 import { useBlurGridInputs } from "~/hooks/useBlurGridInputs";
 import { useUpdateGridInputs } from "~/hooks/useUpdateGridInputs";
-import { useGetCommunicationGroupsQuery } from "~/services/api/CommunicationService";
 import {
   useCreateGridMutation,
   useEditGridMutation,
@@ -144,11 +143,6 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
     }));
   }, [inputs.validityPeriod.start, inputs.validityPeriod.end]);
 
-  const { data: groups, refetch: refetchGroups } =
-    useGetCommunicationGroupsQuery(inputs.structure.id, {
-      skip: !(inputs.structure.id && hasManageRight),
-    });
-
   const { data: existingGridsNames } = useGetMyGridsNameQuery(undefined, {
     skip: !hasManageRight,
   });
@@ -209,7 +203,6 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
 
     const payload: CreateGridPayload = gridInputsToCreateGridPayload(
       inputs,
-      groups ?? [],
       savingFiles,
     );
     try {
@@ -230,7 +223,6 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
     modalType,
     saveInWorkspace,
     inputs,
-    groups,
     createGrid,
     t,
     resetInputs,
@@ -245,7 +237,6 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
     const newErrors = {
       name: blurGridModalInputs.newNameError,
       location: blurGridModalInputs.newLocationError,
-      public: blurGridModalInputs.newPublicError,
       videoCallLink: blurGridModalInputs.newVideoCallLinkError,
       validityPeriod: "",
       duration: {
@@ -259,13 +250,7 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       },
     };
     setErrorInputs(newErrors);
-    if (
-      newErrors.name ||
-      newErrors.videoCallLink ||
-      newErrors.location ||
-      newErrors.public
-    )
-      return;
+    if (newErrors.name || newErrors.videoCallLink || newErrors.location) return;
     setPage(PAGE_TYPE.SECOND);
   }, [blurGridModalInputs]);
 
@@ -300,7 +285,6 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
 
       const payload: EditGridPayload = gridInputsToEditGridPayload(
         inputs,
-        groups ?? [],
         selectedGridId ?? 0,
         savingFiles,
       );
@@ -358,10 +342,6 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
     [modalType, page],
   );
 
-  useEffect(() => {
-    if (inputs.structure.id && hasManageRight) refetchGroups();
-  }, [hasManageRight, inputs.structure, refetchGroups]);
-
   const value = useMemo<GridModalProviderContextProps>(
     () => ({
       inputs,
@@ -369,7 +349,6 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       errorInputs,
       setErrorInputs,
       structureOptions: structures,
-      publicOptions: groups ?? [],
       periodicityOptions,
       updateGridModalInputs,
       blurGridModalInputs,
@@ -401,7 +380,6 @@ export const GridModalProvider: FC<GridModalProviderProps> = ({ children }) => {
       inputs,
       errorInputs,
       structures,
-      groups,
       updateGridModalInputs,
       blurGridModalInputs,
       updateFirstPageErrors,

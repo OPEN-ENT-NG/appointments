@@ -11,14 +11,6 @@ import java.util.Map;
 import java.util.Optional;
 
 public interface CommunicationRepository {
-    /**
-     * Retrieves all groups the current user can communicate with.
-     *
-     * @param userId The ID of the user whose groups are to be retrieved.
-     * @param structureId The ID of the structure the user selected.
-     * @return A Future containing a JsonArray of groups.
-     */
-    Future<List<NeoGroup>> getGroupsICanCommunicateWith(String userId, String structureId);
 
     /**
      * Retrieves all groups the current user can communicate with good rights.

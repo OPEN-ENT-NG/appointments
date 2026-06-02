@@ -43,7 +43,6 @@ public class DefaultGridRepositoryTest {
     private static final String TEST_COLOR = "blue";
     private static final Duration TEST_DURATION = Duration.ofMinutes(30);
     private static final Periodicity TEST_PERIODICITY = Periodicity.getPeriodicity(1);
-    private static final List<String> TEST_TARGET_PUBLIC_IDS = Arrays.asList("1", "2", "3");
     private static final String TEST_VIDEO_CALL_LINK = "http://example.com";
     private static final String TEST_PLACE = "Room A";
     private static final List<String> TEST_DOCUMENTS_IDS = Arrays.asList("1", "2", "3");
@@ -177,14 +176,13 @@ public class DefaultGridRepositoryTest {
         when(grid.getColor()).thenReturn(TEST_COLOR);
         when(grid.getDuration()).thenReturn(TEST_DURATION);
         when(grid.getPeriodicity()).thenReturn(TEST_PERIODICITY);
-        when(grid.getTargetPublicIds()).thenReturn(TEST_TARGET_PUBLIC_IDS);
         when(grid.getVideoCallLink()).thenReturn(TEST_VIDEO_CALL_LINK);
         when(grid.getPlace()).thenReturn(TEST_PLACE);
         when(grid.getDocumentsIds()).thenReturn(TEST_DOCUMENTS_IDS);
         when(grid.getPublicComment()).thenReturn(TEST_PUBLIC_COMMENT);
 
         List<String> sqlColumns = Arrays.asList(NAME, OWNER_ID, STRUCTURE_ID, BEGIN_DATE, END_DATE, CREATION_DATE, UPDATING_DATE,
-                COLOR, DURATION, PERIODICITY, TARGET_PUBLIC_LIST_ID, VIDEO_CALL_LINK, PLACE, DOCUMENTS_IDS, PUBLIC_COMMENT, STATE);
+                COLOR, DURATION, PERIODICITY, VIDEO_CALL_LINK, PLACE, DOCUMENTS_IDS, PUBLIC_COMMENT, STATE);
 
         String expectedQuery = "INSERT INTO "+ DB_GRID_TABLE + " (" + String.join(", ", sqlColumns) + ") " +
                 "VALUES " + Sql.listPrepared(sqlColumns) + " RETURNING *";
@@ -203,7 +201,6 @@ public class DefaultGridRepositoryTest {
                 .add(TEST_COLOR)
                 .add(DateHelper.formatDuration(TEST_DURATION))
                 .add(TEST_PERIODICITY.getValue())
-                .add(TEST_TARGET_PUBLIC_IDS.toString())
                 .add(TEST_VIDEO_CALL_LINK)
                 .add(TEST_PLACE)
                 .add(TEST_DOCUMENTS_IDS.toString())

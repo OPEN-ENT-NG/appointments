@@ -1,15 +1,5 @@
 import { Dayjs } from "dayjs";
 
-export interface Group {
-  id: string;
-  name: string;
-}
-
-export interface Public {
-  groupId: string;
-  groupName: string;
-}
-
 export interface UserCardInfos {
   userId: string;
   picture: string | null;

@@ -25,11 +25,7 @@ import {
   GridModalInputs,
   InputsErrors,
 } from "~/providers/GridModalProvider/types";
-import {
-  initialPublic,
-  initialWeekSlots,
-} from "~/providers/GridModalProvider/utils";
-import { Public } from "~/services/api/CommunicationService/types";
+import { initialWeekSlots } from "~/providers/GridModalProvider/utils";
 import { Structure, useUpdateGridInputsType } from "../types";
 import {
   formatString,
@@ -84,7 +80,6 @@ export const useUpdateGridInputs: useUpdateGridInputsType = (
       (structure) => structure.id === event.target.value,
     );
     updateInputField("structure", structure || { id: "", name: "" });
-    updateInputField("public", initialPublic);
   };
 
   const handleLocationChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -94,11 +89,6 @@ export const useUpdateGridInputs: useUpdateGridInputsType = (
       return updateErrorInputs("location", FIELD_REQUIRED_ERROR);
     }
     updateErrorInputs("location", "");
-  };
-
-  const handlePublicChange = (value: Public[]) => {
-    updateInputField("public", value);
-    if (value.length) updateErrorInputs("public", "");
   };
 
   const handleIsVideoCallChange = () => {
@@ -255,7 +245,6 @@ export const useUpdateGridInputs: useUpdateGridInputsType = (
     handleColorChange,
     handleStructureChange,
     handleLocationChange,
-    handlePublicChange,
     handleIsVideoCallChange,
     handleVideoCallLinkChange,
     handlePublicCommentChange,

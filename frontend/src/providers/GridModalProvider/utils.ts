@@ -3,7 +3,6 @@ import { DAY, PERIODICITY } from "~/core/enums";
 import { INVALID_SLOT_ERROR } from "~/core/i18nKeys";
 import { WeekSlotsModel } from "~/core/types";
 import { Structure, useBlurGridInputsReturnType } from "~/hooks/types";
-import { Public } from "~/services/api/CommunicationService/types";
 import {
   CreateGridPayload,
   EditGridBody,
@@ -12,7 +11,6 @@ import {
 import { GridModalInputs, InputsErrors, MyCustomFile } from "./types";
 import { wouldCandidatesOverlapSlot } from "~/components/DailySlot/utils";
 
-export const initialPublic: Public[] = [];
 export const initialWeekSlots: WeekSlotsModel = {
   [DAY.MONDAY]: [],
   [DAY.TUESDAY]: [],
@@ -29,7 +27,6 @@ export const initialGridModalInputs = (
   color: "#f44336",
   structure: structures.length ? structures[0] : { id: "", name: "" },
   location: "",
-  public: initialPublic,
   isVideoCall: false,
   videoCallLink: "",
   publicComment: "",
@@ -51,7 +48,6 @@ export const initialErrorInputs: InputsErrors = {
   location: "",
   videoCallLink: "",
   validityPeriod: "",
-  public: "",
   duration: {
     hours: "",
     minutes: "",
@@ -69,7 +65,6 @@ export const periodicityOptions: PERIODICITY[] = Object.values(
 
 export const gridInputsToCreateGridPayload = (
   inputs: GridModalInputs,
-  publicOptions: Public[],
   files: MyCustomFile[],
 ): CreateGridPayload => {
   return {
@@ -83,9 +78,6 @@ export const gridInputsToCreateGridPayload = (
       ":" +
       inputs.duration.minutes.toString().padStart(2, "0"),
     periodicity: PERIODICITY_VALUES[inputs.periodicity].numberOfWeeks,
-    targetPublicListId: inputs.public.length
-      ? inputs.public.map((item) => item.groupId)
-      : publicOptions.map((item) => item.groupId), // If no public is selected, all publics are selected
     dailySlots: Object.entries(inputs.weekSlots).reduce(
       (acc, [day, slots]) => {
         return [
@@ -108,7 +100,6 @@ export const gridInputsToCreateGridPayload = (
 
 export const gridInputsToEditGridPayload = (
   inputs: GridModalInputs,
-  publicOptions: Public[],
   gridId: number,
   files: MyCustomFile[],
 ): EditGridPayload => {
@@ -119,9 +110,6 @@ export const gridInputsToEditGridPayload = (
     endDate: inputs.validityPeriod.end?.format("YYYY-MM-DD") || "",
     videoCallLink: inputs.isVideoCall ? inputs.videoCallLink : "",
     periodicity: PERIODICITY_VALUES[inputs.periodicity].numberOfWeeks,
-    targetPublicListId: inputs.public.length
-      ? inputs.public.map((item) => item.groupId)
-      : publicOptions.map((item) => item.groupId),
     place: inputs.location,
     documentsIds: files.map((file) => file.workspaceId),
     publicComment: inputs.publicComment,
@@ -155,7 +143,6 @@ export const newErrorInputs = (
 ): InputsErrors => ({
   name: blurGridModalInputs.newNameError,
   location: blurGridModalInputs.newLocationError,
-  public: blurGridModalInputs.newPublicError,
   videoCallLink: blurGridModalInputs.newVideoCallLinkError,
   validityPeriod: blurGridModalInputs.newValidityPeriodError,
   duration: blurGridModalInputs.newDurationError,
@@ -167,7 +154,6 @@ export const isErrorsEmpty = (errors: InputsErrors) =>
   !(
     errors.name ||
     errors.location ||
-    errors.public ||
     errors.videoCallLink ||
     errors.validityPeriod ||
     errors.weekSlots ||

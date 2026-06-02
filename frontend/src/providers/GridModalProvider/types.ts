@@ -11,7 +11,6 @@ import {
   useBlurGridInputsReturnType,
   useUpdateGridInputsReturnType,
 } from "~/hooks/types";
-import { Public } from "~/services/api/CommunicationService/types";
 import { GRID_MODAL_TYPE, PAGE_TYPE } from "./enum";
 
 import { Document } from "~/services/api/GridService/types";
@@ -22,7 +21,6 @@ export interface GridModalProviderContextProps {
   errorInputs: InputsErrors;
   setErrorInputs: Dispatch<SetStateAction<InputsErrors>>;
   structureOptions: Structure[];
-  publicOptions: Public[];
   periodicityOptions: PERIODICITY[];
   updateGridModalInputs: useUpdateGridInputsReturnType;
   blurGridModalInputs: useBlurGridInputsReturnType;
@@ -69,7 +67,6 @@ export interface GridModalInputs {
   color: HexaColor;
   structure: Structure;
   location: string;
-  public: Public[];
   isVideoCall: boolean;
   videoCallLink: string;
   publicComment: string;
@@ -86,7 +83,6 @@ export interface GridModalInputs {
 export interface InputsErrors {
   name: string;
   location: string;
-  public: string;
   videoCallLink: string;
   validityPeriod: string;
   duration: {

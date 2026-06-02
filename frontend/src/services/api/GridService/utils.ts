@@ -37,12 +37,6 @@ export const transformResponseToCompleteGridResponse = (
     color: response.color,
     structure: response.structure,
     location: response.place,
-    //TODO start to delete
-    public: response.groups.map((group) => ({
-      groupId: group.id,
-      groupName: group.name,
-    })),
-    //TODO end
     isVideoCall: !!response.videoCallLink,
     videoCallLink: response.videoCallLink,
     publicComment: response.publicComment,

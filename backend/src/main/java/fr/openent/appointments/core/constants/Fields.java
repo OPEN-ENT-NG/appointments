@@ -55,7 +55,6 @@ public class Fields {
     public static final String STATE = "state";
     public static final String STATUS = "status";
     public static final String STRUCTURE_ID = "structure_id";
-    public static final String TARGET_PUBLIC_LIST_ID = "target_public_list_id";
     public static final String TIME_SLOT_ID = "time_slot_id";
     public static final String VIDEO_CALL_LINK = "video_call_link";
     public static final String UPDATING_DATE = "updating_date";

@@ -31,7 +31,6 @@ public class GridPayloadTest {
             .put(CAMEL_STRUCTURE_ID, "structure-1")
             .put(DURATION, "01:00")
             .put(PERIODICITY, Periodicity.WEEKLY.getValue())
-            .put(CAMEL_TARGET_PUBLIC_LIST_ID, new JsonArray(Arrays.asList("public-1", "public-2")))
             .put(CAMEL_DAILY_SLOTS, new JsonArray(Collections.singletonList(new JsonObject()
                 .put(DAY, "MONDAY")
                 .put(CAMEL_BEGIN_TIME, "09:00")
@@ -50,7 +49,6 @@ public class GridPayloadTest {
         ctx.assertEquals("structure-1", gridPayload.getStructureId());
         ctx.assertEquals(Duration.ofHours(1), gridPayload.getDuration());
         ctx.assertEquals(Periodicity.WEEKLY, gridPayload.getPeriodicity());
-        ctx.assertEquals(Arrays.asList("public-1", "public-2"), gridPayload.getTargetPublicIds());
         ctx.assertFalse(gridPayload.getDailySlots().isEmpty());
         ctx.assertEquals("http://example.com", gridPayload.getVideoCallLink());
         ctx.assertEquals("Office", gridPayload.getPlace());
@@ -69,7 +67,6 @@ public class GridPayloadTest {
             .put(CAMEL_STRUCTURE_ID, "")
             .put(DURATION, "")
             .put(PERIODICITY, 0)
-            .put(CAMEL_TARGET_PUBLIC_LIST_ID, new JsonArray(Arrays.asList("public-1")))
             .put(CAMEL_DAILY_SLOTS, new JsonArray(Arrays.asList(
                 new JsonObject()
                     .put(DAY, "MONDAY")
@@ -100,7 +97,6 @@ public class GridPayloadTest {
             .put(CAMEL_STRUCTURE_ID, "structure-1")
             .put(DURATION, "01:00")
             .put(PERIODICITY, Periodicity.WEEKLY.getValue())
-            .put(CAMEL_TARGET_PUBLIC_LIST_ID, new JsonArray(Arrays.asList("public-1")))
             .put(CAMEL_DAILY_SLOTS, new JsonArray(Collections.singletonList(dailySlotJson))));
 
         ctx.assertTrue(gridPayload.getDailySlots().stream().allMatch(DailySlotPayload::isValid));
@@ -116,7 +112,6 @@ public class GridPayloadTest {
             .put(CAMEL_STRUCTURE_ID, "structure-1")
             .put(DURATION, "01:00")
             .put(PERIODICITY, Periodicity.WEEKLY.getValue())
-            .put(CAMEL_TARGET_PUBLIC_LIST_ID, new JsonArray(Arrays.asList("public-1")))
             .put(CAMEL_DAILY_SLOTS, new JsonArray(Arrays.asList(
                 new JsonObject()
                     .put(DAY, "MONDAY")

@@ -28,7 +28,6 @@ public class GridPayload implements IModel<GridPayload> {
     private String structureId;
     private Duration duration;
     private Periodicity periodicity;
-    private List<String> targetPublicIds;
     private List<DailySlotPayload> dailySlots;
     private List<TimeSlotPayload> timeSlots;
     private String videoCallLink;
@@ -44,11 +43,6 @@ public class GridPayload implements IModel<GridPayload> {
         this.structureId = grid.getString(CAMEL_STRUCTURE_ID,null);
         this.duration = DateHelper.parseDuration(grid.getString(DURATION,null));
         this.periodicity = Periodicity.getPeriodicity(grid.getInteger(PERIODICITY,0));
-        this.targetPublicIds = grid
-            .getJsonArray(CAMEL_TARGET_PUBLIC_LIST_ID, new JsonArray())
-            .stream()
-            .map(Object::toString)
-            .collect(Collectors.toList());
         this.dailySlots = IModelHelper.toList(grid.getJsonArray(CAMEL_DAILY_SLOTS, new JsonArray()), DailySlotPayload.class);
         this.videoCallLink = grid.getString(CAMEL_VIDEO_CALL_LINK, null);
         this.place = grid.getString(PLACE, null);
@@ -88,10 +82,6 @@ public class GridPayload implements IModel<GridPayload> {
 
     public Periodicity getPeriodicity() {
         return periodicity;
-    }
-
-    public List<String> getTargetPublicIds() {
-        return targetPublicIds;
     }
 
     public List<DailySlotPayload> getDailySlots() {
@@ -155,11 +145,6 @@ public class GridPayload implements IModel<GridPayload> {
         return this;
     }
 
-    public GridPayload setTargetPublicIds(List<String> targetPublicIds) {
-        this.targetPublicIds = targetPublicIds;
-        return this;
-    }
-
     public GridPayload setDailySlots(List<DailySlotPayload> dailySlots) {
         this.dailySlots = dailySlots;
         return this;
@@ -204,7 +189,6 @@ public class GridPayload implements IModel<GridPayload> {
                 this.duration != Duration.ZERO &&
                 this.duration.compareTo(Duration.ofDays(1)) < 0 &&
                 this.periodicity != null &&
-                !this.targetPublicIds.isEmpty() &&
                 !this.dailySlots.isEmpty() && this.dailySlots.stream().allMatch(DailySlotPayload::isValid);
     }
 
@@ -279,7 +263,6 @@ public class GridPayload implements IModel<GridPayload> {
             .put(CAMEL_STRUCTURE_ID, this.structureId)
             .put(DURATION, DateHelper.formatDuration(this.duration))
             .put(PERIODICITY, this.periodicity.getValue())
-            .put(CAMEL_TARGET_PUBLIC_LIST_ID, new JsonArray(this.targetPublicIds))
             .put(CAMEL_DAILY_SLOTS, new JsonArray(this.dailySlots.stream().map(DailySlotPayload::toString).collect(Collectors.toList())))
             .put(CAMEL_TIME_SLOTS, new JsonArray(this.timeSlots.stream().map(TimeSlotPayload::toString).collect(Collectors.toList())))
             .put(CAMEL_VIDEO_CALL_LINK, this.videoCallLink)
