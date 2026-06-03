@@ -27,5 +27,10 @@
   "timeline.appointments.update.grid.first": "Des informations concernant votre rendez-vous avec ",
   "timeline.appointments.update.grid.second": " ont été modifiées.",
   "timeline.appointments.update.grid.consult.app": "Consultez l'application ",
-  "timeline.appointments.update.grid.to.know.more": " pour en savoir plus."
+  "timeline.appointments.update.grid.to.know.more": " pour en savoir plus.",
+
+  "appointments.share_grid_notification": "Une nouvelle grille de rendez-vous vous a été partagée",
+  "timeline.appointments.share.grid.first": " vous a partagé une grille de rendez-vous : ",
+  "timeline.appointments.share.grid.consult.app": "Consultez l'application ",
+  "timeline.appointments.share.grid.to.book.appointment": " pour réserver un créneau."
 }

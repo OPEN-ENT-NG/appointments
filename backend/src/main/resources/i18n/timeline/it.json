@@ -27,5 +27,10 @@
   "timeline.appointments.update.grid.first": "Le informazioni relative al tuo appuntamento con ",
   "timeline.appointments.update.grid.second": " sono state modificate.",
   "timeline.appointments.update.grid.consult.app": "Consulta l'applicazione ",
-  "timeline.appointments.update.grid.to.know.more": " per saperne di più."
+  "timeline.appointments.update.grid.to.know.more": " per saperne di più.",
+
+  "appointments.share_grid_notification": "Una nuova griglia di appuntamenti è stata condivisa con voi",
+  "timeline.appointments.share.grid.first": " ha condiviso una griglia di appuntamenti con voi: ",
+  "timeline.appointments.share.grid.consult.app": "Consultate l'applicazione ",
+  "timeline.appointments.share.grid.to.book.appointment": " per prenotare uno slot."
 }

@@ -5,7 +5,6 @@ import fr.openent.appointments.helper.LogHelper;
 import fr.openent.appointments.model.UserAppointment;
 import fr.openent.appointments.model.database.Grid;
 import fr.openent.appointments.model.database.GridShare;
-import fr.openent.appointments.model.database.NeoGroup;
 import fr.openent.appointments.model.database.NeoUser;
 import fr.openent.appointments.repository.GridRepository;
 import fr.openent.appointments.repository.GridSharesRepository;
@@ -77,6 +76,10 @@ public class DefaultCommunicationService implements CommunicationService {
 
     public Future<List<NeoUser>> getUsernamesFromUserIds(List<String> usersIds) {
         return communicationRepository.getSimplifiedUsersByUserIds(usersIds);
+    }
+
+    public Future<List<NeoUser>> getUsersFromGroupsIds(List<String> groupsIds) {
+        return communicationRepository.getUsersFromGroupsIds(groupsIds);
     }
 
     // Private functions
