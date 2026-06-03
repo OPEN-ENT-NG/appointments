@@ -2,7 +2,12 @@ package fr.openent.appointments.controller;
 
 import fr.openent.appointments.enums.ShareRight;
 import fr.openent.appointments.helper.LogHelper;
+import fr.openent.appointments.model.database.NeoUser;
 import fr.openent.appointments.security.CustomShareAndOwner;
+import fr.openent.appointments.service.CommunicationService;
+import fr.openent.appointments.service.GridService;
+import fr.openent.appointments.service.NotifyService;
+import fr.openent.appointments.service.ServiceFactory;
 import fr.wseduc.rs.ApiDoc;
 import fr.wseduc.rs.Get;
 import fr.wseduc.rs.Put;
@@ -10,6 +15,7 @@ import fr.wseduc.security.ActionType;
 import fr.wseduc.security.SecuredAction;
 import fr.wseduc.webutils.I18n;
 import fr.wseduc.webutils.request.RequestUtils;
+import io.vertx.core.Future;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -17,14 +23,25 @@ import org.entcore.common.controller.ControllerHelper;
 import org.entcore.common.http.filter.ResourceFilter;
 import org.entcore.common.user.UserUtils;
 
-import static fr.openent.appointments.core.constants.Constants.CAMEL_DISPLAY_NAME;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static fr.openent.appointments.core.constants.Constants.*;
+import static fr.openent.appointments.core.constants.Constants.SEARCH;
 import static fr.openent.appointments.core.constants.Fields.*;
 import static fr.openent.appointments.core.constants.ShareRights.*;
 
 public class SharingController extends ControllerHelper {
+    private final GridService gridService;
+    private final NotifyService notifyService;
+    private final CommunicationService communicationService;
 
-    public SharingController() {
+    public SharingController(ServiceFactory serviceFactory) {
         super();
+        this.gridService = serviceFactory.gridService();
+        this.notifyService = serviceFactory.notifyService();
+        this.communicationService = serviceFactory.communicationService();
     }
 
     @Override
@@ -92,7 +109,7 @@ public class SharingController extends ControllerHelper {
     @ResourceFilter(CustomShareAndOwner.class)
     @SecuredAction(value = MANAGER_RESOURCE_RIGHT, type = ActionType.RESOURCE)
     public void shareResource(final HttpServerRequest request) {
-        final String gridId = request.params().get(ID);
+        final Long gridId = Long.parseLong(request.params().get(ID));
 
         RequestUtils.bodyToJson(request, pathPrefix + "share", shareObjectJson -> {
             if (shareObjectJson == null || shareObjectJson.isEmpty()) {
@@ -102,26 +119,44 @@ public class SharingController extends ControllerHelper {
                 return;
             }
 
-            UserUtils.getUserInfos(eb, request, user -> {
-                if (user == null) {
-                    String errorMessage = "User not found in session.";
-                    LogHelper.logError(this, "shareResource", errorMessage);
-                    unauthorized(request);
-                    return;
-                }
-
-                // Classic sharing stuff (putting or removing ids from form_shares table accordingly)
-                this.getShareService().share(user.getUserId(), gridId, shareObjectJson, (r) -> {
-                    if (r.isLeft()) {
-                        String errorMessage = "Failed to share grid with id " + gridId;
+            List<String> targetUserIds = new ArrayList<>();
+            UserUtils.getAuthenticatedUserInfos(eb, request)
+                .compose(user -> {
+                    if (user == null) {
+                        String errorMessage = "User not found in session.";
                         LogHelper.logError(this, "shareResource", errorMessage);
-                        renderError(request);
-                        return;
+                        unauthorized(request);
+                        return Future.failedFuture(errorMessage);
                     }
 
-                    this.doShareSucceed(request, gridId, user, shareObjectJson, r.right().getValue(), false);
+                    return this.getShareService().share(user.getUserId(), gridId.toString(), shareObjectJson, null);
+                })
+                .compose(shareResult -> {
+                    List<String> userIds = shareResult.getJsonArray(USERS, new JsonArray()).stream()
+                            .map(String.class::cast)
+                            .collect(Collectors.toList());
+                    targetUserIds.addAll(userIds);
+
+                    List<String> groupIds = shareResult.getJsonArray(GROUPS, new JsonArray()).stream()
+                            .map(String.class::cast)
+                            .collect(Collectors.toList());
+
+                    return communicationService.getUsersFromGroupsIds(groupIds);
+                })
+                .compose(userIdsFromGroups -> {
+                    targetUserIds.addAll(userIdsFromGroups.stream().map(NeoUser::getId).collect(Collectors.toList()));
+                    return gridService.getGridById(gridId);
+                })
+                .onSuccess(grid -> {
+                    List<String> distinctTargetUserIds = targetUserIds.stream().distinct().collect(Collectors.toList());
+                    notifyService.notifyGridShare(request, grid, distinctTargetUserIds);
+                    ok(request);
+                })
+                .onFailure(err -> {
+                    String errorMessage = "Failed to share and send notification for grid with id " + gridId;
+                    LogHelper.logError(this, "shareResource", errorMessage, err.getMessage());
+                    if (!request.response().ended()) renderError(request);
                 });
-            });
         });
     }
 }

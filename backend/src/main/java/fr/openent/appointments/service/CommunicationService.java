@@ -1,7 +1,6 @@
 package fr.openent.appointments.service;
 
 import fr.openent.appointments.model.UserAppointment;
-import fr.openent.appointments.model.database.NeoGroup;
 import fr.openent.appointments.model.database.NeoUser;
 import io.vertx.core.Future;
 import org.entcore.common.user.UserInfos;
@@ -31,4 +30,12 @@ public interface CommunicationService {
      * @return A Future containing a {@link Map}<{@link String}, {@link String}>.
      */
     Future<List<NeoUser>> getUsernamesFromUserIds(List<String> usersIds);
+
+    /**
+     * Retrieves all users matching the given groups IDs.
+     *
+     * @param groupsIds The list of group IDs to filter users.
+     * @return A Future containing a {@link List} of {@link NeoUser}.
+     */
+    Future<List<NeoUser>> getUsersFromGroupsIds(List<String> groupsIds);
 }

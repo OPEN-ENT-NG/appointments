@@ -1,6 +1,7 @@
 package fr.openent.appointments.repository.impl;
 
 import fr.openent.appointments.helper.IModelHelper;
+import fr.openent.appointments.helper.LogHelper;
 import fr.openent.appointments.model.database.NeoGroup;
 import fr.openent.appointments.model.database.NeoStructure;
 import fr.openent.appointments.model.database.NeoUser;
@@ -8,8 +9,6 @@ import fr.openent.appointments.repository.CommunicationRepository;
 import fr.openent.appointments.repository.RepositoryFactory;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
-import io.vertx.core.impl.logging.Logger;
-import io.vertx.core.impl.logging.LoggerFactory;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.entcore.common.neo4j.Neo4j;
@@ -24,9 +23,6 @@ import static fr.openent.appointments.core.constants.Constants.*;
  * Default implementation of the CommunicationRepository interface.
  */
 public class DefaultCommunicationRepository implements CommunicationRepository {
-
-    private static final Logger log = LoggerFactory.getLogger(DefaultCommunicationRepository.class);
-
     private final Neo4j neo4j;
 
     public DefaultCommunicationRepository(RepositoryFactory repositoryFactory) {
@@ -54,14 +50,14 @@ public class DefaultCommunicationRepository implements CommunicationRepository {
         Promise<List<NeoUser>> promise = Promise.promise();
 
         String query =
-            "UNWIND {groupsIds} AS groupId " +
+            "UNWIND {" + CAMEL_GROUPS_IDS + "} AS groupId " +
             "MATCH (g:Group {id: groupId})<-[:IN]-(u:User) " +
-            "RETURN DISTINCT u.id AS id ";
+            "RETURN DISTINCT u.id AS id, u.displayName AS displayName";
 
         JsonObject params = new JsonObject().put(CAMEL_GROUPS_IDS, new JsonArray(groupsIds));
 
-        String errorMessage = String.format("[Appointments@DefaultCommunicationRepository::getUsersIdsFromGroupsIds] Fail to retrieve users ids from groups ids %s : ", groupsIds);
-
+        String errorMessage = "Fail to retrieve users ids from groups ids " + groupsIds;
+        errorMessage = LogHelper.constructLogMessage(this, "getUserIdsFromGroupsIds", errorMessage);
         neo4j.execute(query, params, Neo4jResult.validResultHandler(IModelHelper.resultToIModel(promise, NeoUser.class, errorMessage)));
 
         return promise.future();

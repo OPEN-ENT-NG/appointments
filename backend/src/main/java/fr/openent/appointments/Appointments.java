@@ -20,10 +20,6 @@ import org.entcore.common.sql.SqlConf;
 import org.entcore.common.sql.SqlConfs;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import static fr.openent.appointments.core.constants.SqlTables.*;
 
 public class Appointments extends BaseServer {
@@ -56,7 +52,7 @@ public class Appointments extends BaseServer {
         sharingConf.setShareTable(GRID_SHARES_TABLE);
 
         // Set sharing service
-        SharingController sharingController = new SharingController();
+        SharingController sharingController = new SharingController(serviceFactory);
         SqlShareService sqlShareService = new SqlShareService(DB_SCHEMA, GRID_SHARES_TABLE, eb, securedActions, null);
         sharingController.setShareService(sqlShareService);
 

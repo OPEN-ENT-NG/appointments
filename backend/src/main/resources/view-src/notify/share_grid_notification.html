@@ -1,0 +1,20 @@
+<span>
+  {{#userUri}}
+    <a href="{{#host}}{{userUri}}{{/host}}">{{#username}}{{username}}{{/username}}</a>
+  {{/userUri}}
+  {{^userUri}}
+    {{#username}}{{username}}{{/username}}.
+  {{/userUri}}
+  {{#i18n}}timeline.appointments.share.grid.first{{/i18n}}
+  {{#gridUri}}
+    {{#gridName}}
+      <a href="{{#host}}{{userUri}}{{/host}}">{{#gridName}}{{gridName}}{{/gridName}}</a>
+    {{/gridName}}
+  {{/gridUri}}.
+  <br />
+  {{#i18n}}timeline.appointments.share.grid.consult.app{{/i18n}}
+  {{#gridUri}}
+    <a href="{{#host}}{{userUri}}{{/host}}">{{#i18n}}appointments{{/i18n}}</a>
+  {{/gridUri}}
+  {{#i18n}}timeline.appointments.share.grid.to.book.appointment{{/i18n}}
+</span>

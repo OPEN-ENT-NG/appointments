@@ -4,7 +4,6 @@ import fr.openent.appointments.model.database.NeoGroup;
 import fr.openent.appointments.model.database.NeoStructure;
 import fr.openent.appointments.model.database.NeoUser;
 import io.vertx.core.Future;
-import io.vertx.core.json.JsonArray;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +20,7 @@ public interface CommunicationRepository {
     Future<List<NeoUser>> getUsersICanCommunicateWithGoodRights(String userId);
 
     /**
-     * Retrieves all users matching the given groups IDs.
+     * Retrieves all users IDs matching the given groups IDs.
      *
      * @param groupsIds The list of group IDs to filter users.
      * @return A Future containing a {@link List} of {@link NeoUser}.

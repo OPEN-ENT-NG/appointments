@@ -4,32 +4,42 @@ import fr.openent.appointments.enums.AppointmentState;
 import fr.openent.appointments.helper.LogHelper;
 import fr.openent.appointments.model.database.Appointment;
 import fr.openent.appointments.model.database.AppointmentWithInfos;
+import fr.openent.appointments.model.database.Grid;
 import fr.openent.appointments.repository.AppointmentRepository;
 import fr.openent.appointments.repository.RepositoryFactory;
 import fr.openent.appointments.service.NotifyService;
 import fr.openent.appointments.service.ServiceFactory;
+import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonObject;
 import org.entcore.common.notification.TimelineHelper;
 import org.entcore.common.user.UserInfos;
+import org.entcore.common.user.UserUtils;
 
 import java.util.Collections;
 import java.util.List;
 
 import static fr.openent.appointments.core.constants.Constants.*;
 import static fr.openent.appointments.core.constants.Notif.*;
+import static fr.wseduc.webutils.http.Renders.unauthorized;
 
 public class DefaultNotifyService implements NotifyService {
     private final TimelineHelper timelineHelper;
     private final AppointmentRepository appointmentRepository;
+    private final EventBus eb;
 
     public DefaultNotifyService(ServiceFactory serviceFactory, RepositoryFactory repositoryFactory) {
         this.timelineHelper = serviceFactory.timelineHelper();
         this.appointmentRepository = repositoryFactory.appointmentRepository();
+        this.eb = serviceFactory.eventBus();
     }
 
     private String urlToRedirectToAppointment(Long appointmentId){
         return APPOINTMENTS_URI + (appointmentId == null ? "" : "#/?appointmentId=" + appointmentId);
+    }
+
+    private String urlToRedirectToGrid(Long gridId){
+        return APPOINTMENTS_URI + (gridId == null ? "" : "#/?gridId=" + gridId);
     }
 
     @Override
@@ -119,6 +129,31 @@ public class DefaultNotifyService implements NotifyService {
             timelineHelper.notifyTimeline(request, notifName, actionUserInfos, targetUsers, null, null, params, true);
 
             LogHelper.logInfo(this, "notifyGridUpdate", "Notif sent : " + notifName + " to " + targetUserId + " for appointment " + appointment.getId());
+        });
+    }
+
+    @Override
+    public void notifyGridShare(HttpServerRequest request, Grid grid, List<String> targetUserIds) {
+        UserUtils.getUserInfos(eb, request, user -> {
+            if (user == null) {
+                String errorMessage = "User not found in session.";
+                LogHelper.logError(this, "notifyGridShare", errorMessage);
+                unauthorized(request, errorMessage);
+                return;
+            }
+
+            JsonObject params = new JsonObject()
+                    .put(CAMEL_USER_URI, "/userbook/annuaire#" + user.getUserId())
+                    .put(USERNAME, user.getUsername())
+                    .put(CAMEL_GRID_URI, urlToRedirectToGrid(grid.getId()))
+                    .put(CAMEL_GRID_NAME, grid.getName())
+                    .put(CAMEL_RESOURCE_URI, urlToRedirectToAppointment(grid.getId())) // for mobile
+                    .put(CAMEL_PUSH_NOTIF, new JsonObject().put(TITLE, NOTIF_NAME_SHARE_GRID).put(BODY, "")); // for mobile
+
+            timelineHelper.notifyTimeline(request, NOTIF_NAME_SHARE_GRID, user, targetUserIds, params);
+
+            String infoMessage = "Notif sent : " + NOTIF_NAME_SHARE_GRID + " to " + targetUserIds + " for grid " + grid.getId();
+            LogHelper.logInfo(this, "notifyGridShare", infoMessage);
         });
     }
 }

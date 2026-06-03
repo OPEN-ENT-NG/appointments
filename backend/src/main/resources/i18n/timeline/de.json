@@ -27,5 +27,10 @@
   "timeline.appointments.update.grid.first": "Die Informationen zu Ihrem Termin mit ",
   "timeline.appointments.update.grid.second": " wurden geändert.",
   "timeline.appointments.update.grid.consult.app": "Öffnen Sie die Anwendung ",
-  "timeline.appointments.update.grid.to.know.more": ", um mehr zu erfahren."
+  "timeline.appointments.update.grid.to.know.more": ", um mehr zu erfahren.",
+
+  "appointments.share_grid_notification": "Ein neuer Terminplan wurde mit Ihnen geteilt",
+  "timeline.appointments.share.grid.first": " hat einen Terminplan mit Ihnen geteilt: ",
+  "timeline.appointments.share.grid.consult.app": "Öffnen Sie die Anwendung ",
+  "timeline.appointments.share.grid.to.book.appointment": " um ein Zeitfenster zu buchen."
 }

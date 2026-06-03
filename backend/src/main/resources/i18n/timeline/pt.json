@@ -27,5 +27,10 @@
   "timeline.appointments.update.grid.first": "As informações sobre o seu compromisso com ",
   "timeline.appointments.update.grid.second": " foram alteradas.",
   "timeline.appointments.update.grid.consult.app": "Consulte o aplicativo ",
-  "timeline.appointments.update.grid.to.know.more": " para saber mais."
+  "timeline.appointments.update.grid.to.know.more": " para saber mais.",
+
+  "appointments.share_grid_notification": "Uma nova agenda de compromissos foi partilhada consigo",
+  "timeline.appointments.share.grid.first": " partilhou uma agenda de compromissos consigo: ",
+  "timeline.appointments.share.grid.consult.app": "Consulte a aplicação ",
+  "timeline.appointments.share.grid.to.book.appointment": " para reservar um intervalo."
 }
