@@ -147,15 +147,11 @@ export const ShareResourceModal = ({
     );
   };
 
-  const getNoOptionsText = useCallback(() => {
-    if (showSearchAdmlHint()) {
-      return t("appointments.share.modal.search.minChars");
-    }
-    else if (searchInputValue.length >= getSearchMinLength()) {
-      return t("appointments.share.modal.search.noResult");
-    }
-    return "";
-  }, [searchInputValue, showSearchAdmlHint, getSearchMinLength]);
+  const getNoOptionsText = () => {
+    return showSearchAdmlHint()
+      ? t("appointments.share.modal.search.minChars")
+      : t("appointments.share.modal.search.noResult");
+  };
 
   return createPortal(
     <Dialog
@@ -187,6 +183,7 @@ export const ShareResourceModal = ({
               key={resetKey}
               autoComplete
               autoHighlight
+              open={searchInputValue.length >= 1}
               loading={showSearchLoading()}
               loadingText={"Chargement..."}
               // Input
@@ -203,7 +200,7 @@ export const ShareResourceModal = ({
               // Options and selection
               noOptionsText={getNoOptionsText()}
               options={searchResults}
-              renderOption={(props, option) =>
+              renderOption={(props, option) => 
                 displaySearchOption(props, option)
               }
               onChange={(_, value, reason) => handleSelectOption(value, reason)}
