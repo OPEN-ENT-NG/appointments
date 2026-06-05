@@ -104,11 +104,13 @@
   "appointments.share.modal.title": "Partager la grille",
   "appointments.share.modal.search.title": "Rechercher et ajouter",
   "appointments.share.modal.search.placeholder": "Nom d'utilisateur, groupes, favoris",
+  "appointments.share.modal.search.loading": "Chargement...",
   "appointments.share.modal.search.noResult": "Aucun résultat trouvé",
   "appointments.share.modal.search.minChars": "Saisissez au moins 3 caractères pour lancer la recherche",
-  "appointments.share.modal.bookmark.title": "Créer un favori de partage",
+  "appointments.share.modal.bookmark.title": "Enregistrer comme favori de partage",
   "appointments.share.modal.bookmark.placeholder": "Saisir le nom du favori *",
   "appointments.share.modal.bookmark.button": "Enregistrer le favori",
+  "appointments.share.modal.bookmark.saved": "Favori sauvegardé.",
   
   "appointments.last.appointment": "Dernier rdv : {{date}}",
   "appointments.max.number.files": "{{maxNumber}} fichiers max.",
@@ -206,7 +208,7 @@
   "appointments.toast.event.export.error": "Une erreur est survenue lors de la génération de l'export. Veuillez réessayer.",
   "appointments.toast.grid.link.404.error": "Grille introuvable : elle a peut-être été supprimée, suspendue ou n'a plus de créneau disponible",
   "appointments.toast.grid.link.403.error": "Vous n'avez pas le droit d'accéder à cette grille",
-  "appointments.toast.share.success": " Les modifications de partage sont bien enregistrées",
+  "appointments.toast.share.success": " Les modifications de partage sont bien enregistrées.",
 
   "group.HeadTeacher": "Professeurs principaux de {0}",
   "group.Direction": "Directeurs de {0}",

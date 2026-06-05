@@ -4,6 +4,8 @@ import {
   Button,
   Checkbox,
   IconButton,
+  TableCell,
+  TableRow,
 } from "@cgi-learning-hub/ui";
 import {
   ShareRight,
@@ -11,8 +13,6 @@ import {
   ShareRightActionDisplayName,
 } from "@edifice.io/client";
 import { useTranslation } from "react-i18next";
-
-import { BoxComponentType } from "~/core/themeProps";
 
 import { hasRight, showShareRightLine } from "./utils";
 import {
@@ -27,6 +27,7 @@ import {
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
+import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
 
 export const ShareLine = ({
   shareRight,
@@ -47,22 +48,30 @@ export const ShareLine = ({
   onDeleteRow: (shareRight: ShareRight) => void;
 }) => {
   const { t: tEdifice } = useTranslation();
+
+  const getAvatar = () => {
+    switch (shareRight.type) {
+      case "sharebookmark":
+        return <BookmarkBorderRoundedIcon />;
+      case "group":
+        return <GroupsRoundedIcon />;
+      default:
+        return (
+          <Avatar src={shareRight.avatarUrl} sx={avatarStyle}>
+            <PersonRoundedIcon sx={defaultAvatarStyle} />
+          </Avatar>
+        );
+    }
+  };
+
   return (
     showShareRightLine(shareRight, showBookmark) && (
-      <Box
-        component={BoxComponentType.TR}
+      <TableRow
         key={shareRight.id}
-        className={shareRight.isBookmarkMember ? "bg-light" : ""}
+        sx={{ ...(shareRight.isBookmarkMember && { bgcolor: "grey.lighter" }) }}
       >
-        <Box component={BoxComponentType.TD} sx={avatarColumnStyle}>
-          {shareRight.type !== "sharebookmark" && (
-            <Avatar src={shareRight.avatarUrl} sx={avatarStyle}>
-              <PersonRoundedIcon sx={defaultAvatarStyle} />
-            </Avatar>
-          )}
-          {shareRight.type === "sharebookmark" && <BookmarkBorderRoundedIcon />}
-        </Box>
-        <Box component={BoxComponentType.TD} sx={nameColumnStyle}>
+        <TableCell sx={avatarColumnStyle}>{getAvatar()}</TableCell>
+        <TableCell sx={nameColumnStyle}>
           <Box>
             {shareRight.type === "sharebookmark" && (
               <Button
@@ -80,12 +89,11 @@ export const ShareLine = ({
             {shareRight.type === "user" &&
               ` (${tEdifice(shareRight.profile || "")})`}
           </Box>
-        </Box>
+        </TableCell>
         {shareRightActions
           .filter((shareRightAction) => shareRightAction.id === "read")
           .map((shareRightAction) => (
-            <Box
-              component={BoxComponentType.TD}
+            <TableCell
               key={shareRightAction.displayName}
               sx={rightsColumnStyle}
             >
@@ -98,16 +106,16 @@ export const ShareLine = ({
                   }}
                 />
               )}
-            </Box>
+            </TableCell>
           ))}
-        <Box component={BoxComponentType.TD} sx={actionColumnStyle}>
+        <TableCell sx={actionColumnStyle}>
           {!shareRight.isBookmarkMember && (
             <IconButton onClick={() => onDeleteRow(shareRight)}>
               <CloseRoundedIcon />
             </IconButton>
           )}
-        </Box>
-      </Box>
+        </TableCell>
+      </TableRow>
     )
   );
 };

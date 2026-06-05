@@ -104,11 +104,13 @@
   "appointments.share.modal.title": "Zeitplan teilen",
   "appointments.share.modal.search.title": "Suchen und hinzufügen",
   "appointments.share.modal.search.placeholder": "Benutzername, Gruppen, Favoriten",
+  "appointments.share.modal.search.loading": "Wird geladen...",
   "appointments.share.modal.search.noResult": "Keine Ergebnisse gefunden",
   "appointments.share.modal.search.minChars": "Geben Sie mindestens 3 Zeichen ein, um die Suche zu starten",
-  "appointments.share.modal.bookmark.title": "Freigabe-Favorit erstellen",
+  "appointments.share.modal.bookmark.title": "Als Freigabe-Favoriten speichern",
   "appointments.share.modal.bookmark.placeholder": "Favoritenname eingeben *",
   "appointments.share.modal.bookmark.button": "Favorit speichern",
+  "appointments.share.modal.bookmark.saved": "Favorit gespeichert.",
 
   "appointments.last.appointment": "Letzter Termin: {{date}}",
   "appointments.max.number.files": "Maximal {{maxNumber}} Dateien.",
@@ -206,7 +208,7 @@
   "appointments.toast.event.export.error": "Beim Erstellen des Exports ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
   "appointments.toast.grid.link.404.error": "Zeitplan nicht gefunden: er wurde möglicherweise gelöscht, gesperrt oder hat keine verfügbaren Zeitfenster mehr",
   "appointments.toast.grid.link.403.error": "Sie haben keine Berechtigung, auf diesen Zeitplan zuzugreifen.",
-  "appointments.toast.share.success": "Die Freigabe-Änderungen wurden erfolgreich gespeichert",
+  "appointments.toast.share.success": "Die Freigabe-Änderungen wurden erfolgreich gespeichert.",
 
   "group.HeadTeacher": "Klassenlehrer von {0}",
   "group.Direction": "Direktoren von {0}",

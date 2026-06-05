@@ -6,13 +6,14 @@ import { toast } from "react-toastify";
 
 import { COMMON } from "~/core/constants";
 import { BookmarkProps, IUseShareBookmarkProps } from "../type";
+import { t } from "~/i18n";
 
 export const useShareBookmark = ({
   shareRights,
   shareDispatch,
   setHasUserInterracted,
 }: IUseShareBookmarkProps) => {
-  const { t } = useTranslation(COMMON);
+  const { t: tEdifice } = useTranslation(COMMON);
   const [showBookmark, setShowBookmark] = useToggle(false) as [
     boolean,
     () => void,
@@ -47,7 +48,7 @@ export const useShareBookmark = ({
           .map((u: { id: string }) => u.id),
       });
 
-      toast.success(t("explorer.bookmarked.status.saved"));
+      toast.success(t("appointments.share.modal.bookmark.saved"));
 
       shareDispatch({
         type: "updateShareRights",
@@ -70,7 +71,7 @@ export const useShareBookmark = ({
       toggleBookmarkInput(false);
     } catch (e) {
       console.error("Failed to save bookmark", e);
-      toast.error(t("explorer.bookmarked.status.error"));
+      toast.error(tEdifice("explorer.bookmarked.status.error"));
     }
   };
 
