@@ -106,7 +106,7 @@
   "appointments.share.modal.search.placeholder": "Nome utente, gruppi, preferiti",
   "appointments.share.modal.search.noResult": "Nessun risultato trovato",
   "appointments.share.modal.search.minChars": "Inserire almeno 3 caratteri per avviare la ricerca",
-  "appointments.share.modal.bookmark.title": "Crea un preferito di condivisione",
+  "appointments.share.modal.bookmark.title": "Salva come preferito di condivisione",
   "appointments.share.modal.bookmark.placeholder": "Inserire il nome del preferito *",
   "appointments.share.modal.bookmark.button": "Salva preferito",
 
@@ -205,7 +205,7 @@
   "appointments.toast.event.export.error": "Si è verificato un errore durante la generazione dell'esportazione. Riprova.",
   "appointments.toast.grid.link.404.error": "Griglia non trovata: potrebbe essere stata eliminata, sospesa o non avere più slot disponibili",
   "appointments.toast.grid.link.403.error": "Non hai il permesso di accedere a questa griglia.",
-  "appointments.toast.share.success": "Le modifiche di condivisione sono state salvate correttamente",
+  "appointments.toast.share.success": "Le modifiche di condivisione sono state salvate correttamente.",
 
   "group.HeadTeacher": "Insegnanti principali di {0}",
   "group.Direction": "Direttori di {0}",

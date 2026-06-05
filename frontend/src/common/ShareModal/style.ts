@@ -2,6 +2,18 @@ import { styled, SxProps } from "@mui/material";
 import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
 import { RotativeExpandMoreRoundedIconProps } from "./type";
 
+export const tableStyle: SxProps = {
+  "tbody>tr:nth-of-type(even)>*": {
+    backgroundColor: "grey.lighter",
+  },
+  "tr>*": {
+    padding: "10px 12px",
+    fontSize: "1.4rem",
+  },
+  borderRadius: "8px",
+  overflow: "hidden",
+};
+
 export const avatarColumnStyle: SxProps = {
   width: "10%",
   height: "6rem",

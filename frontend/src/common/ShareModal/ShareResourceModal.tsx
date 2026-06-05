@@ -10,6 +10,11 @@ import {
   DialogTitle,
   Loader,
   Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
   TextField,
   Typography,
 } from "@cgi-learning-hub/ui";
@@ -20,7 +25,6 @@ import { useTranslation } from "react-i18next";
 
 import { COMMON } from "~/core/constants";
 import {
-  BoxComponentType,
   BreakpointVariant,
   ComponentVariant,
   TypographyFontStyle,
@@ -38,6 +42,7 @@ import {
   defaultAvatarStyle,
   nameColumnStyle,
   rightsColumnStyle,
+  tableStyle,
 } from "./style";
 import { flexStartBoxStyle } from "~/styles/boxStyles";
 import { IShareResourceModalProps, SelectOptionProps } from "./type";
@@ -62,7 +67,6 @@ export const ShareResourceModal = ({
     state: { isSharing, shareRights, shareRightActions },
     dispatch: shareDispatch,
     myAvatar,
-    currentIsAuthor,
     handleShare,
     toggleRight,
     handleDeleteRow,
@@ -78,7 +82,7 @@ export const ShareResourceModal = ({
   });
 
   const {
-    state: { searchResults },
+    state: { searchResults, searchInputValue },
     showSearchLoading,
     showSearchAdmlHint,
     getSearchMinLength,
@@ -143,13 +147,15 @@ export const ShareResourceModal = ({
     );
   };
 
-  const getNoOptionsText = (): string => {
-    return t(
-      showSearchAdmlHint()
-        ? "appointments.share.modal.search.minChars"
-        : "appointments.share.modal.search.noResult",
-    );
-  };
+  const getNoOptionsText = useCallback(() => {
+    if (showSearchAdmlHint()) {
+      return t("appointments.share.modal.search.minChars");
+    }
+    else if (searchInputValue.length >= getSearchMinLength()) {
+      return t("appointments.share.modal.search.noResult");
+    }
+    return "";
+  }, [searchInputValue, showSearchAdmlHint, getSearchMinLength]);
 
   return createPortal(
     <Dialog
@@ -182,6 +188,7 @@ export const ShareResourceModal = ({
               autoComplete
               autoHighlight
               loading={showSearchLoading()}
+              loadingText={"Chargement..."}
               // Input
               renderInput={(params) => (
                 <TextField
@@ -214,86 +221,70 @@ export const ShareResourceModal = ({
               {isLoading ? (
                 <Loader />
               ) : (
-                <Box
-                  component={BoxComponentType.TABLE}
-                  className="table border align-middle mb-0"
-                >
+                <Table sx={tableStyle}>
                   {/* HEAD */}
-                  <Box component={BoxComponentType.THEAD}>
-                    <Box
-                      component={BoxComponentType.TR}
+                  <TableHead>
+                    <TableRow
                       sx={{
                         backgroundColor: "primary.main",
                         verticalAlign: "middle",
                       }}
                     >
-                      <Box
-                        component={BoxComponentType.TH}
-                        sx={avatarColumnStyle}
-                      >
+                      <TableCell sx={avatarColumnStyle}>
                         <VisuallyHidden>
                           {tEdifice("explorer.modal.share.avatar.shared.alt")}
                         </VisuallyHidden>
-                      </Box>
-                      <Box component={BoxComponentType.TH} sx={nameColumnStyle}>
+                      </TableCell>
+                      <TableCell sx={nameColumnStyle}>
                         <VisuallyHidden>
                           {tEdifice("explorer.modal.share.search.placeholder")}
                         </VisuallyHidden>
-                      </Box>
+                      </TableCell>
                       {shareRightActions
                         .filter(
                           (shareRightAction) => shareRightAction.id === "read",
                         )
                         .map((shareRightAction) => (
-                          <Box
-                            component={BoxComponentType.TH}
+                          <TableCell
                             key={shareRightAction.displayName}
                             sx={rightsColumnStyle}
                           >
                             {t(
                               `appointments.share.rights.${shareRightAction.displayName}`,
                             )}
-                          </Box>
+                          </TableCell>
                         ))}
-                      <Box
-                        component={BoxComponentType.TH}
-                        sx={actionColumnStyle}
-                      >
+                      <TableCell sx={actionColumnStyle}>
                         <VisuallyHidden>{tEdifice("close")}</VisuallyHidden>
-                      </Box>
-                    </Box>
-                  </Box>
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
                   {/* BODY */}
-                  <Box component={BoxComponentType.TBODY}>
+                  <TableBody>
                     {/* Current user */}
-                    <Box component={BoxComponentType.TR}>
-                      <Box
-                        component={BoxComponentType.TD}
+                    <TableRow>
+                      <TableCell
                         sx={avatarColumnStyle}
                       >
                         <Avatar src={myAvatar} sx={avatarStyle}>
                           <PersonRoundedIcon sx={defaultAvatarStyle} />
                         </Avatar>
-                      </Box>
-                      <Box component={BoxComponentType.TD} sx={nameColumnStyle}>
+                      </TableCell>
+                      <TableCell sx={nameColumnStyle}>
                         {tEdifice("share.me")}
-                      </Box>
-                      <Box
-                        component={BoxComponentType.TD}
+                      </TableCell>
+                      <TableCell
                         key={"read"}
                         sx={rightsColumnStyle}
                       >
                         <Checkbox
                           color="secondary"
-                          checked={currentIsAuthor()}
+                          checked={false}
                           disabled
                         />
-                      </Box>
-                      <Box
-                        component={BoxComponentType.TD}
-                        sx={actionColumnStyle}
-                      ></Box>
-                    </Box>
+                      </TableCell>
+                      <TableCell sx={actionColumnStyle}></TableCell>
+                    </TableRow>
                     {/* Other users */}
                     {shareRights.rights.map((shareRight: ShareRight) => (
                       <ShareLine
@@ -306,8 +297,8 @@ export const ShareResourceModal = ({
                         toggleBookmark={toggleBookmark}
                       />
                     ))}
-                  </Box>
-                </Box>
+                  </TableBody>
+                </Table>
               )}
             </Box>
           </Stack>
@@ -329,7 +320,7 @@ export const ShareResourceModal = ({
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button variant={ComponentVariant.OUTLINED} onClick={onCancel}>
+        <Button variant={ComponentVariant.TEXT} onClick={onCancel}>
           {tEdifice("explorer.cancel")}
         </Button>
         <Button
