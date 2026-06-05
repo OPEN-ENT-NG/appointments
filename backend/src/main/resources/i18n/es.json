@@ -104,6 +104,7 @@
   "appointments.share.modal.title": "Compartir la agenda",
   "appointments.share.modal.search.title": "Buscar y añadir",
   "appointments.share.modal.search.placeholder": "Nombre de usuario, grupos, favoritos",
+  "appointments.share.modal.search.loading": "Cargando...",
   "appointments.share.modal.search.noResult": "No se han encontrado resultados",
   "appointments.share.modal.search.minChars": "Introduzca al menos 3 caracteres para iniciar la búsqueda",
   "appointments.share.modal.bookmark.title": "Guardar como favorito de compartición",

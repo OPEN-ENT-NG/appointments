@@ -104,6 +104,7 @@
   "appointments.share.modal.title": "Zeitplan teilen",
   "appointments.share.modal.search.title": "Suchen und hinzufügen",
   "appointments.share.modal.search.placeholder": "Benutzername, Gruppen, Favoriten",
+  "appointments.share.modal.search.loading": "Wird geladen...",
   "appointments.share.modal.search.noResult": "Keine Ergebnisse gefunden",
   "appointments.share.modal.search.minChars": "Geben Sie mindestens 3 Zeichen ein, um die Suche zu starten",
   "appointments.share.modal.bookmark.title": "Als Freigabe-Favoriten speichern",

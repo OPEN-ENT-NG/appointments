@@ -104,6 +104,7 @@
   "appointments.share.modal.title": "Partager la grille",
   "appointments.share.modal.search.title": "Rechercher et ajouter",
   "appointments.share.modal.search.placeholder": "Nom d'utilisateur, groupes, favoris",
+  "appointments.share.modal.search.loading": "Chargement...",
   "appointments.share.modal.search.noResult": "Aucun résultat trouvé",
   "appointments.share.modal.search.minChars": "Saisissez au moins 3 caractères pour lancer la recherche",
   "appointments.share.modal.bookmark.title": "Enregistrer comme favori de partage",

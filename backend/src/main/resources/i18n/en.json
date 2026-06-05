@@ -104,6 +104,7 @@
   "appointments.share.modal.title": "Share the schedule",
   "appointments.share.modal.search.title": "Search and add",
   "appointments.share.modal.search.placeholder": "Username, groups, favourites",
+  "appointments.share.modal.search.loading": "Loading...",
   "appointments.share.modal.search.noResult": "No results found",
   "appointments.share.modal.search.minChars": "Enter at least 3 characters to start the search",
   "appointments.share.modal.bookmark.title": "Save as sharing favourite",

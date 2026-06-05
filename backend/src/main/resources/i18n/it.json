@@ -104,6 +104,7 @@
   "appointments.share.modal.title": "Condividi la griglia",
   "appointments.share.modal.search.title": "Cerca e aggiungi",
   "appointments.share.modal.search.placeholder": "Nome utente, gruppi, preferiti",
+  "appointments.share.modal.search.loading": "Caricamento...",
   "appointments.share.modal.search.noResult": "Nessun risultato trovato",
   "appointments.share.modal.search.minChars": "Inserire almeno 3 caratteri per avviare la ricerca",
   "appointments.share.modal.bookmark.title": "Salva come preferito di condivisione",

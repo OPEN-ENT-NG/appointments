@@ -185,7 +185,7 @@ export const ShareResourceModal = ({
               autoHighlight
               open={searchInputValue.length >= 1}
               loading={showSearchLoading()}
-              loadingText={"Chargement..."}
+              loadingText={t("appointments.share.modal.search.loading")}
               // Input
               renderInput={(params) => (
                 <TextField
