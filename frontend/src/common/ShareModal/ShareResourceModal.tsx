@@ -200,7 +200,7 @@ export const ShareResourceModal = ({
               // Options and selection
               noOptionsText={getNoOptionsText()}
               options={searchResults}
-              renderOption={(props, option) => 
+              renderOption={(props, option) =>
                 displaySearchOption(props, option)
               }
               onChange={(_, value, reason) => handleSelectOption(value, reason)}
@@ -260,9 +260,7 @@ export const ShareResourceModal = ({
                   <TableBody>
                     {/* Current user */}
                     <TableRow>
-                      <TableCell
-                        sx={avatarColumnStyle}
-                      >
+                      <TableCell sx={avatarColumnStyle}>
                         <Avatar src={myAvatar} sx={avatarStyle}>
                           <PersonRoundedIcon sx={defaultAvatarStyle} />
                         </Avatar>
@@ -270,15 +268,8 @@ export const ShareResourceModal = ({
                       <TableCell sx={nameColumnStyle}>
                         {tEdifice("share.me")}
                       </TableCell>
-                      <TableCell
-                        key={"read"}
-                        sx={rightsColumnStyle}
-                      >
-                        <Checkbox
-                          color="secondary"
-                          checked={false}
-                          disabled
-                        />
+                      <TableCell key={"read"} sx={rightsColumnStyle}>
+                        <Checkbox color="secondary" checked={false} disabled />
                       </TableCell>
                       <TableCell sx={actionColumnStyle}></TableCell>
                     </TableRow>

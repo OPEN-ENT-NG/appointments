@@ -62,17 +62,15 @@ export const ShareLine = ({
           </Avatar>
         );
     }
-  }
+  };
 
   return (
     showShareRightLine(shareRight, showBookmark) && (
       <TableRow
         key={shareRight.id}
-        sx={{...(shareRight.isBookmarkMember && { bgcolor: "grey.lighter" })}}
+        sx={{ ...(shareRight.isBookmarkMember && { bgcolor: "grey.lighter" }) }}
       >
-        <TableCell sx={avatarColumnStyle}>
-          {getAvatar()}
-        </TableCell>
+        <TableCell sx={avatarColumnStyle}>{getAvatar()}</TableCell>
         <TableCell sx={nameColumnStyle}>
           <Box>
             {shareRight.type === "sharebookmark" && (
