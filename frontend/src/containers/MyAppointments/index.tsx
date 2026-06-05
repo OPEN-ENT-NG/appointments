@@ -24,6 +24,7 @@ import { TWO_TABS_EXPORT_BREAKPOINT } from "~/core/breakpoints";
 import { ExportAppointmentsModal } from "../ExportAppointmentsModal";
 import { useGlobal } from "~/providers/GlobalProvider";
 import { ModalType } from "~/providers/GlobalProvider/enum";
+import { MyAppointmentsGridPOC } from "../MyAppointmnetsGridPOC";
 
 export const MyAppointments: FC = () => {
   const {
@@ -75,6 +76,8 @@ export const MyAppointments: FC = () => {
       </Box>
     );
   }
+
+  return <MyAppointmentsGridPOC />;
 
   if (isAllAppointmentsEmpty) {
     return (
