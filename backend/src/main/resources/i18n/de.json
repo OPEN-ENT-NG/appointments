@@ -109,6 +109,7 @@
   "appointments.share.modal.bookmark.title": "Als Freigabe-Favoriten speichern",
   "appointments.share.modal.bookmark.placeholder": "Favoritenname eingeben *",
   "appointments.share.modal.bookmark.button": "Favorit speichern",
+  "appointments.share.modal.bookmark.saved": "Favorit gespeichert.",
 
   "appointments.last.appointment": "Letzter Termin: {{date}}",
   "appointments.max.number.files": "Maximal {{maxNumber}} Dateien.",

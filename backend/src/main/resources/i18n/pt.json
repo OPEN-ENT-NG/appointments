@@ -109,6 +109,7 @@
   "appointments.share.modal.bookmark.title": "Guardar como favorito de partilha",
   "appointments.share.modal.bookmark.placeholder": "Introduzir o nome do favorito *",
   "appointments.share.modal.bookmark.button": "Guardar favorito",
+  "appointments.share.modal.bookmark.saved": "Favorito guardado.",
 
   "appointments.last.appointment": "Último compromisso: {{date}}",
   "appointments.max.number.files": "Máximo {{maxNumber}} arquivos.",
