@@ -18,6 +18,7 @@ import {
   tabItemStyle,
   tabsStyle,
   titleStyle,
+  toggleStyle,
 } from "./style";
 import { useTheme } from "~/hooks/useTheme";
 import { t } from "~/i18n";
@@ -50,7 +51,6 @@ export const Home: FC = () => {
   );
   const { isTheme1D } = useTheme();
   const toggleButtonList: IToggleButtonItem[] = getToggleButtons();
-
 
   const handleChange = useCallback(
     (_: SyntheticEvent, newValue: number) => {
@@ -117,7 +117,15 @@ export const Home: FC = () => {
               <Tab label={t("appointments.my.availability")} />
             )}
           </Tabs>
-          {tabValue === 1 && <SwitchView viewMode={viewMode} toggleButtonList={toggleButtonList} onChange={toggleViewMode} />}
+          {tabValue === 1 && (
+            <Box sx={toggleStyle}>
+              <SwitchView
+                viewMode={viewMode}
+                toggleButtonList={toggleButtonList}
+                onChange={toggleViewMode}
+              />
+            </Box>
+          )}
         </Box>
         <Box sx={tabItemStyle}>
           {tabValue === 0 && <FindAppointments />}

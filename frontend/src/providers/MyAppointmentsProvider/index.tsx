@@ -322,13 +322,10 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
     setViewMode(viewMode);
   };
 
-  const toggleViewMode = useCallback(
-    (viewMode: ViewMode) => {
-      setViewMode(viewMode);
-      updateViewModePreference(viewMode);
-    },
-    [],
-  );
+  const toggleViewMode = useCallback((viewMode: ViewMode) => {
+    setViewMode(viewMode);
+    updateViewModePreference(viewMode);
+  }, []);
 
   useEffect(() => {
     initViewMode();

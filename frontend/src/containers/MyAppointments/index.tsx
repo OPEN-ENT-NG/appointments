@@ -120,7 +120,9 @@ export const MyAppointments: FC = () => {
             />
             {myRejectedOrCanceledAppointments.total > 0 && (
               <AppointmentCardList
-                appointmentsType={MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED}
+                appointmentsType={
+                  MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED
+                }
                 myAppointments={myRejectedOrCanceledAppointments}
               />
             )}
