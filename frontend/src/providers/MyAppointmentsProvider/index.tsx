@@ -44,13 +44,16 @@ import {
 } from "./types";
 import {
   downloadBlob,
+  fetchViewModePreference,
   initialAppointments,
   initialDialogModalProps,
   initialLimits,
   initialPages,
   states,
+  updateViewModePreference,
 } from "./utils";
 import { ModalType } from "../GlobalProvider/enum";
+import { ViewMode } from "~/components/SwitchView/enums";
 
 const MyAppointmentsProviderContext =
   createContext<MyAppointmentsProviderContextProps | null>(null);
@@ -86,6 +89,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
   );
   const [isExportingAppointments, setIsExportingAppointments] = useState(false);
   const [exportAppointments] = useExportAppointmentsEventMutation();
+  const [viewMode, setViewMode] = useState<ViewMode>(ViewMode.GRID);
 
   const { data: myPendingAppointments } = useGetMyAppointmentsQuery({
     states: states[MY_APPOINTMENTS_LIST_STATE.PENDING],
@@ -313,6 +317,23 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
     [withExportGuard, downloadIcs],
   );
 
+  const initViewMode = async () => {
+    const viewMode = await fetchViewModePreference();
+    setViewMode(viewMode);
+  };
+
+  const toggleViewMode = useCallback(
+    (viewMode: ViewMode) => {
+      setViewMode(viewMode);
+      updateViewModePreference(viewMode);
+    },
+    [],
+  );
+
+  useEffect(() => {
+    initViewMode();
+  }, []);
+
   useEffect(() => {
     if (selectedAppointmentData && selectedAppointmentId && !isFetching) {
       setSelectedAppointment(selectedAppointmentData);
@@ -459,6 +480,8 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
       myAppointmentsDates,
       dialogModalProps,
       isExportingAppointments,
+      viewMode,
+      toggleViewMode,
       handleChangePage,
       handleChangeLimit,
       handleAcceptAppointment,
@@ -479,6 +502,8 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
       myAppointmentsDates,
       dialogModalProps,
       isExportingAppointments,
+      viewMode,
+      toggleViewMode,
       handleChangePage,
       handleChangeLimit,
       handleAcceptAppointment,

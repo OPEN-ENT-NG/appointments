@@ -9,6 +9,7 @@ import {
   Appointment,
   MyAppointments,
 } from "~/services/api/AppointmentService/types";
+import { ViewMode } from "~/components/SwitchView/enums";
 
 export interface MyAppointmentsProviderContextProps {
   myAppointments: AppointmentsType;
@@ -20,6 +21,8 @@ export interface MyAppointmentsProviderContextProps {
   myAppointmentsDates: Dayjs[] | undefined;
   dialogModalProps: DialogModalProps;
   isExportingAppointments: boolean;
+  viewMode: ViewMode;
+  toggleViewMode: (viewMode: ViewMode) => void;
   handleChangePage: (state: MY_APPOINTMENTS_LIST_STATE, page: number) => void;
   handleChangeLimit: (state: MY_APPOINTMENTS_LIST_STATE, limit: number) => void;
   handleAcceptAppointment: (id: number) => void;
