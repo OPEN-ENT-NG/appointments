@@ -9,12 +9,6 @@ export const mainContainerStyle: SxProps = {
   flexDirection: "column",
 };
 
-export const fisrtContainerStyle: SxProps = {
-  display: "flex",
-  width: "100%",
-  minWidth: "0",
-};
-
 export const customCalendarBoxStyle: SxProps = {
   marginY: "4rem",
   display: "flex",
@@ -27,7 +21,7 @@ export const emptyStateSVGStyle: SxProps = {
   maxHeight: "30rem",
 };
 
-export const emptyStateLeftBoxStyle: SxProps = {
+export const emptyStateBoxStyle: SxProps = {
   display: "flex",
   flexDirection: "column",
   gap: "3rem",
