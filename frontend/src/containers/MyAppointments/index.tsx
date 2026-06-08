@@ -1,26 +1,21 @@
 import { FC } from "react";
 
-import { Box, Loader, Typography, useMediaQuery } from "@cgi-learning-hub/ui";
+import { Box, Loader, Typography } from "@cgi-learning-hub/ui";
 import { useTheme } from "@mui/material";
 
-import { CustomDateCalendar } from "~/components/CustomDateCalendar";
 import { DialogModal } from "~/components/DialogModal";
 import { AppointmentsEmptyState } from "~/components/SVG/AppointmentsEmptyState";
 import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 import { MY_APPOINTMENTS_LIST_STATE } from "~/providers/MyAppointmentsProvider/enum";
-import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
 import { AppointmentCardList } from "../AppointmentCardList";
 import { AppointmentInfosModal } from "../AppointmentInfosModal";
 import {
-  customCalendarBoxStyle,
-  emptyStateLeftBoxStyle,
+  emptyStateBoxStyle,
   emptyStateSVGStyle,
-  fisrtContainerStyle,
   loaderBoxStyle,
   mainContainerStyle,
 } from "./style";
 import { t } from "~/i18n";
-import { TWO_TABS_EXPORT_BREAKPOINT } from "~/core/breakpoints";
 import { ExportAppointmentsModal } from "../ExportAppointmentsModal";
 import { useGlobal } from "~/providers/GlobalProvider";
 import { ModalType } from "~/providers/GlobalProvider/enum";
@@ -37,9 +32,6 @@ export const MyAppointments: FC = () => {
     selectedAppointment,
     handleExportMultipleAppointments,
   } = useMyAppointments();
-  const isMobile = useMediaQuery(
-    `(max-width: ${TWO_TABS_EXPORT_BREAKPOINT}px)`,
-  );
   const theme = useTheme();
 
   const myPendingAppointments =
@@ -78,25 +70,16 @@ export const MyAppointments: FC = () => {
 
   if (isAllAppointmentsEmpty) {
     return (
-      <Box sx={spaceBetweenBoxStyle}>
-        <Box sx={emptyStateLeftBoxStyle}>
-          <Typography variant="h2" color="primary" fontWeight="bold">
-            {t("appointments.my.appointments")}
-          </Typography>
-          <Typography fontStyle={"italic"} variant="body1">
-            {t("appointments.my.appointments.accepted.empty.state")}
-          </Typography>
-          <Box sx={emptyStateSVGStyle}>
-            <AppointmentsEmptyState fill={theme.palette.primary.main} />
-          </Box>
+      <Box sx={emptyStateBoxStyle}>
+        <Typography variant="h2" color="primary" fontWeight="bold">
+          {t("appointments.my.appointments")}
+        </Typography>
+        <Typography fontStyle={"italic"} variant="body1">
+          {t("appointments.my.appointments.accepted.empty.state")}
+        </Typography>
+        <Box sx={emptyStateSVGStyle}>
+          <AppointmentsEmptyState fill={theme.palette.primary.main} />
         </Box>
-        {!isMobile && (
-          <Box sx={customCalendarBoxStyle}>
-            <CustomDateCalendar
-              acceptedAppointmentsDates={myAppointmentsDates}
-            />
-          </Box>
-        )}
       </Box>
     );
   }
@@ -115,19 +98,10 @@ export const MyAppointments: FC = () => {
         }}
       />
       <Box sx={mainContainerStyle}>
-        <Box sx={fisrtContainerStyle}>
-          <AppointmentCardList
-            appointmentsType={MY_APPOINTMENTS_LIST_STATE.PENDING}
-            myAppointments={myPendingAppointments}
-          />
-          {!isMobile && (
-            <Box sx={customCalendarBoxStyle}>
-              <CustomDateCalendar
-                acceptedAppointmentsDates={myAppointmentsDates}
-              />
-            </Box>
-          )}
-        </Box>
+        <AppointmentCardList
+          appointmentsType={MY_APPOINTMENTS_LIST_STATE.PENDING}
+          myAppointments={myPendingAppointments}
+        />
         <AppointmentCardList
           appointmentsType={MY_APPOINTMENTS_LIST_STATE.ACCEPTED}
           myAppointments={myAcceptedAppointments}
