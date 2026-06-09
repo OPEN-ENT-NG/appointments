@@ -38,6 +38,13 @@ export const contentStyle = {
 export const headerStyle = {
   ...spaceBetweenBoxStyle,
   flexWrap: "wrap",
+  gap: "3rem",
+};
+
+export const toggleStyle = {
+  "@media (max-width: 720px)": {
+    paddingLeft: "3rem",
+  },
 };
 
 export const tabsStyle = {
