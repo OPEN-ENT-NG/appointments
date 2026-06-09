@@ -18,9 +18,14 @@ import {
   tabItemStyle,
   tabsStyle,
   titleStyle,
+  toggleStyle,
 } from "./style";
 import { useTheme } from "~/hooks/useTheme";
 import { t } from "~/i18n";
+import { SwitchView } from "~/components/SwitchView";
+import { IToggleButtonItem } from "~/components/SwitchView/types";
+import { getToggleButtons } from "~/routes/home/utils";
+import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 
 export interface AppProps {
   _id: string;
@@ -38,12 +43,14 @@ export const Home: FC = () => {
   const { hasManageRight, setAppointmentIdFromNotify, setGridIdFromLink } =
     useGlobal();
   const { resetSearch } = useFindAppointments();
+  const { viewMode, toggleViewMode } = useMyAppointments();
 
   const initialTabValue = parseInt(sessionStorage.getItem("tabValue") || "0");
   const [tabValue, setTabValue] = useState(
     !hasManageRight && initialTabValue === 2 ? 0 : initialTabValue,
   );
   const { isTheme1D } = useTheme();
+  const toggleButtonList: IToggleButtonItem[] = getToggleButtons();
 
   const handleChange = useCallback(
     (_: SyntheticEvent, newValue: number) => {
@@ -110,6 +117,15 @@ export const Home: FC = () => {
               <Tab label={t("appointments.my.availability")} />
             )}
           </Tabs>
+          {tabValue === 1 && (
+            <Box sx={toggleStyle}>
+              <SwitchView
+                viewMode={viewMode}
+                toggleButtonList={toggleButtonList}
+                onChange={toggleViewMode}
+              />
+            </Box>
+          )}
         </Box>
         <Box sx={tabItemStyle}>
           {tabValue === 0 && <FindAppointments />}
