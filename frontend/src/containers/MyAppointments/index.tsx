@@ -19,6 +19,7 @@ import { t } from "~/i18n";
 import { ExportAppointmentsModal } from "../ExportAppointmentsModal";
 import { useGlobal } from "~/providers/GlobalProvider";
 import { ModalType } from "~/providers/GlobalProvider/enum";
+import { ViewMode } from "~/components/SwitchView/enums";
 
 export const MyAppointments: FC = () => {
   const {
@@ -26,6 +27,7 @@ export const MyAppointments: FC = () => {
     displayModals: { showExportModal },
   } = useGlobal();
   const {
+    viewMode,
     myAppointments,
     myAppointmentsDates,
     dialogModalProps,
@@ -98,19 +100,33 @@ export const MyAppointments: FC = () => {
         }}
       />
       <Box sx={mainContainerStyle}>
-        <AppointmentCardList
-          appointmentsType={MY_APPOINTMENTS_LIST_STATE.PENDING}
-          myAppointments={myPendingAppointments}
-        />
-        <AppointmentCardList
-          appointmentsType={MY_APPOINTMENTS_LIST_STATE.ACCEPTED}
-          myAppointments={myAcceptedAppointments}
-        />
-        {myRejectedOrCanceledAppointments.total > 0 && (
-          <AppointmentCardList
-            appointmentsType={MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED}
-            myAppointments={myRejectedOrCanceledAppointments}
-          />
+        {viewMode === ViewMode.CALENDAR && (
+          <Box>
+            <Typography variant="h2" color="primary" fontWeight="bold">
+              {t("appointments.my.appointments")}
+            </Typography>
+            <Box>//TODO: replace with calendar component</Box>
+          </Box>
+        )}
+        {viewMode === ViewMode.GRID && (
+          <>
+            <AppointmentCardList
+              appointmentsType={MY_APPOINTMENTS_LIST_STATE.PENDING}
+              myAppointments={myPendingAppointments}
+            />
+            <AppointmentCardList
+              appointmentsType={MY_APPOINTMENTS_LIST_STATE.ACCEPTED}
+              myAppointments={myAcceptedAppointments}
+            />
+            {myRejectedOrCanceledAppointments.total > 0 && (
+              <AppointmentCardList
+                appointmentsType={
+                  MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED
+                }
+                myAppointments={myRejectedOrCanceledAppointments}
+              />
+            )}
+          </>
         )}
       </Box>
     </>
