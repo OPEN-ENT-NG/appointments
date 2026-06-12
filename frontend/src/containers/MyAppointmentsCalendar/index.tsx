@@ -164,7 +164,8 @@ export const MyAppointmentsCalendar: FC = () => {
 
   return (
     <Stack sx={calendarContainerStyle}>
-      <CustomDateCalendar acceptedAppointmentsDates={[]} /> //TODO: remove, it's only for tests
+      {/* TODO: remove, it's only for tests */}
+      <CustomDateCalendar acceptedAppointmentsDates={[]} />
 
       {/* Weekpicker popover */}
       <Popover
@@ -176,7 +177,7 @@ export const MyAppointmentsCalendar: FC = () => {
           horizontal: 'left',
         }}
       >
-        //TODO: replace with a simple DatePicker in responsive
+        {/* TODO: replace with a simple DatePicker in responsive */}
         <WeekPicker
           currentDate={calendarRef.current?.getApi().getDate() ?? new Date()}
           onSelectWeek={handleSelectWeek}

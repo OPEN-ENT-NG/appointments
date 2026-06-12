@@ -4,14 +4,14 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { PickersDayProps } from '@mui/x-date-pickers/PickersDay';
 import { FC, useState } from 'react';
 import { WeekPickerProps } from './types';
-import { CustomPickerDay } from './style';
+import { calendarStyle, CustomPickerDay } from './style';
 import { isInSameWeek } from './utils';
 
 dayjs.extend(isBetweenPlugin);
 
 export const WeekPicker: FC<WeekPickerProps> = ({ currentDate, onSelectWeek }) => {
   const [hoveredDay, setHoveredDay] = useState<Dayjs | null>(null);
-  const [value] = useState<Dayjs | null>(new Dayjs(currentDate));
+  const [value] = useState<Dayjs | null>(dayjs(currentDate));
 
   //TODO: reprendre style/logique comme dans le CustomDateCalendar + le remove d'ailleurs
   const getDayComponent = (
@@ -36,7 +36,11 @@ export const WeekPicker: FC<WeekPickerProps> = ({ currentDate, onSelectWeek }) =
   return (
     <DateCalendar
       value={value}
-      onChange={(newValue) => onSelectWeek(newValue.toDate())}
+      onChange={(newValue, _, selectedView) => {
+        if (selectedView === 'day') {
+          onSelectWeek(newValue.toDate());
+        }
+      }}
       showDaysOutsideCurrentMonth
       slots={{ day: getDayComponent }}
       slotProps={{
@@ -48,6 +52,7 @@ export const WeekPicker: FC<WeekPickerProps> = ({ currentDate, onSelectWeek }) =
             onPointerLeave: () => setHoveredDay(null),
           }) as any,
       }}
+      sx={calendarStyle}
     />
   );
 }
