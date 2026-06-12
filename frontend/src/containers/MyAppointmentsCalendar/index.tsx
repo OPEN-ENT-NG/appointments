@@ -5,15 +5,40 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import frLocale from "@fullcalendar/core/locales/fr";
 
-import { Box, Button, Chip, Divider, IconButton, Stack, Typography, useMediaQuery } from "@cgi-learning-hub/ui";
-import { SLOT_DURATION, SLOT_LABEL_INTERVAL, SLOT_MAX_TIME, SLOT_MIN_TIME } from "~/core/constants";
+import {
+  Box,
+  Button,
+  Chip,
+  Divider,
+  IconButton,
+  Stack,
+  Typography,
+  useMediaQuery,
+} from "@cgi-learning-hub/ui";
+import {
+  SLOT_DURATION,
+  SLOT_LABEL_INTERVAL,
+  SLOT_MAX_TIME,
+  SLOT_MIN_TIME,
+} from "~/core/constants";
 import { BOOK_APPOINTMENT_MODAL_BREAKPOINT } from "~/core/breakpoints";
 
-import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
-import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
+import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
+import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import { t } from "~/i18n";
-import { calendarContainerStyle, headerCellDateStyle, headerCellHyphenStyle, headerCellStyle, nowIndicatorStyle, StyledHeader } from "./style";
-import { DayHeaderContentArg, NowIndicatorContentArg, SlotLabelContentArg } from "@fullcalendar/core/index.js";
+import {
+  calendarContainerStyle,
+  headerCellDateStyle,
+  headerCellHyphenStyle,
+  headerCellStyle,
+  nowIndicatorStyle,
+  StyledHeader,
+} from "./style";
+import {
+  DayHeaderContentArg,
+  NowIndicatorContentArg,
+  SlotLabelContentArg,
+} from "@fullcalendar/core/index.js";
 import { getDayName, getDayNumberAndMonthName } from "./utils";
 
 export const MyAppointmentsCalendar: FC = () => {
@@ -43,7 +68,7 @@ export const MyAppointmentsCalendar: FC = () => {
     setTitle(calendarRef.current?.getApi().view.title ?? "");
   };
 
-  const goNext = () => calendarRef.current ?.getApi().next();
+  const goNext = () => calendarRef.current?.getApi().next();
   const goPrev = () => calendarRef.current?.getApi().prev();
   const goToday = () => calendarRef.current?.getApi().today();
 
@@ -52,26 +77,36 @@ export const MyAppointmentsCalendar: FC = () => {
 
     return (
       <Stack sx={headerCellStyle}>
-        {isCurrentDay && (<Divider sx={headerCellHyphenStyle} />)}
+        {isCurrentDay && <Divider sx={headerCellHyphenStyle} />}
         <Stack sx={headerCellDateStyle}>
-          <Typography variant="caption" color={isCurrentDay ? "primary.main" : "text.secondary"} sx={{ fontWeight: isCurrentDay ? "bold" : "normal" }}>
+          <Typography
+            variant="caption"
+            color={isCurrentDay ? "primary.main" : "text.secondary"}
+            sx={{ fontWeight: isCurrentDay ? "bold" : "normal" }}
+          >
             {getDayName(arg.date, frLocale.code)}
           </Typography>
-          <Typography color={isCurrentDay ? "primary.main" : "text.secondary"} sx={{ fontWeight: isCurrentDay ? "bold" : "normal" }}>
+          <Typography
+            color={isCurrentDay ? "primary.main" : "text.secondary"}
+            sx={{ fontWeight: isCurrentDay ? "bold" : "normal" }}
+          >
             {getDayNumberAndMonthName(arg.date, frLocale.code)}
           </Typography>
         </Stack>
       </Stack>
     );
-  }
+  };
 
   const getSlotLabelContent = (arg: SlotLabelContentArg) => {
     return (
       <Typography variant="caption" color="text.secondary" paddingX={2}>
-        {arg.date.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
+        {arg.date.toLocaleTimeString("fr-FR", {
+          hour: "2-digit",
+          minute: "2-digit",
+        })}
       </Typography>
     );
-  }
+  };
 
   const getNowIndicatorContent = (arg: NowIndicatorContentArg) => {
     // Display the chip with current time in first column
@@ -80,7 +115,10 @@ export const MyAppointmentsCalendar: FC = () => {
         <Chip
           color="primary"
           size="small"
-          label={arg.date.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
+          label={arg.date.toLocaleTimeString("fr-FR", {
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
           sx={{ fontSize: "1rem" }}
         />
       );
@@ -97,11 +135,10 @@ export const MyAppointmentsCalendar: FC = () => {
         }}
       />
     );
-  }
+  };
 
   return (
     <Stack sx={calendarContainerStyle}>
-
       {/* HeaderToolbar */}
       <StyledHeader isMobile={isMobile}>
         <IconButton onClick={goPrev} color="primary">
@@ -117,7 +154,9 @@ export const MyAppointmentsCalendar: FC = () => {
           size="small"
           color="primary"
           sx={{ minHeight: "3rem", fontSize: "1.3rem" }}
-        >{t("appointments.today")}</Button>
+        >
+          {t("appointments.today")}
+        </Button>
       </StyledHeader>
 
       {/* Calendar view*/}

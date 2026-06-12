@@ -300,7 +300,6 @@ export const DEFAULT_THEME = "default";
 
 export const MIN_USERS_NEEDED = 10;
 
-
 // Calendar view
 export const SLOT_MIN_TIME = "07:00:00";
 export const SLOT_MAX_TIME = "22:00:00";

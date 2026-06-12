@@ -106,7 +106,7 @@ export const MyAppointments: FC = () => {
             <Typography variant="h2" color="primary" fontWeight="bold">
               {t("appointments.my.appointments")}
             </Typography>
-            <MyAppointmentsCalendar/>
+            <MyAppointmentsCalendar />
           </Box>
         )}
         {viewMode === ViewMode.GRID && (

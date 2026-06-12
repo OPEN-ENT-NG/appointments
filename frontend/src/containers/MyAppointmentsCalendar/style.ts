@@ -30,12 +30,12 @@ export const calendarContainerStyle = {
   "& .fc-scrollgrid-section-header .fc-scroller": {
     overflow: "hidden !important",
   },
-  
+
   // Cache la cellule du header à gauche
   "& .fc-scrollgrid-section-header .fc-timegrid-axis": {
     border: "none !important",
   },
-  
+
   // Cache la bordure du header à droite
   "& th": {
     border: "none !important",
@@ -79,7 +79,7 @@ export const calendarContainerStyle = {
   // Override le style du nowIndicator
   "& .fc-timegrid-now-indicator-arrow": {
     border: "none",
-    transform: "translateY(-50%)",  // centre verticalement avec la ligne
+    transform: "translateY(-50%)", // centre verticalement avec la ligne
     display: "flex",
     justifyContent: "center", // centre horizontalement dans la colonne
     width: "100%",
@@ -91,19 +91,21 @@ export const calendarContainerStyle = {
     "box-shadow": "9px 0 0 -8px var(--theme-palette-primary-main)",
   },
 
-  // Autorise le display de la barre du nowIndicator sur toute la longueur 
+  // Autorise le display de la barre du nowIndicator sur toute la longueur
   "& .fc-timegrid-now-indicator-container": {
     overflow: "visible !important",
   },
-}
+};
 
-export const StyledHeader = styled(Stack)<StyledHeaderProps>(({ isMobile }) => ({
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: isMobile ? "space-between" : "flex-end",
-  gap: 1,
-  marginBottom: 1,
-}));
+export const StyledHeader = styled(Stack)<StyledHeaderProps>(
+  ({ isMobile }) => ({
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: isMobile ? "space-between" : "flex-end",
+    gap: 1,
+    marginBottom: 1,
+  }),
+);
 
 export const headerCellStyle = {
   flexDirection: "column",
@@ -113,19 +115,19 @@ export const headerCellStyle = {
   padding: "8px",
   marginX: "4px",
   marginBottom: "8px",
-}
+};
 
 export const headerCellHyphenStyle = {
   backgroundColor: "primary.main",
   width: "6%",
   height: "1.5px",
   marginTop: "-1.5px",
-}
+};
 
 export const headerCellDateStyle = {
   flexDirection: "column",
   marginTop: "1.5px",
-}
+};
 
 export const nowIndicatorStyle = {
   position: "absolute",
@@ -135,4 +137,4 @@ export const nowIndicatorStyle = {
   width: "100vw",
   backgroundColor: "primary.main",
   zIndex: 5,
-}
+};
