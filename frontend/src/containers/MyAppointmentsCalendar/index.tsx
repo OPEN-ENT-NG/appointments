@@ -11,6 +11,7 @@ import {
   Chip,
   Divider,
   IconButton,
+  Popover,
   Stack,
   Typography,
   useMediaQuery,
@@ -25,6 +26,7 @@ import { BOOK_APPOINTMENT_MODAL_BREAKPOINT } from "~/core/breakpoints";
 
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
+import EventRoundedIcon from "@mui/icons-material/EventRounded";
 import { t } from "~/i18n";
 import {
   calendarContainerStyle,
@@ -40,6 +42,8 @@ import {
   SlotLabelContentArg,
 } from "@fullcalendar/core/index.js";
 import { getDayName, getDayNumberAndMonthName } from "./utils";
+import { WeekPicker } from "~/components/WeekPicker";
+import { CustomDateCalendar } from "~/components/CustomDateCalendar";
 
 export const MyAppointmentsCalendar: FC = () => {
   const calendarRef = useRef<FullCalendar>(null);
@@ -47,10 +51,12 @@ export const MyAppointmentsCalendar: FC = () => {
     `(max-width: ${BOOK_APPOINTMENT_MODAL_BREAKPOINT}px)`,
   );
   const [title, setTitle] = useState("");
+  const [weekPickerAnchor, setWeekPickerAnchor] = useState<HTMLButtonElement | null>(null);
+  const isWeekPickerOpen = Boolean(weekPickerAnchor);
 
   useEffect(() => {
     // Init du titre au montage
-    setTitle(calendarRef.current?.getApi().view.title ?? "");
+    setTitle(calendarRef.current?.getApi().view.title ?? ""); //TODO: modify in responsive
 
     // Scroll automatiquement à l'heure actuelle à l'init
     const timeout = setTimeout(() => {
@@ -68,9 +74,13 @@ export const MyAppointmentsCalendar: FC = () => {
     setTitle(calendarRef.current?.getApi().view.title ?? "");
   };
 
+  // Header actions
   const goNext = () => calendarRef.current?.getApi().next();
   const goPrev = () => calendarRef.current?.getApi().prev();
   const goToday = () => calendarRef.current?.getApi().today();
+  const goToDate = (date: Date) => calendarRef.current?.getApi().gotoDate(date);
+  
+  // Calendar components styling
 
   const getDayHeaderContent = (arg: DayHeaderContentArg) => {
     const isCurrentDay = arg.date.toDateString() === new Date().toDateString();
@@ -137,10 +147,47 @@ export const MyAppointmentsCalendar: FC = () => {
     );
   };
 
+  // WeekPicker
+
+  const openWeekPicker = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setWeekPickerAnchor(event.currentTarget);
+  };
+
+  const closeWeekPicker = () => {
+    setWeekPickerAnchor(null);
+  };
+
+  const handleSelectWeek = (date: Date) => {
+    goToDate(date);
+    closeWeekPicker();
+  }
+
   return (
     <Stack sx={calendarContainerStyle}>
+      <CustomDateCalendar acceptedAppointmentsDates={[]} /> //TODO: remove, it's only for tests
+
+      {/* Weekpicker popover */}
+      <Popover
+        open={isWeekPickerOpen}
+        anchorEl={weekPickerAnchor}
+        onClose={closeWeekPicker}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+      >
+        //TODO: replace with a simple DatePicker in responsive
+        <WeekPicker
+          currentDate={calendarRef.current?.getApi().getDate() ?? new Date()}
+          onSelectWeek={handleSelectWeek}
+        />
+      </Popover>
+
       {/* HeaderToolbar */}
       <StyledHeader isMobile={isMobile}>
+        <IconButton onClick={openWeekPicker} color="primary">
+          <EventRoundedIcon />
+        </IconButton>
         <IconButton onClick={goPrev} color="primary">
           <ChevronLeftRoundedIcon />
         </IconButton>
