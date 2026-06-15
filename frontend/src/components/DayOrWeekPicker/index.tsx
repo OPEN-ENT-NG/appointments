@@ -1,15 +1,21 @@
-import dayjs, { Dayjs } from 'dayjs';
-import isBetweenPlugin from 'dayjs/plugin/isBetween';
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
-import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
-import { FC, useState } from 'react';
-import { WeekPickerProps } from './types';
-import { calendarStyle, CustomPickerDay, pickerDayStyle } from './style';
-import { isInSameWeek } from './utils';
+import dayjs, { Dayjs } from "dayjs";
+import isBetweenPlugin from "dayjs/plugin/isBetween";
+import isoWeek from "dayjs/plugin/isoWeek";
+import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
+import { PickersDay, PickersDayProps } from "@mui/x-date-pickers/PickersDay";
+import { FC, useState } from "react";
+import { WeekPickerProps } from "./types";
+import { calendarStyle, CustomPickerDay, pickerDayStyle } from "./style";
+import { isInSameWeek } from "./utils";
 
 dayjs.extend(isBetweenPlugin);
+dayjs.extend(isoWeek);
 
-export const DayOrWeekPicker: FC<WeekPickerProps> = ({ weekpicker = false, currentDate, onSelectWeek }) => {
+export const DayOrWeekPicker: FC<WeekPickerProps> = ({
+  weekpicker = false,
+  currentDate,
+  onSelectWeek,
+}) => {
   const [hoveredDay, setHoveredDay] = useState<Dayjs | null>(null);
   const [value] = useState<Dayjs | null>(dayjs(currentDate));
 
@@ -30,17 +36,15 @@ export const DayOrWeekPicker: FC<WeekPickerProps> = ({ weekpicker = false, curre
         isHovered={isInSameWeek(day, hoveredDay)}
       />
     ) : (
-      <PickersDay
-        {...props}
-        sx={pickerDayStyle}
-      />);
-  }
+      <PickersDay {...props} sx={pickerDayStyle} />
+    );
+  };
 
   return (
     <DateCalendar
       value={value}
       onChange={(newValue, _, selectedView) => {
-        if (selectedView === 'day') {
+        if (selectedView === "day") {
           onSelectWeek(newValue.toDate());
         }
       }}
@@ -58,4 +62,4 @@ export const DayOrWeekPicker: FC<WeekPickerProps> = ({ weekpicker = false, curre
       sx={calendarStyle}
     />
   );
-}
+};

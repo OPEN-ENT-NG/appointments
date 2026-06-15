@@ -9,7 +9,7 @@ export const calendarStyle = (theme: Theme) => ({
   boxShadow: "0px 2px 8px 0px rgba(176, 176, 176, 0.25)",
   width: "26rem",
   height: "27.5rem",
-  
+
   // Header
   "& .MuiPickersCalendarHeader-label": {
     fontSize: "1.4rem",
@@ -41,24 +41,24 @@ export const calendarStyle = (theme: Theme) => ({
   },
   "& .MuiPickersYear-yearButton": {
     fontSize: "1.4rem",
-    '&:focus': {
+    "&:focus": {
       backgroundColor: theme.palette.primary.main,
     },
-    '&:hover': {
+    "&:hover": {
       backgroundColor: theme.palette.primary.light,
     },
   },
 });
 
-export const pickerDayStyle =  {
+export const pickerDayStyle = {
   margin: 0,
   border: "none !important",
   width: "3.3rem",
   height: "3.3rem",
-}
+};
 
 export const CustomPickerDay = styled(PickersDay, {
-  shouldForwardProp: (prop) => prop !== 'isSelected' && prop !== 'isHovered',
+  shouldForwardProp: (prop) => prop !== "isSelected" && prop !== "isHovered",
 })<CustomPickerDayProps>(({ theme, isSelected, isHovered, day }) => ({
   ...pickerDayStyle,
   borderRadius: 0,
@@ -67,31 +67,30 @@ export const CustomPickerDay = styled(PickersDay, {
   ...(isSelected && {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
-    '&:hover, &:focus': {
+    "&:hover, &:focus": {
       backgroundColor: theme.palette.primary.main,
     },
   }),
   ...(isHovered && {
     backgroundColor: theme.palette.primary.light,
-    '&:hover, &:focus': {
+    "&:hover, &:focus": {
       backgroundColor: theme.palette.primary.light,
     },
   }),
-  ...(!isSelected && !isHovered && {
-    "&:focus": {
-      backgroundColor: "transparent",
-    },
-  }),
-
-
+  ...(!isSelected &&
+    !isHovered && {
+      "&:focus": {
+        backgroundColor: "transparent",
+      },
+    }),
 
   // Create a rounding style for first and last day
   ...(day.day() === 1 && {
-    borderTopLeftRadius: '50%',
-    borderBottomLeftRadius: '50%',
+    borderTopLeftRadius: "50%",
+    borderBottomLeftRadius: "50%",
   }),
   ...(day.day() === 0 && {
-    borderTopRightRadius: '50%',
-    borderBottomRightRadius: '50%',
+    borderTopRightRadius: "50%",
+    borderBottomRightRadius: "50%",
   }),
 })) as ComponentType<CustomPickerDayProps>;

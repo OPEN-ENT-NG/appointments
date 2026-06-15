@@ -5,5 +5,5 @@ export const isInSameWeek = (dayA: Dayjs, dayB: Dayjs | null | undefined) => {
     return false;
   }
 
-  return dayA.isSame(dayB, 'week');
+  return dayA.isSame(dayB, "week");
 };

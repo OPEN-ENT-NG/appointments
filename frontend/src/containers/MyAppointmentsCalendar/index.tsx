@@ -50,7 +50,8 @@ export const MyAppointmentsCalendar: FC = () => {
     `(max-width: ${BOOK_APPOINTMENT_MODAL_BREAKPOINT}px)`,
   );
   const [title, setTitle] = useState("");
-  const [weekPickerAnchor, setWeekPickerAnchor] = useState<HTMLButtonElement | null>(null);
+  const [weekPickerAnchor, setWeekPickerAnchor] =
+    useState<HTMLButtonElement | null>(null);
   const isWeekPickerOpen = Boolean(weekPickerAnchor);
 
   useEffect(() => {
@@ -69,14 +70,15 @@ export const MyAppointmentsCalendar: FC = () => {
   }, []);
 
   // Sync du titre à chaque navigation
-  const handleDatesSet = () => setTitle(calendarRef.current?.getApi().view.title ?? "");
+  const handleDatesSet = () =>
+    setTitle(calendarRef.current?.getApi().view.title ?? "");
 
   // Header actions
   const goNext = () => calendarRef.current?.getApi().next();
   const goPrev = () => calendarRef.current?.getApi().prev();
   const goToday = () => calendarRef.current?.getApi().today();
   const goToDate = (date: Date) => calendarRef.current?.getApi().gotoDate(date);
-  
+
   // Calendar components styling
 
   const getDayHeaderContent = (arg: DayHeaderContentArg) => {
@@ -157,7 +159,7 @@ export const MyAppointmentsCalendar: FC = () => {
   const handleSelectWeek = (date: Date) => {
     goToDate(date);
     closeWeekPicker();
-  }
+  };
 
   return (
     <Stack sx={calendarContainerStyle}>
@@ -167,8 +169,8 @@ export const MyAppointmentsCalendar: FC = () => {
         anchorEl={weekPickerAnchor}
         onClose={closeWeekPicker}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
+          vertical: "bottom",
+          horizontal: "left",
         }}
       >
         <DayOrWeekPicker
