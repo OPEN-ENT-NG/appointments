@@ -17,7 +17,7 @@ export const ShareNewBookmark = ({
 }) => {
   return (
     <FormControl id="bookmarkName">
-      <Stack direction="row" gap={2} flexWrap={"wrap"}>
+      <Stack direction="row" spacing={2} sx={{ flexFlow: "wrap" }}>
         <TextField
           key={bookmark.id}
           inputRef={refBookmark}

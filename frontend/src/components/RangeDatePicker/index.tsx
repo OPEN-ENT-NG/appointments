@@ -49,8 +49,10 @@ export const RangeDatePicker: FC = () => {
           slotProps={{
             day: { sx: { fontSize: "1.2rem" } },
             textField: {
-              inputProps: {
-                readOnly: true,
+              slotProps: {
+                input: {
+                  readOnly: true,
+                },
               },
               error: isStartError,
               helperText: isStartError && t(validityPeriodError),
@@ -70,8 +72,10 @@ export const RangeDatePicker: FC = () => {
           slotProps={{
             day: { sx: { fontSize: "1.2rem" } },
             textField: {
-              inputProps: {
-                readOnly: true,
+              slotProps: {
+                input: {
+                  readOnly: true,
+                },
               },
               error: isEndError,
               helperText: isEndError && t(validityPeriodError),

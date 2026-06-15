@@ -131,7 +131,7 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
             )}
           </Box>
           <Box sx={secondLineBoxStyle}>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="textSecondary">
               {t("appointments.grid.from.date.to.date", {
                 beginDate: grid.beginDate.format(DISPLAY_DATE_FORMAT),
                 endDate: grid.endDate.format(DISPLAY_DATE_FORMAT),
@@ -139,7 +139,7 @@ export const GridCard: FC<GridCardProps> = ({ grid, size }) => {
             </Typography>
             <Box sx={stateStyle}>
               <StateDot state={grid.state} />
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="textSecondary">
                 {t(`appointments.grid.state.${grid.state.toLowerCase()}`)}
               </Typography>
             </Box>

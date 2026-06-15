@@ -28,7 +28,6 @@ export const getDayNumberAndMonthName = (date: Date, localeCode: string) => {
   return `${dayNumber} ${monthName}`;
 };
 
-
 // Other
 
 export const sleep = (ms: number) =>

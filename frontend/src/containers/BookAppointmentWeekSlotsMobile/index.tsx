@@ -55,7 +55,7 @@ export const BookAppointmentWeekSlotsMobile: FC = () => {
         <ArrowButton isVisible={canGoPrev} onClick={handlePreviousWeek}>
           <KeyboardArrowLeftRoundedIcon />
         </ArrowButton>
-        <Typography variant="body1" fontWeight={"bold"}>
+        <Typography variant="body1" sx={{ fontWeight: "bold" }}>
           {t("appointments.book.appointment.modal.change.week")}
         </Typography>
         <ArrowButton isVisible={canGoNext} onClick={handleNextWeek}>
@@ -94,7 +94,11 @@ export const BookAppointmentWeekSlotsMobile: FC = () => {
                 <Typography variant="body2" color={common.black}>
                   {t("appointments.book.appointment.modal.next.slot")}&nbsp;
                 </Typography>
-                <Typography variant="body2" color="primary" fontWeight={"bold"}>
+                <Typography
+                  variant="body2"
+                  color="primary"
+                  sx={{ fontWeight: "bold" }}
+                >
                   {nextAvailableTimeSlot.format("dddd D MMMM")}
                 </Typography>
               </Box>
@@ -112,7 +116,7 @@ export const BookAppointmentWeekSlotsMobile: FC = () => {
             onChange={handleVideoCallCheckboxChange}
             checked={isVideoCallOptionChecked}
           />
-          <Typography color="text.primary" variant="body2">
+          <Typography color="textPrimary" variant="body2">
             {t("appointments.book.appointment.modal.video.call.option")}
           </Typography>
         </Box>

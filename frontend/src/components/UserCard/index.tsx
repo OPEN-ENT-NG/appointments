@@ -76,12 +76,14 @@ export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(
             >
               <Typography
                 variant="body1"
-                whiteSpace="nowrap"
-                overflow="hidden"
-                textOverflow="ellipsis"
-                fontWeight="bold"
-                color="text.primary"
+                color="textPrimary"
                 ref={displayNameRef}
+                sx={{
+                  whiteSpace: "nowrap",
+                  fontWeight: "bold",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
               >
                 {displayName}
               </Typography>
@@ -91,20 +93,21 @@ export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(
               placement="bottom"
             >
               <Typography
-                fontSize="1.3rem"
-                color="text.primary"
-                whiteSpace="nowrap"
-                overflow="hidden"
-                textOverflow="ellipsis"
+                color="textPrimary"
                 ref={functionsRef}
+                sx={{
+                  whiteSpace: "nowrap",
+                  fontSize: "1.3rem",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
               >
                 {functions.join(", ")}
               </Typography>
             </Tooltip>
             <Typography
-              fontSize="1.3rem"
-              color="text.primary"
-              fontStyle="italic"
+              color="textPrimary"
+              sx={{ fontSize: "1.3rem", fontStyle: "italic" }}
             >
               {!!lastAppointmentDate &&
                 t("appointments.last.appointment", {
@@ -114,7 +117,10 @@ export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(
           </Box>
           <Box sx={statusBoxStyle}>
             <StatusColor isAvailable={isAvailable} />
-            <Typography color="grey.dark" fontWeight="bold" fontSize="1.3rem">
+            <Typography
+              color="textSecondary"
+              sx={{ fontSize: "1.3rem", fontWeight: "bold" }}
+            >
               {t("appointments." + (isAvailable ? "available" : "unavailable"))}
             </Typography>
           </Box>
