@@ -42,8 +42,7 @@ import {
   SlotLabelContentArg,
 } from "@fullcalendar/core/index.js";
 import { getDayName, getDayNumberAndMonthName } from "./utils";
-import { WeekPicker } from "~/components/WeekPicker";
-import { CustomDateCalendar } from "~/components/CustomDateCalendar";
+import { DayOrWeekPicker } from "~/components/DayOrWeekPicker";
 
 export const MyAppointmentsCalendar: FC = () => {
   const calendarRef = useRef<FullCalendar>(null);
@@ -56,7 +55,7 @@ export const MyAppointmentsCalendar: FC = () => {
 
   useEffect(() => {
     // Init du titre au montage
-    setTitle(calendarRef.current?.getApi().view.title ?? ""); //TODO: modify in responsive
+    setTitle(calendarRef.current?.getApi().view.title ?? "");
 
     // Scroll automatiquement à l'heure actuelle à l'init
     const timeout = setTimeout(() => {
@@ -70,9 +69,7 @@ export const MyAppointmentsCalendar: FC = () => {
   }, []);
 
   // Sync du titre à chaque navigation
-  const handleDatesSet = () => {
-    setTitle(calendarRef.current?.getApi().view.title ?? "");
-  };
+  const handleDatesSet = () => setTitle(calendarRef.current?.getApi().view.title ?? "");
 
   // Header actions
   const goNext = () => calendarRef.current?.getApi().next();
@@ -164,9 +161,6 @@ export const MyAppointmentsCalendar: FC = () => {
 
   return (
     <Stack sx={calendarContainerStyle}>
-      {/* TODO: remove, it's only for tests */}
-      <CustomDateCalendar acceptedAppointmentsDates={[]} />
-
       {/* Weekpicker popover */}
       <Popover
         open={isWeekPickerOpen}
@@ -177,8 +171,8 @@ export const MyAppointmentsCalendar: FC = () => {
           horizontal: 'left',
         }}
       >
-        {/* TODO: replace with a simple DatePicker in responsive */}
-        <WeekPicker
+        <DayOrWeekPicker
+          weekpicker={!isMobile}
           currentDate={calendarRef.current?.getApi().getDate() ?? new Date()}
           onSelectWeek={handleSelectWeek}
         />

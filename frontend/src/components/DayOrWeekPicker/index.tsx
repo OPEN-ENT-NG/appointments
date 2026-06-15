@@ -1,19 +1,18 @@
 import dayjs, { Dayjs } from 'dayjs';
 import isBetweenPlugin from 'dayjs/plugin/isBetween';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
-import { PickersDayProps } from '@mui/x-date-pickers/PickersDay';
+import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
 import { FC, useState } from 'react';
 import { WeekPickerProps } from './types';
-import { calendarStyle, CustomPickerDay } from './style';
+import { calendarStyle, CustomPickerDay, pickerDayStyle } from './style';
 import { isInSameWeek } from './utils';
 
 dayjs.extend(isBetweenPlugin);
 
-export const WeekPicker: FC<WeekPickerProps> = ({ currentDate, onSelectWeek }) => {
+export const DayOrWeekPicker: FC<WeekPickerProps> = ({ weekpicker = false, currentDate, onSelectWeek }) => {
   const [hoveredDay, setHoveredDay] = useState<Dayjs | null>(null);
   const [value] = useState<Dayjs | null>(dayjs(currentDate));
 
-  //TODO: reprendre style/logique comme dans le CustomDateCalendar + le remove d'ailleurs
   const getDayComponent = (
     props: PickersDayProps<Dayjs> & {
       selectedDay?: Dayjs | null;
@@ -22,7 +21,7 @@ export const WeekPicker: FC<WeekPickerProps> = ({ currentDate, onSelectWeek }) =
   ) => {
     const { day, selectedDay, hoveredDay, ...other } = props;
 
-    return (
+    return weekpicker ? (
       <CustomPickerDay
         {...other}
         day={day}
@@ -30,7 +29,11 @@ export const WeekPicker: FC<WeekPickerProps> = ({ currentDate, onSelectWeek }) =
         isSelected={isInSameWeek(day, selectedDay)}
         isHovered={isInSameWeek(day, hoveredDay)}
       />
-    );
+    ) : (
+      <PickersDay
+        {...props}
+        sx={pickerDayStyle}
+      />);
   }
 
   return (

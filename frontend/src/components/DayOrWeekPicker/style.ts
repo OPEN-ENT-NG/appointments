@@ -50,14 +50,18 @@ export const calendarStyle = (theme: Theme) => ({
   },
 });
 
-export const CustomPickerDay = styled(PickersDay, {
-  shouldForwardProp: (prop) => prop !== 'isSelected' && prop !== 'isHovered',
-})<CustomPickerDayProps>(({ theme, isSelected, isHovered, day }) => ({  
-  borderRadius: 0,
+export const pickerDayStyle =  {
   margin: 0,
   border: "none !important",
   width: "3.3rem",
-  height: "3rem",
+  height: "3.3rem",
+}
+
+export const CustomPickerDay = styled(PickersDay, {
+  shouldForwardProp: (prop) => prop !== 'isSelected' && prop !== 'isHovered',
+})<CustomPickerDayProps>(({ theme, isSelected, isHovered, day }) => ({
+  ...pickerDayStyle,
+  borderRadius: 0,
 
   // On interractions
   ...(isSelected && {
