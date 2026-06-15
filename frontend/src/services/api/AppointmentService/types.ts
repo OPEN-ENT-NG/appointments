@@ -15,6 +15,12 @@ export interface GetMyAppointmentsPayload {
   limit: number;
 }
 
+export interface GetMyAppointmentsByDatesPayload {
+  states: APPOINTMENT_STATE[];
+  start: string;
+  end: string;
+}
+
 export interface GetAppointmentsDatesPayload {
   states: APPOINTMENT_STATE[];
 }

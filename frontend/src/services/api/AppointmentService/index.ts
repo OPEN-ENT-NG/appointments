@@ -5,6 +5,7 @@ import {
   Appointment,
   BookAppointmentPayload,
   GetAppointmentsDatesPayload,
+  GetMyAppointmentsByDatesPayload,
   GetMyAppointmentsPayload,
   MyAppointments,
 } from "./types";
@@ -30,7 +31,10 @@ export const appointmentApi = emptySplitApi.injectEndpoints({
         TagName.APPOINTMENTS_LINKED_TO_GRID,
       ],
     }),
-    getMyAppointments: builder.query<MyAppointments, GetMyAppointmentsPayload>({
+    getMyAppointments: builder.query<
+      MyAppointments,
+      GetMyAppointmentsPayload | GetMyAppointmentsByDatesPayload
+    >({
       query: (body) => {
         const statesString = JSON.stringify(body.states);
         return {

@@ -43,13 +43,17 @@ import {
   MyAppointmentsProviderProps,
 } from "./types";
 import {
+  buildMyAppointments,
   downloadBlob,
   fetchViewModePreference,
+  getDatePlusOneDay,
+  getDatePlusOneWeek,
   initialAppointments,
   initialDialogModalProps,
   initialLimits,
   initialPages,
   states,
+  toLocalISOString,
   updateViewModePreference,
 } from "./utils";
 import { ModalType } from "../GlobalProvider/enum";
@@ -77,6 +81,8 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
   const [maxPages, setMaxPages] =
     useState<AppointmentListInfoType>(initialPages);
   const [limits, setLimits] = useState<AppointmentListInfoType>(initialLimits);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
   const [myAppointments, setMyAppointments] =
     useState<AppointmentsType>(initialAppointments);
   const [selectedAppointmentId, setSelectedAppointmentId] = useState<
@@ -108,6 +114,15 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
     page: pages[MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED],
     limit: limits[MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED],
   });
+
+  const { data: allMyAppointments } = useGetMyAppointmentsQuery(
+    {
+      states: Object.values(APPOINTMENT_STATE),
+      start: toLocalISOString(startDate) ?? "",
+      end: toLocalISOString(endDate) ?? "",
+    },
+    { skip: !startDate || !endDate },
+  );
 
   const { data: selectedAppointmentData, isFetching } = useGetAppointmentQuery(
     selectedAppointmentId as number,
@@ -149,6 +164,22 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
     },
     [],
   );
+
+  const fetchAllByWeek = useCallback((currentDateRangeStart: Date) => {
+    if (currentDateRangeStart.getDay() != 1) {
+      console.error(
+        "Cannot fetch week appointments from a range not strating by monday.",
+      );
+      return;
+    }
+    setStartDate(currentDateRangeStart);
+    setEndDate(getDatePlusOneWeek(currentDateRangeStart));
+  }, []);
+
+  const fetchAllByDay = useCallback((currentDateRangeStart: Date) => {
+    setStartDate(currentDateRangeStart);
+    setEndDate(getDatePlusOneDay(currentDateRangeStart));
+  }, []);
 
   const handleAcceptAppointment = useCallback(
     async (id: number) => {
@@ -381,6 +412,33 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
   }, [appointmentIndexFromNotif, appointmentFromNotif, limits]);
 
   useEffect(() => {
+    if (!allMyAppointments) return;
+    const myPendingAppointments = buildMyAppointments(
+      allMyAppointments.appointments,
+      MY_APPOINTMENTS_LIST_STATE.PENDING,
+    );
+    const myAcceptedAppointments = buildMyAppointments(
+      allMyAppointments.appointments,
+      MY_APPOINTMENTS_LIST_STATE.ACCEPTED,
+    );
+    const myRejectedOrCanceledAppointments = buildMyAppointments(
+      allMyAppointments.appointments,
+      MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED,
+    );
+
+    setMyAppointments((prev) => ({
+      ...prev,
+      [MY_APPOINTMENTS_LIST_STATE.PENDING]:
+        myPendingAppointments || prev[MY_APPOINTMENTS_LIST_STATE.PENDING],
+      [MY_APPOINTMENTS_LIST_STATE.ACCEPTED]:
+        myAcceptedAppointments || prev[MY_APPOINTMENTS_LIST_STATE.ACCEPTED],
+      [MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED]:
+        myRejectedOrCanceledAppointments ||
+        prev[MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED],
+    }));
+  }, [allMyAppointments]);
+
+  useEffect(() => {
     setMyAppointments((prev) => ({
       ...prev,
       [MY_APPOINTMENTS_LIST_STATE.PENDING]:
@@ -478,6 +536,8 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
       dialogModalProps,
       isExportingAppointments,
       viewMode,
+      fetchAllByWeek,
+      fetchAllByDay,
       toggleViewMode,
       handleChangePage,
       handleChangeLimit,
@@ -500,6 +560,8 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
       dialogModalProps,
       isExportingAppointments,
       viewMode,
+      fetchAllByWeek,
+      fetchAllByDay,
       toggleViewMode,
       handleChangePage,
       handleChangeLimit,

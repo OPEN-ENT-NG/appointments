@@ -1,6 +1,7 @@
 package fr.openent.appointments.repository.impl;
 
 import fr.openent.appointments.enums.AppointmentState;
+import fr.openent.appointments.helper.DateHelper;
 import fr.openent.appointments.helper.IModelHelper;
 import fr.openent.appointments.model.database.Appointment;
 import fr.openent.appointments.model.database.AppointmentWithInfos;
@@ -15,6 +16,7 @@ import org.entcore.common.sql.SqlResult;
 import static fr.openent.appointments.core.constants.Fields.*;
 import static fr.openent.appointments.core.constants.SqlTables.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -80,11 +82,33 @@ public class DefaultAppointmentRepository implements AppointmentRepository {
 
     @Override
     public Future<List<AppointmentWithInfos>> getAppointments(String userId, List<AppointmentState> states, Boolean ignorePast) {
-        return getAppointments(userId, states, ignorePast, null);
+        return getAppointments(userId, states, ignorePast, null, null, null);
     }
 
     @Override
-    public Future<List<AppointmentWithInfos>> getAppointments(String userId, List<AppointmentState> states, Boolean ignorePast, List<Long> appointmentsIds) {
+    public Future<List<AppointmentWithInfos>> getAppointments(String userId,
+                                                              List<AppointmentState> states,
+                                                              Boolean ignorePast,
+                                                              LocalDateTime start,
+                                                              LocalDateTime end) {
+        return getAppointments(userId, states, ignorePast, start, end, null);
+    }
+
+    @Override
+    public Future<List<AppointmentWithInfos>> getAppointments(String userId,
+                                                              List<AppointmentState> states,
+                                                              Boolean ignorePast,
+                                                              List<Long> appointmentsIds) {
+        return getAppointments(userId, states, ignorePast, null, null, appointmentsIds);
+    }
+
+    @Override
+    public Future<List<AppointmentWithInfos>> getAppointments(String userId,
+                                                              List<AppointmentState> states,
+                                                              Boolean ignorePast,
+                                                              LocalDateTime start,
+                                                              LocalDateTime end,
+                                                              List<Long> appointmentsIds) {
         Promise<List<AppointmentWithInfos>> promise = Promise.promise();
 
         if (userId == null) {
@@ -113,6 +137,11 @@ public class DefaultAppointmentRepository implements AppointmentRepository {
 
         if (ignorePast) {
             query += " AND ts.end_date > " + FRENCH_NOW;
+        }
+
+        if (start != null && end != null) {
+            query += " AND ts.begin_date > ?  AND ts.end_date < ?";
+            params.add(DateHelper.formatDateTime(start)).add(DateHelper.formatDateTime(end));
         }
 
         // Order by start date

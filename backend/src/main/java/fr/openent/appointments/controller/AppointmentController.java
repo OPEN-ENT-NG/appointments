@@ -33,6 +33,7 @@ import org.entcore.common.http.filter.ResourceFilter;
 import org.entcore.common.user.UserInfos;
 import org.entcore.common.user.UserUtils;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -136,6 +137,12 @@ public class AppointmentController extends ControllerHelper {
         Long limit = ParamHelper.getParam(LIMIT, request, Long.class, false, "getMyAppointments");
         if(request.response().ended()) return;
 
+        LocalDateTime start = ParamHelper.getParam(START, request, LocalDateTime.class, false, "getMyAppointments");
+        if(request.response().ended()) return;
+
+        LocalDateTime end = ParamHelper.getParam(END, request, LocalDateTime.class, false, "getMyAppointments");
+        if(request.response().ended()) return;
+
         List<AppointmentState> states;
         String statesParam = request.params().get(STATES);
         if (statesParam != null && !statesParam.isEmpty()) {
@@ -149,7 +156,10 @@ public class AppointmentController extends ControllerHelper {
         }
 
         UserUtils.getAuthenticatedUserInfos(eb, request)
-            .compose(user-> appointmentService.getMyAppointments(user, states, page, limit))
+            .compose(user-> {
+                if (start != null && end != null) return appointmentService.getMyAppointmentsByDates(user, states, start, end);
+                return appointmentService.getMyAppointmentsByPage(user, states, page, limit);
+            })
             .onSuccess(appointments -> renderJson(request, appointments.toJson()))
             .onFailure(err -> {
                 String errorMessage = "Failed to get my appointments";
@@ -275,7 +285,7 @@ public class AppointmentController extends ControllerHelper {
                 List<AppointmentState> states = appointmentState == AppointmentState.CANCELED || appointmentState == AppointmentState.REFUSED
                     ? Arrays.asList(AppointmentState.CANCELED, AppointmentState.REFUSED)
                     : Collections.singletonList(appointmentState);
-                return appointmentService.getMyAppointments(user, states, null, null);
+                return appointmentService.getMyAppointmentsByPage(user, states, null, null);
             })
             .onSuccess(listAppointments -> {
                 List<MinimalAppointment> appointments = listAppointments.getAppointments();

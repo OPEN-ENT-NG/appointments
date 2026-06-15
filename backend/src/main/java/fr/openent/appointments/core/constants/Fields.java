@@ -54,6 +54,7 @@ public class Fields {
     public static final String SIZE = "size";
     public static final String STATE = "state";
     public static final String STATUS = "status";
+    public static final String START = "start";
     public static final String STRUCTURE_ID = "structure_id";
     public static final String TIME_SLOT_ID = "time_slot_id";
     public static final String VIDEO_CALL_LINK = "video_call_link";
