@@ -11,6 +11,7 @@ import {
   Chip,
   Divider,
   IconButton,
+  Popover,
   Stack,
   Typography,
   useMediaQuery,
@@ -25,6 +26,7 @@ import { BOOK_APPOINTMENT_MODAL_BREAKPOINT } from "~/core/breakpoints";
 
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
+import EventRoundedIcon from "@mui/icons-material/EventRounded";
 import { t } from "~/i18n";
 import {
   calendarContainerStyle,
@@ -39,7 +41,8 @@ import {
   NowIndicatorContentArg,
   SlotLabelContentArg,
 } from "@fullcalendar/core/index.js";
-import { getDayName, getDayNumberAndMonthName } from "./utils";
+import { DayOrWeekPicker } from "~/components/DayOrWeekPicker";
+import { getDayName, getDayNumberAndMonthName } from "~/core/utils";
 
 export const MyAppointmentsCalendar: FC = () => {
   const calendarRef = useRef<FullCalendar>(null);
@@ -47,6 +50,9 @@ export const MyAppointmentsCalendar: FC = () => {
     `(max-width: ${BOOK_APPOINTMENT_MODAL_BREAKPOINT}px)`,
   );
   const [title, setTitle] = useState("");
+  const [weekPickerAnchor, setWeekPickerAnchor] =
+    useState<HTMLButtonElement | null>(null);
+  const isWeekPickerOpen = Boolean(weekPickerAnchor);
 
   useEffect(() => {
     // Init du titre au montage
@@ -64,13 +70,16 @@ export const MyAppointmentsCalendar: FC = () => {
   }, []);
 
   // Sync du titre à chaque navigation
-  const handleDatesSet = () => {
+  const handleDatesSet = () =>
     setTitle(calendarRef.current?.getApi().view.title ?? "");
-  };
 
+  // Header actions
   const goNext = () => calendarRef.current?.getApi().next();
   const goPrev = () => calendarRef.current?.getApi().prev();
   const goToday = () => calendarRef.current?.getApi().today();
+  const goToDate = (date: Date) => calendarRef.current?.getApi().gotoDate(date);
+
+  // Calendar components styling
 
   const getDayHeaderContent = (arg: DayHeaderContentArg) => {
     const isCurrentDay = arg.date.toDateString() === new Date().toDateString();
@@ -137,10 +146,45 @@ export const MyAppointmentsCalendar: FC = () => {
     );
   };
 
+  // WeekPicker
+
+  const openWeekPicker = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setWeekPickerAnchor(event.currentTarget);
+  };
+
+  const closeWeekPicker = () => {
+    setWeekPickerAnchor(null);
+  };
+
+  const handleSelectWeek = (date: Date) => {
+    goToDate(date);
+    closeWeekPicker();
+  };
+
   return (
     <Stack sx={calendarContainerStyle}>
+      {/* Weekpicker popover */}
+      <Popover
+        open={isWeekPickerOpen}
+        anchorEl={weekPickerAnchor}
+        onClose={closeWeekPicker}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+      >
+        <DayOrWeekPicker
+          weekpicker={!isMobile}
+          currentDate={calendarRef.current?.getApi().getDate() ?? new Date()}
+          onSelectWeek={handleSelectWeek}
+        />
+      </Popover>
+
       {/* HeaderToolbar */}
       <StyledHeader isMobile={isMobile}>
+        <IconButton onClick={openWeekPicker} color="primary">
+          <EventRoundedIcon />
+        </IconButton>
         <IconButton onClick={goPrev} color="primary">
           <ChevronLeftRoundedIcon />
         </IconButton>
