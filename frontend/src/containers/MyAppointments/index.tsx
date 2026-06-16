@@ -20,6 +20,7 @@ import { ExportAppointmentsModal } from "../ExportAppointmentsModal";
 import { useGlobal } from "~/providers/GlobalProvider";
 import { ModalType } from "~/providers/GlobalProvider/enum";
 import { ViewMode } from "~/components/SwitchView/enums";
+import { MyAppointmentsCalendar } from "../MyAppointmentsCalendar";
 
 export const MyAppointments: FC = () => {
   const {
@@ -105,7 +106,7 @@ export const MyAppointments: FC = () => {
             <Typography variant="h2" color="primary" fontWeight="bold">
               {t("appointments.my.appointments")}
             </Typography>
-            <Box>//TODO: replace with calendar component</Box>
+            <MyAppointmentsCalendar />
           </Box>
         )}
         {viewMode === ViewMode.GRID && (

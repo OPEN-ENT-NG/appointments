@@ -299,3 +299,9 @@ export const DEFAULT_MIN_HOURS_BEFORE_MODIFICATION = 24;
 export const DEFAULT_THEME = "default";
 
 export const MIN_USERS_NEEDED = 10;
+
+// Calendar view
+export const SLOT_MIN_TIME = "07:00:00";
+export const SLOT_MAX_TIME = "22:00:00";
+export const SLOT_DURATION = "00:10:00";
+export const SLOT_LABEL_INTERVAL = "01:00:00";
