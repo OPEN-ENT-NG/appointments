@@ -6,7 +6,7 @@ import { PickersDay, PickersDayProps } from "@mui/x-date-pickers/PickersDay";
 import { FC, useState } from "react";
 import { WeekPickerProps } from "./types";
 import { calendarStyle, CustomPickerDay, pickerDayStyle } from "./style";
-import { isInSameWeek } from "./utils";
+import { isInSameWeek } from "~/core/utils";
 
 dayjs.extend(isBetweenPlugin);
 dayjs.extend(isoWeek);

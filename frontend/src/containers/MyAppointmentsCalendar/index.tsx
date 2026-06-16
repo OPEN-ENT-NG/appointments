@@ -41,8 +41,8 @@ import {
   NowIndicatorContentArg,
   SlotLabelContentArg,
 } from "@fullcalendar/core/index.js";
-import { getDayName, getDayNumberAndMonthName } from "./utils";
 import { DayOrWeekPicker } from "~/components/DayOrWeekPicker";
+import { getDayName, getDayNumberAndMonthName } from "~/core/utils";
 
 export const MyAppointmentsCalendar: FC = () => {
   const calendarRef = useRef<FullCalendar>(null);
