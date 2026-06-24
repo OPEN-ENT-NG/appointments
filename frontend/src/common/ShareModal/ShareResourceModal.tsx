@@ -163,14 +163,14 @@ export const ShareResourceModal = ({
       <DialogTitle
         color={TEXT_PRIMARY_COLOR}
         variant={TypographyVariant.H2}
-        fontWeight={TypographyFontStyle.BOLD}
+        sx={{ fontWeight: TypographyFontStyle.BOLD }}
       >
         {t("appointments.share.modal.title")}
       </DialogTitle>
       <DialogContent>
-        <Stack gap={4}>
+        <Stack spacing={4}>
           {/* Search user */}
-          <Stack gap={2}>
+          <Stack spacing={2}>
             <Box sx={flexStartBoxStyle}>
               <Typography
                 color={TEXT_PRIMARY_COLOR}
@@ -207,7 +207,7 @@ export const ShareResourceModal = ({
             />
           </Stack>
           {/* Sharing grid */}
-          <Stack gap={2}>
+          <Stack spacing={2}>
             <Typography
               color={TEXT_PRIMARY_COLOR}
               variant={TypographyVariant.H3}
@@ -291,7 +291,7 @@ export const ShareResourceModal = ({
             </Box>
           </Stack>
           {/* Bookmarks */}
-          <Stack gap={2}>
+          <Stack spacing={2}>
             <Typography
               color={TEXT_PRIMARY_COLOR}
               variant={TypographyVariant.H3}

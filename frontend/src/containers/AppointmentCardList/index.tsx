@@ -78,8 +78,12 @@ export const AppointmentCardList: FC<AppointmentCardListProps> = ({
 
   return (
     <Box ref={containerRef} sx={containerStyle}>
-      <Stack direction="row" gap={2} alignItems="center" flexWrap={"wrap"}>
-        <Typography variant="h2" color="primary" fontWeight="bold">
+      <Stack
+        direction="row"
+        spacing={2}
+        sx={{ alignItems: "center", flexWrap: "wrap" }}
+      >
+        <Typography variant="h2" color="primary" sx={{ fontWeight: "bold" }}>
           {t(MY_APPOINTMENTS_LIST_STATE_VALUES[appointmentsType].i18nTitleKey)}
         </Typography>
         {appointmentsType === MY_APPOINTMENTS_LIST_STATE.ACCEPTED &&
@@ -98,7 +102,7 @@ export const AppointmentCardList: FC<AppointmentCardListProps> = ({
           )}
       </Stack>
       {!myAppointments.total ? (
-        <Typography fontStyle="italic" variant="body1">
+        <Typography variant="body1" sx={{ fontStyle: "italic" }}>
           {t(
             MY_APPOINTMENTS_LIST_STATE_VALUES[appointmentsType]
               .i18nEmptyStateKey,

@@ -70,12 +70,12 @@ export const DailySlot: FC<DailySlotProps> = ({ day, slot, siblingsSlots }) => {
     <StyledDailySlotBox isSlotError={isSlotError}>
       <Stack
         direction="row"
-        gap={1}
+        spacing={1}
         sx={{ width: "fit-content", alignItems: "center" }}
       >
         <Box sx={beginAndEndWrapperStyle}>
           <Box sx={beginAndEndBoxStyle}>
-            <Typography noWrap width="20%">
+            <Typography noWrap sx={{ width: "20%" }}>
               {t("appointments.from") + " :"}
             </Typography>
             <TimePicker
@@ -94,7 +94,7 @@ export const DailySlot: FC<DailySlotProps> = ({ day, slot, siblingsSlots }) => {
             />
           </Box>
           <Box sx={beginAndEndBoxStyle}>
-            <Typography noWrap width="20%">
+            <Typography noWrap sx={{ width: "20%" }}>
               {t("appointments.to") + " :"}
             </Typography>
             <TimePicker

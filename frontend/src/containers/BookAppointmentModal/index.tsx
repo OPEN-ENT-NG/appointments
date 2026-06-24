@@ -48,7 +48,11 @@ export const BookAppointmentModal: FC<BookAppointmentModalProps> = ({
       <ModalContainer isMobile={isMobile}>
         <Box sx={contentBoxStyle}>
           <Box sx={spaceBetweenBoxStyle}>
-            <Typography variant="h2" fontWeight="bold" color="text.primary">
+            <Typography
+              variant="h2"
+              color="textPrimary"
+              sx={{ fontWeight: "bold" }}
+            >
               {t("appointments.book.appointment.modal.title")}
             </Typography>
             <IconButton sx={closeIconStyle} onClick={handleCloseModal}>

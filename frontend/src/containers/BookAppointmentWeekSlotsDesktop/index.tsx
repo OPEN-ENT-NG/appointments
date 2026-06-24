@@ -98,10 +98,14 @@ export const BookAppointmentWeekSlotsDesktop: FC = () => {
                   sx={nextTimeSlotButtonStyle}
                   onClick={handleNextTimeSlot}
                 >
-                  <Typography variant="body2" color="text.primary">
+                  <Typography variant="body2" color="textPrimary">
                     {t("appointments.book.appointment.modal.next.slot")}&nbsp;
                   </Typography>
-                  <Typography variant="body2" color="primary" fontWeight="bold">
+                  <Typography
+                    variant="body2"
+                    color="primary"
+                    sx={{ fontWeight: "bold" }}
+                  >
                     {nextAvailableTimeSlot.format("dddd D MMMM")}
                   </Typography>
                   <KeyboardArrowRightRoundedIcon sx={{ color: common.black }} />
@@ -113,8 +117,8 @@ export const BookAppointmentWeekSlotsDesktop: FC = () => {
               <Box sx={emptyStateStyle}>
                 <Typography
                   variant="body2"
-                  fontStyle="italic"
-                  color="text.primary"
+                  color="textPrimary"
+                  sx={{ fontStyle: "italic" }}
                 >
                   {t("appointments.book.appointment.modal.no.slot")}
                 </Typography>

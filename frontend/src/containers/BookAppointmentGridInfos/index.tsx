@@ -68,10 +68,13 @@ export const BookAppointmentGridInfos: FC<BookAppointmentGridInfosProps> = ({
           <StatusCircle isAvailable={isAvailable} />
         </Box>
         <Box>
-          <Typography color="text.primary" fontSize="1.8rem" fontWeight="bold">
+          <Typography
+            color="textPrimary"
+            sx={{ fontSize: "1.8rem", fontWeight: "bold" }}
+          >
             {displayName}
           </Typography>
-          <Typography fontSize="1.3rem" color="text.primary">
+          <Typography color="textPrimary" sx={{ fontSize: "1.3rem" }}>
             {functions.join(", ")}
           </Typography>
         </Box>
@@ -90,12 +93,14 @@ export const BookAppointmentGridInfos: FC<BookAppointmentGridInfosProps> = ({
               onChange={(e) => handleGridChange(e.target.value as number)}
               ref={selectRef}
               MenuProps={{
-                PaperProps: {
-                  sx: {
-                    maxWidth: "100% !important",
-                    width:
-                      (selectRef.current?.offsetWidth || "auto") +
-                      "px !important",
+                slotProps: {
+                  paper: {
+                    sx: {
+                      maxWidth: "100% !important",
+                      width:
+                        (selectRef.current?.offsetWidth || "auto") +
+                        "px !important",
+                    },
                   },
                 },
               }}
@@ -109,7 +114,7 @@ export const BookAppointmentGridInfos: FC<BookAppointmentGridInfosProps> = ({
           </FormControl>
           <Box sx={itemStyle}>
             {videoCallLink ? <VideoCameraFrontIcon /> : <VideocamOffIcon />}
-            <Typography variant="body2" color="text.primary">
+            <Typography variant="body2" color="textPrimary">
               {t(
                 `appointments.book.appointment.modal.video.call.${
                   videoCallLink ? "possible" : "impossible"
@@ -119,7 +124,7 @@ export const BookAppointmentGridInfos: FC<BookAppointmentGridInfosProps> = ({
           </Box>
           <Box sx={itemStyle}>
             <TimerIcon />
-            <Typography variant="body2" color="text.primary">
+            <Typography variant="body2" color="textPrimary">
               {t("appointments.slots") +
                 " : " +
                 getDisplayDurationValue(duration)}
@@ -145,7 +150,7 @@ export const BookAppointmentGridInfos: FC<BookAppointmentGridInfosProps> = ({
           {!!(documents && documents.length) && (
             <Box sx={itemStyle}>
               <AttachFileIcon />
-              <Stack direction="column" maxWidth="90%">
+              <Stack direction="column" sx={{ maxWidth: "90%" }}>
                 {documents.map((doc) => (
                   <Link
                     key={doc.id}
@@ -166,7 +171,7 @@ export const BookAppointmentGridInfos: FC<BookAppointmentGridInfosProps> = ({
           {!!publicComment && (
             <Box sx={itemStyle}>
               <ChatIcon />
-              <Stack maxWidth="90%">
+              <Stack sx={{ maxWidth: "90%" }}>
                 <EllipsisWithTooltip
                   slotProps={{
                     text: {

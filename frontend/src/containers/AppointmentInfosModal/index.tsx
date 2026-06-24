@@ -107,16 +107,15 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
                 state={appointment.state}
                 isRequester={appointment.isRequester}
               />
-              <Stack width="90%">
-                <Typography variant="body1" color="text.primary">
+              <Stack sx={{ width: "90%" }}>
+                <Typography variant="body1" color="textPrimary">
                   {t(APPOINTMENT_STATE_VALUES[appointment.state].i18nKey)}
                 </Typography>
                 {appointment.comment && (
                   <Stack sx={commentStyle}>
                     <Typography
-                      fontSize="1.6rem"
-                      fontWeight="bold"
-                      color="text.primary"
+                      color="textPrimary"
+                      sx={{ fontSize: "1.6rem", fontWeight: "bold" }}
                     >
                       {t(
                         APPOINTMENT_STATE_VALUES[appointment.state]
@@ -126,7 +125,7 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
                     <Typography
                       sx={{
                         fontSize: "1.6rem",
-                        color: "text.primary",
+                        color: "textPrimary",
                         whiteSpace: "pre-wrap",
                       }}
                     >
@@ -151,8 +150,8 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
             </Box>
             <Box sx={rowInfoStyle}>
               <EventIcon sx={greyIconStyle} />
-              <Box maxWidth="90%">
-                <Typography variant="body1" color="text.primary">
+              <Box sx={{ maxWidth: "90%" }}>
+                <Typography variant="body1" color="textPrimary">
                   {t("appointments.my.appointment.infos.modal.date", {
                     date: appointment.beginDate.format(TEXT_DATE_FORMAT),
                     beginTime: appointment.beginDate.format(TIME_FORMAT),
@@ -184,16 +183,16 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
             {appointment.isVideoCall && (
               <Box sx={rowInfoStyle}>
                 <VideoCameraFrontIcon color="primary" />
-                <Box maxWidth="90%">
+                <Box sx={{ maxWidth: "90%" }}>
                   <Typography variant="body1" color="text.primary">
                     {t("appointments.my.appointment.infos.modal.video.call")}
                   </Typography>
                   <Link href={appointment.videoCallLink} target="_blank">
                     <Typography
                       variant="body1"
-                      whiteSpace="wrap"
                       sx={{
                         wordBreak: "break-all",
+                        whiteSpace: "wrap",
                       }}
                     >
                       {appointment.videoCallLink}
@@ -223,7 +222,7 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
             {!!(appointment.documents && appointment.documents.length) && (
               <Box sx={rowInfoStyle}>
                 <AttachFileIcon sx={greyIconStyle} />
-                <Box maxWidth="90%">
+                <Box sx={{ maxWidth: "90%" }}>
                   {appointment.documents.map((doc) => (
                     <Link
                       key={doc.id}
@@ -320,7 +319,7 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
               }
               placement="top"
               arrow
-              componentsProps={{
+              slotProps={{
                 tooltip: {
                   style: {
                     width: "210px",
