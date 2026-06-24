@@ -74,7 +74,7 @@ export const MyAvailability: FC = () => {
       <ShareGridModal />
       <Box ref={boxRef} sx={availabilityContainerStyle}>
         <Box sx={headerStyle}>
-          <Typography variant="h2" color="primary" fontWeight="bold">
+          <Typography variant="h2" color="primary" sx={{ fontWeight: "bold" }}>
             {t("appointments.my.availability")}
           </Typography>
           <Button

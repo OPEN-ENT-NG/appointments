@@ -2,7 +2,7 @@ import dayjs, { Dayjs } from "dayjs";
 import isBetweenPlugin from "dayjs/plugin/isBetween";
 import isoWeek from "dayjs/plugin/isoWeek";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
-import { PickersDay, PickersDayProps } from "@mui/x-date-pickers/PickersDay";
+import { PickerDay, PickerDayProps } from "@mui/x-date-pickers/PickerDay";
 import { FC, useState } from "react";
 import { WeekPickerProps } from "./types";
 import { calendarStyle, CustomPickerDay, pickerDayStyle } from "./style";
@@ -20,7 +20,7 @@ export const DayOrWeekPicker: FC<WeekPickerProps> = ({
   const [value] = useState<Dayjs | null>(dayjs(currentDate));
 
   const getDayComponent = (
-    props: PickersDayProps<Dayjs> & {
+    props: PickerDayProps & {
       selectedDay?: Dayjs | null;
       hoveredDay?: Dayjs | null;
     },
@@ -36,7 +36,7 @@ export const DayOrWeekPicker: FC<WeekPickerProps> = ({
         isHovered={isInSameWeek(day, hoveredDay)}
       />
     ) : (
-      <PickersDay {...props} sx={pickerDayStyle} />
+      <PickerDay {...props} sx={pickerDayStyle} />
     );
   };
 
@@ -44,7 +44,7 @@ export const DayOrWeekPicker: FC<WeekPickerProps> = ({
     <DateCalendar
       value={value}
       onChange={(newValue, _, selectedView) => {
-        if (selectedView === "day") {
+        if (selectedView === "day" && newValue) {
           onSelectWeek(newValue.toDate());
         }
       }}

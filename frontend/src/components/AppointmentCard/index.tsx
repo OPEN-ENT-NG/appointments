@@ -141,10 +141,13 @@ export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
         </EllipsisWithTooltip>
         <Box sx={bottomWrapperBoxStyle}>
           <Box sx={dateBoxStyle}>
-            <Typography fontSize="3.6rem" lineHeight="1.2" color="text.primary">
+            <Typography
+              color="textPrimary"
+              sx={{ fontSize: "3.6rem", lineHeight: "1.2" }}
+            >
               {appointment.beginDate.format("D")}
             </Typography>
-            <Typography fontSize="1.3rem" color="text.primary">
+            <Typography color="textPrimary" sx={{ fontSize: "1.3rem" }}>
               {appointment.beginDate.format("MMM")}
             </Typography>
           </Box>
@@ -152,7 +155,7 @@ export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
           <Box sx={bottomRightBoxStyle}>
             <Box sx={rowBoxStyle}>
               <AccessTimeFilledIcon sx={iconsStyle} />
-              <Typography fontSize="1.3rem" color="text.primary">
+              <Typography color="textPrimary" sx={{ fontSize: "1.3rem" }}>
                 {appointment.beginDate.format(TIME_FORMAT)} -{" "}
                 {appointment.endDate.format(TIME_FORMAT)}
               </Typography>
@@ -162,14 +165,14 @@ export const AppointmentCard: FC<AppointmentCardProps> = ({ appointment }) => {
                 state={appointment.state}
                 isRequester={appointment.isRequester}
               />
-              <Typography fontSize="1.3rem" color="text.primary">
+              <Typography color="textPrimary" sx={{ fontSize: "1.3rem" }}>
                 {t(APPOINTMENT_STATE_VALUES[appointment.state].i18nKey)}
               </Typography>
             </Box>
             {appointment.isVideoCall && appointment.videoCallLink && (
               <Box sx={rowBoxStyle}>
                 <VideoCameraFrontIcon sx={iconsStyle} color="primary" />
-                <Typography fontSize="1.3rem" color="text.primary">
+                <Typography color="textPrimary" sx={{ fontSize: "1.3rem" }}>
                   {t("appointments.videoconference")}
                 </Typography>
               </Box>

@@ -69,7 +69,11 @@ export const GridModal: FC = () => {
         <Box sx={modalBoxStyle}>
           <Box sx={contentBoxStyle} ref={topModalRef}>
             <Box sx={spaceBetweenBoxStyle}>
-              <Typography variant="h2" fontWeight="bold" color="text.primary">
+              <Typography
+                variant="h2"
+                color="textPrimary"
+                sx={{ fontWeight: "bold" }}
+              >
                 {t(GRID_MODAL_VALUES[modalType].titleKey)}
               </Typography>
               <IconButton

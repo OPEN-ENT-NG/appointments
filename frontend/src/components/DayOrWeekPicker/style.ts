@@ -1,5 +1,5 @@
 import { styled } from "@mui/material";
-import { PickersDay } from "@mui/x-date-pickers";
+import { PickerDay } from "@mui/x-date-pickers";
 import { CustomPickerDayProps } from "./types";
 import { ComponentType } from "react";
 import { Theme } from "@cgi-learning-hub/ui";
@@ -57,7 +57,7 @@ export const pickerDayStyle = {
   height: "3.3rem",
 };
 
-export const CustomPickerDay = styled(PickersDay, {
+export const CustomPickerDay = styled(PickerDay, {
   shouldForwardProp: (prop) => prop !== "isSelected" && prop !== "isHovered",
 })<CustomPickerDayProps>(({ theme, isSelected, isHovered, day }) => ({
   ...pickerDayStyle,

@@ -61,11 +61,11 @@ export const DialogModal: FC<DialogModalProps> = ({
       onClose={handleClose}
       maxWidth="md"
     >
-      <DialogTitle fontWeight="bold" fontSize="2rem">
+      <DialogTitle sx={{ fontWeight: "bold", fontSize: "2rem" }}>
         {title}
       </DialogTitle>
       <DialogContent>
-        <Stack gap={2}>
+        <Stack spacing={2}>
           <Typography
             variant="body1"
             component="div"
@@ -96,7 +96,7 @@ export const DialogModal: FC<DialogModalProps> = ({
           )}
 
           {askForComment && handleUpdateComment && (
-            <Stack gap={1}>
+            <Stack spacing={1}>
               <Typography>{commentDescription}</Typography>
               <TextField
                 fullWidth

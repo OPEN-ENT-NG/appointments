@@ -1,5 +1,4 @@
-import { PickersDayProps } from "@mui/x-date-pickers";
-import { Dayjs } from "dayjs";
+import { PickerDayProps } from "@mui/x-date-pickers";
 
 export interface WeekPickerProps {
   weekpicker?: boolean;
@@ -7,7 +6,7 @@ export interface WeekPickerProps {
   onSelectWeek: (date: Date) => void;
 }
 
-export interface CustomPickerDayProps extends PickersDayProps<Dayjs> {
+export interface CustomPickerDayProps extends PickerDayProps {
   isSelected: boolean;
   isHovered: boolean;
 }

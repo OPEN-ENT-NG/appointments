@@ -74,10 +74,10 @@ export const MyAppointments: FC = () => {
   if (isAllAppointmentsEmpty) {
     return (
       <Box sx={emptyStateBoxStyle}>
-        <Typography variant="h2" color="primary" fontWeight="bold">
+        <Typography variant="h2" color="primary" sx={{ fontWeight: "bold" }}>
           {t("appointments.my.appointments")}
         </Typography>
-        <Typography fontStyle={"italic"} variant="body1">
+        <Typography variant="body1" sx={{ fontStyle: "italic" }}>
           {t("appointments.my.appointments.accepted.empty.state")}
         </Typography>
         <Box sx={emptyStateSVGStyle}>
@@ -103,7 +103,11 @@ export const MyAppointments: FC = () => {
       <Box sx={mainContainerStyle}>
         {viewMode === ViewMode.CALENDAR && (
           <Box>
-            <Typography variant="h2" color="primary" fontWeight="bold">
+            <Typography
+              variant="h2"
+              color="primary"
+              sx={{ fontWeight: "bold" }}
+            >
               {t("appointments.my.appointments")}
             </Typography>
             <MyAppointmentsCalendar />

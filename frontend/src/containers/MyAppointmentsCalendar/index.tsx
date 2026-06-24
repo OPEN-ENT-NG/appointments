@@ -108,7 +108,7 @@ export const MyAppointmentsCalendar: FC = () => {
 
   const getSlotLabelContent = (arg: SlotLabelContentArg) => {
     return (
-      <Typography variant="caption" color="text.secondary" paddingX={2}>
+      <Typography variant="caption" color="textSecondary" sx={{ paddingX: 2 }}>
         {arg.date.toLocaleTimeString("fr-FR", {
           hour: "2-digit",
           minute: "2-digit",
