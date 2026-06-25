@@ -39,7 +39,11 @@ export const CalendarEvent: FC<CalendarEventProps> = ({ eventInfo }) => {
           }}
         >
           {/* Time */}
-          <Typography variant="body2" noWrap sx={{ flexShrink: 0, marginRight: 1 }}>
+          <Typography
+            variant="body2"
+            noWrap
+            sx={{ flexShrink: 0, marginRight: 1 }}
+          >
             {eventInfo.timeText}
           </Typography>
 
@@ -57,7 +61,12 @@ export const CalendarEvent: FC<CalendarEventProps> = ({ eventInfo }) => {
           {/* Icone */}
           {IconComponent && (
             <IconComponent
-              sx={{ color: colors.icon, width: "1.5rem", height: "1.5rem", flexShrink: 0 }}
+              sx={{
+                color: colors.icon,
+                width: "1.5rem",
+                height: "1.5rem",
+                flexShrink: 0,
+              }}
             />
           )}
         </Stack>
