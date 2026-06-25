@@ -39,7 +39,6 @@ import {
 import {
   DatesSetArg,
   DayHeaderContentArg,
-  EventContentArg,
   NowIndicatorContentArg,
   SlotLabelContentArg,
 } from "@fullcalendar/core/index.js";
@@ -47,6 +46,7 @@ import { createEventsFrom } from "./utils";
 import { DayOrWeekPicker } from "~/components/DayOrWeekPicker";
 import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 import { getDayName, getDayNumberAndMonthName } from "~/core/utils";
+import { CalendarEvent } from "~/components/calendar/CalendarEvent";
 
 export const MyAppointmentsCalendar: FC = () => {
   const { myAppointments, fetchAllByWeek, fetchAllByDay } = useMyAppointments();
@@ -79,7 +79,7 @@ export const MyAppointmentsCalendar: FC = () => {
     }, 300); // delay to let FullCalendar render the view
 
     return () => clearTimeout(timeout);
-  }, []);
+  }, [formattedAppointments]);
 
   // Refresh myAppointements according to currently displayed date(s)
   useEffect(() => {
@@ -173,66 +173,6 @@ export const MyAppointmentsCalendar: FC = () => {
     );
   };
 
-  const getEventContent = (eventInfo: EventContentArg) => {
-    const { comment, colors, IconComponent } = eventInfo.event.extendedProps;
-    return (
-      <Box
-        sx={{
-          color: "text.primary",
-          height: "100%",
-          px: 0.75,
-          py: 0.4,
-          overflow: "hidden",
-          cursor: "pointer",
-          "&:hover": { filter: "brightness(0.95)" },
-        }}
-      >
-        <Typography
-          variant="caption"
-          sx={{
-            fontWeight: 700,
-            fontSize: "1.3rem",
-            color: colors.text,
-            display: "block",
-            lineHeight: 1.3,
-          }}
-        >
-          {eventInfo.timeText}
-        </Typography>
-
-        <Typography
-          variant="caption"
-          sx={{
-            fontWeight: 600,
-            fontSize: "1.3rem",
-            color: colors.text,
-            display: "block",
-            lineHeight: 1.3,
-          }}
-          noWrap
-        >
-          {eventInfo.event.title}
-        </Typography>
-        <Typography
-          variant="caption"
-          sx={{
-            fontWeight: 600,
-            fontSize: "1.3rem",
-            color: colors.text,
-            display: "block",
-            lineHeight: 1.3,
-          }}
-          noWrap
-        >
-          {comment}
-        </Typography>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 0.3, mt: 0.2 }}>
-          {IconComponent && <IconComponent sx={{ color: colors.icon }} />}
-        </Box>
-      </Box>
-    );
-  };
-
   // WeekPicker
 
   const openWeekPicker = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -310,7 +250,7 @@ export const MyAppointmentsCalendar: FC = () => {
         dayHeaderContent={getDayHeaderContent}
         slotLabelContent={getSlotLabelContent}
         nowIndicatorContent={getNowIndicatorContent}
-        eventContent={getEventContent}
+        eventContent={(eventInfo) => <CalendarEvent eventInfo={eventInfo} />}
         height="80vh"
       />
     </Stack>

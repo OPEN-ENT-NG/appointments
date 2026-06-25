@@ -305,3 +305,4 @@ export const SLOT_MIN_TIME = "07:00:00";
 export const SLOT_MAX_TIME = "22:00:00";
 export const SLOT_DURATION = "00:10:00";
 export const SLOT_LABEL_INTERVAL = "01:00:00";
+export const MAX_DURATION_SHORT_EVENT = 20;

@@ -16,7 +16,7 @@ export interface Event {
   };
 }
 
-interface EventColors {
+export interface EventColors {
   background: string;
   border: string;
   icon: string;

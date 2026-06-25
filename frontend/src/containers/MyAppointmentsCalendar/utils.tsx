@@ -7,28 +7,13 @@ import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import DoNotDisturbOnRoundedIcon from "@mui/icons-material/DoNotDisturbOnRounded";
 import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
+import { hexWithOpacity } from "~/core/utils";
 
-const EVENT_COLORS = {
-  [APPOINTMENT_STATE.CREATED]: {
-    background: "#fff8e1",
-    border: "#ffca28",
-    icon: "#ffca28",
-  },
-  [APPOINTMENT_STATE.ACCEPTED]: {
-    background: "#e8f5e9",
-    border: "#66bb6a",
-    icon: "#ffca28",
-  },
-  [APPOINTMENT_STATE.CANCELED]: {
-    background: "#fce4ec",
-    border: "#ef9a9a",
-    icon: "#ffca28",
-  },
-  [APPOINTMENT_STATE.REFUSED]: {
-    background: "#e3f2fd",
-    border: "#64b5f6",
-    icon: "#ffca28",
-  },
+const EVENT_ICON_COLOR = {
+  [APPOINTMENT_STATE.CREATED]: "warning.main",
+  [APPOINTMENT_STATE.ACCEPTED]: "success.main",
+  [APPOINTMENT_STATE.CANCELED]: "error.main",
+  [APPOINTMENT_STATE.REFUSED]: "error.main",
 };
 
 const EVENT_ICON_COMPONENTS = {
@@ -54,7 +39,11 @@ const createEventFrom = (appointment: MyMinimalAppointment): Event => ({
   end: appointment.endDate.toISOString(),
   extendedProps: {
     comment: appointment.comment,
-    colors: EVENT_COLORS[appointment.state],
+    colors: {
+      background: hexWithOpacity(appointment.gridColor, 12.5),
+      border: appointment.gridColor,
+      icon: EVENT_ICON_COLOR[appointment.state],
+    },
     IconComponent: getIconComponent(appointment.state, appointment.isRequester),
   },
 });

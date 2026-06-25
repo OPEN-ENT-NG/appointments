@@ -51,6 +51,7 @@ export interface MyMinimalAppointmentResponse {
   commentatorPicture: string;
   state: APPOINTMENT_STATE;
   isRequester: boolean;
+  gridColor: string;
 }
 
 export interface MyMinimalAppointment {
@@ -67,6 +68,7 @@ export interface MyMinimalAppointment {
   commentatorPicture: string;
   state: APPOINTMENT_STATE;
   isRequester: boolean;
+  gridColor: string;
 }
 
 export interface MyAppointmentsResponse {
