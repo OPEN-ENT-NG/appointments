@@ -107,9 +107,6 @@ export const calendarContainerStyle = {
   "& .fc-event-main": {
     padding: 0,
   },
-  "& .fc-timegrid-event-short": {
-    //TODO:
-  },
 };
 
 export const StyledHeader = styled(Stack)<StyledHeaderProps>(
