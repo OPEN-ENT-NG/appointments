@@ -15,6 +15,12 @@ export interface GetMyAppointmentsPayload {
   limit: number;
 }
 
+export interface GetMyAppointmentsByDatesPayload {
+  states: APPOINTMENT_STATE[];
+  start: string;
+  end: string;
+}
+
 export interface GetAppointmentsDatesPayload {
   states: APPOINTMENT_STATE[];
 }
@@ -45,6 +51,7 @@ export interface MyMinimalAppointmentResponse {
   commentatorPicture: string;
   state: APPOINTMENT_STATE;
   isRequester: boolean;
+  gridColor: string;
 }
 
 export interface MyMinimalAppointment {
@@ -61,6 +68,7 @@ export interface MyMinimalAppointment {
   commentatorPicture: string;
   state: APPOINTMENT_STATE;
   isRequester: boolean;
+  gridColor: string;
 }
 
 export interface MyAppointmentsResponse {

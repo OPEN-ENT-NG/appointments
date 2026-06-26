@@ -28,6 +28,7 @@ public class AppointmentWithInfos implements IModel<AppointmentWithInfos> {
     private List<String> documentsIds;
     private String publicComment;
     private String gridName;
+    private String gridColor;
 
     public AppointmentWithInfos(JsonObject appointmentWithInfos) {
         this.id = appointmentWithInfos.getLong(ID, null);
@@ -42,6 +43,7 @@ public class AppointmentWithInfos implements IModel<AppointmentWithInfos> {
         this.place = appointmentWithInfos.getString(PLACE, null);
         this.publicComment = appointmentWithInfos.getString(PUBLIC_COMMENT, null);
         this.gridName = appointmentWithInfos.getString(GRID_NAME, null);
+        this.gridColor = appointmentWithInfos.getString(GRID_COLOR, null);
         this.comment = appointmentWithInfos.getString(COMMENT, null);
         this.commentatorId = appointmentWithInfos.getString(COMMENTATOR_ID, null);
 
@@ -115,6 +117,10 @@ public class AppointmentWithInfos implements IModel<AppointmentWithInfos> {
 
     public String getGridName() {
         return this.gridName;
+    }
+
+    public String getGridColor() {
+        return this.gridColor;
     }
 
     // Setters
@@ -191,6 +197,11 @@ public class AppointmentWithInfos implements IModel<AppointmentWithInfos> {
 
     public AppointmentWithInfos setGridName(String gridName) {
         this.gridName = gridName;
+        return this;
+    }
+
+    public AppointmentWithInfos setGridColor(String gridColor) {
+        this.gridColor = gridColor;
         return this;
     }
 

@@ -131,11 +131,26 @@ public class DefaultAppointmentService implements AppointmentService {
     }
 
     @Override
-    public Future<ListAppointmentsResponse> getMyAppointments(UserInfos userInfos, List<AppointmentState> states, Long page, Long limit){
+    public Future<ListAppointmentsResponse> getMyAppointmentsByDates(UserInfos userInfos, List<AppointmentState> states, LocalDateTime start, LocalDateTime end) {
+        return getMyAppointments(userInfos, states, false, null, null, start, end);
+    }
+
+    @Override
+    public Future<ListAppointmentsResponse> getMyAppointmentsByPage(UserInfos userInfos, List<AppointmentState> states, Long page, Long limit) {
+        return getMyAppointments(userInfos, states, true, page, limit, null, null);
+    }
+
+    private Future<ListAppointmentsResponse> getMyAppointments(UserInfos userInfos,
+                                                               List<AppointmentState> states,
+                                                               Boolean ignorePast,
+                                                               Long page,
+                                                               Long limit,
+                                                               LocalDateTime start,
+                                                               LocalDateTime end) {
 
         Promise<ListAppointmentsResponse> promise = Promise.promise();
 
-        appointmentRepository.getAppointments(userInfos.getUserId(), states, true)
+        appointmentRepository.getAppointments(userInfos.getUserId(), states, ignorePast, start, end)
             .onSuccess(appointments -> {
                 Long total = (long) appointments.size();
                 if (page != null && limit != null) {

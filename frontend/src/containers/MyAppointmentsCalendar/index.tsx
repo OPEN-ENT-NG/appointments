@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useMemo, useRef, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -37,22 +37,35 @@ import {
   StyledHeader,
 } from "./style";
 import {
+  DatesSetArg,
   DayHeaderContentArg,
   NowIndicatorContentArg,
   SlotLabelContentArg,
 } from "@fullcalendar/core/index.js";
+import { createEventsFrom } from "./utils";
 import { DayOrWeekPicker } from "~/components/DayOrWeekPicker";
+import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 import { getDayName, getDayNumberAndMonthName } from "~/core/utils";
+import { CalendarEvent } from "~/components/calendar/CalendarEvent";
 
 export const MyAppointmentsCalendar: FC = () => {
-  const calendarRef = useRef<FullCalendar>(null);
+  const { myCalendarAppointments, updateDisplayedWeek, updateDisplayedDay } =
+    useMyAppointments();
   const isMobile = useMediaQuery(
     `(max-width: ${BOOK_APPOINTMENT_MODAL_BREAKPOINT}px)`,
   );
+  const calendarRef = useRef<FullCalendar>(null);
   const [title, setTitle] = useState("");
+  const [currentDateRangeStart, setCurrentDateRangeStart] = useState<Date>(
+    new Date(),
+  );
   const [weekPickerAnchor, setWeekPickerAnchor] =
     useState<HTMLButtonElement | null>(null);
   const isWeekPickerOpen = Boolean(weekPickerAnchor);
+
+  const formattedAppointments = useMemo(() => {
+    return createEventsFrom(myCalendarAppointments);
+  }, [myCalendarAppointments]);
 
   useEffect(() => {
     // Init du titre au montage
@@ -67,11 +80,26 @@ export const MyAppointmentsCalendar: FC = () => {
     }, 300); // delay to let FullCalendar render the view
 
     return () => clearTimeout(timeout);
-  }, []);
+  }, [formattedAppointments]);
 
-  // Sync du titre à chaque navigation
-  const handleDatesSet = () =>
+  // Refresh myAppointements according to currently displayed date(s)
+  useEffect(() => {
+    return isMobile
+      ? updateDisplayedDay(currentDateRangeStart)
+      : updateDisplayedWeek(currentDateRangeStart);
+  }, [
+    isMobile,
+    currentDateRangeStart,
+    updateDisplayedWeek,
+    updateDisplayedDay,
+  ]);
+
+  // Sync du titre et current date à chaque navigation
+  const handleDatesSet = (dateInfos: DatesSetArg) => {
+    if (currentDateRangeStart.getTime() === dateInfos.start.getTime()) return; // pas de changement
+    setCurrentDateRangeStart(dateInfos.start);
     setTitle(calendarRef.current?.getApi().view.title ?? "");
+  };
 
   // Header actions
   const goNext = () => calendarRef.current?.getApi().next();
@@ -83,21 +111,24 @@ export const MyAppointmentsCalendar: FC = () => {
 
   const getDayHeaderContent = (arg: DayHeaderContentArg) => {
     const isCurrentDay = arg.date.toDateString() === new Date().toDateString();
-
     return (
       <Stack sx={headerCellStyle}>
         {isCurrentDay && <Divider sx={headerCellHyphenStyle} />}
         <Stack sx={headerCellDateStyle}>
           <Typography
             variant="caption"
-            color={isCurrentDay ? "primary.main" : "text.secondary"}
-            sx={{ fontWeight: isCurrentDay ? "bold" : "normal" }}
+            sx={{
+              fontWeight: isCurrentDay ? "bold" : "normal",
+              color: isCurrentDay ? "primary.main" : "text.secondary",
+            }}
           >
             {getDayName(arg.date, frLocale.code)}
           </Typography>
           <Typography
-            color={isCurrentDay ? "primary.main" : "text.secondary"}
-            sx={{ fontWeight: isCurrentDay ? "bold" : "normal" }}
+            sx={{
+              fontWeight: isCurrentDay ? "bold" : "normal",
+              color: isCurrentDay ? "primary.main" : "text.secondary",
+            }}
           >
             {getDayNumberAndMonthName(arg.date, frLocale.code)}
           </Typography>
@@ -106,10 +137,10 @@ export const MyAppointmentsCalendar: FC = () => {
     );
   };
 
-  const getSlotLabelContent = (arg: SlotLabelContentArg) => {
+  const getSlotLabelContent = (slot: SlotLabelContentArg) => {
     return (
       <Typography variant="caption" color="textSecondary" sx={{ paddingX: 2 }}>
-        {arg.date.toLocaleTimeString("fr-FR", {
+        {slot.date.toLocaleTimeString("fr-FR", {
           hour: "2-digit",
           minute: "2-digit",
         })}
@@ -117,14 +148,14 @@ export const MyAppointmentsCalendar: FC = () => {
     );
   };
 
-  const getNowIndicatorContent = (arg: NowIndicatorContentArg) => {
+  const getNowIndicatorContent = (nowIndicator: NowIndicatorContentArg) => {
     // Display the chip with current time in first column
-    if (arg.isAxis) {
+    if (nowIndicator.isAxis) {
       return (
         <Chip
           color="primary"
           size="small"
-          label={arg.date.toLocaleTimeString("fr-FR", {
+          label={nowIndicator.date.toLocaleTimeString("fr-FR", {
             hour: "2-digit",
             minute: "2-digit",
           })}
@@ -140,7 +171,9 @@ export const MyAppointmentsCalendar: FC = () => {
       <Box
         sx={{
           ...nowIndicatorStyle,
-          left: isMobile ? 0 : `-${(arg.date.getDay() - 1) * colWidth}px`,
+          left: isMobile
+            ? 0
+            : `-${(nowIndicator.date.getDay() - 1) * colWidth}px`,
         }}
       />
     );
@@ -219,10 +252,12 @@ export const MyAppointmentsCalendar: FC = () => {
         allDaySlot={false}
         nowIndicator
         datesSet={handleDatesSet}
-        height="80vh"
+        events={formattedAppointments}
         dayHeaderContent={getDayHeaderContent}
         slotLabelContent={getSlotLabelContent}
         nowIndicatorContent={getNowIndicatorContent}
+        eventContent={(eventInfo) => <CalendarEvent eventInfo={eventInfo} />}
+        height="80vh"
       />
     </Stack>
   );

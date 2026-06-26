@@ -11,6 +11,7 @@ import io.vertx.core.http.HttpServerRequest;
 import org.entcore.common.user.UserInfos;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +52,17 @@ public interface AppointmentService {
      * @param limit The limit of the number of appointments
      * @return The list of appointments
      */
-    Future<ListAppointmentsResponse> getMyAppointments(UserInfos userInfos, List<AppointmentState> states, Long page, Long limit);
+    Future<ListAppointmentsResponse> getMyAppointmentsByPage(UserInfos userInfos, List<AppointmentState> states, Long page, Long limit);
+
+    /**
+     * Get appointments of a user
+     * @param userInfos The user infos
+     * @param states The states of the appointments
+     * @param start The start limit of the appointments
+     * @param end The end limit of the appointments
+     * @return The list of appointments
+     */
+    Future<ListAppointmentsResponse> getMyAppointmentsByDates(UserInfos userInfos, List<AppointmentState> states, LocalDateTime start, LocalDateTime end);
 
     /**
      * Get dates of appointments with a specific state of a user

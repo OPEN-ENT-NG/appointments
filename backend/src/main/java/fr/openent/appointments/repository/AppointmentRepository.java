@@ -5,6 +5,7 @@ import fr.openent.appointments.model.database.Appointment;
 import fr.openent.appointments.model.database.AppointmentWithInfos;
 import io.vertx.core.Future;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +16,11 @@ public interface AppointmentRepository {
 
     Future<List<AppointmentWithInfos>> getAppointments(String userId, List<AppointmentState> states, Boolean ignorePast);
 
+    Future<List<AppointmentWithInfos>> getAppointments(String userId, List<AppointmentState> states, Boolean ignorePast, LocalDateTime start, LocalDateTime end);
+
     Future<List<AppointmentWithInfos>> getAppointments(String userId, List<AppointmentState> states, Boolean ignorePast, List<Long> appointmentsIds);
+
+    Future<List<AppointmentWithInfos>> getAppointments(String userId, List<AppointmentState> states, Boolean ignorePast, LocalDateTime start, LocalDateTime end, List<Long> appointmentsIds);
 
     Future<Optional<AppointmentWithInfos>> get(Long appointmentId);
 

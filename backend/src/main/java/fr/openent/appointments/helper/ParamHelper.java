@@ -2,6 +2,7 @@ package fr.openent.appointments.helper;
 
 import io.vertx.core.http.HttpServerRequest;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static fr.wseduc.webutils.http.Renders.badRequest;
@@ -29,6 +30,10 @@ public class ParamHelper {
                 param = type.cast(Optional.ofNullable(request.getParam(key))
                         .map(Boolean::parseBoolean)
                         .orElse(false));
+            } else if (type == LocalDateTime.class) {
+                param = type.cast(Optional.ofNullable(request.getParam(key))
+                        .map(LocalDateTime::parse)
+                        .orElse(null));
             } else {
                 throw new IllegalArgumentException("Unsupported type: " + type.getName());
             }
