@@ -31,7 +31,7 @@ import {
   StyledHeader,
 } from "./style";
 import { DatesSetArg, EventClickArg } from "@fullcalendar/core/index.js";
-import { createEventsFrom } from "./utils";
+import { createEventsFrom, generateSampleEvents } from "./utils";
 import { DayOrWeekPicker } from "~/components/DayOrWeekPicker";
 import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 import { CalendarEvent } from "~/components/calendar/CalendarEvent";
@@ -65,7 +65,8 @@ export const MyAppointmentsCalendar: FC = () => {
   const scrollEventPositionRef = useRef<number>(0);
 
   const formattedAppointments = useMemo(() => {
-    return createEventsFrom(myCalendarAppointments);
+    // return createEventsFrom(myCalendarAppointments);
+    return createEventsFrom(generateSampleEvents());
   }, [myCalendarAppointments]);
 
   useEffect(() => {
