@@ -6,10 +6,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import frLocale from "@fullcalendar/core/locales/fr";
 
 import {
-  Box,
   Button,
-  Chip,
-  Divider,
   IconButton,
   Popover,
   Stack,
@@ -28,25 +25,15 @@ import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import EventRoundedIcon from "@mui/icons-material/EventRounded";
 import { t } from "~/i18n";
-import {
-  calendarContainerStyle,
-  headerCellDateStyle,
-  headerCellHyphenStyle,
-  headerCellStyle,
-  nowIndicatorStyle,
-  StyledHeader,
-} from "./style";
-import {
-  DatesSetArg,
-  DayHeaderContentArg,
-  NowIndicatorContentArg,
-  SlotLabelContentArg,
-} from "@fullcalendar/core/index.js";
+import { calendarContainerStyle, StyledHeader } from "./style";
+import { DatesSetArg } from "@fullcalendar/core/index.js";
 import { createEventsFrom } from "./utils";
 import { DayOrWeekPicker } from "~/components/DayOrWeekPicker";
 import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
-import { getDayName, getDayNumberAndMonthName } from "~/core/utils";
 import { CalendarEvent } from "~/components/calendar/CalendarEvent";
+import { CalendarNowIndicator } from "~/components/calendar/CalendarNowIndicator";
+import { CalendarSlotLabel } from "~/components/calendar/CalendarSlotLabel";
+import { CalendarDayHeader } from "~/components/calendar/CalendarDayHeader";
 
 export const MyAppointmentsCalendar: FC = () => {
   const { myCalendarAppointments, updateDisplayedWeek, updateDisplayedDay } =
@@ -106,78 +93,6 @@ export const MyAppointmentsCalendar: FC = () => {
   const goPrev = () => calendarRef.current?.getApi().prev();
   const goToday = () => calendarRef.current?.getApi().today();
   const goToDate = (date: Date) => calendarRef.current?.getApi().gotoDate(date);
-
-  // Calendar components styling
-
-  const getDayHeaderContent = (arg: DayHeaderContentArg) => {
-    const isCurrentDay = arg.date.toDateString() === new Date().toDateString();
-    return (
-      <Stack sx={headerCellStyle}>
-        {isCurrentDay && <Divider sx={headerCellHyphenStyle} />}
-        <Stack sx={headerCellDateStyle}>
-          <Typography
-            variant="caption"
-            sx={{
-              fontWeight: isCurrentDay ? "bold" : "normal",
-              color: isCurrentDay ? "primary.main" : "text.secondary",
-            }}
-          >
-            {getDayName(arg.date, frLocale.code)}
-          </Typography>
-          <Typography
-            sx={{
-              fontWeight: isCurrentDay ? "bold" : "normal",
-              color: isCurrentDay ? "primary.main" : "text.secondary",
-            }}
-          >
-            {getDayNumberAndMonthName(arg.date, frLocale.code)}
-          </Typography>
-        </Stack>
-      </Stack>
-    );
-  };
-
-  const getSlotLabelContent = (slot: SlotLabelContentArg) => {
-    return (
-      <Typography variant="caption" color="textSecondary" sx={{ paddingX: 2 }}>
-        {slot.date.toLocaleTimeString("fr-FR", {
-          hour: "2-digit",
-          minute: "2-digit",
-        })}
-      </Typography>
-    );
-  };
-
-  const getNowIndicatorContent = (nowIndicator: NowIndicatorContentArg) => {
-    // Display the chip with current time in first column
-    if (nowIndicator.isAxis) {
-      return (
-        <Chip
-          color="primary"
-          size="small"
-          label={nowIndicator.date.toLocaleTimeString("fr-FR", {
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
-          sx={{ fontSize: "1rem" }}
-        />
-      );
-    }
-
-    // Display fine line over all the grid
-    const colEl = document.querySelector(".fc-col-header-cell") as HTMLElement;
-    const colWidth = colEl?.clientWidth ?? 0;
-    return (
-      <Box
-        sx={{
-          ...nowIndicatorStyle,
-          left: isMobile
-            ? 0
-            : `-${(nowIndicator.date.getDay() - 1) * colWidth}px`,
-        }}
-      />
-    );
-  };
 
   // WeekPicker
 
@@ -253,9 +168,16 @@ export const MyAppointmentsCalendar: FC = () => {
         nowIndicator
         datesSet={handleDatesSet}
         events={formattedAppointments}
-        dayHeaderContent={getDayHeaderContent}
-        slotLabelContent={getSlotLabelContent}
-        nowIndicatorContent={getNowIndicatorContent}
+        dayHeaderContent={(arg) => (
+          <CalendarDayHeader arg={arg} locale={frLocale} />
+        )}
+        slotLabelContent={(slot) => <CalendarSlotLabel slot={slot} />}
+        nowIndicatorContent={(nowIndicator) => (
+          <CalendarNowIndicator
+            nowIndicator={nowIndicator}
+            isMobile={isMobile}
+          />
+        )}
         eventContent={(eventInfo) => <CalendarEvent eventInfo={eventInfo} />}
         height="80vh"
       />
