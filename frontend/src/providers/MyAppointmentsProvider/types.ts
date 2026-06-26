@@ -13,6 +13,7 @@ import { ViewMode } from "~/components/SwitchView/enums";
 
 export interface MyAppointmentsProviderContextProps {
   myAppointments: AppointmentsType;
+  myCalendarAppointments: AppointmentsType;
   limits: AppointmentListInfoType;
   pages: AppointmentListInfoType;
   maxPages: AppointmentListInfoType;
@@ -22,6 +23,8 @@ export interface MyAppointmentsProviderContextProps {
   dialogModalProps: DialogModalProps;
   isExportingAppointments: boolean;
   viewMode: ViewMode;
+  updateDisplayedWeek: (currentDateRangeStart: Date) => void;
+  updateDisplayedDay: (currentDateRangeStart: Date) => void;
   toggleViewMode: (viewMode: ViewMode) => void;
   handleChangePage: (state: MY_APPOINTMENTS_LIST_STATE, page: number) => void;
   handleChangeLimit: (state: MY_APPOINTMENTS_LIST_STATE, limit: number) => void;

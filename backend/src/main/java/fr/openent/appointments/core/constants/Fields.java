@@ -25,9 +25,10 @@ public class Fields {
     public static final String ERROR = "error";
     public static final String FILE = "file";
     public static final String FILENAME = "filename";
+    public static final String GRID_COLOR = "grid_color";
     public static final String GRID_ID = "grid_id";
-    public static final String GROUP_ID = "group_id";
     public static final String GRID_NAME = "grid_name";
+    public static final String GROUP_ID = "group_id";
     public static final String _ID = "_id";
     public static final String ID = "id";
     public static final String INDEX = "index";
@@ -54,6 +55,7 @@ public class Fields {
     public static final String SIZE = "size";
     public static final String STATE = "state";
     public static final String STATUS = "status";
+    public static final String START = "start";
     public static final String STRUCTURE_ID = "structure_id";
     public static final String TIME_SLOT_ID = "time_slot_id";
     public static final String VIDEO_CALL_LINK = "video_call_link";

@@ -33,7 +33,10 @@ import {
   useGetMyAppointmentsQuery,
   useRejectAppointmentMutation,
 } from "~/services/api/AppointmentService";
-import { Appointment } from "~/services/api/AppointmentService/types";
+import {
+  Appointment,
+  MyAppointments,
+} from "~/services/api/AppointmentService/types";
 import { useGlobal } from "../GlobalProvider";
 import { MY_APPOINTMENTS_LIST_STATE } from "./enum";
 import {
@@ -43,6 +46,7 @@ import {
   MyAppointmentsProviderProps,
 } from "./types";
 import {
+  buildMyAppointments,
   downloadBlob,
   fetchViewModePreference,
   initialAppointments,
@@ -50,10 +54,12 @@ import {
   initialLimits,
   initialPages,
   states,
+  toLocalISOString,
   updateViewModePreference,
 } from "./utils";
 import { ModalType } from "../GlobalProvider/enum";
 import { ViewMode } from "~/components/SwitchView/enums";
+import { getDatePlusOneDay, getDatePlusOneWeek } from "~/core/utils";
 
 const MyAppointmentsProviderContext =
   createContext<MyAppointmentsProviderContextProps | null>(null);
@@ -77,6 +83,8 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
   const [maxPages, setMaxPages] =
     useState<AppointmentListInfoType>(initialPages);
   const [limits, setLimits] = useState<AppointmentListInfoType>(initialLimits);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
   const [myAppointments, setMyAppointments] =
     useState<AppointmentsType>(initialAppointments);
   const [selectedAppointmentId, setSelectedAppointmentId] = useState<
@@ -109,6 +117,15 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
     limit: limits[MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED],
   });
 
+  const { data: allMyAppointments } = useGetMyAppointmentsQuery(
+    {
+      states: Object.values(APPOINTMENT_STATE),
+      start: toLocalISOString(startDate) ?? "",
+      end: toLocalISOString(endDate) ?? "",
+    },
+    { skip: !startDate || !endDate },
+  );
+
   const { data: selectedAppointmentData, isFetching } = useGetAppointmentQuery(
     selectedAppointmentId as number,
     { skip: !selectedAppointmentId },
@@ -135,6 +152,39 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
   const [acceptAppointment] = useAcceptAppointmentMutation();
   const [rejectAppointment] = useRejectAppointmentMutation();
   const [cancelAppointment] = useCancelAppointmentMutation();
+
+  const myCalendarAppointments = useMemo(() => {
+    if (!allMyAppointments)
+      return {
+        [MY_APPOINTMENTS_LIST_STATE.PENDING]: {
+          total: 0,
+          appointments: [],
+        } as MyAppointments,
+        [MY_APPOINTMENTS_LIST_STATE.ACCEPTED]: {
+          total: 0,
+          appointments: [],
+        } as MyAppointments,
+        [MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED]: {
+          total: 0,
+          appointments: [],
+        } as MyAppointments,
+      } as AppointmentsType;
+
+    return {
+      [MY_APPOINTMENTS_LIST_STATE.PENDING]: buildMyAppointments(
+        allMyAppointments.appointments,
+        MY_APPOINTMENTS_LIST_STATE.PENDING,
+      ),
+      [MY_APPOINTMENTS_LIST_STATE.ACCEPTED]: buildMyAppointments(
+        allMyAppointments.appointments,
+        MY_APPOINTMENTS_LIST_STATE.ACCEPTED,
+      ),
+      [MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED]: buildMyAppointments(
+        allMyAppointments.appointments,
+        MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED,
+      ),
+    } as AppointmentsType;
+  }, [allMyAppointments]);
 
   const handleChangePage = useCallback(
     (state: MY_APPOINTMENTS_LIST_STATE, page: number) => {
@@ -327,6 +377,22 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
     updateViewModePreference(viewMode);
   }, []);
 
+  const updateDisplayedWeek = (currentDateRangeStart: Date) => {
+    if (currentDateRangeStart.getDay() != 1) {
+      console.error(
+        "Cannot fetch week appointments from a range not strating by monday.",
+      );
+      return;
+    }
+    setStartDate(currentDateRangeStart);
+    setEndDate(getDatePlusOneWeek(currentDateRangeStart));
+  };
+
+  const updateDisplayedDay = (currentDateRangeStart: Date) => {
+    setStartDate(currentDateRangeStart);
+    setEndDate(getDatePlusOneDay(currentDateRangeStart));
+  };
+
   useEffect(() => {
     initViewMode();
   }, []);
@@ -469,6 +535,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
   const value = useMemo<MyAppointmentsProviderContextProps>(
     () => ({
       myAppointments,
+      myCalendarAppointments,
       limits,
       pages,
       maxPages,
@@ -478,6 +545,8 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
       dialogModalProps,
       isExportingAppointments,
       viewMode,
+      updateDisplayedWeek,
+      updateDisplayedDay,
       toggleViewMode,
       handleChangePage,
       handleChangeLimit,
@@ -491,6 +560,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
     }),
     [
       myAppointments,
+      myCalendarAppointments,
       limits,
       pages,
       maxPages,

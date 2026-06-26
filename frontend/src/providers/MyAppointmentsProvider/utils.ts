@@ -3,6 +3,7 @@ import { MY_APPOINTMENTS_LIST_STATE } from "./enum";
 import { ViewMode } from "~/components/SwitchView/enums";
 import { odeServices } from "@edifice.io/client";
 import { APPOINTMENTS } from "~/core/constants";
+import { MyMinimalAppointment } from "~/services/api/AppointmentService/types";
 
 export const initialAppointments = {
   [MY_APPOINTMENTS_LIST_STATE.PENDING]: undefined,
@@ -88,4 +89,34 @@ export const updateViewModePreference = async (newViewMode: ViewMode) => {
   } catch (error) {
     console.error("ViewMode update request Error", error);
   }
+};
+
+export const toLocalISOString = (date: Date | null): string | null => {
+  if (!date) return null;
+  return (
+    date.getFullYear() +
+    "-" +
+    String(date.getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(date.getDate()).padStart(2, "0") +
+    "T" +
+    String(date.getHours()).padStart(2, "0") +
+    ":" +
+    String(date.getMinutes()).padStart(2, "0") +
+    ":" +
+    String(date.getSeconds()).padStart(2, "0")
+  );
+};
+
+export const buildMyAppointments = (
+  appointments: MyMinimalAppointment[],
+  state: MY_APPOINTMENTS_LIST_STATE,
+) => {
+  const filteredAppointments = appointments.filter((appointment) =>
+    states[state].includes(appointment.state),
+  );
+  return {
+    total: filteredAppointments.length,
+    appointments: filteredAppointments,
+  };
 };

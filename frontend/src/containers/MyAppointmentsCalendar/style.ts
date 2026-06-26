@@ -95,6 +95,18 @@ export const calendarContainerStyle = {
   "& .fc-timegrid-now-indicator-container": {
     overflow: "visible !important",
   },
+
+  // Remove default design for events
+  "& .fc-direction-ltr .fc-timegrid-col-events": {
+    margin: "0px 2px",
+  },
+  "& .fc-v-event": {
+    backgroundColor: "transparent",
+    border: "none",
+  },
+  "& .fc-event-main": {
+    padding: 0,
+  },
 };
 
 export const StyledHeader = styled(Stack)<StyledHeaderProps>(
