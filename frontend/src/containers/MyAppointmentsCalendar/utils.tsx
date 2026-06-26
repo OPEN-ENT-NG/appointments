@@ -10,10 +10,19 @@ import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import { hexWithOpacity } from "~/core/utils";
 
 const EVENT_ICON_CONFIG = {
-  [APPOINTMENT_STATE.CREATED]:  { color: "warning.main",  icon: HelpRoundedIcon },
-  [APPOINTMENT_STATE.ACCEPTED]: { color: "success.main",  icon: CheckCircleRoundedIcon },
-  [APPOINTMENT_STATE.CANCELED]: { color: "error.main",    icon: CancelRoundedIcon },
-  [APPOINTMENT_STATE.REFUSED]:  { color: "error.main",    icon: DoNotDisturbOnRoundedIcon },
+  [APPOINTMENT_STATE.CREATED]: { color: "warning.main", icon: HelpRoundedIcon },
+  [APPOINTMENT_STATE.ACCEPTED]: {
+    color: "success.main",
+    icon: CheckCircleRoundedIcon,
+  },
+  [APPOINTMENT_STATE.CANCELED]: {
+    color: "error.main",
+    icon: CancelRoundedIcon,
+  },
+  [APPOINTMENT_STATE.REFUSED]: {
+    color: "error.main",
+    icon: DoNotDisturbOnRoundedIcon,
+  },
 };
 
 export const createEventsFrom = (appointments: AppointmentsType): Event[] => {

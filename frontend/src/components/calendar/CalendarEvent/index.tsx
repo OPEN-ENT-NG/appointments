@@ -4,7 +4,11 @@ import { CalendarEventProps } from "./types";
 import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
 import { calendarEventStyle, descriptionEventStyle } from "./style";
 import { isEventLessThan } from "./utils";
-import { MAX_DURATION_MEDIUM_EVENT, MAX_DURATION_SHORT_EVENT, MAX_DURATION_VERY_SHORT_EVENT } from "~/core/constants";
+import {
+  MAX_DURATION_MEDIUM_EVENT,
+  MAX_DURATION_SHORT_EVENT,
+  MAX_DURATION_VERY_SHORT_EVENT,
+} from "~/core/constants";
 
 export const CalendarEvent: FC<CalendarEventProps> = ({ eventInfo }) => {
   const { comment, colors, IconComponent } = eventInfo.event.extendedProps;
@@ -52,7 +56,9 @@ export const CalendarEvent: FC<CalendarEventProps> = ({ eventInfo }) => {
             <Typography
               variant="body2"
               sx={{ fontWeight: "bold", minWidth: 0 }}
-              {...(isEventLessThan(eventInfo, MAX_DURATION_SHORT_EVENT) && { noWrap: true })}
+              {...(isEventLessThan(eventInfo, MAX_DURATION_SHORT_EVENT) && {
+                noWrap: true,
+              })}
             >
               {eventInfo.event.title}
             </Typography>
@@ -78,7 +84,9 @@ export const CalendarEvent: FC<CalendarEventProps> = ({ eventInfo }) => {
             <Typography
               variant="body2"
               sx={{ fontWeight: "bold" }}
-              {...(isEventLessThan(eventInfo, MAX_DURATION_SHORT_EVENT) && { noWrap: true })}
+              {...(isEventLessThan(eventInfo, MAX_DURATION_SHORT_EVENT) && {
+                noWrap: true,
+              })}
             >
               {eventInfo.event.title}
             </Typography>
@@ -90,7 +98,12 @@ export const CalendarEvent: FC<CalendarEventProps> = ({ eventInfo }) => {
                 color="textSecondary"
                 sx={{
                   ...descriptionEventStyle,
-                  WebkitLineClamp: isEventLessThan(eventInfo, MAX_DURATION_MEDIUM_EVENT) ? 1 : 2,
+                  WebkitLineClamp: isEventLessThan(
+                    eventInfo,
+                    MAX_DURATION_MEDIUM_EVENT,
+                  )
+                    ? 1
+                    : 2,
                 }}
               >
                 {comment}

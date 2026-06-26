@@ -49,7 +49,8 @@ import { getDayName, getDayNumberAndMonthName } from "~/core/utils";
 import { CalendarEvent } from "~/components/calendar/CalendarEvent";
 
 export const MyAppointmentsCalendar: FC = () => {
-  const { myCalendarAppointments, updateDisplayedWeek, updateDisplayedDay } = useMyAppointments();
+  const { myCalendarAppointments, updateDisplayedWeek, updateDisplayedDay } =
+    useMyAppointments();
   const isMobile = useMediaQuery(
     `(max-width: ${BOOK_APPOINTMENT_MODAL_BREAKPOINT}px)`,
   );
@@ -86,7 +87,12 @@ export const MyAppointmentsCalendar: FC = () => {
     return isMobile
       ? updateDisplayedDay(currentDateRangeStart)
       : updateDisplayedWeek(currentDateRangeStart);
-  }, [isMobile, currentDateRangeStart, updateDisplayedWeek, updateDisplayedDay]);
+  }, [
+    isMobile,
+    currentDateRangeStart,
+    updateDisplayedWeek,
+    updateDisplayedDay,
+  ]);
 
   // Sync du titre et current date à chaque navigation
   const handleDatesSet = (dateInfos: DatesSetArg) => {

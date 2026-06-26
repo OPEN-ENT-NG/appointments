@@ -33,7 +33,10 @@ import {
   useGetMyAppointmentsQuery,
   useRejectAppointmentMutation,
 } from "~/services/api/AppointmentService";
-import { Appointment, MyAppointments } from "~/services/api/AppointmentService/types";
+import {
+  Appointment,
+  MyAppointments,
+} from "~/services/api/AppointmentService/types";
 import { useGlobal } from "../GlobalProvider";
 import { MY_APPOINTMENTS_LIST_STATE } from "./enum";
 import {
@@ -151,11 +154,21 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
   const [cancelAppointment] = useCancelAppointmentMutation();
 
   const myCalendarAppointments = useMemo(() => {
-    if (!allMyAppointments) return {
-      [MY_APPOINTMENTS_LIST_STATE.PENDING]: { total: 0, appointments: [] } as MyAppointments,
-      [MY_APPOINTMENTS_LIST_STATE.ACCEPTED]: { total: 0, appointments: [] } as MyAppointments,
-      [MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED]: { total: 0, appointments: [] } as MyAppointments,
-    } as AppointmentsType;
+    if (!allMyAppointments)
+      return {
+        [MY_APPOINTMENTS_LIST_STATE.PENDING]: {
+          total: 0,
+          appointments: [],
+        } as MyAppointments,
+        [MY_APPOINTMENTS_LIST_STATE.ACCEPTED]: {
+          total: 0,
+          appointments: [],
+        } as MyAppointments,
+        [MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED]: {
+          total: 0,
+          appointments: [],
+        } as MyAppointments,
+      } as AppointmentsType;
 
     return {
       [MY_APPOINTMENTS_LIST_STATE.PENDING]: buildMyAppointments(
