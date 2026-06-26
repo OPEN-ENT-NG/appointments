@@ -108,24 +108,6 @@ export const toLocalISOString = (date: Date | null): string | null => {
   );
 };
 
-export const getDatePlusOneWeek = (startDate: Date) => {
-  const endDate = new Date();
-  endDate.setDate(startDate.getDate() + 7);
-  endDate.setHours(0);
-  endDate.setMinutes(0);
-  endDate.setSeconds(0);
-  return endDate;
-};
-
-export const getDatePlusOneDay = (startDate: Date) => {
-  const endDate = new Date();
-  endDate.setDate(startDate.getDate() + 1);
-  endDate.setHours(0);
-  endDate.setMinutes(0);
-  endDate.setSeconds(0);
-  return endDate;
-};
-
 export const buildMyAppointments = (
   appointments: MyMinimalAppointment[],
   state: MY_APPOINTMENTS_LIST_STATE,

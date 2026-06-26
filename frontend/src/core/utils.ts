@@ -28,6 +28,24 @@ export const getDayNumberAndMonthName = (date: Date, localeCode: string) => {
   return `${dayNumber} ${monthName}`;
 };
 
+export const getDatePlusOneWeek = (startDate: Date) => {
+  const endDate = new Date();
+  endDate.setDate(startDate.getDate() + 7);
+  endDate.setHours(0);
+  endDate.setMinutes(0);
+  endDate.setSeconds(0);
+  return endDate;
+};
+
+export const getDatePlusOneDay = (startDate: Date) => {
+  const endDate = new Date();
+  endDate.setDate(startDate.getDate() + 1);
+  endDate.setHours(0);
+  endDate.setMinutes(0);
+  endDate.setSeconds(0);
+  return endDate;
+};
+
 // Other
 
 export const sleep = (ms: number) =>

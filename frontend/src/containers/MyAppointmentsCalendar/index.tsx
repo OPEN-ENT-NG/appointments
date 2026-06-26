@@ -49,7 +49,7 @@ import { getDayName, getDayNumberAndMonthName } from "~/core/utils";
 import { CalendarEvent } from "~/components/calendar/CalendarEvent";
 
 export const MyAppointmentsCalendar: FC = () => {
-  const { myAppointments, fetchAllByWeek, fetchAllByDay } = useMyAppointments();
+  const { myCalendarAppointments, updateDisplayedWeek, updateDisplayedDay } = useMyAppointments();
   const isMobile = useMediaQuery(
     `(max-width: ${BOOK_APPOINTMENT_MODAL_BREAKPOINT}px)`,
   );
@@ -63,8 +63,8 @@ export const MyAppointmentsCalendar: FC = () => {
   const isWeekPickerOpen = Boolean(weekPickerAnchor);
 
   const formattedAppointments = useMemo(() => {
-    return createEventsFrom(myAppointments);
-  }, [myAppointments]);
+    return createEventsFrom(myCalendarAppointments);
+  }, [myCalendarAppointments]);
 
   useEffect(() => {
     // Init du titre au montage
@@ -84,9 +84,9 @@ export const MyAppointmentsCalendar: FC = () => {
   // Refresh myAppointements according to currently displayed date(s)
   useEffect(() => {
     return isMobile
-      ? fetchAllByDay(currentDateRangeStart)
-      : fetchAllByWeek(currentDateRangeStart);
-  }, [isMobile, currentDateRangeStart, fetchAllByWeek, fetchAllByDay]);
+      ? updateDisplayedDay(currentDateRangeStart)
+      : updateDisplayedWeek(currentDateRangeStart);
+  }, [isMobile, currentDateRangeStart, updateDisplayedWeek, updateDisplayedDay]);
 
   // Sync du titre et current date à chaque navigation
   const handleDatesSet = (dateInfos: DatesSetArg) => {

@@ -4,7 +4,7 @@ import { CalendarEventProps } from "./types";
 import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
 import { calendarEventStyle, descriptionEventStyle } from "./style";
 import { isEventLessThan } from "./utils";
-import { MAX_DURATION_SHORT_EVENT } from "~/core/constants";
+import { MAX_DURATION_MEDIUM_EVENT, MAX_DURATION_SHORT_EVENT, MAX_DURATION_VERY_SHORT_EVENT } from "~/core/constants";
 
 export const CalendarEvent: FC<CalendarEventProps> = ({ eventInfo }) => {
   const { comment, colors, IconComponent } = eventInfo.event.extendedProps;
@@ -15,7 +15,7 @@ export const CalendarEvent: FC<CalendarEventProps> = ({ eventInfo }) => {
         ...calendarEventStyle,
         backgroundColor: colors.background,
         borderLeft: `3px solid ${colors.border}`,
-        ...(isEventLessThan(eventInfo, MAX_DURATION_SHORT_EVENT) && {
+        ...(isEventLessThan(eventInfo, MAX_DURATION_VERY_SHORT_EVENT) && {
           padding: 0,
         }),
       }}
@@ -23,7 +23,7 @@ export const CalendarEvent: FC<CalendarEventProps> = ({ eventInfo }) => {
       <Stack
         spacing={0.5}
         sx={{
-          ...(isEventLessThan(eventInfo, MAX_DURATION_SHORT_EVENT) && {
+          ...(isEventLessThan(eventInfo, MAX_DURATION_VERY_SHORT_EVENT) && {
             height: "100%",
           }),
         }}
@@ -33,7 +33,7 @@ export const CalendarEvent: FC<CalendarEventProps> = ({ eventInfo }) => {
           direction="row"
           sx={{
             ...spaceBetweenBoxStyle,
-            ...(isEventLessThan(eventInfo, MAX_DURATION_SHORT_EVENT) && {
+            ...(isEventLessThan(eventInfo, MAX_DURATION_VERY_SHORT_EVENT) && {
               height: "100%",
             }),
           }}
@@ -48,11 +48,11 @@ export const CalendarEvent: FC<CalendarEventProps> = ({ eventInfo }) => {
           </Typography>
 
           {/* Other participant */}
-          {isEventLessThan(eventInfo, MAX_DURATION_SHORT_EVENT) && (
+          {isEventLessThan(eventInfo, MAX_DURATION_VERY_SHORT_EVENT) && (
             <Typography
               variant="body2"
               sx={{ fontWeight: "bold", minWidth: 0 }}
-              {...(isEventLessThan(eventInfo, 30) && { noWrap: true })}
+              {...(isEventLessThan(eventInfo, MAX_DURATION_SHORT_EVENT) && { noWrap: true })}
             >
               {eventInfo.event.title}
             </Typography>
@@ -72,25 +72,25 @@ export const CalendarEvent: FC<CalendarEventProps> = ({ eventInfo }) => {
         </Stack>
 
         {/* Body */}
-        {!isEventLessThan(eventInfo, MAX_DURATION_SHORT_EVENT) && (
+        {!isEventLessThan(eventInfo, MAX_DURATION_VERY_SHORT_EVENT) && (
           <Stack>
             {/* Other participant */}
             <Typography
               variant="body2"
               sx={{ fontWeight: "bold" }}
-              {...(isEventLessThan(eventInfo, 30) && { noWrap: true })}
+              {...(isEventLessThan(eventInfo, MAX_DURATION_SHORT_EVENT) && { noWrap: true })}
             >
               {eventInfo.event.title}
             </Typography>
 
             {/* Details */}
-            {!isEventLessThan(eventInfo, 30) && (
+            {!isEventLessThan(eventInfo, MAX_DURATION_SHORT_EVENT) && (
               <Typography
                 variant="caption"
                 color="textSecondary"
                 sx={{
                   ...descriptionEventStyle,
-                  WebkitLineClamp: isEventLessThan(eventInfo, 45) ? 1 : 2,
+                  WebkitLineClamp: isEventLessThan(eventInfo, MAX_DURATION_MEDIUM_EVENT) ? 1 : 2,
                 }}
               >
                 {comment}

@@ -33,7 +33,7 @@ import {
   useGetMyAppointmentsQuery,
   useRejectAppointmentMutation,
 } from "~/services/api/AppointmentService";
-import { Appointment } from "~/services/api/AppointmentService/types";
+import { Appointment, MyAppointments } from "~/services/api/AppointmentService/types";
 import { useGlobal } from "../GlobalProvider";
 import { MY_APPOINTMENTS_LIST_STATE } from "./enum";
 import {
@@ -46,8 +46,6 @@ import {
   buildMyAppointments,
   downloadBlob,
   fetchViewModePreference,
-  getDatePlusOneDay,
-  getDatePlusOneWeek,
   initialAppointments,
   initialDialogModalProps,
   initialLimits,
@@ -58,6 +56,7 @@ import {
 } from "./utils";
 import { ModalType } from "../GlobalProvider/enum";
 import { ViewMode } from "~/components/SwitchView/enums";
+import { getDatePlusOneDay, getDatePlusOneWeek } from "~/core/utils";
 
 const MyAppointmentsProviderContext =
   createContext<MyAppointmentsProviderContextProps | null>(null);
@@ -151,6 +150,29 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
   const [rejectAppointment] = useRejectAppointmentMutation();
   const [cancelAppointment] = useCancelAppointmentMutation();
 
+  const myCalendarAppointments = useMemo(() => {
+    if (!allMyAppointments) return {
+      [MY_APPOINTMENTS_LIST_STATE.PENDING]: { total: 0, appointments: [] } as MyAppointments,
+      [MY_APPOINTMENTS_LIST_STATE.ACCEPTED]: { total: 0, appointments: [] } as MyAppointments,
+      [MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED]: { total: 0, appointments: [] } as MyAppointments,
+    } as AppointmentsType;
+
+    return {
+      [MY_APPOINTMENTS_LIST_STATE.PENDING]: buildMyAppointments(
+        allMyAppointments.appointments,
+        MY_APPOINTMENTS_LIST_STATE.PENDING,
+      ),
+      [MY_APPOINTMENTS_LIST_STATE.ACCEPTED]: buildMyAppointments(
+        allMyAppointments.appointments,
+        MY_APPOINTMENTS_LIST_STATE.ACCEPTED,
+      ),
+      [MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED]: buildMyAppointments(
+        allMyAppointments.appointments,
+        MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED,
+      ),
+    } as AppointmentsType;
+  }, [allMyAppointments]);
+
   const handleChangePage = useCallback(
     (state: MY_APPOINTMENTS_LIST_STATE, page: number) => {
       setPages((prev) => ({ ...prev, [state]: page }));
@@ -164,22 +186,6 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
     },
     [],
   );
-
-  const fetchAllByWeek = useCallback((currentDateRangeStart: Date) => {
-    if (currentDateRangeStart.getDay() != 1) {
-      console.error(
-        "Cannot fetch week appointments from a range not strating by monday.",
-      );
-      return;
-    }
-    setStartDate(currentDateRangeStart);
-    setEndDate(getDatePlusOneWeek(currentDateRangeStart));
-  }, []);
-
-  const fetchAllByDay = useCallback((currentDateRangeStart: Date) => {
-    setStartDate(currentDateRangeStart);
-    setEndDate(getDatePlusOneDay(currentDateRangeStart));
-  }, []);
 
   const handleAcceptAppointment = useCallback(
     async (id: number) => {
@@ -358,6 +364,22 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
     updateViewModePreference(viewMode);
   }, []);
 
+  const updateDisplayedWeek = (currentDateRangeStart: Date) => {
+    if (currentDateRangeStart.getDay() != 1) {
+      console.error(
+        "Cannot fetch week appointments from a range not strating by monday.",
+      );
+      return;
+    }
+    setStartDate(currentDateRangeStart);
+    setEndDate(getDatePlusOneWeek(currentDateRangeStart));
+  };
+
+  const updateDisplayedDay = (currentDateRangeStart: Date) => {
+    setStartDate(currentDateRangeStart);
+    setEndDate(getDatePlusOneDay(currentDateRangeStart));
+  };
+
   useEffect(() => {
     initViewMode();
   }, []);
@@ -410,33 +432,6 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
       }
     }
   }, [appointmentIndexFromNotif, appointmentFromNotif, limits]);
-
-  useEffect(() => {
-    if (!allMyAppointments) return;
-    const myPendingAppointments = buildMyAppointments(
-      allMyAppointments.appointments,
-      MY_APPOINTMENTS_LIST_STATE.PENDING,
-    );
-    const myAcceptedAppointments = buildMyAppointments(
-      allMyAppointments.appointments,
-      MY_APPOINTMENTS_LIST_STATE.ACCEPTED,
-    );
-    const myRejectedOrCanceledAppointments = buildMyAppointments(
-      allMyAppointments.appointments,
-      MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED,
-    );
-
-    setMyAppointments((prev) => ({
-      ...prev,
-      [MY_APPOINTMENTS_LIST_STATE.PENDING]:
-        myPendingAppointments || prev[MY_APPOINTMENTS_LIST_STATE.PENDING],
-      [MY_APPOINTMENTS_LIST_STATE.ACCEPTED]:
-        myAcceptedAppointments || prev[MY_APPOINTMENTS_LIST_STATE.ACCEPTED],
-      [MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED]:
-        myRejectedOrCanceledAppointments ||
-        prev[MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED],
-    }));
-  }, [allMyAppointments]);
 
   useEffect(() => {
     setMyAppointments((prev) => ({
@@ -527,6 +522,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
   const value = useMemo<MyAppointmentsProviderContextProps>(
     () => ({
       myAppointments,
+      myCalendarAppointments,
       limits,
       pages,
       maxPages,
@@ -536,8 +532,8 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
       dialogModalProps,
       isExportingAppointments,
       viewMode,
-      fetchAllByWeek,
-      fetchAllByDay,
+      updateDisplayedWeek,
+      updateDisplayedDay,
       toggleViewMode,
       handleChangePage,
       handleChangeLimit,
@@ -551,6 +547,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
     }),
     [
       myAppointments,
+      myCalendarAppointments,
       limits,
       pages,
       maxPages,
@@ -560,8 +557,6 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
       dialogModalProps,
       isExportingAppointments,
       viewMode,
-      fetchAllByWeek,
-      fetchAllByDay,
       toggleViewMode,
       handleChangePage,
       handleChangeLimit,
