@@ -27,7 +27,7 @@ import EventRoundedIcon from "@mui/icons-material/EventRounded";
 import { t } from "~/i18n";
 import { calendarContainerStyle, StyledHeader } from "./style";
 import { DatesSetArg } from "@fullcalendar/core/index.js";
-import { createEventsFrom } from "./utils";
+import { createEventsFrom, generateSampleEvents } from "./utils";
 import { DayOrWeekPicker } from "~/components/DayOrWeekPicker";
 import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 import { CalendarEvent } from "~/components/calendar/CalendarEvent";
@@ -51,7 +51,8 @@ export const MyAppointmentsCalendar: FC = () => {
   const isWeekPickerOpen = Boolean(weekPickerAnchor);
 
   const formattedAppointments = useMemo(() => {
-    return createEventsFrom(myCalendarAppointments);
+    // return createEventsFrom(myCalendarAppointments);
+    return createEventsFrom(generateSampleEvents());
   }, [myCalendarAppointments]);
 
   useEffect(() => {
