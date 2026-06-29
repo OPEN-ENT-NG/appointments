@@ -89,9 +89,6 @@ export const MyAppointments: FC = () => {
 
   return (
     <>
-      {selectedAppointment && (
-        <AppointmentInfosModal appointment={selectedAppointment} />
-      )}
       <DialogModal {...dialogModalProps} />
       <ExportAppointmentsModal
         isOpen={showExportModal}
@@ -115,6 +112,9 @@ export const MyAppointments: FC = () => {
         )}
         {viewMode === ViewMode.GRID && (
           <>
+            {selectedAppointment && (
+              <AppointmentInfosModal appointment={selectedAppointment} />
+            )}
             <AppointmentCardList
               appointmentsType={MY_APPOINTMENTS_LIST_STATE.PENDING}
               myAppointments={myPendingAppointments}
