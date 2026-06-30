@@ -1,4 +1,4 @@
-import { FC, useMemo } from "react";
+import { FC, Fragment, ReactNode, useMemo } from "react";
 
 import {
   Box,
@@ -83,299 +83,301 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
     [appointment.beginDate, minHoursBeforeCancellation],
   );
 
-  const content = (
-    <Box
-      sx={{
-        ...modalStyle,
-        ...(floatingMode && {
-          borderRadius: "10px",
-          borderLeft: `3px solid ${appointment.gridColor}`,
-        }),
-      }}
-    >
-      <DialogTitle sx={spaceBetweenBoxStyle}>
-        {t("appointments.my.appointment.infos.modal.title")}
-        {floatingMode && (
-          <IconButton
-            onClick={handleCloseAppointmentModal}
-            sx={closeIconButtonStyle}
-          >
-            <CloseRoundedIcon sx={closeIconStyle} />
-          </IconButton>
-        )}
-      </DialogTitle>
-      <DialogContent sx={dialogContentStyle}>
-        <Box sx={topContainerStyle}>
-          <Box sx={pictureStyle}>
-            <UserPicture picture={appointment.picture} />
-          </Box>
-          <Box sx={userInfosBoxStyle}>
-            <EllipsisWithTooltip
-              slotProps={{
-                text: { sx: { fontSize: "1.8rem", fontWeight: "bold" } },
-              }}
-            >
-              {appointment.displayName}
-            </EllipsisWithTooltip>
-            <EllipsisWithTooltip>
-              {appointment.functions?.join(", ")}
-            </EllipsisWithTooltip>
-          </Box>
-        </Box>
-        <Box sx={bottomContainerStyle}>
-          <Box sx={rowInfoStyle}>
-            <AppointmentStateIcon
-              state={appointment.state}
-              isRequester={appointment.isRequester}
-            />
-            <Stack sx={{ width: "90%" }}>
-              <Typography variant="body1" color="textPrimary">
-                {t(APPOINTMENT_STATE_VALUES[appointment.state].i18nKey)}
-              </Typography>
-              {appointment.comment && (
-                <Stack sx={commentStyle}>
-                  <Typography
-                    color="textPrimary"
-                    sx={{ fontSize: "1.6rem", fontWeight: "bold" }}
-                  >
-                    {t(
-                      APPOINTMENT_STATE_VALUES[appointment.state]
-                        .commentI18nKey,
-                    )}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "1.6rem",
-                      color: "textPrimary",
-                      whiteSpace: "pre-wrap",
-                    }}
-                  >
-                    {appointment.comment}
-                  </Typography>
-                  <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                    <Chip
-                      avatar={
-                        <Box sx={avatarChipStyle}>
-                          <UserPicture
-                            picture={appointment.commentatorPicture}
-                          />
-                        </Box>
-                      }
-                      label={appointment.commentatorDisplayName}
-                      sx={chipStyle}
-                    />
-                  </Box>
-                </Stack>
-              )}
-            </Stack>
-          </Box>
-          <Box sx={rowInfoStyle}>
-            <EventIcon sx={greyIconStyle} />
-            <Box sx={{ maxWidth: "90%" }}>
-              <Typography variant="body1" color="textPrimary">
-                {t("appointments.my.appointment.infos.modal.date", {
-                  date: appointment.beginDate.format(TEXT_DATE_FORMAT),
-                  beginTime: appointment.beginDate.format(TIME_FORMAT),
-                  endTime: appointment.endDate.format(TIME_FORMAT),
-                })}
-              </Typography>
-              {(appointment.state === APPOINTMENT_STATE.ACCEPTED ||
-                appointment.state === APPOINTMENT_STATE.CANCELED) && (
-                <Button
-                  color={"secondary"}
-                  variant={"outlined"}
-                  size={"small"}
-                  sx={{
-                    fontSize: "13px",
-                    marginTop: "0.5rem",
-                    minHeight: "30px",
-                  }}
-                  startIcon={<DownloadRoundedIcon />}
-                  loading={isExportingAppointments}
-                  onClick={() => {
-                    void handleExportSingleAppointment(appointment);
-                  }}
-                >
-                  {t("appointments.event.export.one.button.title")}
-                </Button>
-              )}
-            </Box>
-          </Box>
-          {appointment.isVideoCall && (
-            <Box sx={rowInfoStyle}>
-              <VideoCameraFrontIcon color="primary" />
-              <Box sx={{ maxWidth: "90%" }}>
-                <Typography variant="body1" color="text.primary">
-                  {t("appointments.my.appointment.infos.modal.video.call")}
-                </Typography>
-                <Link href={appointment.videoCallLink} target="_blank">
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      wordBreak: "break-all",
-                      whiteSpace: "wrap",
-                    }}
-                  >
-                    {appointment.videoCallLink}
-                  </Typography>
-                </Link>
-              </Box>
-            </Box>
-          )}
-          {appointment.place && (
-            <Box sx={rowInfoStyle}>
-              <PlaceIcon sx={greyIconStyle} />
-              <EllipsisWithTooltip
-                slotProps={{
-                  text: {
-                    sx: {
-                      whiteSpace: "wrap",
-                      variant: "body1",
-                      color: "text.primary",
-                    },
-                  },
-                }}
-              >
-                {appointment.place}
-              </EllipsisWithTooltip>
-            </Box>
-          )}
-          {!!(appointment.documents && appointment.documents.length) && (
-            <Box sx={rowInfoStyle}>
-              <AttachFileIcon sx={greyIconStyle} />
-              <Box sx={{ maxWidth: "90%" }}>
-                {appointment.documents.map((doc) => (
-                  <Link
-                    key={doc.id}
-                    href={`/workspace/document/${doc.id}`}
-                    underline="hover"
-                    target="_blank"
-                  >
-                    <EllipsisWithTooltip
-                      slotProps={{ text: { sx: { variant: "body1" } } }}
-                    >
-                      {doc.name}
-                    </EllipsisWithTooltip>
-                  </Link>
-                ))}
-              </Box>
-            </Box>
-          )}
-          {appointment.publicComment && (
-            <Box sx={rowInfoStyle}>
-              <CommentIcon sx={greyIconStyle} />
-              <EllipsisWithTooltip
-                slotProps={{
-                  text: {
-                    sx: {
-                      variant: "body1",
-                      color: "text.primary",
-                      whiteSpace: "pre-line",
-                    },
-                  },
-                }}
-              >
-                {appointment.publicComment}
-              </EllipsisWithTooltip>
-            </Box>
-          )}
-        </Box>
-      </DialogContent>
-      <DialogActions>
-        {appointment.state === APPOINTMENT_STATE.CREATED &&
-          (appointment.isRequester ? (
-            <Box sx={oneButtonBoxStyle}>
-              <Button
-                variant="outlined"
-                color="error"
-                sx={isTheme1D ? { width: "30rem" } : oneButtonStyle}
-                onClick={() =>
-                  handleOpenDialogModal(
-                    CONFIRM_MODAL_TYPE.CANCEL_REQUEST,
-                    appointment.id,
-                    true,
-                  )
-                }
-              >
-                {t("appointments.cancel.request")}
-              </Button>
-            </Box>
-          ) : (
-            <Box sx={twoButtonsBoxStyle}>
-              <Button
-                variant="outlined"
-                sx={twoButtonsStyle}
-                color="success"
-                onClick={() => {
-                  handleAcceptAppointment(appointment.id);
-                  handleCloseAppointmentModal();
-                }}
-              >
-                {t("appointments.accept")}
-              </Button>
-              <Button
-                variant="outlined"
-                sx={twoButtonsStyle}
-                color="error"
-                onClick={() =>
-                  handleOpenDialogModal(
-                    CONFIRM_MODAL_TYPE.REJECT_REQUEST,
-                    appointment.id,
-                    true,
-                  )
-                }
-              >
-                {t("appointments.refuse")}
-              </Button>
-            </Box>
-          ))}
-        {appointment.state === APPOINTMENT_STATE.ACCEPTED && (
-          <Tooltip
-            title={
-              canCancelRequest
-                ? ""
-                : t("appointments.cannot.cancel.request.tooltip", {
-                    hours: minHoursBeforeCancellation,
-                  })
-            }
-            placement="top"
-            arrow
-            slotProps={{
-              tooltip: {
-                style: {
-                  width: "210px",
-                },
-              },
-            }}
-          >
-            <Box sx={oneButtonBoxStyle}>
-              <Button
-                variant="outlined"
-                color="error"
-                disabled={!canCancelRequest}
-                sx={isTheme1D ? { width: "30rem" } : oneButtonStyle}
-                onClick={() =>
-                  handleOpenDialogModal(
-                    CONFIRM_MODAL_TYPE.CANCEL_APPOINTMENT,
-                    appointment.id,
-                    true,
-                  )
-                }
-              >
-                {t("appointments.cancel.appointment")}
-              </Button>
-            </Box>
-          </Tooltip>
-        )}
-      </DialogActions>
-    </Box>
-  );
-
-  if (floatingMode) return content;
+  const Wrapper = floatingMode
+    ? Fragment
+    : ({ children }: { children: ReactNode }) => (
+        <Dialog open onClose={handleCloseAppointmentModal}>
+          {children}
+        </Dialog>
+      );
 
   return (
-    <Dialog open onClose={handleCloseAppointmentModal}>
-      {content}
-    </Dialog>
+    <Wrapper>
+      <Box
+        sx={{
+          ...modalStyle,
+          ...(floatingMode && {
+            borderRadius: "10px",
+            borderLeft: `3px solid ${appointment.gridColor}`,
+          }),
+        }}
+      >
+        <DialogTitle sx={spaceBetweenBoxStyle}>
+          {t("appointments.my.appointment.infos.modal.title")}
+          {floatingMode && (
+            <IconButton
+              onClick={handleCloseAppointmentModal}
+              sx={closeIconButtonStyle}
+            >
+              <CloseRoundedIcon sx={closeIconStyle} />
+            </IconButton>
+          )}
+        </DialogTitle>
+        <DialogContent sx={dialogContentStyle}>
+          <Box sx={topContainerStyle}>
+            <Box sx={pictureStyle}>
+              <UserPicture picture={appointment.picture} />
+            </Box>
+            <Box sx={userInfosBoxStyle}>
+              <EllipsisWithTooltip
+                slotProps={{
+                  text: { sx: { fontSize: "1.8rem", fontWeight: "bold" } },
+                }}
+              >
+                {appointment.displayName}
+              </EllipsisWithTooltip>
+              <EllipsisWithTooltip>
+                {appointment.functions?.join(", ")}
+              </EllipsisWithTooltip>
+            </Box>
+          </Box>
+          <Box sx={bottomContainerStyle}>
+            <Box sx={rowInfoStyle}>
+              <AppointmentStateIcon
+                state={appointment.state}
+                isRequester={appointment.isRequester}
+              />
+              <Stack sx={{ width: "90%" }}>
+                <Typography variant="body1" color="textPrimary">
+                  {t(APPOINTMENT_STATE_VALUES[appointment.state].i18nKey)}
+                </Typography>
+                {appointment.comment && (
+                  <Stack sx={commentStyle}>
+                    <Typography
+                      color="textPrimary"
+                      sx={{ fontSize: "1.6rem", fontWeight: "bold" }}
+                    >
+                      {t(
+                        APPOINTMENT_STATE_VALUES[appointment.state]
+                          .commentI18nKey,
+                      )}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: "1.6rem",
+                        color: "textPrimary",
+                        whiteSpace: "pre-wrap",
+                      }}
+                    >
+                      {appointment.comment}
+                    </Typography>
+                    <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                      <Chip
+                        avatar={
+                          <Box sx={avatarChipStyle}>
+                            <UserPicture
+                              picture={appointment.commentatorPicture}
+                            />
+                          </Box>
+                        }
+                        label={appointment.commentatorDisplayName}
+                        sx={chipStyle}
+                      />
+                    </Box>
+                  </Stack>
+                )}
+              </Stack>
+            </Box>
+            <Box sx={rowInfoStyle}>
+              <EventIcon sx={greyIconStyle} />
+              <Box sx={{ maxWidth: "90%" }}>
+                <Typography variant="body1" color="textPrimary">
+                  {t("appointments.my.appointment.infos.modal.date", {
+                    date: appointment.beginDate.format(TEXT_DATE_FORMAT),
+                    beginTime: appointment.beginDate.format(TIME_FORMAT),
+                    endTime: appointment.endDate.format(TIME_FORMAT),
+                  })}
+                </Typography>
+                {(appointment.state === APPOINTMENT_STATE.ACCEPTED ||
+                  appointment.state === APPOINTMENT_STATE.CANCELED) && (
+                  <Button
+                    color={"secondary"}
+                    variant={"outlined"}
+                    size={"small"}
+                    sx={{
+                      fontSize: "13px",
+                      marginTop: "0.5rem",
+                      minHeight: "30px",
+                    }}
+                    startIcon={<DownloadRoundedIcon />}
+                    loading={isExportingAppointments}
+                    onClick={() => {
+                      void handleExportSingleAppointment(appointment);
+                    }}
+                  >
+                    {t("appointments.event.export.one.button.title")}
+                  </Button>
+                )}
+              </Box>
+            </Box>
+            {appointment.isVideoCall && (
+              <Box sx={rowInfoStyle}>
+                <VideoCameraFrontIcon color="primary" />
+                <Box sx={{ maxWidth: "90%" }}>
+                  <Typography variant="body1" color="text.primary">
+                    {t("appointments.my.appointment.infos.modal.video.call")}
+                  </Typography>
+                  <Link href={appointment.videoCallLink} target="_blank">
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        wordBreak: "break-all",
+                        whiteSpace: "wrap",
+                      }}
+                    >
+                      {appointment.videoCallLink}
+                    </Typography>
+                  </Link>
+                </Box>
+              </Box>
+            )}
+            {appointment.place && (
+              <Box sx={rowInfoStyle}>
+                <PlaceIcon sx={greyIconStyle} />
+                <EllipsisWithTooltip
+                  slotProps={{
+                    text: {
+                      sx: {
+                        whiteSpace: "wrap",
+                        variant: "body1",
+                        color: "text.primary",
+                      },
+                    },
+                  }}
+                >
+                  {appointment.place}
+                </EllipsisWithTooltip>
+              </Box>
+            )}
+            {!!(appointment.documents && appointment.documents.length) && (
+              <Box sx={rowInfoStyle}>
+                <AttachFileIcon sx={greyIconStyle} />
+                <Box sx={{ maxWidth: "90%" }}>
+                  {appointment.documents.map((doc) => (
+                    <Link
+                      key={doc.id}
+                      href={`/workspace/document/${doc.id}`}
+                      underline="hover"
+                      target="_blank"
+                    >
+                      <EllipsisWithTooltip
+                        slotProps={{ text: { sx: { variant: "body1" } } }}
+                      >
+                        {doc.name}
+                      </EllipsisWithTooltip>
+                    </Link>
+                  ))}
+                </Box>
+              </Box>
+            )}
+            {appointment.publicComment && (
+              <Box sx={rowInfoStyle}>
+                <CommentIcon sx={greyIconStyle} />
+                <EllipsisWithTooltip
+                  slotProps={{
+                    text: {
+                      sx: {
+                        variant: "body1",
+                        color: "text.primary",
+                        whiteSpace: "pre-line",
+                      },
+                    },
+                  }}
+                >
+                  {appointment.publicComment}
+                </EllipsisWithTooltip>
+              </Box>
+            )}
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          {appointment.state === APPOINTMENT_STATE.CREATED &&
+            (appointment.isRequester ? (
+              <Box sx={oneButtonBoxStyle}>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  sx={isTheme1D ? { width: "30rem" } : oneButtonStyle}
+                  onClick={() =>
+                    handleOpenDialogModal(
+                      CONFIRM_MODAL_TYPE.CANCEL_REQUEST,
+                      appointment.id,
+                      true,
+                    )
+                  }
+                >
+                  {t("appointments.cancel.request")}
+                </Button>
+              </Box>
+            ) : (
+              <Box sx={twoButtonsBoxStyle}>
+                <Button
+                  variant="outlined"
+                  sx={twoButtonsStyle}
+                  color="success"
+                  onClick={() => {
+                    handleAcceptAppointment(appointment.id);
+                    handleCloseAppointmentModal();
+                  }}
+                >
+                  {t("appointments.accept")}
+                </Button>
+                <Button
+                  variant="outlined"
+                  sx={twoButtonsStyle}
+                  color="error"
+                  onClick={() =>
+                    handleOpenDialogModal(
+                      CONFIRM_MODAL_TYPE.REJECT_REQUEST,
+                      appointment.id,
+                      true,
+                    )
+                  }
+                >
+                  {t("appointments.refuse")}
+                </Button>
+              </Box>
+            ))}
+          {appointment.state === APPOINTMENT_STATE.ACCEPTED && (
+            <Tooltip
+              title={
+                canCancelRequest
+                  ? ""
+                  : t("appointments.cannot.cancel.request.tooltip", {
+                      hours: minHoursBeforeCancellation,
+                    })
+              }
+              placement="top"
+              arrow
+              slotProps={{
+                tooltip: {
+                  style: {
+                    width: "210px",
+                  },
+                },
+              }}
+            >
+              <Box sx={oneButtonBoxStyle}>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  disabled={!canCancelRequest}
+                  sx={isTheme1D ? { width: "30rem" } : oneButtonStyle}
+                  onClick={() =>
+                    handleOpenDialogModal(
+                      CONFIRM_MODAL_TYPE.CANCEL_APPOINTMENT,
+                      appointment.id,
+                      true,
+                    )
+                  }
+                >
+                  {t("appointments.cancel.appointment")}
+                </Button>
+              </Box>
+            </Tooltip>
+          )}
+        </DialogActions>
+      </Box>
+    </Wrapper>
   );
 };
