@@ -1,4 +1,4 @@
-import { FC, useMemo } from "react";
+import { FC, Fragment, ReactNode, useMemo } from "react";
 
 import {
   Box,
@@ -9,6 +9,7 @@ import {
   DialogContent,
   DialogTitle,
   EllipsisWithTooltip,
+  IconButton,
   Link,
   Stack,
   Tooltip,
@@ -37,6 +38,8 @@ import {
   avatarChipStyle,
   bottomContainerStyle,
   chipStyle,
+  closeIconButtonStyle,
+  closeIconStyle,
   commentStyle,
   dialogContentStyle,
   greyIconStyle,
@@ -54,9 +57,12 @@ import { AppointmentInfosModalProps } from "./types";
 import { HOUR } from "~/core/dayjs.const";
 import { useTheme } from "~/hooks/useTheme";
 import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
 
 export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
   appointment,
+  floatingMode = false,
 }) => {
   const { minHoursBeforeCancellation } = useGlobal();
   const {
@@ -77,11 +83,35 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
     [appointment.beginDate, minHoursBeforeCancellation],
   );
 
+  const Wrapper = floatingMode
+    ? Fragment
+    : ({ children }: { children: ReactNode }) => (
+        <Dialog open onClose={handleCloseAppointmentModal}>
+          {children}
+        </Dialog>
+      );
+
   return (
-    <Dialog open onClose={handleCloseAppointmentModal}>
-      <Box sx={modalStyle}>
-        <DialogTitle>
+    <Wrapper>
+      <Box
+        sx={{
+          ...modalStyle,
+          ...(floatingMode && {
+            borderRadius: "10px",
+            borderLeft: `3px solid ${appointment.gridColor}`,
+          }),
+        }}
+      >
+        <DialogTitle sx={spaceBetweenBoxStyle}>
           {t("appointments.my.appointment.infos.modal.title")}
+          {floatingMode && (
+            <IconButton
+              onClick={handleCloseAppointmentModal}
+              sx={closeIconButtonStyle}
+            >
+              <CloseRoundedIcon sx={closeIconStyle} />
+            </IconButton>
+          )}
         </DialogTitle>
         <DialogContent sx={dialogContentStyle}>
           <Box sx={topContainerStyle}>
@@ -348,6 +378,6 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
           )}
         </DialogActions>
       </Box>
-    </Dialog>
+    </Wrapper>
   );
 };

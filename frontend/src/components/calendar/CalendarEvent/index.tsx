@@ -9,18 +9,26 @@ import {
   MAX_DURATION_SHORT_EVENT,
   MAX_DURATION_VERY_SHORT_EVENT,
 } from "~/core/constants";
+import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
+import { isSelectedEvent } from "./utils";
 
 export const CalendarEvent: FC<CalendarEventProps> = ({ eventInfo }) => {
   const { comment, colors, IconComponent } = eventInfo.event.extendedProps;
+  const { selectedAppointment } = useMyAppointments();
+  const isSelected = isSelectedEvent(selectedAppointment, eventInfo);
 
   return (
     <Box
       sx={{
         ...calendarEventStyle,
         backgroundColor: colors.background,
-        borderLeft: `3px solid ${colors.border}`,
+        borderLeft: `2px solid ${colors.border}`,
+        ...(isSelected && {
+          border: `2px solid ${colors.border}`,
+          padding: "0.65rem 1.45rem 0.65rem 1.6rem", // First override is selected
+        }),
         ...(isEventLessThan(eventInfo, MAX_DURATION_VERY_SHORT_EVENT) && {
-          padding: 0,
+          padding: 0, // Second override if tiny event
         }),
       }}
     >

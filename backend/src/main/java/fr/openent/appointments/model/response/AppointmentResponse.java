@@ -10,9 +10,6 @@ import io.vertx.core.json.JsonObject;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static fr.openent.appointments.core.constants.Fields.COMMENT;
-import static fr.openent.appointments.core.constants.Fields.COMMENTATOR_ID;
-
 public class AppointmentResponse implements IModel<AppointmentResponse> {
     private Long id;
     private String displayName;
@@ -30,6 +27,7 @@ public class AppointmentResponse implements IModel<AppointmentResponse> {
     private String comment;
     private String commentatorDisplayName;
     private String commentatorPicture;
+    private String gridColor;
 
     public AppointmentResponse(AppointmentWithInfos appointment, Boolean isRequester, NeoUser neoUser,
                                NeoUser commentatorUser, List<DocumentResponse> documents) {
@@ -49,6 +47,7 @@ public class AppointmentResponse implements IModel<AppointmentResponse> {
         this.comment = appointment.getComment();
         this.commentatorDisplayName = commentatorUser != null ? commentatorUser.getDisplayName() : null;
         this.commentatorPicture = commentatorUser != null ? commentatorUser.getPicture() : null;
+        this.gridColor = appointment.getGridColor();
     }
 
     // Getters
@@ -115,6 +114,10 @@ public class AppointmentResponse implements IModel<AppointmentResponse> {
 
     public String getCommentatorPicture() {
         return commentatorPicture;
+    }
+
+    public String getGridColor() {
+        return this.gridColor;
     }
 
     // Setters
@@ -196,6 +199,11 @@ public class AppointmentResponse implements IModel<AppointmentResponse> {
 
     public AppointmentResponse setCommentatorPicture(String commentatorPicture) {
         this.commentatorPicture = commentatorPicture;
+        return this;
+    }
+
+    public AppointmentResponse setGridColor(String gridColor) {
+        this.gridColor = gridColor;
         return this;
     }
 

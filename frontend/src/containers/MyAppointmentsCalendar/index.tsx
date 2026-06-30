@@ -25,8 +25,12 @@ import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import EventRoundedIcon from "@mui/icons-material/EventRounded";
 import { t } from "~/i18n";
-import { calendarContainerStyle, StyledHeader } from "./style";
-import { DatesSetArg } from "@fullcalendar/core/index.js";
+import {
+  calendarContainerStyle,
+  modalPopoverStyle,
+  StyledHeader,
+} from "./style";
+import { DatesSetArg, EventClickArg } from "@fullcalendar/core/index.js";
 import { createEventsFrom } from "./utils";
 import { DayOrWeekPicker } from "~/components/DayOrWeekPicker";
 import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
@@ -34,10 +38,17 @@ import { CalendarEvent } from "~/components/calendar/CalendarEvent";
 import { CalendarNowIndicator } from "~/components/calendar/CalendarNowIndicator";
 import { CalendarSlotLabel } from "~/components/calendar/CalendarSlotLabel";
 import { CalendarDayHeader } from "~/components/calendar/CalendarDayHeader";
+import { AppointmentInfosModal } from "../AppointmentInfosModal";
 
 export const MyAppointmentsCalendar: FC = () => {
-  const { myCalendarAppointments, updateDisplayedWeek, updateDisplayedDay } =
-    useMyAppointments();
+  const {
+    myCalendarAppointments,
+    updateDisplayedWeek,
+    updateDisplayedDay,
+    selectedAppointment,
+    handleClickAppointment,
+    handleCloseAppointmentModal,
+  } = useMyAppointments();
   const isMobile = useMediaQuery(
     `(max-width: ${BOOK_APPOINTMENT_MODAL_BREAKPOINT}px)`,
   );
@@ -49,6 +60,9 @@ export const MyAppointmentsCalendar: FC = () => {
   const [weekPickerAnchor, setWeekPickerAnchor] =
     useState<HTMLButtonElement | null>(null);
   const isWeekPickerOpen = Boolean(weekPickerAnchor);
+  const [modalAnchor, setModalAnchor] = useState<HTMLElement | null>(null);
+  const isModalOpen = Boolean(modalAnchor);
+  const scrollEventPositionRef = useRef<number>(0);
 
   const formattedAppointments = useMemo(() => {
     return createEventsFrom(myCalendarAppointments);
@@ -94,6 +108,21 @@ export const MyAppointmentsCalendar: FC = () => {
   const goToday = () => calendarRef.current?.getApi().today();
   const goToDate = (date: Date) => calendarRef.current?.getApi().gotoDate(date);
 
+  // Event actions
+  const handleEventClick = (eventInfo: EventClickArg) => {
+    scrollEventPositionRef.current = window.scrollY;
+    setModalAnchor(eventInfo.el);
+    handleClickAppointment(Number.parseInt(eventInfo.event.id));
+  };
+
+  const handleCloseModal = () => {
+    setModalAnchor(null);
+    requestAnimationFrame(() => {
+      window.scrollTo(0, scrollEventPositionRef.current);
+    });
+    handleCloseAppointmentModal();
+  };
+
   // WeekPicker
 
   const openWeekPicker = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -111,6 +140,25 @@ export const MyAppointmentsCalendar: FC = () => {
 
   return (
     <Stack sx={calendarContainerStyle}>
+      {/* Event selected modal */}
+      {selectedAppointment && (
+        <Popover
+          open={isModalOpen}
+          anchorEl={modalAnchor}
+          onClose={handleCloseAppointmentModal}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          sx={modalPopoverStyle}
+        >
+          <AppointmentInfosModal
+            appointment={selectedAppointment}
+            floatingMode={!isMobile}
+          />
+        </Popover>
+      )}
+
       {/* Weekpicker popover */}
       <Popover
         open={isWeekPickerOpen}
@@ -166,6 +214,8 @@ export const MyAppointmentsCalendar: FC = () => {
         hiddenDays={[0]} // Hide Sundays
         allDaySlot={false}
         nowIndicator
+        scrollTimeReset={false} // Avoid going to top when selecting event
+        eventInteractive
         datesSet={handleDatesSet}
         events={formattedAppointments}
         dayHeaderContent={(arg) => (
@@ -178,7 +228,13 @@ export const MyAppointmentsCalendar: FC = () => {
             isMobile={isMobile}
           />
         )}
-        eventContent={(eventInfo) => <CalendarEvent eventInfo={eventInfo} />}
+        eventContent={(eventInfo) => (
+          <CalendarEvent
+            eventInfo={eventInfo}
+            onCloseModal={handleCloseModal}
+          />
+        )}
+        eventClick={handleEventClick}
         height="80vh"
       />
     </Stack>
