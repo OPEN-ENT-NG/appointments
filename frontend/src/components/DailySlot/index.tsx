@@ -79,6 +79,7 @@ export const DailySlot: FC<DailySlotProps> = ({ day, slot, siblingsSlots }) => {
               {t("appointments.from") + " :"}
             </Typography>
             <TimePicker
+              ampm={false}
               minTime={beginMin}
               maxTime={beginMax}
               defaultValue={beginMin}
@@ -98,6 +99,7 @@ export const DailySlot: FC<DailySlotProps> = ({ day, slot, siblingsSlots }) => {
               {t("appointments.to") + " :"}
             </Typography>
             <TimePicker
+              ampm={false}
               minTime={getEndMinTime(
                 slot.begin.parseToDayjsOrDefault(null),
                 duration,
