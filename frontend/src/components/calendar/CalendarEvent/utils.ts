@@ -1,4 +1,5 @@
 import { EventContentArg } from "@fullcalendar/core/index.js";
+import { Appointment } from "~/services/api/AppointmentService/types";
 
 export const getEventDuration = (eventInfo: EventContentArg) => {
   const start = eventInfo.event.start as Date;
@@ -12,4 +13,12 @@ export const isEventLessThan = (
   minutes: number,
 ) => {
   return getEventDuration(eventInfo) < minutes;
+};
+
+export const isSelectedEvent = (
+  selectedAppointment: Appointment | null,
+  currentEvent: EventContentArg,
+): boolean => {
+  if (!selectedAppointment) return false;
+  return selectedAppointment.id === Number.parseInt(currentEvent.event.id);
 };

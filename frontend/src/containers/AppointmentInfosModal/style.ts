@@ -40,6 +40,17 @@ export const dialogContentStyle: SxProps = {
   gap: "2.4rem",
 };
 
+export const closeIconButtonStyle: SxProps = {
+  color: "var(--theme-palette-text-primary)",
+  marginTop: "-10px",
+  marginRight: "-20px",
+};
+
+export const closeIconStyle: SxProps = {
+  width: "2.4rem !important",
+  height: "2.4rem !important",
+};
+
 export const pictureStyle: SxProps = {
   minWidth: "6rem",
   maxWidth: "6rem",

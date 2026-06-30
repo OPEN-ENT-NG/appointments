@@ -103,9 +103,19 @@ export const calendarContainerStyle = {
   "& .fc-v-event": {
     backgroundColor: "transparent",
     border: "none",
+    outline: "none",
   },
   "& .fc-event-main": {
     padding: 0,
+  },
+
+  // Override outline on event focus
+  ".fc .fc-event:focus::before, .fc .fc-event:focus::after": {
+    outline: "none",
+    background: "none",
+    border: "1px solid var(--theme-palette-primary-main)",
+    borderRadius: "4px",
+    inset: 0,
   },
 };
 
@@ -118,3 +128,10 @@ export const StyledHeader = styled(Stack)<StyledHeaderProps>(
     marginBottom: 1,
   }),
 );
+
+export const modalPopoverStyle = {
+  margin: 0.5,
+  "> .MuiPopover-paper": {
+    borderRadius: "10px",
+  },
+};

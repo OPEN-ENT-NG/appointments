@@ -5,6 +5,9 @@ export const calendarEventStyle = {
   padding: "0.8rem 1.6rem",
   borderRadius: "4px",
   overflow: "hidden",
+  "&:hover": {
+    cursor: "pointer",
+  },
 };
 
 export const descriptionEventStyle = {
