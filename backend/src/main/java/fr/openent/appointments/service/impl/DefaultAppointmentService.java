@@ -1,5 +1,6 @@
 package fr.openent.appointments.service.impl;
 
+import fr.openent.appointments.enums.AppointmentFilterState;
 import fr.openent.appointments.enums.AppointmentState;
 import fr.openent.appointments.enums.ICS.EventMethod;
 import fr.openent.appointments.helper.LogHelper;
@@ -12,6 +13,7 @@ import fr.openent.appointments.model.response.AppointmentResponse;
 import fr.openent.appointments.model.response.DocumentResponse;
 import fr.openent.appointments.model.response.ListAppointmentsResponse;
 import fr.openent.appointments.model.response.MinimalAppointment;
+import fr.openent.appointments.model.response.MinimalGrid;
 import fr.openent.appointments.repository.AppointmentRepository;
 import fr.openent.appointments.repository.CommunicationRepository;
 import fr.openent.appointments.repository.RepositoryFactory;
@@ -299,6 +301,57 @@ public class DefaultAppointmentService implements AppointmentService {
             .onFailure(err -> {
                 String errorMessage = "Failed to get appointments dates";
                 LogHelper.logError(this, "getAppointmentsDates", errorMessage, err.getMessage());
+                promise.fail(err);
+            });
+
+        return promise.future();
+    }
+
+    private AppointmentFilterState toAppointmentFilterState(AppointmentWithInfos appointment, String userId) {
+        if (appointment.getState() == AppointmentState.CREATED) {
+            Boolean isRequester = appointment.getRequesterId().equals(userId);
+            return isRequester ? AppointmentFilterState.CREATED_REQUESTER : AppointmentFilterState.CREATED_RECIPIENT;
+        }
+        return AppointmentFilterState.getAppointmentFilterState(appointment.getState().getValue());
+    }
+
+    @Override
+    public Future<List<AppointmentFilterState>> getMyAppointmentStates(String userId) {
+        Promise<List<AppointmentFilterState>> promise = Promise.promise();
+
+        appointmentRepository.getAppointments(userId, null, false)
+            .onSuccess(appointments -> promise.complete(appointments.stream()
+                    .map(appointment -> toAppointmentFilterState(appointment, userId))
+                    .distinct()
+                    .collect(Collectors.toList())))
+            .onFailure(err -> {
+                String errorMessage = "Failed to get my appointment states";
+                LogHelper.logError(this, "getMyAppointmentStates", errorMessage, err.getMessage());
+                promise.fail(err);
+            });
+
+        return promise.future();
+    }
+
+    private MinimalGrid toMinimalGrid(AppointmentWithInfos appointment) {
+        return new MinimalGrid(new JsonObject().put(ID, appointment.getGridId()).put(NAME, appointment.getGridName()));
+    }
+
+    @Override
+    public Future<List<MinimalGrid>> getMyAppointmentGrids(String userId) {
+        Promise<List<MinimalGrid>> promise = Promise.promise();
+
+        appointmentRepository.getAppointments(userId, null, false)
+            .onSuccess(appointments -> {
+                Map<Long, MinimalGrid> grids = new LinkedHashMap<>();
+                appointments.stream()
+                        .filter(appointment -> appointment.getGridId() != null)
+                        .forEach(appointment -> grids.putIfAbsent(appointment.getGridId(), toMinimalGrid(appointment)));
+                promise.complete(new ArrayList<>(grids.values()));
+            })
+            .onFailure(err -> {
+                String errorMessage = "Failed to get my appointment grids";
+                LogHelper.logError(this, "getMyAppointmentGrids", errorMessage, err.getMessage());
                 promise.fail(err);
             });
 

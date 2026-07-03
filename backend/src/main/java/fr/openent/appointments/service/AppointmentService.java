@@ -1,11 +1,13 @@
 package fr.openent.appointments.service;
 
+import fr.openent.appointments.enums.AppointmentFilterState;
 import fr.openent.appointments.enums.AppointmentState;
 import fr.openent.appointments.enums.ICS.EventMethod;
 import fr.openent.appointments.model.database.Appointment;
 import fr.openent.appointments.model.database.AppointmentWithInfos;
 import fr.openent.appointments.model.response.AppointmentResponse;
 import fr.openent.appointments.model.response.ListAppointmentsResponse;
+import fr.openent.appointments.model.response.MinimalGrid;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpServerRequest;
 import org.entcore.common.user.UserInfos;
@@ -70,6 +72,20 @@ public interface AppointmentService {
      * @param states The states of the appointments
      */
     Future<List<LocalDate>> getAppointmentsDates(String userId, List<AppointmentState> states);
+
+    /**
+     * Get the distinct filter states present in the appointments of a user
+     * @param userId The user id
+     * @return The list of filter states
+     */
+    Future<List<AppointmentFilterState>> getMyAppointmentStates(String userId);
+
+    /**
+     * Get the distinct grids referenced by the appointments of a user
+     * @param userId The user id
+     * @return The list of grids
+     */
+    Future<List<MinimalGrid>> getMyAppointmentGrids(String userId);
 
     /**
      * Get appointment by its id

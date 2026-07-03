@@ -23,6 +23,8 @@ public class MinimalAppointment implements IModel<MinimalAppointment> {
     private String videoCallLink;
     private AppointmentState state;
     private Boolean isRequester;
+    private Long gridId;
+    private String gridName;
     private String gridColor;
 
     public MinimalAppointment(AppointmentWithInfos appointmentWithInfos, Boolean isRequester, String displayName, List<String> functions, String picture) {
@@ -36,6 +38,8 @@ public class MinimalAppointment implements IModel<MinimalAppointment> {
         this.videoCallLink = appointmentWithInfos.getVideoCallLink();
         this.state = appointmentWithInfos.getState();
         this.isRequester = isRequester;
+        this.gridId = appointmentWithInfos.getGridId();
+        this.gridName = appointmentWithInfos.getGridName();
         this.gridColor = appointmentWithInfos.getGridColor();
     }
 
@@ -79,6 +83,14 @@ public class MinimalAppointment implements IModel<MinimalAppointment> {
 
     public Boolean getIsRequester() {
         return isRequester;
+    }
+
+    public Long getGridId() {
+        return gridId;
+    }
+
+    public String getGridName() {
+        return gridName;
     }
 
     public String getGridColor() {
@@ -134,6 +146,16 @@ public class MinimalAppointment implements IModel<MinimalAppointment> {
 
     public MinimalAppointment setIsRequester(Boolean isRequester) {
         this.isRequester = isRequester;
+        return this;
+    }
+
+    public MinimalAppointment setGridId(Long gridId) {
+        this.gridId = gridId;
+        return this;
+    }
+
+    public MinimalAppointment setGridName(String gridName) {
+        this.gridName = gridName;
         return this;
     }
 

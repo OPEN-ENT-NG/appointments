@@ -62,6 +62,7 @@ public class Appointments extends BaseServer {
         addController(new TimeSlotController(serviceFactory));
         addController(new CommunicationController(serviceFactory));
         addController(new AppointmentController(serviceFactory));
+        addController(new FilterController(serviceFactory));
         addController(sharingController);
 
         // CRON
