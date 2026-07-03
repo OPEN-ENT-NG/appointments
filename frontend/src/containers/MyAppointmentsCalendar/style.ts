@@ -1,6 +1,6 @@
 import { Stack } from "@cgi-learning-hub/ui";
 import { styled } from "@mui/material";
-import { StyledHeaderProps } from "./types";
+import { StyledHeaderProps, StyledNavigationProps } from "./types";
 
 export const calendarContainerStyle = {
   marginTop: 4,
@@ -121,11 +121,20 @@ export const calendarContainerStyle = {
 
 export const StyledHeader = styled(Stack)<StyledHeaderProps>(
   ({ isMobile }) => ({
+    flexDirection: isMobile ? "column" : "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 1,
+    marginBottom: 1,
+  }),
+);
+
+export const StyledNavigation = styled(Stack)<StyledNavigationProps>(
+  ({ isMobile }) => ({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: isMobile ? "space-between" : "flex-end",
     gap: 1,
-    marginBottom: 1,
   }),
 );
 

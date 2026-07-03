@@ -10,8 +10,11 @@ import {
   MyAppointments,
 } from "~/services/api/AppointmentService/types";
 import { ViewMode } from "~/components/SwitchView/enums";
+import { useCalendar } from "~/containers/MyAppointmentsCalendar/useCalendar";
 
-export interface MyAppointmentsProviderContextProps {
+type CalendarHookReturn = ReturnType<typeof useCalendar>;
+
+export interface MyAppointmentsProviderContextProps extends CalendarHookReturn {
   myAppointments: AppointmentsType;
   myCalendarAppointments: AppointmentsType;
   limits: AppointmentListInfoType;

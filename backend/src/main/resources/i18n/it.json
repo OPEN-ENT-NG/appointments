@@ -157,6 +157,11 @@
   "appointments.minutes": "minuti",
   "appointments.share": "Condividi",
   "appointments.share.rights.read": "Prenotazione slot",
+  "appointments.status": "Stato",
+  "appointments.grid": "Griglia",
+  "appointments.pending.sent": "Richiesta inviata in attesa",
+  "appointments.pending.received": "Richiesta ricevuta in attesa",
+  
 
   "appointments.monday": "Lunedì",
   "appointments.tuesday": "Martedì",
@@ -171,6 +176,12 @@
   "appointments.everyone": "Tutti",
 
   "appointments.today": "Oggi",
+
+  "appointments.filters": "Filtri",
+  "appointments.filters.clear": "Cancella filtri",
+  "appointments.filters.cleared": "Filtri cancellati",
+  "appointments.filters.filter.by": "Filtra per",
+  "appointments.filters.displayed.appointments": "{{0}}/{{1}} appuntamenti visualizzati",
 
   "appointments.error.same.grid.already.exists": "Questo nome è già in uso.",
   "appointments.error.field.required": "Questo campo è obbligatorio.",

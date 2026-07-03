@@ -23,12 +23,14 @@ import { BOOK_APPOINTMENT_MODAL_BREAKPOINT } from "~/core/breakpoints";
 
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import EventRoundedIcon from "@mui/icons-material/EventRounded";
 import { t } from "~/i18n";
 import {
   calendarContainerStyle,
   modalPopoverStyle,
   StyledHeader,
+  StyledNavigation,
 } from "./style";
 import { DatesSetArg, EventClickArg } from "@fullcalendar/core/index.js";
 import { createEventsFrom } from "./utils";
@@ -39,6 +41,7 @@ import { CalendarNowIndicator } from "~/components/calendar/CalendarNowIndicator
 import { CalendarSlotLabel } from "~/components/calendar/CalendarSlotLabel";
 import { CalendarDayHeader } from "~/components/calendar/CalendarDayHeader";
 import { AppointmentInfosModal } from "../AppointmentInfosModal";
+import { OrganizeFilter } from "~/components/OrganizeFilter";
 
 export const MyAppointmentsCalendar: FC = () => {
   const {
@@ -48,6 +51,8 @@ export const MyAppointmentsCalendar: FC = () => {
     selectedAppointment,
     handleClickAppointment,
     handleCloseAppointmentModal,
+    handleClearAllFilters,
+    nbCheckedFilters,
   } = useMyAppointments();
   const isMobile = useMediaQuery(
     `(max-width: ${BOOK_APPOINTMENT_MODAL_BREAKPOINT}px)`,
@@ -178,25 +183,39 @@ export const MyAppointmentsCalendar: FC = () => {
 
       {/* HeaderToolbar */}
       <StyledHeader isMobile={isMobile}>
-        <IconButton onClick={openWeekPicker} color="primary">
-          <EventRoundedIcon />
-        </IconButton>
-        <IconButton onClick={goPrev} color="primary">
-          <ChevronLeftRoundedIcon />
-        </IconButton>
-        <Typography>{title}</Typography>
-        <IconButton onClick={goNext} color="primary">
-          <ChevronRightRoundedIcon />
-        </IconButton>
-        <Button
-          onClick={goToday}
-          variant="outlined"
-          size="small"
-          color="primary"
-          sx={{ minHeight: "3rem", fontSize: "1.3rem" }}
-        >
-          {t("appointments.today")}
-        </Button>
+        <Stack direction="row" sx={{ gap: 2, alignItems: "center" }}>
+          <OrganizeFilter />
+          <Button
+            variant="text"
+            color="secondary"
+            startIcon={<CloseRoundedIcon />}
+            onClick={handleClearAllFilters}
+            disabled={!nbCheckedFilters}
+          >
+            {t("appointments.filters.clear")}
+          </Button>
+        </Stack>
+        <StyledNavigation isMobile={isMobile}>
+          <IconButton onClick={openWeekPicker} color="primary">
+            <EventRoundedIcon />
+          </IconButton>
+          <IconButton onClick={goPrev} color="primary">
+            <ChevronLeftRoundedIcon />
+          </IconButton>
+          <Typography>{title}</Typography>
+          <IconButton onClick={goNext} color="primary">
+            <ChevronRightRoundedIcon />
+          </IconButton>
+          <Button
+            onClick={goToday}
+            variant="outlined"
+            size="small"
+            color="primary"
+            sx={{ minHeight: "3rem", fontSize: "1.3rem" }}
+          >
+            {t("appointments.today")}
+          </Button>
+        </StyledNavigation>
       </StyledHeader>
 
       {/* Calendar view*/}
