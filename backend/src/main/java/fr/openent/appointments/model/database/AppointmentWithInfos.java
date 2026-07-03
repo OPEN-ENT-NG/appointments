@@ -27,6 +27,7 @@ public class AppointmentWithInfos implements IModel<AppointmentWithInfos> {
     private String place;
     private List<String> documentsIds;
     private String publicComment;
+    private Long gridId;
     private String gridName;
     private String gridColor;
 
@@ -42,6 +43,7 @@ public class AppointmentWithInfos implements IModel<AppointmentWithInfos> {
         this.videoCallLink = appointmentWithInfos.getString(VIDEO_CALL_LINK, null);
         this.place = appointmentWithInfos.getString(PLACE, null);
         this.publicComment = appointmentWithInfos.getString(PUBLIC_COMMENT, null);
+        this.gridId = appointmentWithInfos.getLong(GRID_ID, null);
         this.gridName = appointmentWithInfos.getString(GRID_NAME, null);
         this.gridColor = appointmentWithInfos.getString(GRID_COLOR, null);
         this.comment = appointmentWithInfos.getString(COMMENT, null);
@@ -113,6 +115,10 @@ public class AppointmentWithInfos implements IModel<AppointmentWithInfos> {
 
     public String getPublicComment() {
         return this.publicComment;
+    }
+
+    public Long getGridId() {
+        return this.gridId;
     }
 
     public String getGridName() {
@@ -192,6 +198,11 @@ public class AppointmentWithInfos implements IModel<AppointmentWithInfos> {
 
     public AppointmentWithInfos setPublicComment(String publicComment) {
         this.publicComment = publicComment;
+        return this;
+    }
+
+    public AppointmentWithInfos setGridId(Long gridId) {
+        this.gridId = gridId;
         return this;
     }
 
