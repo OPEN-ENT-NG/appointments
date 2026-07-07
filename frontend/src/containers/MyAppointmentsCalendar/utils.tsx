@@ -1,10 +1,14 @@
 import { Event, Filter, FilterItem, FilterPref } from "./types";
 import { MyMinimalAppointment } from "~/services/api/AppointmentService/types";
-import { APPOINTMENT_FILTER_STATE, APPOINTMENT_STATE, FilterType } from "~/core/enums";
+import {
+  APPOINTMENT_FILTER_STATE,
+  APPOINTMENT_STATE,
+  FilterType,
+} from "~/core/enums";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import DoNotDisturbOnRoundedIcon from "@mui/icons-material/DoNotDisturbOnRounded";
-import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
+import ErrorRoundedIcon from "@mui/icons-material/ErrorRounded";
 import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import { hexWithOpacity } from "~/core/utils";
@@ -33,7 +37,9 @@ export const FILTER_STATUS_I18N = {
   [APPOINTMENT_FILTER_STATE.CREATED_RECIPIENT]: "appointments.pending.received",
 };
 
-export const createEventsFrom = (appointments: MyMinimalAppointment[]): Event[] => appointments.map(createEventFrom);
+export const createEventsFrom = (
+  appointments: MyMinimalAppointment[],
+): Event[] => appointments.map(createEventFrom);
 
 const createEventFrom = (appointment: MyMinimalAppointment): Event => ({
   id: appointment.id.toString(),
@@ -151,7 +157,9 @@ export const getBaseCalendarStatusFilterItems = (): FilterItem[] => {
   ];
 };
 
-export const getFilterStateFrom = (appointment: MyMinimalAppointment): APPOINTMENT_FILTER_STATE => {
+export const getFilterStateFrom = (
+  appointment: MyMinimalAppointment,
+): APPOINTMENT_FILTER_STATE => {
   switch (appointment.state) {
     case APPOINTMENT_STATE.CREATED:
       return appointment.isRequester

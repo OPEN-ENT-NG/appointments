@@ -75,16 +75,22 @@ export const MyAppointmentsCalendar: FC = () => {
   const scrollEventPositionRef = useRef<number>(0);
 
   useEffect(() => {
-    const statusFilter = calendarFilters.find((filter) => filter.type === FilterType.STATUS);
-    const gridFilter = calendarFilters.find((filter) => filter.type === FilterType.GRID);
+    const statusFilter = calendarFilters.find(
+      (filter) => filter.type === FilterType.STATUS,
+    );
+    const gridFilter = calendarFilters.find(
+      (filter) => filter.type === FilterType.GRID,
+    );
 
-    const allowedStates = statusFilter?.filters
-      .filter((item) => item.checked)
-      .map((item) => item.id) ?? [];
+    const allowedStates =
+      statusFilter?.filters
+        .filter((item) => item.checked)
+        .map((item) => item.id) ?? [];
 
-    const allowedGridIds = gridFilter?.filters
-      .filter((item) => item.checked)
-      .map((item) => item.id) ?? [];
+    const allowedGridIds =
+      gridFilter?.filters
+        .filter((item) => item.checked)
+        .map((item) => item.id) ?? [];
 
     const filteredAppointments = myCalendarAppointments.filter(
       (appointment) =>

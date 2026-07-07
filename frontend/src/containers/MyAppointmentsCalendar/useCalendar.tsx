@@ -11,7 +11,10 @@ import { toast } from "react-toastify";
 import { Box, Button } from "@cgi-learning-hub/ui";
 import { t } from "~/i18n";
 import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
-import { useGetAppointmentFilterGridsQuery, useGetAppointmentFilterStatesQuery } from "~/services/api/FilterService";
+import {
+  useGetAppointmentFilterGridsQuery,
+  useGetAppointmentFilterStatesQuery,
+} from "~/services/api/FilterService";
 
 export const useCalendar = () => {
   const [calendarFilters, setCalendarFilters] = useState<Filter[]>([]);
@@ -23,7 +26,7 @@ export const useCalendar = () => {
     ).length;
     return acc + checkedCount;
   }, 0);
-  
+
   const { data: statusFiltersList } = useGetAppointmentFilterStatesQuery();
   const { data: gridFiltersList } = useGetAppointmentFilterGridsQuery();
 

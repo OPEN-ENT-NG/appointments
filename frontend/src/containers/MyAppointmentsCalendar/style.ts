@@ -148,4 +148,4 @@ export const modalPopoverStyle = {
 export const smallButton = {
   minHeight: "3rem",
   fontSize: "1.3rem",
-}
+};
