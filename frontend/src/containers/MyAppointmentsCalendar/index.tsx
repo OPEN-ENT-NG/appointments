@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -29,11 +29,12 @@ import { t } from "~/i18n";
 import {
   calendarContainerStyle,
   modalPopoverStyle,
+  smallButton,
   StyledHeader,
   StyledNavigation,
 } from "./style";
 import { DatesSetArg, EventClickArg } from "@fullcalendar/core/index.js";
-import { createEventsFrom } from "./utils";
+import { createEventsFrom, getFilterStateFrom } from "./utils";
 import { DayOrWeekPicker } from "~/components/DayOrWeekPicker";
 import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 import { CalendarEvent } from "~/components/calendar/CalendarEvent";
@@ -42,6 +43,8 @@ import { CalendarSlotLabel } from "~/components/calendar/CalendarSlotLabel";
 import { CalendarDayHeader } from "~/components/calendar/CalendarDayHeader";
 import { AppointmentInfosModal } from "../AppointmentInfosModal";
 import { OrganizeFilter } from "~/components/OrganizeFilter";
+import { FilterType } from "~/core/enums";
+import { Event } from "./types";
 
 export const MyAppointmentsCalendar: FC = () => {
   const {
@@ -52,12 +55,14 @@ export const MyAppointmentsCalendar: FC = () => {
     handleClickAppointment,
     handleCloseAppointmentModal,
     handleClearAllFilters,
+    calendarFilters,
     nbCheckedFilters,
   } = useMyAppointments();
   const isMobile = useMediaQuery(
     `(max-width: ${BOOK_APPOINTMENT_MODAL_BREAKPOINT}px)`,
   );
   const calendarRef = useRef<FullCalendar>(null);
+  const [displayedEvents, setDisplayedEvents] = useState<Event[]>([]);
   const [title, setTitle] = useState("");
   const [currentDateRangeStart, setCurrentDateRangeStart] = useState<Date>(
     new Date(),
@@ -69,9 +74,27 @@ export const MyAppointmentsCalendar: FC = () => {
   const isModalOpen = Boolean(modalAnchor);
   const scrollEventPositionRef = useRef<number>(0);
 
-  const formattedAppointments = useMemo(() => {
-    return createEventsFrom(myCalendarAppointments);
-  }, [myCalendarAppointments]);
+  useEffect(() => {
+    const statusFilter = calendarFilters.find((filter) => filter.type === FilterType.STATUS);
+    const gridFilter = calendarFilters.find((filter) => filter.type === FilterType.GRID);
+
+    const allowedStates = statusFilter?.filters
+      .filter((item) => item.checked)
+      .map((item) => item.id) ?? [];
+
+    const allowedGridIds = gridFilter?.filters
+      .filter((item) => item.checked)
+      .map((item) => item.id) ?? [];
+
+    const filteredAppointments = myCalendarAppointments.filter(
+      (appointment) =>
+        allowedStates.includes(getFilterStateFrom(appointment)) &&
+        allowedGridIds.includes(appointment.gridId),
+    );
+
+    const formattedAppointments = createEventsFrom(filteredAppointments);
+    setDisplayedEvents(formattedAppointments);
+  }, [myCalendarAppointments, calendarFilters]);
 
   useEffect(() => {
     // Init du titre au montage
@@ -86,7 +109,7 @@ export const MyAppointmentsCalendar: FC = () => {
     }, 300); // delay to let FullCalendar render the view
 
     return () => clearTimeout(timeout);
-  }, [formattedAppointments]);
+  }, [displayedEvents]);
 
   // Refresh myAppointements according to currently displayed date(s)
   useEffect(() => {
@@ -188,9 +211,11 @@ export const MyAppointmentsCalendar: FC = () => {
           <Button
             variant="text"
             color="secondary"
+            size="small"
             startIcon={<CloseRoundedIcon />}
             onClick={handleClearAllFilters}
             disabled={!nbCheckedFilters}
+            sx={smallButton}
           >
             {t("appointments.filters.clear")}
           </Button>
@@ -209,9 +234,9 @@ export const MyAppointmentsCalendar: FC = () => {
           <Button
             onClick={goToday}
             variant="outlined"
-            size="small"
             color="primary"
-            sx={{ minHeight: "3rem", fontSize: "1.3rem" }}
+            size="small"
+            sx={smallButton}
           >
             {t("appointments.today")}
           </Button>
@@ -236,7 +261,7 @@ export const MyAppointmentsCalendar: FC = () => {
         scrollTimeReset={false} // Avoid going to top when selecting event
         eventInteractive
         datesSet={handleDatesSet}
-        events={formattedAppointments}
+        events={displayedEvents}
         dayHeaderContent={(arg) => (
           <CalendarDayHeader arg={arg} locale={frLocale} />
         )}

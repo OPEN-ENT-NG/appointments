@@ -33,10 +33,7 @@ import {
   useGetMyAppointmentsQuery,
   useRejectAppointmentMutation,
 } from "~/services/api/AppointmentService";
-import {
-  Appointment,
-  MyAppointments,
-} from "~/services/api/AppointmentService/types";
+import { Appointment } from "~/services/api/AppointmentService/types";
 import { useGlobal } from "../GlobalProvider";
 import { MY_APPOINTMENTS_LIST_STATE } from "./enum";
 import {
@@ -46,7 +43,6 @@ import {
   MyAppointmentsProviderProps,
 } from "./types";
 import {
-  buildMyAppointments,
   downloadBlob,
   initialAppointments,
   initialDialogModalProps,
@@ -157,36 +153,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
   const [cancelAppointment] = useCancelAppointmentMutation();
 
   const myCalendarAppointments = useMemo(() => {
-    if (!allMyAppointments)
-      return {
-        [MY_APPOINTMENTS_LIST_STATE.PENDING]: {
-          total: 0,
-          appointments: [],
-        } as MyAppointments,
-        [MY_APPOINTMENTS_LIST_STATE.ACCEPTED]: {
-          total: 0,
-          appointments: [],
-        } as MyAppointments,
-        [MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED]: {
-          total: 0,
-          appointments: [],
-        } as MyAppointments,
-      } as AppointmentsType;
-
-    return {
-      [MY_APPOINTMENTS_LIST_STATE.PENDING]: buildMyAppointments(
-        allMyAppointments.appointments,
-        MY_APPOINTMENTS_LIST_STATE.PENDING,
-      ),
-      [MY_APPOINTMENTS_LIST_STATE.ACCEPTED]: buildMyAppointments(
-        allMyAppointments.appointments,
-        MY_APPOINTMENTS_LIST_STATE.ACCEPTED,
-      ),
-      [MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED]: buildMyAppointments(
-        allMyAppointments.appointments,
-        MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED,
-      ),
-    } as AppointmentsType;
+    return allMyAppointments?.appointments ?? [];
   }, [allMyAppointments]);
 
   const handleChangePage = useCallback(

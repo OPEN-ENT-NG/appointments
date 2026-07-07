@@ -1,6 +1,5 @@
 import { APPOINTMENT_STATE, CONFIRM_MODAL_TYPE } from "~/core/enums";
 import { MY_APPOINTMENTS_LIST_STATE } from "./enum";
-import { MyMinimalAppointment } from "~/services/api/AppointmentService/types";
 
 export const initialAppointments = {
   [MY_APPOINTMENTS_LIST_STATE.PENDING]: undefined,
@@ -61,17 +60,4 @@ export const toLocalISOString = (date: Date | null): string | null => {
     ":" +
     String(date.getSeconds()).padStart(2, "0")
   );
-};
-
-export const buildMyAppointments = (
-  appointments: MyMinimalAppointment[],
-  state: MY_APPOINTMENTS_LIST_STATE,
-) => {
-  const filteredAppointments = appointments.filter((appointment) =>
-    states[state].includes(appointment.state),
-  );
-  return {
-    total: filteredAppointments.length,
-    appointments: filteredAppointments,
-  };
 };

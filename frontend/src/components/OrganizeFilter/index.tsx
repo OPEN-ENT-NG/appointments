@@ -16,6 +16,7 @@ import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
 import { t } from "~/i18n";
 import { preventPropagation } from "~/core/utils";
 import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
+import { smallButton } from "~/containers/MyAppointmentsCalendar/style";
 
 export const OrganizeFilter: FC = () => {
   const {
@@ -39,9 +40,11 @@ export const OrganizeFilter: FC = () => {
       <Button
         variant="outlined"
         color="secondary"
+        size="small"
         startIcon={<FilterAltRoundedIcon />}
         onClick={handleOpen}
         sx={{
+          ...smallButton,
           paddingRight: "0.5rem",
           "&:hover .MuiChip-root": {
             backgroundColor: "white",

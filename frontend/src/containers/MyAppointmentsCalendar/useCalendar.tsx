@@ -3,14 +3,7 @@ import { useCallback, useMemo, useState } from "react";
 import {
   buildCalendarFiltersFromPref,
   buildCalendarFiltersPref,
-  FILTER_STATUS_I18N,
 } from "./utils";
-import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
-import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
-import CircleRoundedIcon from "@mui/icons-material/CircleRounded";
-import DoNotDisturbOnRoundedIcon from "@mui/icons-material/DoNotDisturbOnRounded";
-import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
-import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import { usePreferences } from "~/hooks/usePreferences";
 import { FilterType } from "~/core/enums";
 import { Filter, FilterItem } from "./types";
@@ -18,54 +11,7 @@ import { toast } from "react-toastify";
 import { Box, Button } from "@cgi-learning-hub/ui";
 import { t } from "~/i18n";
 import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
-
-//TODO: delete from here
-const statusFiltersList = [
-  {
-    id: 1,
-    name: FILTER_STATUS_I18N["ACCEPTED"], //TODO: use enum from Niko instead (for all lines)
-    IconComponent: <CheckCircleRoundedIcon sx={{ color: "success.main" }} />,
-  },
-  {
-    id: 2,
-    name: FILTER_STATUS_I18N["REFUSED"],
-    IconComponent: <DoNotDisturbOnRoundedIcon sx={{ color: "error.main" }} />,
-  },
-  {
-    id: 3,
-    name: FILTER_STATUS_I18N["CANCELED"],
-    IconComponent: <CancelRoundedIcon sx={{ color: "error.main" }} />,
-  },
-  {
-    id: 4,
-    name: FILTER_STATUS_I18N["CREATED_REQUESTER"],
-    IconComponent: <HelpRoundedIcon sx={{ color: "warning.main" }} />,
-  },
-  {
-    id: 5,
-    name: FILTER_STATUS_I18N["CREATED_RECIPIENT"],
-    IconComponent: <WarningRoundedIcon sx={{ color: "warning.main" }} />,
-  },
-];
-
-const gridFiltersListSample = [
-  {
-    id: 42,
-    name: "Rendez-vous ponctuels",
-    IconComponent: <CircleRoundedIcon sx={{ color: "#9B59B6" }} />,
-  },
-  {
-    id: 43,
-    name: "Aide aux devoirs",
-    IconComponent: <CircleRoundedIcon sx={{ color: "#2ECC71" }} />,
-  },
-  {
-    id: 44,
-    name: "Distribution de matériel",
-    IconComponent: <CircleRoundedIcon sx={{ color: "#E74C3C" }} />,
-  },
-];
-//TODO: to here
+import { useGetAppointmentFilterGridsQuery, useGetAppointmentFilterStatesQuery } from "~/services/api/FilterService";
 
 export const useCalendar = () => {
   const [calendarFilters, setCalendarFilters] = useState<Filter[]>([]);
@@ -77,17 +23,19 @@ export const useCalendar = () => {
     ).length;
     return acc + checkedCount;
   }, 0);
+  
+  const { data: statusFiltersList } = useGetAppointmentFilterStatesQuery();
+  const { data: gridFiltersList } = useGetAppointmentFilterGridsQuery();
 
   const initCalendarFilters = useCallback(async () => {
     const calendarFiltersPref = await fetchCalendarFiltersPreference();
-    //TODO: get statusFiltersList & gridFiltersList from API instead of sample above
     const calendarFilters = buildCalendarFiltersFromPref(
       calendarFiltersPref,
-      statusFiltersList,
-      gridFiltersListSample,
+      statusFiltersList ?? [],
+      gridFiltersList ?? [],
     );
     setCalendarFilters(calendarFilters);
-  }, [fetchCalendarFiltersPreference]);
+  }, [fetchCalendarFiltersPreference, statusFiltersList, gridFiltersList]);
 
   const handleChangeCalendarFilters = useCallback(
     (newCalendarFilters: Filter[]) => {

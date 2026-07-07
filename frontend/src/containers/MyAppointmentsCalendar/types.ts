@@ -1,6 +1,6 @@
 import { SvgIconComponent } from "@mui/icons-material";
 import { ReactNode } from "react";
-import { FilterType } from "~/core/enums";
+import { APPOINTMENT_FILTER_STATE, FilterType } from "~/core/enums";
 
 export interface StyledHeaderProps {
   isMobile: boolean;
@@ -34,7 +34,7 @@ export interface Filter {
 }
 
 export interface FilterItem {
-  id: number;
+  id: number | APPOINTMENT_FILTER_STATE;
   name: string;
   IconComponent: ReactNode;
   checked?: boolean;
@@ -42,5 +42,5 @@ export interface FilterItem {
 
 export interface FilterPref {
   type: FilterType;
-  filters: number[];
+  filters: (number | APPOINTMENT_FILTER_STATE)[];
 }

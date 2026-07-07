@@ -8,6 +8,7 @@ import { CONFIRM_MODAL_TYPE } from "~/core/enums";
 import {
   Appointment,
   MyAppointments,
+  MyMinimalAppointment,
 } from "~/services/api/AppointmentService/types";
 import { ViewMode } from "~/components/SwitchView/enums";
 import { useCalendar } from "~/containers/MyAppointmentsCalendar/useCalendar";
@@ -16,7 +17,7 @@ type CalendarHookReturn = ReturnType<typeof useCalendar>;
 
 export interface MyAppointmentsProviderContextProps extends CalendarHookReturn {
   myAppointments: AppointmentsType;
-  myCalendarAppointments: AppointmentsType;
+  myCalendarAppointments: MyMinimalAppointment[];
   limits: AppointmentListInfoType;
   pages: AppointmentListInfoType;
   maxPages: AppointmentListInfoType;
