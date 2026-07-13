@@ -94,8 +94,10 @@ export const MyAppointmentsCalendar: FC = () => {
 
     const filteredAppointments = myCalendarAppointments.filter(
       (appointment) =>
-        allowedStates.includes(getFilterStateFrom(appointment)) &&
-        allowedGridIds.includes(appointment.gridId),
+        (allowedStates.length === 0 ||
+          allowedStates.includes(getFilterStateFrom(appointment))) &&
+        (allowedGridIds.length === 0 ||
+          allowedGridIds.includes(appointment.gridId)),
     );
 
     const formattedAppointments = createEventsFrom(filteredAppointments);
