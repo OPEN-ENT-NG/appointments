@@ -157,6 +157,10 @@
   "appointments.minutes": "minutes",
   "appointments.share": "Share",
   "appointments.share.rights.read": "Slot booking",
+  "appointments.status": "Status",
+  "appointments.grid": "Schedule",
+  "appointments.pending.sent": "Sent request pending",
+  "appointments.pending.received": "Received request pending",
 
   "appointments.monday": "Monday",
   "appointments.tuesday": "Tuesday",
@@ -171,6 +175,12 @@
   "appointments.everyone": "Everyone",
 
   "appointments.today": "Today",
+  
+  "appointments.filters": "Filters",
+  "appointments.filters.clear": "Clear filters",
+  "appointments.filters.cleared": "Filters cleared",
+  "appointments.filters.filter.by": "Filter by",
+  "appointments.filters.displayed.appointments": "{{0}}/{{1}} appointments displayed",
 
   "appointments.error.same.grid.already.exists": "This name is already in use.",
   "appointments.error.field.required": "This field is required.",

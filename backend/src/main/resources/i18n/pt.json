@@ -157,6 +157,10 @@
   "appointments.minutes": "minutos",
   "appointments.share": "Partilhar",
   "appointments.share.rights.read": "Reserva de intervalos",
+  "appointments.status": "Estado",
+  "appointments.grid": "Agenda",
+  "appointments.pending.sent": "Pedido enviado pendente",
+  "appointments.pending.received": "Pedido recebido pendente",
 
   "appointments.monday": "Segunda-feira",
   "appointments.tuesday": "Terça-feira",
@@ -171,6 +175,12 @@
   "appointments.everyone": "Todos",
 
   "appointments.today": "Hoje",
+  
+  "appointments.filters": "Filtros",
+  "appointments.filters.clear": "Limpar filtros",
+  "appointments.filters.cleared": "Filtros limpos",
+  "appointments.filters.filter.by": "Filtrar por",
+  "appointments.filters.displayed.appointments": "{{0}}/{{1}} compromissos apresentados",
 
   "appointments.error.same.grid.already.exists": "Este nome já está em uso.",
   "appointments.error.field.required": "Este campo é obrigatório.",

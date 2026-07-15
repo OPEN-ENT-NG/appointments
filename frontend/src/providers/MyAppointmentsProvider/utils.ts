@@ -1,9 +1,5 @@
 import { APPOINTMENT_STATE, CONFIRM_MODAL_TYPE } from "~/core/enums";
 import { MY_APPOINTMENTS_LIST_STATE } from "./enum";
-import { ViewMode } from "~/components/SwitchView/enums";
-import { odeServices } from "@edifice.io/client";
-import { APPOINTMENTS } from "~/core/constants";
-import { MyMinimalAppointment } from "~/services/api/AppointmentService/types";
 
 export const initialAppointments = {
   [MY_APPOINTMENTS_LIST_STATE.PENDING]: undefined,
@@ -49,48 +45,6 @@ export const downloadBlob = (blob: Blob, filename: string) => {
   URL.revokeObjectURL(url);
 };
 
-// Preferences
-
-const getAppointmentsPreference = async (prefKey: string) => {
-  try {
-    const result: { [key: string]: string } = await odeServices
-      .conf()
-      .getPreference(APPOINTMENTS);
-    return result[prefKey];
-  } catch (error) {
-    console.error("An error occurred:", error);
-    throw error;
-  }
-};
-
-export const fetchViewModePreference = async () => {
-  try {
-    const viewModePref = await getAppointmentsPreference("viewModePreference");
-    return viewModePref as ViewMode;
-  } catch (error) {
-    console.error("ViewMode fetch request Error", error);
-    return ViewMode.GRID;
-  }
-};
-
-const savePreference = async (
-  key: string,
-  value: string | number | boolean,
-) => {
-  const result = await odeServices
-    .conf()
-    .savePreference(APPOINTMENTS, JSON.stringify({ [key]: value }));
-  return result;
-};
-
-export const updateViewModePreference = async (newViewMode: ViewMode) => {
-  try {
-    await savePreference("viewModePreference", newViewMode);
-  } catch (error) {
-    console.error("ViewMode update request Error", error);
-  }
-};
-
 export const toLocalISOString = (date: Date | null): string | null => {
   if (!date) return null;
   return (
@@ -106,17 +60,4 @@ export const toLocalISOString = (date: Date | null): string | null => {
     ":" +
     String(date.getSeconds()).padStart(2, "0")
   );
-};
-
-export const buildMyAppointments = (
-  appointments: MyMinimalAppointment[],
-  state: MY_APPOINTMENTS_LIST_STATE,
-) => {
-  const filteredAppointments = appointments.filter((appointment) =>
-    states[state].includes(appointment.state),
-  );
-  return {
-    total: filteredAppointments.length,
-    appointments: filteredAppointments,
-  };
 };
