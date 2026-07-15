@@ -3,23 +3,25 @@ package fr.openent.appointments.model.response;
 import fr.openent.appointments.model.database.Grid;
 import io.vertx.core.json.JsonObject;
 
-import static fr.openent.appointments.core.constants.Fields.ID;
-import static fr.openent.appointments.core.constants.Fields.NAME;
+import static fr.openent.appointments.core.constants.Fields.*;
 
 public abstract class BaseMinimalGrid {
     private Long id;
     private String name;
+    private String color;
 
     // Constructor
 
     public BaseMinimalGrid(JsonObject grid) {
         this.id = grid.getLong(ID, null);
         this.name = grid.getString(NAME, null);
+        this.color = grid.getString(COLOR, null);
     }
 
     public BaseMinimalGrid(Grid grid) {
         this.id = grid.getId();
         this.name = grid.getName();
+        this.color = grid.getColor();
     }
 
     // Getter
@@ -32,6 +34,10 @@ public abstract class BaseMinimalGrid {
         return name;
     }
 
+    public String getColor() {
+        return color;
+    }
+
     // Setter
 
     public BaseMinimalGrid setId(Long id) {
@@ -41,6 +47,11 @@ public abstract class BaseMinimalGrid {
 
     public BaseMinimalGrid setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    public BaseMinimalGrid setColor(String color) {
+        this.color = color;
         return this;
     }
 }

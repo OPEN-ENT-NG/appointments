@@ -157,6 +157,10 @@
   "appointments.minutes": "Minuten",
   "appointments.share": "Teilen",
   "appointments.share.rights.read": "Zeitfensterbuchung",
+  "appointments.status": "Status",
+  "appointments.grid": "Zeitplan",
+  "appointments.pending.sent": "Gesendete Anfrage ausstehend",
+  "appointments.pending.received": "Erhaltene Anfrage ausstehend",
 
   "appointments.monday": "Montag",
   "appointments.tuesday": "Dienstag",
@@ -171,6 +175,12 @@
   "appointments.everyone": "Jeder",
 
   "appointments.today": "Heute",
+  
+  "appointments.filters": "Filter",
+  "appointments.filters.clear": "Filter löschen",
+  "appointments.filters.cleared": "Filter gelöscht",
+  "appointments.filters.filter.by": "Filtern nach",
+  "appointments.filters.displayed.appointments": "{{0}}/{{1}} Termine angezeigt",
 
   "appointments.error.same.grid.already.exists": "Dieser Name wird bereits verwendet.",
   "appointments.error.field.required": "Dieses Feld ist erforderlich.",

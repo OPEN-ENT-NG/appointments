@@ -157,6 +157,10 @@
   "appointments.minutes": "minutes",
   "appointments.share": "Partager",
   "appointments.share.rights.read": "Réservation de créneaux",
+  "appointments.status": "Statut",
+  "appointments.grid": "Grille",
+  "appointments.pending.sent": "Demande émise en attente",
+  "appointments.pending.received": "Demande reçue en attente",
 
   "appointments.monday": "Lundi",
   "appointments.tuesday": "Mardi",
@@ -171,6 +175,12 @@
   "appointments.everyone": "Tout le monde",
 
   "appointments.today": "Aujourd’hui",
+  
+  "appointments.filters": "Filtres",
+  "appointments.filters.clear": "Effacer les filtres",
+  "appointments.filters.cleared": "Filtres effacés",
+  "appointments.filters.filter.by": "Filtrer par",
+  "appointments.filters.displayed.appointments": "{{0}}/{{1}} rendez-vous affichés",
 
   "appointments.error.same.grid.already.exists": "Ce nom est déjà utilisé.",
   "appointments.error.field.required": "Ce champ est obligatoire.",

@@ -157,6 +157,10 @@
   "appointments.minutes": "minutos",
   "appointments.share": "Compartir",
   "appointments.share.rights.read": "Reserva de franjas horarias",
+  "appointments.status": "Estado",
+  "appointments.grid": "Agenda",
+  "appointments.pending.sent": "Solicitud enviada pendiente",
+  "appointments.pending.received": "Solicitud recibida pendiente",
 
   "appointments.monday": "Lunes",
   "appointments.tuesday": "Martes",
@@ -171,6 +175,12 @@
   "appointments.everyone": "Todos",
 
   "appointments.today": "Hoy",
+
+  "appointments.filters": "Filtros",
+  "appointments.filters.clear": "Borrar filtros",
+  "appointments.filters.cleared": "Filtros borrados",
+  "appointments.filters.filter.by": "Filtrar por",
+  "appointments.filters.displayed.appointments": "{{0}}/{{1}} citas mostradas",
 
   "appointments.error.same.grid.already.exists": "Este nombre ya está en uso.",
   "appointments.error.field.required": "Este campo es obligatorio.",

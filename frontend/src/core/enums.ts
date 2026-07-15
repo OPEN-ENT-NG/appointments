@@ -72,3 +72,8 @@ export enum TagName {
   APPOINTMENTS = "APPOINTMENTS",
   APPOINTMENTS_LINKED_TO_GRID = "APPOINTMENTS_LINKED_TO_GRID",
 }
+
+export enum FilterType {
+  STATUS = "STATUS",
+  GRID = "GRID",
+}

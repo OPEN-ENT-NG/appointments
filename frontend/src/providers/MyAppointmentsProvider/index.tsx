@@ -33,10 +33,7 @@ import {
   useGetMyAppointmentsQuery,
   useRejectAppointmentMutation,
 } from "~/services/api/AppointmentService";
-import {
-  Appointment,
-  MyAppointments,
-} from "~/services/api/AppointmentService/types";
+import { Appointment } from "~/services/api/AppointmentService/types";
 import { useGlobal } from "../GlobalProvider";
 import { MY_APPOINTMENTS_LIST_STATE } from "./enum";
 import {
@@ -46,20 +43,19 @@ import {
   MyAppointmentsProviderProps,
 } from "./types";
 import {
-  buildMyAppointments,
   downloadBlob,
-  fetchViewModePreference,
   initialAppointments,
   initialDialogModalProps,
   initialLimits,
   initialPages,
   states,
   toLocalISOString,
-  updateViewModePreference,
 } from "./utils";
 import { ModalType } from "../GlobalProvider/enum";
 import { ViewMode } from "~/components/SwitchView/enums";
 import { getDatePlusOneDay, getDatePlusOneWeek } from "~/core/utils";
+import { useCalendar } from "~/containers/MyAppointmentsCalendar/useCalendar";
+import { usePreferences } from "~/hooks/usePreferences";
 
 const MyAppointmentsProviderContext =
   createContext<MyAppointmentsProviderContextProps | null>(null);
@@ -79,6 +75,9 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
 }) => {
   const { t } = useTranslation(APPOINTMENTS);
   const { appointmentIdFromNotify, toggleModal } = useGlobal();
+  const { fetchViewModePreference, updateViewModePreference } =
+    usePreferences();
+  const calendarHook = useCalendar();
   const [pages, setPages] = useState<AppointmentListInfoType>(initialPages);
   const [maxPages, setMaxPages] =
     useState<AppointmentListInfoType>(initialPages);
@@ -154,36 +153,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
   const [cancelAppointment] = useCancelAppointmentMutation();
 
   const myCalendarAppointments = useMemo(() => {
-    if (!allMyAppointments)
-      return {
-        [MY_APPOINTMENTS_LIST_STATE.PENDING]: {
-          total: 0,
-          appointments: [],
-        } as MyAppointments,
-        [MY_APPOINTMENTS_LIST_STATE.ACCEPTED]: {
-          total: 0,
-          appointments: [],
-        } as MyAppointments,
-        [MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED]: {
-          total: 0,
-          appointments: [],
-        } as MyAppointments,
-      } as AppointmentsType;
-
-    return {
-      [MY_APPOINTMENTS_LIST_STATE.PENDING]: buildMyAppointments(
-        allMyAppointments.appointments,
-        MY_APPOINTMENTS_LIST_STATE.PENDING,
-      ),
-      [MY_APPOINTMENTS_LIST_STATE.ACCEPTED]: buildMyAppointments(
-        allMyAppointments.appointments,
-        MY_APPOINTMENTS_LIST_STATE.ACCEPTED,
-      ),
-      [MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED]: buildMyAppointments(
-        allMyAppointments.appointments,
-        MY_APPOINTMENTS_LIST_STATE.REJECTED_OR_CANCELED,
-      ),
-    } as AppointmentsType;
+    return allMyAppointments?.appointments ?? [];
   }, [allMyAppointments]);
 
   const handleChangePage = useCallback(
@@ -367,15 +337,18 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
     [withExportGuard, downloadIcs],
   );
 
-  const initViewMode = async () => {
+  const initViewMode = useCallback(async () => {
     const viewMode = await fetchViewModePreference();
     setViewMode(viewMode);
-  };
+  }, [fetchViewModePreference]);
 
-  const toggleViewMode = useCallback((viewMode: ViewMode) => {
-    setViewMode(viewMode);
-    updateViewModePreference(viewMode);
-  }, []);
+  const toggleViewMode = useCallback(
+    (viewMode: ViewMode) => {
+      setViewMode(viewMode);
+      updateViewModePreference(viewMode);
+    },
+    [updateViewModePreference],
+  );
 
   const updateDisplayedWeek = (currentDateRangeStart: Date) => {
     if (currentDateRangeStart.getDay() != 1) {
@@ -395,7 +368,8 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
 
   useEffect(() => {
     initViewMode();
-  }, []);
+    calendarHook.initCalendarFilters();
+  }, [initViewMode, calendarHook.initCalendarFilters]);
 
   useEffect(() => {
     if (selectedAppointmentData && selectedAppointmentId && !isFetching) {
@@ -545,6 +519,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
       dialogModalProps,
       isExportingAppointments,
       viewMode,
+      ...calendarHook,
       updateDisplayedWeek,
       updateDisplayedDay,
       toggleViewMode,
@@ -570,6 +545,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
       dialogModalProps,
       isExportingAppointments,
       viewMode,
+      calendarHook,
       toggleViewMode,
       handleChangePage,
       handleChangeLimit,

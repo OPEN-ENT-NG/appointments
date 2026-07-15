@@ -1,5 +1,6 @@
 import dayjs, { Dayjs } from "dayjs";
 import { DAY } from "./dayjs.const";
+import { SyntheticEvent } from "react";
 
 // DayJS
 
@@ -69,4 +70,8 @@ export const hexWithOpacity = (
     .map(blended)
     .map((v) => v.toString(16).padStart(2, "0"))
     .join("")}`;
+};
+
+export const preventPropagation = (e: SyntheticEvent) => {
+  e.stopPropagation();
 };

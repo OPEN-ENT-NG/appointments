@@ -1,18 +1,22 @@
+import { TagName } from "~/core/enums";
 import { emptySplitApi } from "../EmptySplitService";
-import { NameWithId } from "../GridService/types";
-import { APPOINTMENT_FILTER_STATE, TagName } from "~/core/enums";
+import {
+  transformGridsResponseToFilterItems,
+  transformStatusResponseToFilterItems,
+} from "./utils";
+import { FilterItem } from "~/containers/MyAppointmentsCalendar/types";
 
 export const filterApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAppointmentFilterStates: builder.query<APPOINTMENT_FILTER_STATE[], void>(
-      {
-        query: () => "/filters/appointments/states",
-        providesTags: [TagName.APPOINTMENTS],
-      },
-    ),
-    getAppointmentFilterGrids: builder.query<NameWithId[], void>({
+    getAppointmentFilterStates: builder.query<FilterItem[], void>({
+      query: () => "/filters/appointments/states",
+      providesTags: [TagName.APPOINTMENTS],
+      transformResponse: transformStatusResponseToFilterItems,
+    }),
+    getAppointmentFilterGrids: builder.query<FilterItem[], void>({
       query: () => "/filters/appointments/grids",
       providesTags: [TagName.APPOINTMENTS],
+      transformResponse: transformGridsResponseToFilterItems,
     }),
   }),
 });

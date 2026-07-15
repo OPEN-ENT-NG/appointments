@@ -334,7 +334,11 @@ public class DefaultAppointmentService implements AppointmentService {
     }
 
     private MinimalGrid toMinimalGrid(AppointmentWithInfos appointment) {
-        return new MinimalGrid(new JsonObject().put(ID, appointment.getGridId()).put(NAME, appointment.getGridName()));
+        return new MinimalGrid(new JsonObject()
+                .put(ID, appointment.getGridId())
+                .put(NAME, appointment.getGridName())
+                .put(COLOR, appointment.getGridColor())
+        );
     }
 
     @Override
