@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { CalendarNowIndicatorProps } from "./types";
 import { Box, Chip } from "@cgi-learning-hub/ui";
-import { nowIndicatorStyle } from "./style";
+import { nowIndicatorChipStyle, nowIndicatorStyle } from "./style";
 
 export const CalendarNowIndicator: FC<CalendarNowIndicatorProps> = ({
   nowIndicator,
@@ -17,7 +17,7 @@ export const CalendarNowIndicator: FC<CalendarNowIndicatorProps> = ({
           hour: "2-digit",
           minute: "2-digit",
         })}
-        sx={{ fontSize: "1rem" }}
+        sx={nowIndicatorChipStyle}
       />
     );
   }

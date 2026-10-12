@@ -1,3 +1,10 @@
+export const nowIndicatorChipStyle = {
+  fontSize: "1.2rem",
+  "& .MuiChip-label": {
+    paddingX: "1.2rem",
+  },
+};
+
 export const nowIndicatorStyle = {
   position: "absolute",
   right: 0,
