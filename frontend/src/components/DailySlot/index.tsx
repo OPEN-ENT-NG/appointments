@@ -86,7 +86,7 @@ export const DailySlot: FC<DailySlotProps> = ({ day, slot, siblingsSlots }) => {
               shouldDisableTime={checkIfStartTimeShouldBeDisabled}
               value={slot.begin.parseToDayjsOrDefault(null)}
               onChange={(newValue) =>
-                handleSlotChange(day, slot, newValue, "begin")
+                newValue && handleSlotChange(day, slot, newValue, "begin")
               }
               disabled={isDisabled}
               sx={timePickerStyle}
@@ -100,10 +100,12 @@ export const DailySlot: FC<DailySlotProps> = ({ day, slot, siblingsSlots }) => {
             </Typography>
             <TimePicker
               ampm={false}
-              minTime={getEndMinTime(
-                slot.begin.parseToDayjsOrDefault(null),
-                duration,
-              )}
+              minTime={
+                getEndMinTime(
+                  slot.begin.parseToDayjsOrDefault(null),
+                  duration,
+                ) ?? undefined
+              }
               maxTime={endMax}
               defaultValue={endMin}
               shouldDisableTime={(value, view) =>
@@ -118,7 +120,7 @@ export const DailySlot: FC<DailySlotProps> = ({ day, slot, siblingsSlots }) => {
               }
               value={slot.end.parseToDayjsOrDefault(null)}
               onChange={(newValue) =>
-                handleSlotChange(day, slot, newValue, "end")
+                newValue && handleSlotChange(day, slot, newValue, "end")
               }
               disabled={isDisabled}
               sx={timePickerStyle}
