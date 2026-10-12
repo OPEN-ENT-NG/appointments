@@ -119,7 +119,7 @@ export const MyAppointmentsCalendar: FC = () => {
     }, 300); // delay to let FullCalendar render the view
 
     return () => clearTimeout(timeout);
-  }, [displayedEvents]);
+  }, []);
 
   // Refresh myAppointements according to currently displayed date(s)
   useEffect(() => {
