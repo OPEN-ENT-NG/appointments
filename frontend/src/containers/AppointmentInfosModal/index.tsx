@@ -63,6 +63,7 @@ import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
 export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
   appointment,
   floatingMode = false,
+  isFloatingOnLeft = false,
 }) => {
   const { minHoursBeforeCancellation } = useGlobal();
   const {
@@ -98,7 +99,9 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
           ...modalStyle,
           ...(floatingMode && {
             borderRadius: "10px",
-            borderLeft: `3px solid ${appointment.gridColor}`,
+            [isFloatingOnLeft
+              ? "borderRight"
+              : "borderLeft"]: `3px solid ${appointment.gridColor}`,
           }),
         }}
       >

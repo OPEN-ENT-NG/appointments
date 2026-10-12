@@ -145,12 +145,13 @@ export const StyledNavigation = styled(Stack)<StyledNavigationProps>(
   }),
 );
 
-export const modalPopoverStyle = {
-  margin: 0.5,
+export const getModalPopoverStyle = (isModalOnLeft: boolean) => ({
   "> .MuiPopover-paper": {
     borderRadius: "10px",
+    marginTop: 0.5,
+    marginLeft: isModalOnLeft ? -0.5 : 0.5,
   },
-};
+});
 
 export const smallButton = {
   minHeight: "3rem",

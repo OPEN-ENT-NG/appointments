@@ -19,6 +19,7 @@ import {
   SLOT_LABEL_INTERVAL,
   SLOT_MAX_TIME,
   SLOT_MIN_TIME,
+  THURSDAY_DAY_INDEX,
 } from "~/core/constants";
 import { BOOK_APPOINTMENT_MODAL_BREAKPOINT } from "~/core/breakpoints";
 
@@ -30,7 +31,7 @@ import { t } from "~/i18n";
 import {
   calendarContainerStyle,
   calendarWrapperStyle,
-  modalPopoverStyle,
+  getModalPopoverStyle,
   smallButton,
   StyledHeader,
   StyledNavigation,
@@ -74,6 +75,7 @@ export const MyAppointmentsCalendar: FC = () => {
   const isWeekPickerOpen = Boolean(weekPickerAnchor);
   const [modalAnchor, setModalAnchor] = useState<HTMLElement | null>(null);
   const isModalOpen = Boolean(modalAnchor);
+  const [isModalOnLeft, setIsModalOnLeft] = useState(false);
   const scrollEventPositionRef = useRef<number>(0);
 
   useEffect(() => {
@@ -149,6 +151,9 @@ export const MyAppointmentsCalendar: FC = () => {
   // Event actions
   const handleEventClick = (eventInfo: EventClickArg) => {
     scrollEventPositionRef.current = window.scrollY;
+    setIsModalOnLeft(
+      (eventInfo.event.start?.getDay() ?? 0) >= THURSDAY_DAY_INDEX,
+    );
     setModalAnchor(eventInfo.el);
     handleClickAppointment(Number.parseInt(eventInfo.event.id));
   };
@@ -186,13 +191,18 @@ export const MyAppointmentsCalendar: FC = () => {
           onClose={handleCloseAppointmentModal}
           anchorOrigin={{
             vertical: "top",
-            horizontal: "right",
+            horizontal: isModalOnLeft ? "left" : "right",
           }}
-          sx={modalPopoverStyle}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: isModalOnLeft ? "right" : "left",
+          }}
+          sx={getModalPopoverStyle(isModalOnLeft)}
         >
           <AppointmentInfosModal
             appointment={selectedAppointment}
             floatingMode={!isMobile}
+            isFloatingOnLeft={isModalOnLeft}
           />
         </Popover>
       )}
