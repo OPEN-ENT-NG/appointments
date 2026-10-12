@@ -27,6 +27,7 @@ export const DayOrWeekPicker: FC<WeekPickerProps> = ({
         }
       }}
       showDaysOutsideCurrentMonth
+      shouldDisableDate={(date) => date.day() === 0}
       slots={{ day: DayOrWeekPickerDay }}
       slotProps={{
         day: {
