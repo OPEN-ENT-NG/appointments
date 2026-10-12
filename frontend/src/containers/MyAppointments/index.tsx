@@ -29,6 +29,7 @@ export const MyAppointments: FC = () => {
   } = useGlobal();
   const {
     viewMode,
+    isAllAppointmentsEmpty,
     myAppointments,
     myAppointmentsDates,
     dialogModalProps,
@@ -50,18 +51,8 @@ export const MyAppointments: FC = () => {
     !myRejectedOrCanceledAppointments ||
     !myAppointmentsDates;
 
-  const isMyPendingAppointmentsEmpty =
-    myPendingAppointments && myPendingAppointments.total === 0;
   const isMyAcceptedAppointmentsEmpty =
     myAcceptedAppointments && myAcceptedAppointments.total === 0;
-  const isMyRejectedOrCanceledAppointmentsEmpty =
-    myRejectedOrCanceledAppointments &&
-    myRejectedOrCanceledAppointments.total === 0;
-
-  const isAllAppointmentsEmpty =
-    isMyPendingAppointmentsEmpty &&
-    isMyAcceptedAppointmentsEmpty &&
-    isMyRejectedOrCanceledAppointmentsEmpty;
 
   if (isLoading) {
     return (

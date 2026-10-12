@@ -43,7 +43,8 @@ export const Home: FC = () => {
   const { hasManageRight, setAppointmentIdFromNotify, setGridIdFromLink } =
     useGlobal();
   const { resetSearch } = useFindAppointments();
-  const { viewMode, toggleViewMode } = useMyAppointments();
+  const { viewMode, toggleViewMode, isAllAppointmentsEmpty } =
+    useMyAppointments();
 
   const initialTabValue = parseInt(sessionStorage.getItem("tabValue") || "0");
   const [tabValue, setTabValue] = useState(
@@ -117,7 +118,7 @@ export const Home: FC = () => {
               <Tab label={t("appointments.my.availability")} />
             )}
           </Tabs>
-          {tabValue === 1 && (
+          {tabValue === 1 && !isAllAppointmentsEmpty && (
             <Box sx={toggleStyle}>
               <SwitchView
                 viewMode={viewMode}

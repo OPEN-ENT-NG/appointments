@@ -24,6 +24,7 @@ export const SwitchView: FC<ISwitchViewProps> = ({
         <ToggleButton
           key={button.value}
           value={button.value}
+          aria-label={button.ariaLabel}
           sx={switchViewItemStyle}
         >
           {button.icon}

@@ -506,6 +506,14 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
       document.body.style.overflow = "";
   }, [selectedAppointment, dialogModalProps]);
 
+  const isAllAppointmentsEmpty = useMemo(
+    () =>
+      Object.values(myAppointments).every(
+        (appointments) => appointments?.total === 0,
+      ),
+    [myAppointments],
+  );
+
   const value = useMemo<MyAppointmentsProviderContextProps>(
     () => ({
       myAppointments,
@@ -519,6 +527,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
       dialogModalProps,
       isExportingAppointments,
       viewMode,
+      isAllAppointmentsEmpty,
       ...calendarHook,
       updateDisplayedWeek,
       updateDisplayedDay,
@@ -545,6 +554,7 @@ export const MyAppointmentsProvider: FC<MyAppointmentsProviderProps> = ({
       dialogModalProps,
       isExportingAppointments,
       viewMode,
+      isAllAppointmentsEmpty,
       calendarHook,
       toggleViewMode,
       handleChangePage,

@@ -27,6 +27,7 @@ export interface MyAppointmentsProviderContextProps extends CalendarHookReturn {
   dialogModalProps: DialogModalProps;
   isExportingAppointments: boolean;
   viewMode: ViewMode;
+  isAllAppointmentsEmpty: boolean;
   updateDisplayedWeek: (currentDateRangeStart: Date) => void;
   updateDisplayedDay: (currentDateRangeStart: Date) => void;
   toggleViewMode: (viewMode: ViewMode) => void;

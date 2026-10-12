@@ -244,5 +244,7 @@
   "group.school.Guest": "Convidados da {0}",
 
   "appointments.select.all": "Selecionar tudo",
-  "appointments.deselect.all": "Deselecionar tudo"
+  "appointments.deselect.all": "Deselecionar tudo",
+  "appointments.view.list": "Visualização em lista",
+  "appointments.view.calendar": "Visualização em calendário"
 }
