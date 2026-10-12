@@ -2,6 +2,13 @@ import { Stack } from "@cgi-learning-hub/ui";
 import { styled } from "@mui/material";
 import { StyledHeaderProps, StyledNavigationProps } from "./types";
 
+export const calendarWrapperStyle = {
+  height: "90vh",
+  "@supports (height: 90dvh)": {
+    height: "90dvh",
+  },
+};
+
 export const calendarContainerStyle = {
   marginTop: 4,
   gap: "1rem",

@@ -6,6 +6,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import frLocale from "@fullcalendar/core/locales/fr";
 
 import {
+  Box,
   Button,
   IconButton,
   Popover,
@@ -28,6 +29,7 @@ import EventRoundedIcon from "@mui/icons-material/EventRounded";
 import { t } from "~/i18n";
 import {
   calendarContainerStyle,
+  calendarWrapperStyle,
   modalPopoverStyle,
   smallButton,
   StyledHeader,
@@ -252,43 +254,45 @@ export const MyAppointmentsCalendar: FC = () => {
       </StyledHeader>
 
       {/* Calendar view*/}
-      <FullCalendar
-        ref={calendarRef}
-        plugins={[timeGridPlugin, dayGridPlugin, interactionPlugin]}
-        initialView={isMobile ? "timeGridDay" : "timeGridWeek"}
-        locale={frLocale}
-        headerToolbar={false} // We use our own above
-        slotMinTime={SLOT_MIN_TIME}
-        slotMaxTime={SLOT_MAX_TIME}
-        slotDuration={SLOT_DURATION}
-        slotLabelInterval={SLOT_LABEL_INTERVAL}
-        weekends={true}
-        hiddenDays={[0]} // Hide Sundays
-        allDaySlot={false}
-        nowIndicator
-        scrollTimeReset={false} // Avoid going to top when selecting event
-        eventInteractive
-        datesSet={handleDatesSet}
-        events={displayedEvents}
-        dayHeaderContent={(arg) => (
-          <CalendarDayHeader arg={arg} locale={frLocale} />
-        )}
-        slotLabelContent={(slot) => <CalendarSlotLabel slot={slot} />}
-        nowIndicatorContent={(nowIndicator) => (
-          <CalendarNowIndicator
-            nowIndicator={nowIndicator}
-            isMobile={isMobile}
-          />
-        )}
-        eventContent={(eventInfo) => (
-          <CalendarEvent
-            eventInfo={eventInfo}
-            onCloseModal={handleCloseModal}
-          />
-        )}
-        eventClick={handleEventClick}
-        height="80vh"
-      />
+      <Box sx={calendarWrapperStyle}>
+        <FullCalendar
+          ref={calendarRef}
+          plugins={[timeGridPlugin, dayGridPlugin, interactionPlugin]}
+          initialView={isMobile ? "timeGridDay" : "timeGridWeek"}
+          locale={frLocale}
+          headerToolbar={false} // We use our own above
+          slotMinTime={SLOT_MIN_TIME}
+          slotMaxTime={SLOT_MAX_TIME}
+          slotDuration={SLOT_DURATION}
+          slotLabelInterval={SLOT_LABEL_INTERVAL}
+          weekends={true}
+          hiddenDays={[0]} // Hide Sundays
+          allDaySlot={false}
+          nowIndicator
+          scrollTimeReset={false} // Avoid going to top when selecting event
+          eventInteractive
+          datesSet={handleDatesSet}
+          events={displayedEvents}
+          dayHeaderContent={(arg) => (
+            <CalendarDayHeader arg={arg} locale={frLocale} />
+          )}
+          slotLabelContent={(slot) => <CalendarSlotLabel slot={slot} />}
+          nowIndicatorContent={(nowIndicator) => (
+            <CalendarNowIndicator
+              nowIndicator={nowIndicator}
+              isMobile={isMobile}
+            />
+          )}
+          eventContent={(eventInfo) => (
+            <CalendarEvent
+              eventInfo={eventInfo}
+              onCloseModal={handleCloseModal}
+            />
+          )}
+          eventClick={handleEventClick}
+          height="100%"
+        />
+      </Box>
     </Stack>
   );
 };
