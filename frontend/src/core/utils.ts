@@ -30,7 +30,7 @@ export const getDayNumberAndMonthName = (date: Date, localeCode: string) => {
 };
 
 export const getDatePlusOneWeek = (startDate: Date) => {
-  const endDate = new Date();
+  const endDate = new Date(startDate);
   endDate.setDate(startDate.getDate() + 7);
   endDate.setHours(0);
   endDate.setMinutes(0);
@@ -39,7 +39,7 @@ export const getDatePlusOneWeek = (startDate: Date) => {
 };
 
 export const getDatePlusOneDay = (startDate: Date) => {
-  const endDate = new Date();
+  const endDate = new Date(startDate);
   endDate.setDate(startDate.getDate() + 1);
   endDate.setHours(0);
   endDate.setMinutes(0);
