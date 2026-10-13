@@ -109,12 +109,15 @@ export const OrganizeFilter: FC = () => {
                       const { id, name, IconComponent } = filterItem;
 
                       return (
-                        <MenuItem key={id} sx={{ padding: "0" }}>
+                        <MenuItem
+                          key={id}
+                          sx={{ padding: "0" }}
+                          onClick={() => handleCheckboxChange(filterItem)}
+                        >
                           <Stack
                             direction="row"
                             spacing={1}
                             sx={{ alignItems: "center" }}
-                            onClick={() => handleCheckboxChange(filterItem)}
                           >
                             <Checkbox
                               checked={filterItem.checked}

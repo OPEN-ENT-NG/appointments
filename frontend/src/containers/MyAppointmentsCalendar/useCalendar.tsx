@@ -58,18 +58,29 @@ export const useCalendar = () => {
     }));
     handleChangeCalendarFilters(newFilters); // apply clearAll and save it in main state and preferences
 
-    toast.success(
+    toast.success(({ closeToast }) => (
       <Box sx={spaceBetweenBoxStyle}>
         {t("appointments.filters.cleared")}
         <Button
-          variant="outlined"
-          onClick={() => handleChangeCalendarFilters(previousFilters)}
-          sx={{ marginRight: "1rem" }}
+          variant="contained"
+          onClick={() => {
+            handleChangeCalendarFilters(previousFilters);
+            closeToast();
+          }}
+          sx={{
+            marginRight: "1rem",
+            paddingY: 0.25,
+            color: "common.white",
+            backgroundColor: "grey.dark",
+            "&:hover": {
+              backgroundColor: "grey.darker",
+            },
+          }}
         >
           {t("appointments.cancel")}
         </Button>
-      </Box>,
-    );
+      </Box>
+    ));
   }, [calendarFilters, handleChangeCalendarFilters]);
 
   const handleClearFilterType = useCallback(
