@@ -43,7 +43,12 @@ export const headerStyle = {
 
 export const toggleStyle = {
   "@media (max-width: 720px)": {
-    paddingLeft: "3rem",
+    display: "flex",
+    alignItems: "center",
+    gap: "1rem",
+    justifyContent: "space-between",
+    width: "100%",
+    padding: "0 3rem",
   },
 };
 

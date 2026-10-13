@@ -10,7 +10,7 @@ export const calendarWrapperStyle = {
 };
 
 export const calendarContainerStyle = {
-  marginTop: 4,
+  // marginTop: 4,
   gap: "1rem",
 
   // Enlève design natif du header pour laisser place à notre custom
@@ -144,6 +144,15 @@ export const StyledNavigation = styled(Stack)<StyledNavigationProps>(
     gap: 1,
   }),
 );
+
+export const getHeaderFiltersStyle = (isMobile: boolean) => ({
+  alignItems: "center",
+  gap: isMobile ? "0" : 2,
+  ...(isMobile && {
+    width: "100%",
+    justifyContent: "space-between",
+  }),
+});
 
 export const getModalPopoverStyle = (isModalOnLeft: boolean) => ({
   "> .MuiPopover-paper": {

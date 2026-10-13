@@ -89,18 +89,7 @@ export const MyAppointments: FC = () => {
         }}
       />
       <Box sx={mainContainerStyle}>
-        {viewMode === ViewMode.CALENDAR && (
-          <Box>
-            <Typography
-              variant="h2"
-              color="primary"
-              sx={{ fontWeight: "bold" }}
-            >
-              {t("appointments.my.appointments")}
-            </Typography>
-            <MyAppointmentsCalendar />
-          </Box>
-        )}
+        {viewMode === ViewMode.CALENDAR && <MyAppointmentsCalendar />}
         {viewMode === ViewMode.GRID && (
           <>
             {selectedAppointment && (

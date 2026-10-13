@@ -1,9 +1,9 @@
-import { FC, useEffect, useRef, useState } from "react";
-import FullCalendar from "@fullcalendar/react";
-import timeGridPlugin from "@fullcalendar/timegrid";
+import frLocale from "@fullcalendar/core/locales/fr";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import frLocale from "@fullcalendar/core/locales/fr";
+import FullCalendar from "@fullcalendar/react";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import { FC, useEffect, useRef, useState } from "react";
 
 import {
   Box,
@@ -14,6 +14,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@cgi-learning-hub/ui";
+import { BOOK_APPOINTMENT_MODAL_BREAKPOINT } from "~/core/breakpoints";
 import {
   SLOT_DURATION,
   SLOT_LABEL_INTERVAL,
@@ -21,33 +22,33 @@ import {
   SLOT_MIN_TIME,
   THURSDAY_DAY_INDEX,
 } from "~/core/constants";
-import { BOOK_APPOINTMENT_MODAL_BREAKPOINT } from "~/core/breakpoints";
 
+import { DatesSetArg, EventClickArg } from "@fullcalendar/core/index.js";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import EventRoundedIcon from "@mui/icons-material/EventRounded";
+import { CalendarDayHeader } from "~/components/calendar/CalendarDayHeader";
+import { CalendarEvent } from "~/components/calendar/CalendarEvent";
+import { CalendarNowIndicator } from "~/components/calendar/CalendarNowIndicator";
+import { CalendarSlotLabel } from "~/components/calendar/CalendarSlotLabel";
+import { DayOrWeekPicker } from "~/components/DayOrWeekPicker";
+import { OrganizeFilter } from "~/components/OrganizeFilter";
+import { FilterType } from "~/core/enums";
 import { t } from "~/i18n";
+import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
+import { AppointmentInfosModal } from "../AppointmentInfosModal";
 import {
   calendarContainerStyle,
   calendarWrapperStyle,
+  getHeaderFiltersStyle,
   getModalPopoverStyle,
   smallButton,
   StyledHeader,
   StyledNavigation,
 } from "./style";
-import { DatesSetArg, EventClickArg } from "@fullcalendar/core/index.js";
-import { createEventsFrom, getFilterStateFrom } from "./utils";
-import { DayOrWeekPicker } from "~/components/DayOrWeekPicker";
-import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
-import { CalendarEvent } from "~/components/calendar/CalendarEvent";
-import { CalendarNowIndicator } from "~/components/calendar/CalendarNowIndicator";
-import { CalendarSlotLabel } from "~/components/calendar/CalendarSlotLabel";
-import { CalendarDayHeader } from "~/components/calendar/CalendarDayHeader";
-import { AppointmentInfosModal } from "../AppointmentInfosModal";
-import { OrganizeFilter } from "~/components/OrganizeFilter";
-import { FilterType } from "~/core/enums";
 import { Event } from "./types";
+import { createEventsFrom, getFilterStateFrom } from "./utils";
 
 export const MyAppointmentsCalendar: FC = () => {
   const {
@@ -226,7 +227,16 @@ export const MyAppointmentsCalendar: FC = () => {
 
       {/* HeaderToolbar */}
       <StyledHeader isMobile={isMobile}>
-        <Stack direction="row" sx={{ gap: 2, alignItems: "center" }}>
+        <Stack direction="row" sx={getHeaderFiltersStyle(isMobile)}>
+          {!isMobile && (
+            <Typography
+              variant="h2"
+              color="primary"
+              sx={{ fontWeight: "bold" }}
+            >
+              {t("appointments.my.appointments")}
+            </Typography>
+          )}
           <OrganizeFilter />
           <Button
             variant="text"
@@ -239,11 +249,18 @@ export const MyAppointmentsCalendar: FC = () => {
           >
             {t("appointments.filters.clear")}
           </Button>
+          {isMobile && (
+            <IconButton onClick={openWeekPicker} color="primary">
+              <EventRoundedIcon />
+            </IconButton>
+          )}
         </Stack>
         <StyledNavigation isMobile={isMobile}>
-          <IconButton onClick={openWeekPicker} color="primary">
-            <EventRoundedIcon />
-          </IconButton>
+          {!isMobile && (
+            <IconButton onClick={openWeekPicker} color="primary">
+              <EventRoundedIcon />
+            </IconButton>
+          )}
           <IconButton onClick={goPrev} color="primary">
             <ChevronLeftRoundedIcon />
           </IconButton>

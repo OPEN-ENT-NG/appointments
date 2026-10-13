@@ -1,15 +1,28 @@
 import { FC, SyntheticEvent, useCallback, useEffect, useState } from "react";
 
-import { Box, Tab, Tabs, Typography } from "@cgi-learning-hub/ui";
+import {
+  Box,
+  Tab,
+  Tabs,
+  Typography,
+  useMediaQuery,
+} from "@cgi-learning-hub/ui";
 import { ID } from "@edifice.io/client";
 import { useSearchParams } from "react-router-dom";
 
 import { AppointmentsIcon } from "~/components/SVG/AppointmentsIcon";
+import { SwitchView } from "~/components/SwitchView";
+import { IToggleButtonItem } from "~/components/SwitchView/types";
 import { FindAppointments } from "~/containers/FindAppointments";
 import { MyAppointments } from "~/containers/MyAppointments";
 import { MyAvailability } from "~/containers/MyAvailability";
+import { BOOK_APPOINTMENT_MODAL_BREAKPOINT } from "~/core/breakpoints";
+import { useTheme } from "~/hooks/useTheme";
+import { t } from "~/i18n";
 import { useFindAppointments } from "~/providers/FindAppointmentsProvider";
 import { useGlobal } from "~/providers/GlobalProvider";
+import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
+import { getToggleButtons } from "~/routes/home/utils";
 import {
   appointmentsIconStyle,
   contentStyle,
@@ -20,12 +33,6 @@ import {
   titleStyle,
   toggleStyle,
 } from "./style";
-import { useTheme } from "~/hooks/useTheme";
-import { t } from "~/i18n";
-import { SwitchView } from "~/components/SwitchView";
-import { IToggleButtonItem } from "~/components/SwitchView/types";
-import { getToggleButtons } from "~/routes/home/utils";
-import { useMyAppointments } from "~/providers/MyAppointmentsProvider";
 
 export interface AppProps {
   _id: string;
@@ -60,6 +67,10 @@ export const Home: FC = () => {
       sessionStorage.setItem("tabValue", newValue.toString());
     },
     [resetSearch, tabValue],
+  );
+
+  const isMobile = useMediaQuery(
+    `(max-width: ${BOOK_APPOINTMENT_MODAL_BREAKPOINT}px)`,
   );
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -120,6 +131,15 @@ export const Home: FC = () => {
           </Tabs>
           {tabValue === 1 && !isAllAppointmentsEmpty && (
             <Box sx={toggleStyle}>
+              {isMobile && (
+                <Typography
+                  variant="h2"
+                  color="primary"
+                  sx={{ fontWeight: "bold" }}
+                >
+                  {t("appointments.my.appointments")}
+                </Typography>
+              )}
               <SwitchView
                 viewMode={viewMode}
                 toggleButtonList={toggleButtonList}

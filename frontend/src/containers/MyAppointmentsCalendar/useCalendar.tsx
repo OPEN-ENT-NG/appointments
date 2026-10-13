@@ -1,20 +1,20 @@
 import { useCallback, useMemo, useState } from "react";
 
-import {
-  buildCalendarFiltersFromPref,
-  buildCalendarFiltersPref,
-} from "./utils";
-import { usePreferences } from "~/hooks/usePreferences";
-import { FilterType } from "~/core/enums";
-import { Filter, FilterItem } from "./types";
-import { toast } from "react-toastify";
 import { Box, Button } from "@cgi-learning-hub/ui";
+import { toast } from "react-toastify";
+import { FilterType } from "~/core/enums";
+import { usePreferences } from "~/hooks/usePreferences";
 import { t } from "~/i18n";
-import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
 import {
   useGetAppointmentFilterGridsQuery,
   useGetAppointmentFilterStatesQuery,
 } from "~/services/api/FilterService";
+import { spaceBetweenBoxStyle } from "~/styles/boxStyles";
+import { Filter, FilterItem } from "./types";
+import {
+  buildCalendarFiltersFromPref,
+  buildCalendarFiltersPref,
+} from "./utils";
 
 export const useCalendar = () => {
   const [calendarFilters, setCalendarFilters] = useState<Filter[]>([]);
@@ -63,6 +63,7 @@ export const useCalendar = () => {
         {t("appointments.filters.cleared")}
         <Button
           variant="contained"
+          color={"default" as any}
           onClick={() => {
             handleChangeCalendarFilters(previousFilters);
             closeToast();
@@ -70,11 +71,6 @@ export const useCalendar = () => {
           sx={{
             marginRight: "1rem",
             paddingY: 0.25,
-            color: "common.white",
-            backgroundColor: "grey.dark",
-            "&:hover": {
-              backgroundColor: "grey.darker",
-            },
           }}
         >
           {t("appointments.cancel")}
