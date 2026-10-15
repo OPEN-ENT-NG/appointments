@@ -84,6 +84,11 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
     [appointment.beginDate, minHoursBeforeCancellation],
   );
 
+  const isPastAppointment = useMemo(
+    () => dayjs().isAfter(appointment.endDate),
+    [appointment.endDate],
+  );
+
   const content = (
     <Box
       sx={{
@@ -182,26 +187,27 @@ export const AppointmentInfosModal: FC<AppointmentInfosModalProps> = ({
                   endTime: appointment.endDate.format(TIME_FORMAT),
                 })}
               </Typography>
-              {(appointment.state === APPOINTMENT_STATE.ACCEPTED ||
-                appointment.state === APPOINTMENT_STATE.CANCELED) && (
-                <Button
-                  color={"secondary"}
-                  variant={"outlined"}
-                  size={"small"}
-                  sx={{
-                    fontSize: "13px",
-                    marginTop: "0.5rem",
-                    minHeight: "30px",
-                  }}
-                  startIcon={<DownloadRoundedIcon />}
-                  loading={isExportingAppointments}
-                  onClick={() => {
-                    void handleExportSingleAppointment(appointment);
-                  }}
-                >
-                  {t("appointments.event.export.one.button.title")}
-                </Button>
-              )}
+              {!isPastAppointment &&
+                (appointment.state === APPOINTMENT_STATE.ACCEPTED ||
+                  appointment.state === APPOINTMENT_STATE.CANCELED) && (
+                  <Button
+                    color={"secondary"}
+                    variant={"outlined"}
+                    size={"small"}
+                    sx={{
+                      fontSize: "13px",
+                      marginTop: "0.5rem",
+                      minHeight: "30px",
+                    }}
+                    startIcon={<DownloadRoundedIcon />}
+                    loading={isExportingAppointments}
+                    onClick={() => {
+                      void handleExportSingleAppointment(appointment);
+                    }}
+                  >
+                    {t("appointments.event.export.one.button.title")}
+                  </Button>
+                )}
             </Box>
           </Box>
           {appointment.isVideoCall && (
