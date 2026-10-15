@@ -71,7 +71,7 @@ export const AppointmentCardList: FC<AppointmentCardListProps> = ({
       );
   }, [appointmentsType, containerWidth, handleChangeLimit]);
 
-  const appointmentsLength = myAppointments.appointments.length;
+  const isFullPagination = limits[appointmentsType] > 1;
 
   const paginationWidth =
     limits[appointmentsType] * APPOINTMENT_CARD_WIDTH - APPOINTMENT_CARDS_GAP;
@@ -123,10 +123,10 @@ export const AppointmentCardList: FC<AppointmentCardListProps> = ({
             onChange={(_, newPage) =>
               handleChangePage(appointmentsType, newPage)
             }
-            showFirstButton={appointmentsLength > 1}
-            showLastButton={appointmentsLength > 1}
-            siblingCount={appointmentsLength > 1 ? 1 : 0}
-            boundaryCount={appointmentsLength > 1 ? 1 : 0}
+            showFirstButton={isFullPagination}
+            showLastButton={isFullPagination}
+            siblingCount={isFullPagination ? 1 : 0}
+            boundaryCount={isFullPagination ? 1 : 0}
             variant="text"
             sx={paginationStyle}
           />
