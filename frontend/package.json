@@ -46,9 +46,9 @@
     ]
   },
   "dependencies": {
-    "@cgi-learning-hub/icons": "1.13.0",
-    "@cgi-learning-hub/theme": "1.13.0",
-    "@cgi-learning-hub/ui": "1.13.0",
+    "@cgi-learning-hub/icons": "1.15.0",
+    "@cgi-learning-hub/theme": "1.15.0",
+    "@cgi-learning-hub/ui": "1.15.0",
     "@edifice.io/react": "develop",
     "@edifice.io/bootstrap": "develop",
     "@edifice.io/client": "develop",
